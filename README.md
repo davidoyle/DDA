@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+# DDA Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the public-facing website for **DDA (David Doyle Analysis)**.
 
-Currently, two official plugins are available:
+The site presents DDA as a professional institutional analysis practice focused on helping leaders identify where systems are underperforming, quantify the impact, and plan evidence-based reforms.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What this website is for
 
-## React Compiler
+The website is designed to support a simple client journey:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Look professional** — establish credibility and clarity around DDA’s institutional analysis focus.
+2. **Get the call** — give visitors a clear path to make contact.
+3. **Sell the tiered product** — present structured service offerings and price ranges.
+4. **Scope delivery** — collect enough intake context to recommend an engagement level.
 
-## Expanding the ESLint configuration
+## Core positioning
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+DDA’s core message throughout the site:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Institutional systems often run on assumptions.
+- When assumptions diverge from reality, hidden costs compound.
+- DDA performs forensic institutional diagnostics to expose those gaps and propose structural fixes.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Site structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1) Home (`/`)
+The homepage establishes the institutional brand and value proposition:
+- Hero: **Institutional Systems Analysis**
+- Subheading focused on evidence-based diagnostics
+- Core explanatory body copy
+- Visual “assumed vs actual performance” concept
+- Three service category summaries
+
+### 2) Services (`/services`)
+The services page explains how work is sold:
+- **Diagnostic Assessments (entry point)** with tiered options:
+  - Standard Diagnostic
+  - Comprehensive Diagnostic
+  - Strategic Assessment
+- **Specialized Services** (e.g., litigation support, policy analysis, investigative research)
+- Timeline and pricing ranges for decision-makers
+
+### 3) About (`/about`)
+The about page explains:
+- Who DDA serves
+- The evidence-first methodology
+- Founder background and domain focus
+
+### 4) Contact (`/contact`)
+The contact page provides a professional intake form for:
+- Email
+- Brief system/problem description
+- Preferred timeline
+- Optional budget range
+
+It sets response expectations for a preliminary assessment.
+
+## Tech stack
+
+- **React 19**
+- **TypeScript**
+- **Vite**
+- **React Router**
+- **Tailwind CSS**
+
+## Local development
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+## Notes
+
+- This repo currently includes legacy UI components and pages from earlier iterations.
+- The active marketing flow is driven by the primary routes in `src/App.tsx`:
+  - `/`
+  - `/services`
+  - `/about`
+  - `/contact`
