@@ -29,7 +29,7 @@ const AboutPage = () => {
             David Doyle is a constitutional scholar and policy analyst specializing in institutional failure analysis. His work spans workers' compensation systems, municipal finance, regulatory effectiveness, and organizational governance.
           </p>
           <p className="text-[#F3EFE6]/80">
-            He brings lived experience as an injured worker navigating the systems he analyzes, combined with forensic research capability and structural reform expertise.
+            He brings lived experience, combined with forensic research capability and structural reform expertise.
           </p>
         </article>
       </section>
