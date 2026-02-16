@@ -105,7 +105,7 @@ const ServicesPage = () => {
               className="card hover:border-[#D4A03A]/60 transition-colors"
             >
               <p className="font-semibold">{sectorConfig[sector].label}</p>
-              <p className="text-sm text-[#F3EFE6]/70">{sectorConfig[sector].focus}</p>
+              <p className="text-sm text-[#F3EFE6]/70">{sectorConfig[sector].headline}</p>
             </Link>
           ))}
         </div>
