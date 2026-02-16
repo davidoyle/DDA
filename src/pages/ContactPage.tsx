@@ -4,10 +4,12 @@ const ContactPage = () => {
       <section className="max-w-3xl space-y-8">
         <div className="space-y-4">
           <p className="eyebrow">Contact</p>
-          <h1 className="headline-md">Inquiry Intake</h1>
+          <h1 className="headline-md">You know what you need.</h1>
           <p className="body-text body-text-secondary">
-            Send a brief overview of your institutional system problem and timeline. DDA responds within 48 hours with a preliminary assessment and scoped options.
+            Tell me about your problem. Your timeline. Your budget range. I&apos;ll respond within 48 hours with a preliminary assessment and scope options.
           </p>
+          <p className="text-[#F3EFE6]/80">No sales call. No pitch deck. No discovery session.</p>
+          <p className="text-[#F3EFE6]/80">Just a conversation about whether I can help.</p>
         </div>
 
         <form className="card space-y-5" onSubmit={(event) => event.preventDefault()}>
@@ -17,23 +19,23 @@ const ContactPage = () => {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="problem" className="font-medium">Brief description of your system/problem</label>
-            <textarea id="problem" rows={5} className="w-full rounded-lg bg-[#F3EFE6]/10 border border-[#F3EFE6]/25 p-3" placeholder="Share context, known constraints, and decision stakes." />
+            <label htmlFor="problem" className="font-medium">Tell me your problem</label>
+            <textarea id="problem" rows={5} className="w-full rounded-lg bg-[#F3EFE6]/10 border border-[#F3EFE6]/25 p-3" placeholder="What is happening in your system?" />
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
-              <label htmlFor="timeline" className="font-medium">Preferred timeline</label>
-              <input id="timeline" type="text" className="w-full rounded-lg bg-[#F3EFE6]/10 border border-[#F3EFE6]/25 p-3" placeholder="e.g. Report needed in 6 weeks" />
+              <label htmlFor="timeline" className="font-medium">Timeline</label>
+              <input id="timeline" type="text" className="w-full rounded-lg bg-[#F3EFE6]/10 border border-[#F3EFE6]/25 p-3" placeholder="When do you need the answer?" />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="budget" className="font-medium">Budget range (optional)</label>
-              <input id="budget" type="text" className="w-full rounded-lg bg-[#F3EFE6]/10 border border-[#F3EFE6]/25 p-3" placeholder="e.g. $10,000-$20,000" />
+              <label htmlFor="budget" className="font-medium">Budget range</label>
+              <input id="budget" type="text" className="w-full rounded-lg bg-[#F3EFE6]/10 border border-[#F3EFE6]/25 p-3" placeholder="Optional" />
             </div>
           </div>
 
-          <button type="submit" className="btn-primary">Submit Inquiry</button>
+          <button type="submit" className="btn-primary">Tell Me Your Problem</button>
         </form>
       </section>
     </div>

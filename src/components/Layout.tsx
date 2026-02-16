@@ -83,9 +83,11 @@ const Layout = () => {
       </main>
 
       <footer className="border-t border-[#F3EFE6]/10 px-6 lg:px-[8vw] py-8 bg-[#0B3C43]">
-        <p className="font-mono text-xs text-[#F3EFE6]/60 uppercase tracking-wider text-center">
-          Evidence-based diagnostics for institutional decision makers.
-        </p>
+        <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-[#F3EFE6]/75">
+          <Link to="/privacy" className="hover:text-[#D4A03A] transition-colors">Privacy Policy</Link>
+          <Link to="/terms" className="hover:text-[#D4A03A] transition-colors">Terms of Service</Link>
+          <Link to="/contact" className="hover:text-[#D4A03A] transition-colors">Contact</Link>
+        </div>
       </footer>
     </div>
   );

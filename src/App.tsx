@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 import ServicesPage from './pages/ServicesPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
 import BookingConfirmationPage from './pages/BookingConfirmationPage';
 import ConsultationLandingPage from './pages/ConsultationLandingPage';
 
@@ -40,6 +42,8 @@ function App() {
           <Route path="services" element={<ServicesPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="privacy" element={<PrivacyPolicyPage />} />
+          <Route path="terms" element={<TermsPage />} />
 
           <Route path="consultation" element={<ConsultationLandingPage />} />
           <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />

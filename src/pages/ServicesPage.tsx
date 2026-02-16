@@ -1,45 +1,23 @@
 import { Link } from 'react-router-dom';
-import { sectorKeys, sectorConfig } from '../lib/consultationContent';
 
-const diagnosticTiers = [
+const tiers = [
   {
-    tier: 'Standard Diagnostic',
-    scope: 'Single institutional system',
-    deliverable: '20-30 page evidence-based report with quantified findings',
-    timeline: '3-4 weeks',
-    price: '$5,000',
+    tier: 'Quick Assessment',
+    scope: 'Focused analysis of one specific problem area.',
+    deliverable: 'One-page summary and a 30-minute walkthrough call.',
+    fit: 'Best when you need fast clarity before committing to a larger project.',
   },
   {
-    tier: 'Comprehensive Diagnostic',
-    scope: 'System + comparative analysis + stakeholder context',
-    deliverable: '50+ page report with implementation recommendations',
-    timeline: '6-8 weeks',
-    price: '$15,000',
+    tier: 'Full Diagnostic',
+    scope: 'Deep analysis of a full institutional system.',
+    deliverable: '50+ page report with quantified findings, comparative context, and recommendations.',
+    fit: 'Best when you need evidence, detail, and a clear change path.',
   },
   {
-    tier: 'Strategic Assessment',
-    scope: 'Multiple systems + systemic interdependencies + 3-5 year projections',
-    deliverable: 'Executive brief + full technical report + implementation roadmap',
-    timeline: '8-12 weeks',
-    price: '$25,000',
-  },
-];
-
-const specializedServices = [
-  {
-    service: 'Litigation Support',
-    description: 'Comprehensive evidentiary synthesis, precedent mapping, expert witness coordination',
-    range: '$12,000-$25,000',
-  },
-  {
-    service: 'Legislative & Policy Analysis',
-    description: 'Bill/policy impact assessment, stakeholder analysis, reform recommendations',
-    range: '$10,000-$20,000',
-  },
-  {
-    service: 'Investigative Research',
-    description: 'Multi-source synthesis, data visualization, publication-ready findings',
-    range: '$2,000-$5,000 per investigation',
+    tier: 'Strategic Analysis',
+    scope: 'Cross-system analysis with forward pressure mapping.',
+    deliverable: 'Multi-system report, 3-5 year projections, structural reform roadmap, and support.',
+    fit: 'Best when your problem spans multiple institutions and timelines.',
   },
 ];
 
@@ -47,67 +25,31 @@ const ServicesPage = () => {
   return (
     <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-14">
       <section className="space-y-4 max-w-4xl">
-        <p className="eyebrow">Service Offerings</p>
-        <h1 className="headline-md">Diagnostic Assessments (Entry Point)</h1>
+        <p className="eyebrow">Services</p>
+        <h1 className="headline-md">What you&apos;re actually buying.</h1>
         <p className="body-text body-text-secondary">
-          Every engagement begins with a scoped diagnostic. From there, DDA maps inquiry patterns to the right product pathway and implementation depth.
+          Every engagement starts with your problem. I scope the work around the system you need to understand, the timeline you&apos;re working under, and the decision you need to make.
         </p>
       </section>
 
-      <section className="overflow-x-auto">
-        <table className="min-w-full border border-[#F3EFE6]/20 rounded-xl overflow-hidden text-left">
-          <thead className="bg-[#F3EFE6]/10">
-            <tr>
-              <th className="p-4">Tier</th>
-              <th className="p-4">Scope</th>
-              <th className="p-4">Deliverable</th>
-              <th className="p-4">Timeline</th>
-              <th className="p-4">Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {diagnosticTiers.map((item) => (
-              <tr key={item.tier} className="border-t border-[#F3EFE6]/15 align-top">
-                <td className="p-4 font-semibold">{item.tier}</td>
-                <td className="p-4 text-[#F3EFE6]/80">{item.scope}</td>
-                <td className="p-4 text-[#F3EFE6]/80">{item.deliverable}</td>
-                <td className="p-4 text-[#F3EFE6]/80">{item.timeline}</td>
-                <td className="p-4 text-[#D4A03A] font-semibold">{item.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <section className="grid gap-6 lg:grid-cols-3">
+        {tiers.map((item) => (
+          <article key={item.tier} className="card space-y-4">
+            <h2 className="font-heading text-2xl">{item.tier}</h2>
+            <p className="text-[#F3EFE6]/80"><strong>Scope:</strong> {item.scope}</p>
+            <p className="text-[#F3EFE6]/80"><strong>Deliverable:</strong> {item.deliverable}</p>
+            <p className="text-[#F3EFE6]/80"><strong>Best fit:</strong> {item.fit}</p>
+          </article>
+        ))}
       </section>
 
-      <section className="space-y-6">
-        <h2 className="headline-md">Specialized Services</h2>
-        <div className="grid gap-6 md:grid-cols-3">
-          {specializedServices.map((item) => (
-            <article key={item.service} className="card space-y-3">
-              <h3 className="font-heading text-xl">{item.service}</h3>
-              <p className="text-[#F3EFE6]/80 text-sm">{item.description}</p>
-              <p className="text-[#D4A03A] font-semibold">{item.range}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="space-y-4 max-w-5xl">
-        <h2 className="headline-md">Sector Consultation Pages</h2>
+      <section className="card space-y-4 max-w-4xl">
+        <h2 className="headline-md">Need sector-specific context first?</h2>
         <p className="text-[#F3EFE6]/80">
-          Choose your sector-specific 30-minute consultation page:
+          If you&apos;re in a municipality, union, law firm, contractor team, association, or newsroom, I have sector-specific pages with examples of how the analysis applies.
         </p>
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {sectorKeys.map((sector) => (
-            <Link
-              key={sector}
-              to={`/consultation/${sector}`}
-              className="card hover:border-[#D4A03A]/60 transition-colors"
-            >
-              <p className="font-semibold">{sectorConfig[sector].label}</p>
-              <p className="text-sm text-[#F3EFE6]/70">{sectorConfig[sector].headline}</p>
-            </Link>
-          ))}
+        <div>
+          <Link to="/consultation" className="btn-secondary">View Sector Pages</Link>
         </div>
       </section>
     </div>
