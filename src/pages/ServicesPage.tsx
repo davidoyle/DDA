@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { sectorKeys, sectorConfig } from '../lib/consultationContent';
+
 const diagnosticTiers = [
   {
     tier: 'Standard Diagnostic',
@@ -85,6 +88,25 @@ const ServicesPage = () => {
               <p className="text-[#F3EFE6]/80 text-sm">{item.description}</p>
               <p className="text-[#D4A03A] font-semibold">{item.range}</p>
             </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-4 max-w-5xl">
+        <h2 className="headline-md">Sector Consultation Pages</h2>
+        <p className="text-[#F3EFE6]/80">
+          Choose your sector-specific 30-minute consultation page:
+        </p>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          {sectorKeys.map((sector) => (
+            <Link
+              key={sector}
+              to={`/consultation/${sector}`}
+              className="card hover:border-[#D4A03A]/60 transition-colors"
+            >
+              <p className="font-semibold">{sectorConfig[sector].label}</p>
+              <p className="text-sm text-[#F3EFE6]/70">{sectorConfig[sector].headline}</p>
+            </Link>
           ))}
         </div>
       </section>
