@@ -311,19 +311,24 @@ const ServicesPage = () => {
 
       <section className="card max-w-5xl">
         <p className="font-semibold tracking-[0.12em] text-sm uppercase text-[#D4A03A]">Pain Timeline</p>
-        <div className="mt-5 grid grid-cols-4 gap-2 text-center text-sm md:text-base">
-          <span>2026</span>
-          <span>2027</span>
-          <span>2028</span>
-          <span>2029</span>
+        <div className="mt-5 grid grid-cols-4 gap-3 text-center text-sm md:text-base">
+          {['2026', '2027', '2028', '2029'].map((year) => (
+            <span key={year}>{year}</span>
+          ))}
         </div>
-        <div className="mt-3 flex items-center justify-between text-[#D4A03A] text-xl">●────●────●────●</div>
-        <div className="mt-2 grid grid-cols-4 gap-2 text-center text-sm text-[#F3EFE6]/75">
-          <span>Now</span>
-          <span>Hike</span>
-          <span>Peak</span>
-          <span>Normal</span>
+
+        <div className="relative mt-4">
+          <div className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-[#D4A03A]/45" />
+          <div className="relative grid grid-cols-4 gap-3 text-center">
+            {['Now', 'Hike', 'Peak', 'Normal'].map((stage) => (
+              <div key={stage} className="space-y-2">
+                <div className="mx-auto h-4 w-4 rounded-full border border-[#D4A03A] bg-[#D4A03A]" />
+                <span className="block text-sm text-[#F3EFE6]/75">{stage}</span>
+              </div>
+            ))}
+          </div>
         </div>
+
         <p className="mt-5 text-[#F3EFE6]/85">
           Your exposure starts now. Most organizations won&apos;t see it until it&apos;s too late.
         </p>
