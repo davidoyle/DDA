@@ -8,7 +8,7 @@ const sectors = [
   },
   {
     title: 'Unions',
-    copy: 'Need to see member-outcome patterns across time and compare to peer organizations.',
+    copy: 'Need to see member-outcome patterns and compare to peer organizations.',
     path: '/consultation/union',
   },
   {
@@ -41,42 +41,42 @@ const sectors = [
 const whatThisWorkIs = [
   {
     title: 'Multi-Source Synthesis',
-    copy: 'I read multiple documents simultaneously. Annual reports across years. Budgets. Policy statements. Enforcement data. Public decisions. I find patterns that single-source analysis misses.',
+    copy: 'We read multiple documents simultaneously. Annual reports across years. Budgets. Policy statements. Enforcement data. Public decisions. We find patterns that single-source analysis misses.',
   },
   {
     title: 'Structural Consistency Analysis',
-    copy: "I compare reported outcomes against observable system behavior. When these don't align, the gap is meaningful. I quantify it.",
+    copy: "We compare reported outcomes against observable system behavior. When these don't align, the gap is meaningful. We quantify it.",
   },
   {
     title: 'Evidence-Based Assessment',
-    copy: "Every claim is grounded in public documents. No speculation. No inference beyond what the evidence permits. I separate what's known, what's strongly suggested, and what remains unknowable.",
+    copy: "Every claim is grounded in public documents. No speculation. No inference beyond what the evidence permits. We separate what's known, what's strongly suggested, and what remains unknowable.",
   },
   {
     title: 'Scenario Modeling',
-    copy: 'I model how structural changes would cascade across the system using cost flows, routing patterns, and sector interactions. This shows you what policies actually cost.',
+    copy: 'We model how structural changes would cascade across the system using cost flows, routing patterns, and sector interactions. This shows what policies actually cost.',
   },
   {
     title: 'Decision-Support Framing',
-    copy: 'I present findings as structured choices: If you want X, the evidence suggests Y. This forces explicit trade-offs instead of abstract debate.',
+    copy: 'We present findings as structured choices: If you want X, the evidence suggests Y. This forces explicit trade-offs instead of abstract debate.',
   },
 ];
 
 const processSteps = [
   {
     title: 'Intake',
-    copy: 'You describe your system and what you need to understand.',
+    copy: 'Describe the system and what needs to be understood.',
   },
   {
     title: 'Multi-Source Analysis',
-    copy: 'I read what your organization publishes—across years, across departments. I synthesize systematically.',
+    copy: 'We read what the organization publishes—across years, across departments. We synthesize systematically.',
   },
   {
     title: 'Structural Assessment',
-    copy: 'I identify patterns. I expose inconsistencies. I model consequences.',
+    copy: 'We identify patterns. We expose inconsistencies. We model consequences.',
   },
   {
     title: 'Evidence Deliverable',
-    copy: 'You get the findings, the supporting evidence, and the decision implications. You use it. You decide. You move on.',
+    copy: 'The findings, supporting evidence, and decision implications. Use it. Decide. Move on.',
   },
 ];
 
@@ -84,7 +84,7 @@ const serviceTiers = [
   {
     title: 'Quick Assessment',
     points: [
-      'One-page summary of structural pattern you asked about.',
+      'One-page summary of the structural pattern in question.',
       '30-minute call to review the evidence.',
       'Timeline: 1-2 weeks.',
     ],
@@ -106,7 +106,7 @@ const serviceTiers = [
     points: [
       'Multiple interconnected systems analyzed together.',
       'Long-term structural risk modeling (3-5 year horizons).',
-      'Complete evaluation architecture (what data would actually validate claims).',
+      'Complete evaluation architecture (what data would validate claims).',
       'Reform pathway modeling.',
       'Timeline: 8-12 weeks.',
     ],
@@ -119,20 +119,20 @@ const HomePage = () => {
       <section className="grid gap-10 lg:grid-cols-[1.2fr_1fr] items-center">
         <div className="space-y-6 max-w-3xl">
           <p className="eyebrow">DDA</p>
-          <h1 className="headline-lg">Systems Analysis Using Public Evidence</h1>
-          <p className="text-xl text-[#F3EFE6]/85 max-w-2xl">I synthesize what your organization publishes. I show you what it reveals.</p>
+          <h1 className="headline-lg">Public-Evidence Systems Analysis</h1>
+          <p className="text-xl text-[#F3EFE6]/85 max-w-2xl">We synthesize what institutions publish. We show you what it reveals.</p>
           <p className="body-text body-text-secondary max-w-2xl">
             Every organization publishes the data it produces. Annual reports. Budgets. Policy manuals. Tribunal decisions. Legislative records. Enforcement data.
           </p>
-          <p className="body-text body-text-secondary max-w-2xl">Most people read these separately. I read them systemically.</p>
+          <p className="body-text body-text-secondary max-w-2xl">Most people read these separately. We read them systemically.</p>
           <p className="body-text body-text-secondary max-w-2xl">
-            I synthesize across documents. I identify structural patterns. I expose inconsistencies between reported outcomes and observable system behavior. I quantify what those inconsistencies mean.
+            We synthesize across documents and years. We identify structural patterns. We expose inconsistencies between reported outcomes and observable system behavior. We quantify what those inconsistencies mean.
           </p>
-          <p className="body-text body-text-secondary max-w-2xl">Then I tell you what the evidence actually shows—not what the narrative claims.</p>
+          <p className="body-text body-text-secondary max-w-2xl">Then we tell you what the evidence actually shows—not what the narrative claims.</p>
           <p className="body-text body-text-secondary max-w-2xl">This is not consulting. This is public-evidence analysis.</p>
           <div className="flex flex-wrap gap-4 pt-2">
-            <Link to="/services" className="btn-primary">See What I Analyze</Link>
-            <Link to="/contact" className="btn-secondary">Tell Me Your System</Link>
+            <Link to="/services" className="btn-primary">See What We Analyze</Link>
+            <Link to="/contact" className="btn-secondary">Describe Your System</Link>
           </div>
         </div>
 
@@ -167,7 +167,7 @@ const HomePage = () => {
       <section className="space-y-8">
         <div className="space-y-3 max-w-4xl">
           <h2 className="headline-md">Who Uses This Work</h2>
-          <p className="text-xl text-[#F3EFE6]/85">Each sector gets the same thing: evidence-based system analysis using what your organization already publishes.</p>
+          <p className="text-xl text-[#F3EFE6]/85">Each sector gets the same thing: evidence-based system analysis using what institutions already publish.</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -222,19 +222,21 @@ const HomePage = () => {
       </section>
 
       <section className="space-y-6 max-w-5xl">
-        <h2 className="headline-md">About Me</h2>
+        <h2 className="headline-md">About Us</h2>
         <div className="card space-y-4">
-          <p className="text-[#F3EFE6]/80">I synthesize public evidence systematically.</p>
+          <p className="text-[#F3EFE6]/80">We synthesize public evidence systematically.</p>
           <p className="text-[#F3EFE6]/80">
-            Most organizations publish extensive information about themselves. Annual reports. Budgets. Policy manuals. Tribunal decisions. Enforcement data. But this information is scattered, published separately, and rarely read as a coherent system.
+            Most institutions publish extensive information about themselves. Annual reports. Budgets. Policy manuals. Tribunal decisions. Enforcement records. Sector data.
           </p>
+          <p className="text-[#F3EFE6]/80">This information is rarely read as an integrated system. It&apos;s scattered across documents, published separately, designed for compliance not clarity.</p>
           <p className="text-[#F3EFE6]/80">
-            I read it all together. I find patterns. I expose where reported outcomes don&apos;t match observable behavior. I quantify what that means.
+            We read it all together. We find structural patterns. We identify where reported outcomes don&apos;t match observable system behavior. We quantify the implications.
           </p>
-          <p className="text-[#F3EFE6]/80">I work from public documents only. Everything I find is verifiable. Everything is replicable.</p>
-          <p className="text-[#F3EFE6]/80">I don&apos;t tell you what to think. I show you what the evidence reveals and what the structural implications are.</p>
+          <p className="text-[#F3EFE6]/80">Then we tell you what the evidence reveals.</p>
+          <p className="text-[#F3EFE6]/80">We work from public documents only. Everything we find is verifiable. Everything is replicable.</p>
+          <p className="text-[#F3EFE6]/80">We don&apos;t tell you what to think. We show you what the evidence reveals and what the structural implications are.</p>
         </div>
-        <Link to="/contact" className="btn-primary">Tell Me Your System</Link>
+        <Link to="/contact" className="btn-primary">Describe Your System</Link>
       </section>
     </div>
   );
