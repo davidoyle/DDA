@@ -3,48 +3,80 @@ import { Link } from 'react-router-dom';
 const sectors = [
   {
     title: 'Municipalities',
-    copy: "Your budget projections are incomplete. You need to see what's coming.",
+    copy: 'Need to understand structural cost pressures before they force budget decisions.',
     path: '/consultation/municipality',
   },
   {
     title: 'Unions',
-    copy: 'Your members are losing. You need to know why.',
+    copy: 'Need to see member-outcome patterns across time and compare to peer organizations.',
     path: '/consultation/union',
   },
   {
     title: 'Law Firms',
-    copy: 'Your cases need evidence. You need it fast.',
+    copy: 'Need structured analysis of publicly available evidence for litigation support.',
     path: '/consultation/law-firm',
   },
   {
     title: 'Contractors',
-    copy: 'Your exposure is invisible. You need to see it.',
+    copy: 'Need to understand systemic enforcement and penalty patterns in their sector.',
     path: '/consultation/contractor',
   },
   {
     title: 'Associations',
-    copy: 'Your members are questioning value. You need proof.',
+    copy: 'Need honest assessment of whether member outcomes match member needs.',
     path: '/consultation/association',
   },
   {
     title: 'Journalists',
-    copy: 'Your story needs depth. You need it sourced.',
+    copy: 'Need deep, sourced analysis of systemic patterns in public institutions.',
     path: '/consultation/journalist',
+  },
+  {
+    title: 'Small Business Owners',
+    copy: "Need to understand structural cost flows and what's actually controllable.",
+    path: '/consultation/small-business',
+  },
+];
+
+const whatThisWorkIs = [
+  {
+    title: 'Multi-Source Synthesis',
+    copy: 'I read multiple documents simultaneously. Annual reports across years. Budgets. Policy statements. Enforcement data. Public decisions. I find patterns that single-source analysis misses.',
+  },
+  {
+    title: 'Structural Consistency Analysis',
+    copy: "I compare reported outcomes against observable system behavior. When these don't align, the gap is meaningful. I quantify it.",
+  },
+  {
+    title: 'Evidence-Based Assessment',
+    copy: "Every claim is grounded in public documents. No speculation. No inference beyond what the evidence permits. I separate what's known, what's strongly suggested, and what remains unknowable.",
+  },
+  {
+    title: 'Scenario Modeling',
+    copy: 'I model how structural changes would cascade across the system using cost flows, routing patterns, and sector interactions. This shows you what policies actually cost.',
+  },
+  {
+    title: 'Decision-Support Framing',
+    copy: 'I present findings as structured choices: If you want X, the evidence suggests Y. This forces explicit trade-offs instead of abstract debate.',
   },
 ];
 
 const processSteps = [
   {
-    title: 'Step 1: You Tell Me The Problem',
-    copy: "Use the contact form. Tell me what's happening in your system. Your timeline. Your budget.",
+    title: 'Intake',
+    copy: 'You describe your system and what you need to understand.',
   },
   {
-    title: 'Step 2: I Analyze The Public Data',
-    copy: 'I read the documents your organization publishes. Annual reports. Budgets. Policy. Decisions. I find the pattern.',
+    title: 'Multi-Source Analysis',
+    copy: 'I read what your organization publishes—across years, across departments. I synthesize systematically.',
   },
   {
-    title: 'Step 3: You Get The Numbers',
-    copy: 'I give you a document. With evidence. With numbers. With what needs to change.',
+    title: 'Structural Assessment',
+    copy: 'I identify patterns. I expose inconsistencies. I model consequences.',
+  },
+  {
+    title: 'Evidence Deliverable',
+    copy: 'You get the findings, the supporting evidence, and the decision implications. You use it. You decide. You move on.',
   },
 ];
 
@@ -52,26 +84,31 @@ const serviceTiers = [
   {
     title: 'Quick Assessment',
     points: [
-      'One-page summary of your specific problem.',
-      '30-minute call to understand what it means.',
-      'You decide if you want to go deeper.',
+      'One-page summary of structural pattern you asked about.',
+      '30-minute call to review the evidence.',
+      'Timeline: 1-2 weeks.',
     ],
   },
   {
-    title: 'Full Diagnostic',
+    title: 'Comprehensive Analysis',
     points: [
-      '50+ page report with analysis, context, and what needs to change.',
-      'Comparative data showing how you compare to peers.',
-      'Implementation recommendations grounded in evidence.',
+      '40-50 page public-evidence assessment.',
+      'Multi-source synthesis across years and domains.',
+      'Structural pattern identification.',
+      'Scenario modeling of policy changes.',
+      'Comparative benchmarking (peer organizations).',
+      'Decision framing and implications.',
+      'Timeline: 4-8 weeks.',
     ],
   },
   {
-    title: 'Strategic Analysis',
+    title: 'Strategic Systems Assessment',
     points: [
-      'Multiple systems analyzed together.',
-      '3-5 year projections of where the pressure comes.',
-      'Complete roadmap for structural reform.',
-      'Ongoing support as you implement.',
+      'Multiple interconnected systems analyzed together.',
+      'Long-term structural risk modeling (3-5 year horizons).',
+      'Complete evaluation architecture (what data would actually validate claims).',
+      'Reform pathway modeling.',
+      'Timeline: 8-12 weeks.',
     ],
   },
 ];
@@ -82,53 +119,55 @@ const HomePage = () => {
       <section className="grid gap-10 lg:grid-cols-[1.2fr_1fr] items-center">
         <div className="space-y-6 max-w-3xl">
           <p className="eyebrow">DDA</p>
-          <h1 className="headline-lg">I find what&apos;s broken in your system.</h1>
-          <p className="text-xl text-[#F3EFE6]/85 max-w-2xl">You get the numbers. You decide what to do.</p>
+          <h1 className="headline-lg">Systems Analysis Using Public Evidence</h1>
+          <p className="text-xl text-[#F3EFE6]/85 max-w-2xl">I synthesize what your organization publishes. I show you what it reveals.</p>
           <p className="body-text body-text-secondary max-w-2xl">
-            Most organizations operate on assumptions about how their systems work. When reality diverges from those assumptions, the cost compounds silently until crisis forces recognition.
+            Every organization publishes the data it produces. Annual reports. Budgets. Policy manuals. Tribunal decisions. Legislative records. Enforcement data.
           </p>
+          <p className="body-text body-text-secondary max-w-2xl">Most people read these separately. I read them systemically.</p>
           <p className="body-text body-text-secondary max-w-2xl">
-            I reverse-engineer that gap. I use public data—the documents your organization publishes but never looks at as a whole. I find the patterns. I quantify the impact. I hand you the evidence.
+            I synthesize across documents. I identify structural patterns. I expose inconsistencies between reported outcomes and observable system behavior. I quantify what those inconsistencies mean.
           </p>
-          <p className="body-text body-text-secondary max-w-2xl">Then you decide.</p>
+          <p className="body-text body-text-secondary max-w-2xl">Then I tell you what the evidence actually shows—not what the narrative claims.</p>
+          <p className="body-text body-text-secondary max-w-2xl">This is not consulting. This is public-evidence analysis.</p>
           <div className="flex flex-wrap gap-4 pt-2">
-            <Link to="/services" className="btn-primary">See How It Works</Link>
-            <Link to="/contact" className="btn-secondary">Tell Me Your Problem</Link>
+            <Link to="/services" className="btn-primary">See What I Analyze</Link>
+            <Link to="/contact" className="btn-secondary">Tell Me Your System</Link>
           </div>
         </div>
 
         <div className="card p-8">
-          <h2 className="font-heading text-2xl mb-3">Assumed Performance vs Actual Performance</h2>
-          <p className="text-sm text-[#F3EFE6]/70 mb-6">The hidden gap is where pressure builds.</p>
-          <svg viewBox="0 0 320 220" className="w-full h-auto" role="img" aria-label="Graph showing a widening gap between assumed and actual performance">
+          <h2 className="font-heading text-2xl mb-3">Reported vs. Structural</h2>
+          <p className="text-sm text-[#F3EFE6]/70 mb-6">Pattern visualization of reported outcomes versus structural system behavior.</p>
+          <svg viewBox="0 0 320 220" className="w-full h-auto" role="img" aria-label="Graph showing reported outcomes diverging from structural behavior over time">
             <line x1="30" y1="20" x2="30" y2="190" stroke="rgba(243,239,230,0.35)" strokeWidth="2" />
             <line x1="30" y1="190" x2="300" y2="190" stroke="rgba(243,239,230,0.35)" strokeWidth="2" />
 
             <polyline
-              points="40,150 95,132 150,112 205,90 260,70"
+              points="40,150 95,130 150,108 205,87 260,72"
               fill="none"
               stroke="#D4A03A"
               strokeWidth="4"
               strokeLinecap="round"
             />
             <polyline
-              points="40,165 95,165 150,160 205,152 260,140"
+              points="40,165 95,162 150,157 205,147 260,134"
               fill="none"
               stroke="#6FC3D0"
               strokeWidth="4"
               strokeLinecap="round"
             />
 
-            <text x="44" y="112" fill="#D4A03A" fontSize="11">Assumed Performance</text>
-            <text x="44" y="182" fill="#6FC3D0" fontSize="11">Actual Performance</text>
+            <text x="44" y="111" fill="#D4A03A" fontSize="11">Reported Outcome</text>
+            <text x="44" y="182" fill="#6FC3D0" fontSize="11">Structural Behavior</text>
           </svg>
         </div>
       </section>
 
       <section className="space-y-8">
-        <div className="space-y-3 max-w-3xl">
-          <h2 className="headline-md">You have a specific problem.</h2>
-          <p className="text-xl text-[#F3EFE6]/85">These people do too.</p>
+        <div className="space-y-3 max-w-4xl">
+          <h2 className="headline-md">Who Uses This Work</h2>
+          <p className="text-xl text-[#F3EFE6]/85">Each sector gets the same thing: evidence-based system analysis using what your organization already publishes.</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -143,27 +182,31 @@ const HomePage = () => {
       </section>
 
       <section className="space-y-8">
-        <div className="space-y-3 max-w-3xl">
-          <h2 className="headline-md">The process is simple.</h2>
+        <h2 className="headline-md">What This Work Is</h2>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {whatThisWorkIs.map((item) => (
+            <article key={item.title} className="card space-y-3">
+              <h3 className="font-heading text-2xl">{item.title}</h3>
+              <p className="text-[#F3EFE6]/80">{item.copy}</p>
+            </article>
+          ))}
         </div>
+      </section>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+      <section className="space-y-8">
+        <h2 className="headline-md">The Process</h2>
+        <div className="grid gap-6 lg:grid-cols-2">
           {processSteps.map((step) => (
             <article key={step.title} className="card space-y-3">
-              <h3 className="font-heading text-xl">{step.title}</h3>
+              <h3 className="font-heading text-xl uppercase tracking-wide">{step.title}</h3>
               <p className="text-[#F3EFE6]/80">{step.copy}</p>
             </article>
           ))}
         </div>
-
-        <p className="text-lg text-[#F3EFE6]/85">You don&apos;t get a consulting project. You get an answer.</p>
       </section>
 
       <section className="space-y-8">
-        <div className="space-y-3 max-w-3xl">
-          <h2 className="headline-md">What you&apos;re actually buying.</h2>
-        </div>
-
+        <h2 className="headline-md">Three Tiers</h2>
         <div className="grid gap-6 lg:grid-cols-3">
           {serviceTiers.map((tier) => (
             <article key={tier.title} className="card space-y-4">
@@ -178,33 +221,20 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="space-y-6 max-w-4xl">
-        <h2 className="headline-md">Who I am.</h2>
-        <p className="body-text body-text-secondary">
-          I&apos;m a forensic institutional analyst. I read public documents. I find patterns others miss. I quantify what&apos;s actually happening. I tell you the truth about your systems.
-        </p>
-        <p className="body-text body-text-secondary">I don&apos;t do consulting. I don&apos;t do meetings. I don&apos;t do &quot;stakeholder alignment.&quot;</p>
-        <p className="body-text body-text-secondary">I read. I analyze. I write. I deliver.</p>
-        <p className="body-text body-text-secondary">
-          I work at speed because I don&apos;t have overhead. I work alone. I work from public data. Every claim I make is sourced. Every number is verifiable.
-        </p>
-        <p className="body-text body-text-secondary">
-          I&apos;ve been inside broken systems. I know what they cost. I know how to find the gap between what people think is happening and what&apos;s actually happening.
-        </p>
-        <p className="body-text body-text-secondary">That&apos;s what I do.</p>
-        <Link to="/about" className="btn-secondary">Learn More</Link>
-      </section>
-
-      <section className="card space-y-4 max-w-4xl">
-        <h2 className="headline-md">You know what you need.</h2>
-        <p className="text-[#F3EFE6]/80">
-          Tell me about your problem. Your timeline. Your budget range. I&apos;ll respond within 48 hours with a preliminary assessment and scope options.
-        </p>
-        <p className="text-[#F3EFE6]/80">No sales call. No pitch deck. No discovery session.</p>
-        <p className="text-[#F3EFE6]/80">Just a conversation about whether I can help.</p>
-        <div>
-          <Link to="/contact" className="btn-primary">Tell Me Your Problem</Link>
+      <section className="space-y-6 max-w-5xl">
+        <h2 className="headline-md">About Me</h2>
+        <div className="card space-y-4">
+          <p className="text-[#F3EFE6]/80">I synthesize public evidence systematically.</p>
+          <p className="text-[#F3EFE6]/80">
+            Most organizations publish extensive information about themselves. Annual reports. Budgets. Policy manuals. Tribunal decisions. Enforcement data. But this information is scattered, published separately, and rarely read as a coherent system.
+          </p>
+          <p className="text-[#F3EFE6]/80">
+            I read it all together. I find patterns. I expose where reported outcomes don&apos;t match observable behavior. I quantify what that means.
+          </p>
+          <p className="text-[#F3EFE6]/80">I work from public documents only. Everything I find is verifiable. Everything is replicable.</p>
+          <p className="text-[#F3EFE6]/80">I don&apos;t tell you what to think. I show you what the evidence reveals and what the structural implications are.</p>
         </div>
+        <Link to="/contact" className="btn-primary">Tell Me Your System</Link>
       </section>
     </div>
   );
