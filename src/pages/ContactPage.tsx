@@ -3,8 +3,8 @@ const ContactPage = () => {
     <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-12">
       <section className="max-w-4xl space-y-4">
         <p className="eyebrow">Contact</p>
-        <h1 className="headline-md">Tell Me Your Problem</h1>
-        <p className="text-xl text-[#F3EFE6]/85">I&apos;ll respond within 48 hours.</p>
+        <h1 className="headline-md">Describe Your System</h1>
+        <p className="text-xl text-[#F3EFE6]/85">We&apos;ll respond within 48 hours.</p>
       </section>
 
       <section className="max-w-4xl space-y-8">
@@ -26,7 +26,7 @@ const ContactPage = () => {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="problem" className="font-medium">Your Problem (What&apos;s happening in your system?)</label>
+            <label htmlFor="problem" className="font-medium">Your System (What&apos;s happening that needs to be understood?)</label>
             <textarea id="problem" rows={5} className="w-full rounded-lg bg-[#F3EFE6]/10 border border-[#F3EFE6]/25 p-3" />
           </div>
 
@@ -48,18 +48,18 @@ const ContactPage = () => {
 
       <section className="max-w-4xl card space-y-4">
         <h2 className="font-heading text-2xl">What Happens Next</h2>
-        <p className="text-[#F3EFE6]/80">I read your submission.</p>
-        <p className="text-[#F3EFE6]/80">I think about your problem for 10 minutes.</p>
-        <p className="text-[#F3EFE6]/80">I respond within 48 hours with:</p>
+        <p className="text-[#F3EFE6]/80">We read your submission.</p>
+        <p className="text-[#F3EFE6]/80">We assess what we&apos;re looking at.</p>
+        <p className="text-[#F3EFE6]/80">We respond within 48 hours with:</p>
         <ul className="space-y-2 text-[#F3EFE6]/80 list-disc list-inside">
-          <li>A preliminary assessment of what I&apos;m looking at</li>
-          <li>Which service tier makes sense (Quick Assessment / Full Diagnostic / Strategic Analysis)</li>
-          <li>Pricing and timeline</li>
+          <li>A preliminary assessment of the system</li>
+          <li>Which service tier makes sense (Quick Assessment / Comprehensive Analysis / Strategic Assessment)</li>
+          <li>Scope and timeline</li>
           <li>Next steps if you want to proceed</li>
         </ul>
         <p className="text-[#F3EFE6]/80">No sales call. No pitch deck. No discovery session.</p>
-        <p className="text-[#F3EFE6]/80">Just a conversation about whether I can help.</p>
-        <p className="text-[#F3EFE6]/80">If I can, you&apos;ll know. If I can&apos;t, I&apos;ll tell you.</p>
+        <p className="text-[#F3EFE6]/80">Just a conversation about whether we can help.</p>
+        <p className="text-[#F3EFE6]/80">If we can, that becomes clear. If we can&apos;t, we say so.</p>
       </section>
 
       <section className="max-w-4xl">
