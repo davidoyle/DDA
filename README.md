@@ -91,3 +91,14 @@ npm run build
   - `/services`
   - `/about`
   - `/contact`
+
+## Production routing for deep links
+
+This app uses `BrowserRouter`, so routes like `/consultation/municipality` are resolved in the client.
+Your web host must rewrite unknown paths to `index.html`; otherwise direct navigation to deep links returns a server 404.
+
+The repo now includes:
+- `public/.htaccess` for Apache-style hosts
+- `public/_redirects` for Netlify-style hosts
+
+Vite copies these files into `dist/` during build.
