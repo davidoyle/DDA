@@ -91,3 +91,18 @@ npm run build
   - `/services`
   - `/about`
   - `/contact`
+
+## Production routing for deep links
+
+This app uses `BrowserRouter`, so routes like `/consultation/municipality` are resolved in the client.
+
+To prevent direct URL 404s across hosts, the build now ships route-specific HTML entrypoints in `dist/`
+(e.g. `dist/services/index.html`, `dist/consultation/municipality/index.html`) that load the same SPA shell.
+This allows hard refresh and direct navigation on known routes even when host-level rewrite rules are unavailable.
+
+The repo also includes optional host rewrite files:
+- `public/.htaccess` for Apache-style hosts
+- `public/_redirects` for Netlify-style hosts
+
+`npm run build` generates both the normal Vite output and the route entrypoint files via
+`scripts/generate-route-entrypoints.mjs`.
