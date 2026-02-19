@@ -13,7 +13,7 @@ const PrivacyPolicyPage = () => {
         <p>
           DDA ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains
           how we collect, use, disclose, and safeguard your information when you visit our website
-          dda-analysis.ca, purchase our products, or engage our consulting services.
+          ddanalysis.ca, purchase our products, or engage our consulting services.
         </p>
         <p><strong>By using our website or services, you agree to the collection and use of information in accordance with this policy.</strong></p>
 
@@ -179,7 +179,7 @@ const PrivacyPolicyPage = () => {
           <li>Disable cookies through your browser settings</li>
         </ul>
 
-        <p><strong>To exercise these rights, contact us at:</strong> [INSERT EMAIL]</p>
+        <p><strong>To exercise these rights, contact us at:</strong> contact@ddanalytics.ca</p>
         <p><strong>We will respond to requests within 30 days.</strong></p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Cookies and Tracking Technologies</h2>
