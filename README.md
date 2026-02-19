@@ -106,3 +106,10 @@ The repo also includes optional host rewrite files:
 
 `npm run build` generates both the normal Vite output and the route entrypoint files via
 `scripts/generate-route-entrypoints.mjs`.
+Your web host must rewrite unknown paths to `index.html`; otherwise direct navigation to deep links returns a server 404.
+
+The repo now includes:
+- `public/.htaccess` for Apache-style hosts
+- `public/_redirects` for Netlify-style hosts
+
+Vite copies these files into `dist/` during build.
