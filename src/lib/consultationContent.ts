@@ -47,7 +47,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: '$500 CAD',
     priceSubline: '(One payment. 30 minutes. Your custom one-page summary.)',
     ctaLabel: 'BOOK YOUR 30-MINUTE CALL',
-    ctaHref: 'https://calendly.com/username/30-minute-exposure-analysis',
+    ctaHref: 'https://calendly.com/bcdda/30min',
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       "I pull your sector's data before we meet.",
@@ -71,7 +71,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: '$500 CAD',
     priceSubline: '(One payment. 30 minutes. Your custom one-page summary.)',
     ctaLabel: 'BOOK YOUR 30-MINUTE CALL',
-    ctaHref: 'https://calendly.com/username/30-minute-exposure-analysis',
+    ctaHref: 'https://calendly.com/bcdda/30min',
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       "I pull your municipality's data before we meet.",
@@ -95,7 +95,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: '$500 CAD',
     priceSubline: '(One payment. 30 minutes. Your custom one-page summary.)',
     ctaLabel: 'BOOK YOUR 30-MINUTE CALL',
-    ctaHref: 'https://calendly.com/username/30-minute-exposure-analysis',
+    ctaHref: 'https://calendly.com/bcdda/30min',
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       "I pull your company's violation history before we meet.",
@@ -119,7 +119,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: '$500 CAD',
     priceSubline: '(One payment. 30 minutes. Your custom one-page summary.)',
     ctaLabel: 'BOOK YOUR 30-MINUTE CALL',
-    ctaHref: 'https://calendly.com/username/30-minute-exposure-analysis',
+    ctaHref: 'https://calendly.com/bcdda/30min',
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       'I review your case brief before we meet.',
@@ -143,7 +143,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: '$500 CAD',
     priceSubline: '(One payment. 30 minutes. Your custom one-page summary.)',
     ctaLabel: 'BOOK YOUR 30-MINUTE CALL',
-    ctaHref: 'https://calendly.com/username/30-minute-exposure-analysis',
+    ctaHref: 'https://calendly.com/bcdda/30min',
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       'I analyze your member feedback and advocacy record before we meet.',
@@ -191,7 +191,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: '$500 CAD',
     priceSubline: '(One payment. 30 minutes. Your custom one-page action plan.)',
     ctaLabel: 'BOOK YOUR 30-MINUTE CALL',
-    ctaHref: 'https://calendly.com/username/30-minute-exposure-analysis',
+    ctaHref: 'https://calendly.com/bcdda/30min',
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       "I pull your sector's data before we meet.",
@@ -217,7 +217,7 @@ export const defaultContent: SectorContent = {
   priceHeadline: '$500 CAD',
   priceSubline: '(One payment. 30 minutes. Your custom one-page summary.)',
   ctaLabel: 'BOOK YOUR 30-MINUTE CALL',
-  ctaHref: 'https://calendly.com/username/30-minute-exposure-analysis',
+  ctaHref: 'https://calendly.com/bcdda/30min',
   nextStepsTitle: 'What Happens Next:',
   nextSteps: [
     'I pull your data before we meet.',
