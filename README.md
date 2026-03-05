@@ -1,6 +1,6 @@
 # DDA Website
 
-This repository contains the public-facing website for **DDA (David Doyle Analysis)**.
+This repository contains the public-facing website for **DDA (Diagnostics, Dataflow, Analysis)**.
 
 The site presents DDA as a professional institutional analysis practice focused on helping leaders identify where systems are underperforming, quantify the impact, and plan evidence-based reforms.
 

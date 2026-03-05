@@ -167,7 +167,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: 'FIRST INVESTIGATION: FREE',
     priceSubline: '(Complete. Sourced. Ready. Your byline.)',
     ctaLabel: 'CLAIM YOUR FREE INVESTIGATION',
-    ctaHref: 'mailto:hello@dda.example?subject=Claim%20my%20free%20investigation',
+    ctaHref: 'mailto:david.doyle@ddanalysis.ca?subject=Claim%20my%20free%20investigation',
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       'Email me to claim your investigation.',
