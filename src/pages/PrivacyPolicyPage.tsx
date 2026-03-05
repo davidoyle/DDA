@@ -5,7 +5,7 @@ const PrivacyPolicyPage = () => {
         <p className="eyebrow">Privacy Policy</p>
         <h1 className="headline-md">Privacy Policy</h1>
 
-        <p><strong>DDA — Diagnostics, Diplomacy, Analysis</strong><br />
+        <p><strong>DDA — Diagnostics, Dataflow, Analysis</strong><br />
         <strong>Effective Date:</strong> February 18, 2026<br />
         <strong>Last Updated:</strong> February 18, 2026</p>
 
@@ -13,7 +13,7 @@ const PrivacyPolicyPage = () => {
         <p>
           DDA ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains
           how we collect, use, disclose, and safeguard your information when you visit our website
-          ddanalysis.ca, purchase our products, or engage our consulting services.
+          ddanalysis.ca, purchase our products, or engage our services.
         </p>
         <p><strong>By using our website or services, you agree to the collection and use of information in accordance with this policy.</strong></p>
 
@@ -179,7 +179,7 @@ const PrivacyPolicyPage = () => {
           <li>Disable cookies through your browser settings</li>
         </ul>
 
-        <p><strong>To exercise these rights, contact us at:</strong> contact@ddanalytics.ca</p>
+        <p><strong>To exercise these rights, contact us at:</strong> david.doyle@ddanalysis.ca</p>
         <p><strong>We will respond to requests within 30 days.</strong></p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Cookies and Tracking Technologies</h2>
@@ -223,7 +223,7 @@ const PrivacyPolicyPage = () => {
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Children's Privacy</h2>
         <p>DDA services are not directed to individuals under 18 years of age.</p>
         <p><strong>We do not knowingly collect information from children.</strong> If we discover we have collected information from a child, we will delete it immediately.</p>
-        <p>If you believe we have inadvertently collected information from a child, contact us at:contact@ddanalytics.ca </p>
+        <p>If you believe we have inadvertently collected information from a child, contact us at:david.doyle@ddanalysis.ca </p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">International Data Transfers</h2>
         <p>DDA is based in British Columbia, Canada. Your information may be transferred to and processed in Canada or other jurisdictions where our service providers operate.</p>
@@ -243,10 +243,10 @@ const PrivacyPolicyPage = () => {
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Contact Us</h2>
         <p>If you have questions, concerns, or requests regarding this Privacy Policy or our privacy practices:</p>
         <p>
-          <strong>Email:</strong> contact@ddanalytics.ca <br />
+          <strong>Email:</strong> david.doyle@ddanalysis.ca <br />
           <strong>Mail:</strong> DDA — Diagnostics, Dataflow, Analysis<br />
-          [INSERT MAILING ADDRESS]<br />
-          British Columbia, Canada
+          V3R 5S9, Surrey BC<br />
+          Canada
         </p>
         <p><strong>We will respond to inquiries within 30 days.</strong></p>
 

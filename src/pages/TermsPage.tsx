@@ -335,7 +335,7 @@ const TermsPage = () => {
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">19. CONTACT INFORMATION</h2>
         <p>For questions about these Terms of Service, or to initiate a dispute resolution process:</p>
-        <p><strong>Email:</strong> contact@ddanalysis.ca</p>
+        <p><strong>Email:</strong> david.doyle@ddanalysis.ca</p>
 
         <p>© 2026 DDA — Diagnostics, Dataflow, Analysis. All rights reserved.</p>
       </section>
