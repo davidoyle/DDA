@@ -37,10 +37,10 @@ const examples = [
       'Result: Policy framework tying funding increases to measurable accountability benchmarks and staffing targets.',
   },
   {
-    title: 'WorkSafeBC System Analysis (Cost-Shift and Outcomes Quantification)',
-    copy: 'Multi-source assessment of: Claims data, denial patterns, acceptance rate differentials, enforcement trajectories, cost flows to taxpayer systems. Found: $570M annual surplus gap, 129,786 missing claims documented. Demonstrated: Unionized workers receive 85% acceptance vs. 72% for non-union workers under identical system. Quantified: $10B cost-shift to provincial health and disability systems.',
+    title: 'Regional Procurement Bottleneck Analysis (Service Delivery Throughput)',
+    copy: 'Multi-source assessment of procurement logs, bid-cycle durations, vendor concentration, and contract amendments. Found: repeated queue bottlenecks at approval gates and recurring emergency procurement spend tied to preventable scheduling drift. Quantified: avoidable administrative overhead and delivery delays across interconnected departments.',
     result:
-      'Result: Evidence framework used by municipalities for budget modeling, unions for bargaining leverage, law firms for litigation support.',
+      'Result: Evidence framework used by operational leaders to redesign approval pathways, sequence workstreams, and improve delivery reliability.',
   },
 ];
 
