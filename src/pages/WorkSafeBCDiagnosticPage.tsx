@@ -35,10 +35,7 @@ type IndustryRow = {
 };
 
 const SYSTEM_BASE = 1.55;
-// EXTERNAL TRIANGULATION (Spec 1 + our agreement: no WorkSafeBC claim data)
-const TRIANGULATED_COST_RANGE = { low: 1.72, mid: 1.92, high: 2.05 }; // Tucker + Alberta/WA/OR peers
-const SYSTEM_SIX_MODELS_RANGE = { low: 1_150_000_000, mid: 1_300_000_000, high: 1_450_000_000 };
-const HAZARD_WEIGHTS = { financial: 0.30, political: 0.25, claims: 0.20, market: 0.15, transparency: 0.10 };
+const SYSTEM_LOADING = 0.25;
 
 const heroStats = [
   ['$1.55 → $1.85–$2.10', 'Illustrative repricing range per $100 payroll'],
@@ -378,57 +375,68 @@ const WorkSafeBCDiagnosticPage = () => {
   }, [scenario]);
 
   const sharedOutput = useMemo(() => {
-    let currentRate: number;
-    let repricingGap: number;
-    let baseExposure: number;
-    let sixModelsExposure: number;
-    let totalHiddenCost: number;
-
     if (mode === 'proxy') {
-      const triangulatedCostRate = selectedIndustry.baseRate * (TRIANGULATED_COST_RANGE.mid / SYSTEM_BASE);
-      currentRate = selectedIndustry.baseRate;
-      repricingGap = triangulatedCostRate - currentRate;
-      baseExposure = (proxyPayroll * repricingGap) / 100;
-      sixModelsExposure = (proxyPayroll / 200_000_000_000) * SYSTEM_SIX_MODELS_RANGE.mid;
-    } else {
-      const workers = ownPayroll / Math.max(averageWage, 1);
-      const annualClaimCost = (injuryFrequency / 100) * workers * avgCostPerClaim;
-      const adequateRate = (annualClaimCost / Math.max(ownPayroll, 1)) * 100 * 1.25;
-      currentRate = currentEffectiveRate;
-      repricingGap = adequateRate - currentRate;
-      baseExposure = (ownPayroll * repricingGap) / 100;
-      sixModelsExposure = (ownPayroll / 200_000_000_000) * SYSTEM_SIX_MODELS_RANGE.mid;
+      const claimCostProxy = selectedIndustry.baseRate * 0.75;
+      const riskScore = selectedIndustry.frequencyIndex * selectedIndustry.severityIndex * selectedIndustry.wageIndex;
+      const payrollImplied = 100;
+      const sensitivity = 1 + costSensitivity / 100;
+      const adequateRate = ((claimCostProxy * riskScore * 100) / payrollImplied) * (1 + SYSTEM_LOADING) * sensitivity;
+      const repricingGap = adequateRate - selectedIndustry.baseRate;
+      const baseExposure = (proxyPayroll * repricingGap) / 100;
+
+      return {
+        payroll: proxyPayroll,
+        currentRate: selectedIndustry.baseRate,
+        lowExposure: baseExposure * 0.85,
+        baseExposure,
+        highExposure: baseExposure * 1.15,
+        bandLabel: '±15% (proxy model)',
+        modeLabel: 'System-average proxy estimate',
+        assumptions: [
+          `Industry base rate: $${selectedIndustry.baseRate.toFixed(2)} (WorkSafeBC 2026 Classification and Rate List)`,
+          'Claim cost share assumption: 75% (proxy)',
+          `Risk score components (proxy public data): frequency ${selectedIndustry.frequencyIndex.toFixed(2)}, severity ${selectedIndustry.severityIndex.toFixed(2)}, wage ${selectedIndustry.wageIndex.toFixed(2)}`,
+          'System loading assumption: 25%',
+          'Uncertainty band basis: ±15% around base exposure',
+        ],
+      };
     }
 
-    totalHiddenCost = baseExposure + sixModelsExposure;
-
-    const hazardScore = Math.min(100, Math.round(
-      HAZARD_WEIGHTS.financial * 85 +
-      HAZARD_WEIGHTS.political * 90 +
-      HAZARD_WEIGHTS.claims * 65 +
-      HAZARD_WEIGHTS.market * 70 +
-      HAZARD_WEIGHTS.transparency * 80
-    ));
+    const workers = ownPayroll / Math.max(averageWage, 1);
+    const annualClaimCost = (injuryFrequency / 100) * workers * avgCostPerClaim;
+    const adequateRate = (annualClaimCost / Math.max(ownPayroll, 1)) * 100 * 1.25;
+    const repricingGap = adequateRate - currentEffectiveRate;
+    const baseExposure = (ownPayroll * repricingGap) / 100;
 
     return {
-      payroll: mode === 'proxy' ? proxyPayroll : ownPayroll,
-      currentRate,
-      lowExposure: baseExposure * (mode === 'proxy' ? 0.85 : 0.9),
+      payroll: ownPayroll,
+      currentRate: currentEffectiveRate,
+      lowExposure: baseExposure * 0.9,
       baseExposure,
-      highExposure: baseExposure * (mode === 'proxy' ? 1.15 : 1.1),
-      sixModelsExposure,
-      totalHiddenCost,
-      hazardScore,
-      bandLabel: mode === 'proxy' ? '±15% (external triangulation)' : '±10% (your numbers)',
-      modeLabel: mode === 'proxy' ? 'System-average proxy (Tucker + peer jurisdictions)' : 'Firm-specific estimate',
+      highExposure: baseExposure * 1.1,
+      bandLabel: '±10% (own numbers model)',
+      modeLabel: 'Firm-specific estimate (proxy methodology)',
       assumptions: [
-        ...(mode === 'proxy' ? ['Cost rate triangulated from Sean Tucker 2025 + Alberta/Washington/Oregon public data'] : []),
-        'Six Models total drag scaled to your payroll (province-wide mid $1.3B)',
-        'System loading 25%',
-        'WorkSafeBC has not published per-rate-group funded percentages, per-industry claim costs, or explicit repricing triggers. This is a system-average proxy.',
+        `Current effective WSBC rate: $${currentEffectiveRate.toFixed(2)} per $100 payroll`,
+        `Workers = payroll ÷ wage = ${workers.toFixed(1)} (wage input ${fmtMoney(averageWage)})`,
+        `Annual claim cost = (frequency ÷ 100) × workers × cost per claim = ${fmtMoney(annualClaimCost)}`,
+        'System loading assumption: 25%',
+        `Uncertainty band basis: ±10% around base exposure (inputs include medical inflation ${medicalInflation.toFixed(1)}% and safety improvement ${safetyImprovement.toFixed(1)}%)`,
       ],
     };
-  }, [mode, selectedIndustry, proxyPayroll, ownPayroll, currentEffectiveRate, injuryFrequency, avgCostPerClaim, averageWage]);
+  }, [
+    avgCostPerClaim,
+    averageWage,
+    costSensitivity,
+    currentEffectiveRate,
+    injuryFrequency,
+    medicalInflation,
+    mode,
+    ownPayroll,
+    proxyPayroll,
+    safetyImprovement,
+    selectedIndustry,
+  ]);
 
   const scenarioTimeline = useMemo(() => {
     const scale = sharedOutput.currentRate / SYSTEM_BASE;
@@ -448,6 +456,21 @@ const WorkSafeBCDiagnosticPage = () => {
 
     return rows;
   }, [scenario.steps, sharedOutput.currentRate, sharedOutput.payroll]);
+
+  const driftLine = useMemo(() => {
+    if (mode !== 'own') {
+      return [];
+    }
+    return Array.from({ length: 5 }, (_, index) => {
+      const year = index + 1;
+      const severity = avgCostPerClaim * (1 + medicalInflation / 100) ** year;
+      const frequency = injuryFrequency * (1 - safetyImprovement / 100) ** year;
+      const workers = ownPayroll / Math.max(averageWage, 1);
+      const annualClaimCost = (frequency / 100) * workers * severity;
+      const adequateRate = (annualClaimCost / Math.max(ownPayroll, 1)) * 100 * 1.25;
+      return { year: `Year ${year}`, adequateRate };
+    });
+  }, [avgCostPerClaim, averageWage, injuryFrequency, medicalInflation, mode, ownPayroll, safetyImprovement]);
 
   return (
     <div className="pt-20 pb-20">
@@ -490,36 +513,6 @@ const WorkSafeBCDiagnosticPage = () => {
         <p className="text-[#F3EFE6]/85 max-w-4xl">
           Surplus currently stands at 141% of liabilities. The target floor is 130%, leaving an 11-percentage-point buffer before repricing becomes mandatory.
         </p>
-      </section>
-
-      <section className="px-6 lg:px-[8vw] py-14 border-b border-[#F3EFE6]/10">
-        <p className="eyebrow">Repricing Probability</p>
-        <h2 className="headline-md">Hazard Score • {sharedOutput.hazardScore}/100</h2>
-        <p className="text-[#F3EFE6]/80 max-w-2xl">Composite of five system pressures (financial, political, claims, market distortion, transparency). Updated quarterly by BC Chamber staff.</p>
-
-        <div className="grid md:grid-cols-5 gap-4 mt-8">
-          {[
-            { label: 'Balance Sheet', value: 85, color: '#D4A03A' },
-            { label: 'Political', value: 90, color: '#A63A2C' },
-            { label: 'Claims Cost', value: 65, color: '#D4A03A' },
-            { label: 'Market Distortion', value: 70, color: '#D4A03A' },
-            { label: 'Transparency', value: 80, color: '#A63A2C' },
-          ].map((p) => (
-            <div key={p.label} className="card text-center">
-              <p className="font-mono text-xs uppercase tracking-widest">{p.label}</p>
-              <div className="text-5xl font-heading mt-3" style={{ color: p.color }}>{p.value}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 text-center">
-          <p className="font-heading text-2xl">Time-path (plain English)</p>
-          <div className="flex justify-center gap-8 mt-4 text-sm">
-            <div>0–12 months: <span className="text-[#F3EFE6]/70">Low</span></div>
-            <div>12–36 months: <span className="text-[#D4A03A]">Rising</span></div>
-            <div>3–5 years: <span className="text-[#A63A2C]">High</span></div>
-          </div>
-        </div>
       </section>
 
       <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#F3EFE6]/10">
@@ -623,7 +616,6 @@ const WorkSafeBCDiagnosticPage = () => {
                 <th className="text-left py-3">Repricing Exposure</th>
                 <th className="text-left py-3">Per-Employee</th>
                 <th className="text-left py-3">Employment Est.</th>
-                <th className="text-left py-3">Exposure Rank</th>
               </tr>
             </thead>
             <tbody>
@@ -639,7 +631,6 @@ const WorkSafeBCDiagnosticPage = () => {
                   <td>${item.exposureM.toFixed(1)}M</td>
                   <td>~${item.perEmployeeImpact}/yr</td>
                   <td>{Math.round(item.employment / 1000)}K</td>
-                  <td className="py-3 font-mono">{Math.floor(Math.random() * 30) + 70}th percentile</td>
                 </tr>
               ))}
             </tbody>
@@ -762,46 +753,35 @@ const WorkSafeBCDiagnosticPage = () => {
             </table>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-[#F3EFE6]/15">
-            <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#D4A03A] mb-4">SIX ECONOMIC MODELS — TRIANGULATED EXTERNAL</p>
-            <div className="grid md:grid-cols-3 gap-4">
-              {[
-                { label: 'Cost-Shift Index', share: 0.03 },
-                { label: 'RTW Drag Curve', share: 0.08 },
-                { label: 'Suppression Distortion', share: 0.22 },
-                { label: 'Net Fiscal Displacement', share: 0.04 },
-                { label: 'Latency-to-Loss Chain', share: 0.75 },
-                { label: 'Black Hole Transparency', share: 0.05 },
-              ].map((m) => (
-                <article key={m.label} className="bg-[#F3EFE6]/6 border border-[#F3EFE6]/15 rounded-xl px-4 py-5">
-                  <p className="font-mono text-xs uppercase text-[#F3EFE6]/60">{m.label}</p>
-                  <p className="font-heading text-3xl mt-3 text-[#D4A03A]">
-                    {fmtMoney(sharedOutput.sixModelsExposure * m.share)}
-                  </p>
-                </article>
-              ))}
-            </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              ['Year 1 cumulative', scenarioTimeline[0].cumulative],
+              ['Year 3 cumulative', scenarioTimeline[2].cumulative],
+              ['Year 5 cumulative', scenarioTimeline[4].cumulative],
+            ].map(([label, value]) => (
+              <article key={label} className="bg-[#F3EFE6]/4 rounded-xl border border-[#F3EFE6]/12 px-4 py-4">
+                <p className="font-mono text-xs uppercase tracking-[0.1em] text-[#F3EFE6]/65">{label}</p>
+                <p className="font-heading text-2xl mt-3">{fmtMoney(value as number)}</p>
+              </article>
+            ))}
+          </div>
 
-            <div className="mt-10">
-              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#D4A03A]">TOTAL HIDDEN COST</p>
-              <div className="h-80 mt-4">
+          {mode === 'own' ? (
+            <article className="space-y-3">
+              <p className="font-mono text-xs uppercase tracking-[0.1em] text-[#D4A03A]">Claim cost drift line (adequate rate)</p>
+              <div className="h-64 bg-[#F3EFE6]/3 rounded-xl border border-[#F3EFE6]/10 p-3">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={[
-                    { name: 'Repricing', value: sharedOutput.baseExposure },
-                    { name: 'Six Models', value: sharedOutput.sixModelsExposure },
-                    { name: 'Total', value: sharedOutput.totalHiddenCost },
-                  ]}>
+                  <AreaChart data={driftLine}>
                     <CartesianGrid stroke="#F3EFE6" strokeOpacity={0.08} />
-                    <XAxis dataKey="name" stroke="#F3EFE6" />
-                    <YAxis stroke="#F3EFE6" tickFormatter={(v) => `$${(v / 1e6).toFixed(0)}M`} />
-                    <Tooltip formatter={(v: number) => fmtMoney(v)} />
-                    <Bar dataKey="value" fill="#A63A2C" />
-                  </BarChart>
+                    <XAxis dataKey="year" stroke="#F3EFE6" opacity={0.7} />
+                    <YAxis stroke="#F3EFE6" opacity={0.7} tickFormatter={(v) => `$${v.toFixed(2)}`} />
+                    <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
+                    <Line dataKey="adequateRate" name="Adequate rate" stroke="#D4A03A" strokeWidth={3} dot />
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
-              <p className="text-center text-xl font-heading mt-4">Total annual hidden cost: {fmtMoney(sharedOutput.totalHiddenCost)}</p>
-            </div>
-          </div>
+            </article>
+          ) : null}
 
           <article className="rounded-xl border border-[#F3EFE6]/20 bg-[#F3EFE6]/4 p-5 space-y-3">
             <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#D4A03A]">Assumptions panel (always visible)</p>
