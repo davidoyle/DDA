@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Info } from 'lucide-react'
+import { type SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
@@ -53,7 +54,10 @@ export default function PSTForm({ onSubmit }: PSTFormProps) {
     },
   })
 
-  const watchSpend = form.watch(['spendAccounting', 'spendAEG', 'spendRealEstate', 'spendSecurity'])
+  const watchSpend = useWatch({
+    control: form.control,
+    name: ['spendAccounting', 'spendAEG', 'spendRealEstate', 'spendSecurity'],
+  })
   const hasSpend = watchSpend.some((v) => Number(v || 0) > 0)
 
 
@@ -88,7 +92,7 @@ export default function PSTForm({ onSubmit }: PSTFormProps) {
           </div>
           <label className="space-y-2 block max-w-xl">
             <span>Employee count</span>
-            <input className="w-full rounded-md border bg-transparent px-3 py-2" type="number" min={1} placeholder="Optional — used for CFIB compliance estimate." {...form.register('employeeCount', { setValueAs: (v) => (v === '' ? undefined : Number(v)) })} />
+            <input className="w-full rounded-md border bg-transparent px-3 py-2" type="number" min={1} placeholder="Optional — used for aggregate compliance estimate." {...form.register('employeeCount', { setValueAs: (v) => (v === '' ? undefined : Number(v)) })} />
           </label>
         </div>
 

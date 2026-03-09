@@ -27,19 +27,14 @@ const DiagnosticsPage = () => {
 
         <article className="card space-y-4 max-w-3xl mt-6">
           <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#D4A03A]">New</p>
-          <h2 className="font-heading text-3xl">BC PST Impact Diagnostic — Professional Services 2026</h2>
+          <h2 className="font-heading text-3xl">PST Diagnostic Tool — Professional Services 2026</h2>
           <p className="text-[#F3EFE6]/80">
             Quantify the cost impact of BC&apos;s October 2026 PST expansion with service-level spend, behavioural scenarios, and risk flags.
           </p>
           <div>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/bc-pst-impact-diagnostic" className="btn-primary">
-                Open Legacy BC PST Impact Diagnostic
-              </Link>
-              <Link to="/tools/pst-diagnostic" className="btn-primary">
-                Open New PST Diagnostic
-              </Link>
-            </div>
+            <Link to="/tools/pst-diagnostic" className="btn-primary">
+              Open PST Diagnostic
+            </Link>
           </div>
         </article>
 
