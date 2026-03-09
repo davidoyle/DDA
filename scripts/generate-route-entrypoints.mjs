@@ -12,6 +12,7 @@ const routes = [
   'worksafebc-repricing-risk-diagnostic',
   'bc-pst-impact-diagnostic',
   'tools/pst-diagnostic',
+  'dashboard',
   'services',
   'about',
   'contact',

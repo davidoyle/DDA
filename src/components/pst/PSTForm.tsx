@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Info } from 'lucide-react'
 import { type SubmitHandler, useForm, useWatch } from 'react-hook-form'
+import { useEffect, useRef } from 'react'
 import { z } from 'zod'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -27,6 +28,7 @@ type PSTFormInput = z.infer<typeof PSTFormSchema>
 
 interface PSTFormProps {
   onSubmit: (values: PSTFormValues) => void
+  onToggleUsed?: (toggleId: string, toggleValue: string | number) => void
 }
 
 const tooltipMap: Record<string, string> = {
@@ -36,7 +38,7 @@ const tooltipMap: Record<string, string> = {
   'Security Services': 'Effective PST rate 7.00% because the full fee is taxable.',
 }
 
-export default function PSTForm({ onSubmit }: PSTFormProps) {
+export default function PSTForm({ onSubmit, onToggleUsed }: PSTFormProps) {
   const form = useForm<PSTFormInput>({
     resolver: zodResolver(PSTFormSchema),
     defaultValues: {
@@ -53,12 +55,41 @@ export default function PSTForm({ onSubmit }: PSTFormProps) {
     },
   })
 
+  const watchedValues = useWatch({ control: form.control })
   const watchSpend = useWatch({
     control: form.control,
     name: ['spendAccounting', 'spendAEG', 'spendRealEstate', 'spendSecurity'],
   })
   const hasSpend = watchSpend.some((v) => Number(v || 0) > 0)
+  const previousValues = useRef<Record<string, unknown> | undefined>(undefined)
+  const debounceTimers = useRef<Record<string, number>>({})
 
+  useEffect(() => {
+    if (!onToggleUsed) return
+    if (!watchedValues) return
+
+    if (!previousValues.current) {
+      previousValues.current = watchedValues as Record<string, unknown>
+      return
+    }
+
+    const entries = Object.entries(watchedValues as Record<string, unknown>)
+    entries.forEach(([key, next]) => {
+      const prev = previousValues.current?.[key]
+      if (next === prev || typeof next === 'undefined' || next === null) return
+
+      const timerKey = String(key)
+      if (debounceTimers.current[timerKey]) {
+        window.clearTimeout(debounceTimers.current[timerKey])
+      }
+
+      debounceTimers.current[timerKey] = window.setTimeout(() => {
+        onToggleUsed(timerKey, typeof next === 'number' ? Number(next) : String(next))
+      }, 500)
+    })
+
+    previousValues.current = watchedValues as Record<string, unknown>
+  }, [onToggleUsed, watchedValues])
 
   const handleValidSubmit: SubmitHandler<PSTFormInput> = (values) => {
     onSubmit(values as PSTFormValues)

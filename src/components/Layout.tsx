@@ -21,6 +21,7 @@ const Layout = () => {
     { label: 'Home', path: '/' },
     { label: 'Services', path: '/services' },
     { label: 'Diagnostics', path: '/diagnostics' },
+    { label: 'Dashboard', path: '/dashboard' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' },
   ];

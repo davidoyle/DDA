@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom'
 import type { PSTResults } from '@/lib/pst-types'
 
-export default function PSTAdvocacy({ results }: { results: PSTResults }) {
+export default function PSTAdvocacy({ results, onCtaClick }: { results: PSTResults; onCtaClick?: (ctaId: string) => void }) {
   const priorities = [
     'Negotiate explicit PST transition clauses for multi-phase contracts before October 2026.',
     results.bundlingScenario !== 'low'
@@ -12,9 +13,16 @@ export default function PSTAdvocacy({ results }: { results: PSTResults }) {
   return (
     <article className="card">
       <h3 className="font-heading text-2xl mb-4">Advocacy priorities</h3>
-      <ol className="list-decimal list-inside space-y-2">
+      <ol className="list-decimal list-inside space-y-2 mb-5">
         {priorities.map((p) => <li key={p}>{p}</li>)}
       </ol>
+      <Link
+        to="/contact"
+        className="btn-secondary"
+        onClick={() => onCtaClick?.('pst_advocacy_contact')}
+      >
+        Discuss sector advocacy strategy
+      </Link>
     </article>
   )
 }

@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const DiagnosticsPage = () => {
+  const location = useLocation();
+
   return (
     <div className="pt-20 pb-20">
       <section className="px-6 lg:px-[8vw] py-12 border-b border-[#F3EFE6]/10">
@@ -19,7 +21,11 @@ const DiagnosticsPage = () => {
             Model repricing exposure using scenario pathways, sector benchmarks, and firm-specific inputs.
           </p>
           <div>
-            <Link to="/worksafebc-repricing-risk-diagnostic" className="btn-primary">
+            <Link
+              to="/worksafebc-repricing-risk-diagnostic"
+              state={{ from: location.pathname }}
+              className="btn-primary"
+            >
               Open WorkSafeBC Repricing Diagnostic
             </Link>
           </div>
@@ -32,7 +38,11 @@ const DiagnosticsPage = () => {
             Quantify the cost impact of BC&apos;s October 2026 PST expansion with service-level spend, behavioural scenarios, and risk flags.
           </p>
           <div>
-            <Link to="/tools/pst-diagnostic" className="btn-primary">
+            <Link
+              to="/tools/pst-diagnostic"
+              state={{ from: location.pathname }}
+              className="btn-primary"
+            >
               Open PST Diagnostic
             </Link>
           </div>
