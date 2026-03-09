@@ -11,6 +11,18 @@ import type {
 const SYSTEM_BASE = 1.55;
 const SYSTEM_LOADING = 0.25;
 
+export const calculateExperienceRatingImpact = (expectedClaims: number, averageCostPerClaim: number, payroll = 1000000) => {
+  const expectedClaimCost = expectedClaims * averageCostPerClaim;
+  const baselinePremium = (payroll * SYSTEM_BASE) / 100;
+  const experienceLoad = expectedClaimCost / Math.max(baselinePremium, 1);
+  const projectedRateChangePercent = Math.min(50, Math.max(-25, experienceLoad * 12));
+
+  return {
+    expectedClaimCost,
+    projectedRateChangePercent,
+  };
+};
+
 export const fmtMoney = (value: number) =>
   new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 }).format(value);
 
