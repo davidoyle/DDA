@@ -11,7 +11,7 @@ import BookingConfirmationPage from './pages/BookingConfirmationPage';
 import ConsultationLandingPage from './pages/ConsultationLandingPage';
 import WorkSafeBCDiagnosticPage from './pages/WorkSafeBCDiagnosticPage';
 import DiagnosticsPage from './pages/DiagnosticsPage';
-import BCPSTDiagnosticPage from './pages/BCPSTDiagnosticPage';
+import PSTDiagnostic from './pages/PSTDiagnostic';
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -49,7 +49,7 @@ function App() {
           <Route path="terms" element={<TermsPage />} />
           <Route path="diagnostics" element={<DiagnosticsPage />} />
           <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
-          <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
+          <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
 
           <Route path="consultation" element={<ConsultationLandingPage />} />
           <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />
