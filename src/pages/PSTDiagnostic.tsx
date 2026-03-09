@@ -1,16 +1,30 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PSTForm from '@/components/pst/PSTForm'
 import PSTResults from '@/components/pst/PSTResults'
 import { calculatePST } from '@/lib/pst-engine'
 import type { PSTFormValues, PSTResults as PSTResultsType } from '@/lib/pst-types'
+import { trackEvent } from '@/lib/analytics'
 
 export default function PSTDiagnostic() {
   const [results, setResults] = useState<PSTResultsType | null>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
 
+  useEffect(() => {
+    trackEvent('diag_start', { tool: 'pst' })
+  }, [])
+
   function handleSubmit(values: PSTFormValues) {
     const r = calculatePST(values)
     setResults(r)
+    trackEvent('diag_complete', {
+      tool: 'pst',
+      sector: values.sector,
+      firm_size: values.firmSize,
+      total_spend: r.totalSpend,
+      total_pst: Math.round(r.totalPST),
+      risk_flags: r.riskFlags.length,
+      response_scenario: values.responseScenario,
+    })
     setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth' }), 50)
   }
 

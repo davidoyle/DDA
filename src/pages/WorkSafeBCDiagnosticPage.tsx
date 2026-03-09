@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import HeroStats from '@/components/worksafebc/HeroStats';
 import ScenarioSelector from '@/components/worksafebc/ScenarioSelector';
@@ -7,6 +7,7 @@ import TwoModeCalculator from '@/components/worksafebc/TwoModeCalculator';
 import { heroStats, industryRows, scenarios } from '@/lib/worksafebc/data';
 import { getDriftLine, getScenarioChartData, getScenarioTimeline, getSelectedIndustry, getSharedOutput } from '@/lib/worksafebc/engine';
 import type { Mode, ScenarioId } from '@/lib/worksafebc/types';
+import { trackEvent } from '@/lib/analytics';
 
 const WorkSafeBCDiagnosticPage = () => {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('C');
@@ -23,6 +24,36 @@ const WorkSafeBCDiagnosticPage = () => {
   const [avgCostPerClaim, setAvgCostPerClaim] = useState(23_000);
   const [medicalInflation, setMedicalInflation] = useState(0);
   const [safetyImprovement, setSafetyImprovement] = useState(0);
+  const hasTrackedScenarioChange = useRef(false);
+  const hasTrackedModeChange = useRef(false);
+
+  useEffect(() => {
+    trackEvent('diag_start', { tool: 'worksafebc' });
+  }, []);
+
+  useEffect(() => {
+    if (!hasTrackedScenarioChange.current) {
+      hasTrackedScenarioChange.current = true;
+      return;
+    }
+
+    trackEvent('diag_scenario_change', {
+      tool: 'worksafebc',
+      scenario: activeScenario,
+    });
+  }, [activeScenario]);
+
+  useEffect(() => {
+    if (!hasTrackedModeChange.current) {
+      hasTrackedModeChange.current = true;
+      return;
+    }
+
+    trackEvent('diag_mode_change', {
+      tool: 'worksafebc',
+      mode,
+    });
+  }, [mode]);
 
   const selectedIndustry = useMemo(
     () => getSelectedIndustry(industryRows, selectedIndustryName),
@@ -197,7 +228,13 @@ const WorkSafeBCDiagnosticPage = () => {
           </table>
         </div>
         <div className="mt-8">
-          <Link to="/contact" className="btn-primary">Book an Exposure Review</Link>
+          <Link
+            to="/contact"
+            className="btn-primary"
+            onClick={() => trackEvent('diag_cta_click', { tool: 'worksafebc', cta: 'book_exposure_review' })}
+          >
+            Book an Exposure Review
+          </Link>
         </div>
       </section>
     </div>
