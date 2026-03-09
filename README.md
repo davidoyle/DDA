@@ -113,3 +113,33 @@ The repo now includes:
 - `public/_redirects` for Netlify-style hosts
 
 Vite copies these files into `dist/` during build.
+
+## HTTPS / TLS troubleshooting (for `ddanalytics.ca`)
+
+If a browser reports **"can't provide a secure connection"** for `https://ddanalytics.ca`,
+the issue is usually at the DNS/certificate layer (not the React/Vite app itself).
+
+### Quick diagnosis checklist
+
+1. **Check DNS targets for apex and www**
+   - `ddanalytics.ca` and `www.ddanalytics.ca` should typically resolve to the same hosting provider
+     (or one should redirect to the other).
+   - If they point at different providers, certificate provisioning often fails or appears inconsistent.
+
+2. **Verify certificate is issued for both hostnames**
+   - Certificate SANs should include:
+     - `ddanalytics.ca`
+     - `www.ddanalytics.ca`
+
+3. **Confirm the host has HTTPS enabled for the connected domain**
+   - In your hosting dashboard, ensure SSL/TLS is active and bound to this site.
+
+4. **Apply a canonical redirect only after certificate is valid**
+   - Redirect `www` → apex (or apex → `www`) once both names have working TLS.
+
+### Why this happens
+
+The web app in this repo is a static SPA and does not terminate TLS itself.
+TLS is terminated by the edge host / CDN. If DNS is split across different origins,
+or if the edge cert is missing for one hostname, browsers show a secure-connection error
+before `index.html` is ever requested.
