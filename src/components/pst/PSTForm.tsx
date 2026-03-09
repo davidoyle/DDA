@@ -91,7 +91,7 @@ export default function PSTForm({ onSubmit }: PSTFormProps) {
           </div>
           <label className="space-y-2 block max-w-xl">
             <span>Employee count</span>
-            <input className="w-full rounded-md border bg-transparent px-3 py-2" type="number" min={1} placeholder="Optional — used for CFIB compliance estimate." {...form.register('employeeCount', { setValueAs: (v) => (v === '' ? undefined : Number(v)) })} />
+            <input className="w-full rounded-md border bg-transparent px-3 py-2" type="number" min={1} placeholder="Optional — used for aggregate compliance estimate." {...form.register('employeeCount', { setValueAs: (v) => (v === '' ? undefined : Number(v)) })} />
           </label>
         </div>
 

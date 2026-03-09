@@ -1,6 +1,6 @@
 import {
   BEHAVIOURAL_EROSION,
-  CFIB_COST_PER_EMPLOYEE,
+  COMPLIANCE_COST_PER_EMPLOYEE,
   COMPLIANCE_COSTS,
   IMPLIED_REVENUE,
   INVESTMENT_ELASTICITY,
@@ -42,16 +42,17 @@ export function calculatePST(form: PSTFormValues): PSTResults {
   const totalNetCost = rows.reduce((sum, r) => sum + r.netCost, 0)
   const complianceCost = COMPLIANCE_COSTS[form.firmSize]
   const year1TotalImpact = totalPST + complianceCost
-  const cfibAggregateCost = form.employeeCount ? form.employeeCount * CFIB_COST_PER_EMPLOYEE : undefined
+  const aggregateComplianceCost = form.employeeCount ? form.employeeCount * COMPLIANCE_COST_PER_EMPLOYEE : undefined
 
   const pctOfSpend = totalSpend > 0 ? totalPST / totalSpend : 0
-  const impliedRevenue = IMPLIED_REVENUE[form.firmSize]
-  const shockToMarginRatio = totalNetCost / (impliedRevenue * MARGIN_MIDPOINTS[form.firmSize])
+  const impliedMarginPool = IMPLIED_REVENUE[form.firmSize] * MARGIN_MIDPOINTS[form.firmSize]
+  const absorbedShockToMarginRatio = totalNetCost / impliedMarginPool
+  const totalPSTToMarginRatio = totalPST / impliedMarginPool
 
   const showInvestment = totalPST >= INVESTMENT_PANEL_THRESHOLD
   const costIncreasePct = totalSpend > 0 ? totalPST / totalSpend : 0
 
-  const riskFlags = buildRiskFlags(form, totalPST, totalSpend, pctOfSpend)
+  const riskFlags = buildRiskFlags(form, pctOfSpend)
 
   return {
     rows,
@@ -61,14 +62,15 @@ export function calculatePST(form: PSTFormValues): PSTResults {
     passthroughRate,
     complianceCost,
     year1TotalImpact,
-    cfibAggregateCost,
+    aggregateComplianceCost,
     pctOfSpend,
-    shockToMarginRatio,
+    absorbedShockToMarginRatio,
+    totalPSTToMarginRatio,
     bcDisadvantageVsAB: totalPST,
     bcDisadvantageVsON: totalPST,
-    investmentDragLow: showInvestment ? costIncreasePct * INVESTMENT_ELASTICITY.low : undefined,
+    investmentDragMild: showInvestment ? costIncreasePct * INVESTMENT_ELASTICITY.mild : undefined,
     investmentDragCentral: showInvestment ? costIncreasePct * INVESTMENT_ELASTICITY.central : undefined,
-    investmentDragHigh: showInvestment ? costIncreasePct * INVESTMENT_ELASTICITY.high : undefined,
+    investmentDragSevere: showInvestment ? costIncreasePct * INVESTMENT_ELASTICITY.severe : undefined,
     erosionLow: totalPST * BEHAVIOURAL_EROSION.low,
     erosionMedium: totalPST * BEHAVIOURAL_EROSION.medium,
     erosionHigh: totalPST * BEHAVIOURAL_EROSION.high,
@@ -83,8 +85,10 @@ export function calculatePST(form: PSTFormValues): PSTResults {
   }
 }
 
-function buildRiskFlags(form: PSTFormValues, _totalPST: number, _totalSpend: number, pctOfSpend: number): RiskFlag[] {
+function buildRiskFlags(form: PSTFormValues, pctOfSpend: number): RiskFlag[] {
   const flags: RiskFlag[] = []
+  const baseProjectPST = 600000 * TAXABLE_SHARES.aeg[form.bundlingScenario] * PST_RATE
+  const formattedProjectPST = Math.round(baseProjectPST / 100) * 100
 
   if (pctOfSpend > 0.05) {
     flags.push({
@@ -110,7 +114,7 @@ function buildRiskFlags(form: PSTFormValues, _totalPST: number, _totalSpend: num
       level: 'low',
       title: 'Lower direct exposure',
       body: 'PST is under 2.5% of professional services spend. Monitor for indirect cost pass-through from your supply chain.',
-      sourceNote: 'BCBC Impact Analysis (March 2026)',
+      sourceNote: 'Public policy impact modelling synthesis (March 2026)',
       evidenceTier: 'MODELLED',
     })
   }
@@ -120,8 +124,8 @@ function buildRiskFlags(form: PSTFormValues, _totalPST: number, _totalSpend: num
       id: 'small-firm-multiplier',
       level: 'high',
       title: 'Small firm multiplier: 1.7–2.1×',
-      body: 'Small firms achieve only 45% pass-through vs. 88% for large firms. Compliance costs of $2,800–$6,500 represent a 4–8× higher revenue burden than large firms.',
-      sourceNote: 'StatsCan business surveys; CPABC SME studies',
+      body: 'Small firms achieve materially lower pass-through than large firms, and fixed compliance costs create a higher burden per dollar of revenue.',
+      sourceNote: 'StatsCan business surveys; CPA Canada administrative burden survey',
       evidenceTier: 'VERIFIED',
     })
   }
@@ -142,8 +146,8 @@ function buildRiskFlags(form: PSTFormValues, _totalPST: number, _totalSpend: num
       id: 'capital-project-escalation',
       level: 'high',
       title: 'Capital project cost escalation',
-      body: 'Your sector relies heavily on AEG services. PST adds non-recoverable cost to every project pro forma. A $10M project with $600K in AEG services adds ~$18K in new PST costs at base bundling — directly compressing project returns.',
-      sourceNote: 'BCBC Impact Analysis Section 7.3; BC Budget 2026/27',
+      body: `Your sector relies heavily on AEG services. PST adds non-recoverable cost to project pro formas. A $10M project with $600K in AEG services adds about $${formattedProjectPST.toLocaleString('en-CA')} in new PST costs under your selected bundling scenario.`,
+      sourceNote: 'BC Budget 2026/27; sector project-cost modelling assumptions',
       evidenceTier: 'MODELLED',
     })
   }
@@ -165,7 +169,7 @@ function buildRiskFlags(form: PSTFormValues, _totalPST: number, _totalSpend: num
       level: 'medium',
       title: 'Housing project cost impact',
       body: 'AEG services are a direct input into housing construction. The PST on a $50M project with $3M in AEG services adds $63,000 in non-recoverable costs to the pro forma. No housing cost offset has been published by government alongside this measure.',
-      sourceNote: 'BCBC Impact Analysis Section 7.3; BC Budget 2026/27 ($1.4B housing capital cut)',
+      sourceNote: 'BC Budget 2026/27; housing project pro-forma sensitivity analysis',
       evidenceTier: 'MODELLED',
     })
   }
@@ -174,7 +178,7 @@ function buildRiskFlags(form: PSTFormValues, _totalPST: number, _totalSpend: num
     id: 'alberta-competitive-pressure',
     level: 'medium',
     title: 'Persistent Alberta competitive disadvantage',
-    body: 'Your competitors in Alberta face zero equivalent cost. The Canadian investment elasticity range (IMF: -0.12 to -0.28) implies this differential will suppress BC investment growth by 0.06–0.34%/yr in your sector — a persistent annual drag, not a one-time shock.',
+    body: 'Your competitors in Alberta face zero equivalent cost. The Canadian investment elasticity range (IMF: -0.12 to -0.28) implies this differential can suppress BC investment growth — a persistent annual drag rather than a one-time shock.',
     sourceNote: 'IMF WP/20/77 (2020); Bank of Canada provincial tax differential studies (2020–2024)',
     evidenceTier: 'MODELLED',
   })

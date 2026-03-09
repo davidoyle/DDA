@@ -1,4 +1,4 @@
-import { PARAMETERS_LAST_UPDATED, INVESTMENT_PANEL_THRESHOLD } from '@/lib/pst-config'
+import { INVESTMENT_PANEL_THRESHOLD, PARAMETERS_LAST_UPDATED } from '@/lib/pst-config'
 import type { PSTResults as PSTResultsType } from '@/lib/pst-types'
 import { money, pct } from './format'
 import PSTAdvocacy from './PSTAdvocacy'
@@ -33,8 +33,9 @@ export default function PSTResults({ results }: Props) {
           <li>Net annual cost after pass-through: {money(results.totalNetCost)}</li>
           <li>Pass-through rate used: {pct(results.passthroughRate)}</li>
           <li>Compliance cost add-on: {money(results.complianceCost)}</li>
-          <li>Shock-to-margin ratio: {pct(results.shockToMarginRatio)}</li>
-          {results.cfibAggregateCost !== undefined && <li>CFIB aggregate cost estimate: {money(results.cfibAggregateCost)}</li>}
+          <li>Absorbed shock-to-margin ratio: {pct(results.absorbedShockToMarginRatio)}</li>
+          <li>Full-exposure PST-to-margin ratio: {pct(results.totalPSTToMarginRatio)}</li>
+          {results.aggregateComplianceCost !== undefined && <li>Aggregate compliance estimate: {money(results.aggregateComplianceCost)}</li>}
         </ul>
       </article>
 
@@ -43,9 +44,9 @@ export default function PSTResults({ results }: Props) {
           <h3 className="font-heading text-2xl mb-4">Investment impact</h3>
           <table className="w-full text-sm">
             <tbody>
-              <tr><td>Low drag</td><td>{pct(results.investmentDragLow ?? 0, 3)}</td><td>{money((results.investmentDragLow ?? 0) * results.totalSpend)}</td></tr>
+              <tr><td>Mild drag</td><td>{pct(results.investmentDragMild ?? 0, 3)}</td><td>{money((results.investmentDragMild ?? 0) * results.totalSpend)}</td></tr>
               <tr><td>Central drag</td><td>{pct(results.investmentDragCentral ?? 0, 3)}</td><td>{money((results.investmentDragCentral ?? 0) * results.totalSpend)}</td></tr>
-              <tr><td>High drag</td><td>{pct(results.investmentDragHigh ?? 0, 3)}</td><td>{money((results.investmentDragHigh ?? 0) * results.totalSpend)}</td></tr>
+              <tr><td>Severe drag</td><td>{pct(results.investmentDragSevere ?? 0, 3)}</td><td>{money((results.investmentDragSevere ?? 0) * results.totalSpend)}</td></tr>
             </tbody>
           </table>
           <p className="text-sm mt-3">The OECD European range (−0.50) is excluded from this analysis — it is not supported by Canadian-specific evidence.</p>
@@ -61,7 +62,7 @@ export default function PSTResults({ results }: Props) {
       </article>
 
       <p className="text-sm text-[#F3EFE6]/75">
-        This tool does not constitute tax or legal advice. Results are modelled estimates based on publicly available data and the BCBC Economic Impact Analysis (March 2026, Revised). Parameters last updated: {PARAMETERS_LAST_UPDATED}.
+        This tool does not constitute tax or legal advice. Results are modelled estimates based on publicly available data and policy-source assumptions. Parameters last updated: {PARAMETERS_LAST_UPDATED}.
       </p>
     </section>
   )
