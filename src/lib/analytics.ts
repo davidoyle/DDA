@@ -1,11 +1,15 @@
 export type AnalyticsEventName =
-  | 'diag_directory_open'
-  | 'diag_launch_click'
+  | 'intent_captured'
   | 'diag_start'
   | 'diag_complete'
-  | 'diag_scenario_change'
-  | 'diag_mode_change'
-  | 'diag_cta_click'
+  | 'toggle_used'
+  | 'risk_flags_viewed'
+  | 'advocacy_viewed'
+  | 'advocacy_cta_click'
+  | 'consultation_click'
+  | 'return_user_run'
+  | 'dashboard_prompt_shown'
+  | 'dashboard_prompt_accepted'
 
 export type AnalyticsEventParams = Record<string, string | number | boolean | null | undefined>
 
@@ -15,7 +19,7 @@ declare global {
   }
 }
 
-export function trackEvent(name: AnalyticsEventName, params: AnalyticsEventParams = {}) {
+export function dispatchAnalyticsEvent(name: AnalyticsEventName, params: AnalyticsEventParams = {}) {
   if (!window.gtag) return
   window.gtag('event', name, params)
 }

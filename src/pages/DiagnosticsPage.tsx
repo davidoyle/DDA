@@ -1,11 +1,7 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { trackEvent } from '@/lib/analytics';
+import { Link, useLocation } from 'react-router-dom';
 
 const DiagnosticsPage = () => {
-  useEffect(() => {
-    trackEvent('diag_directory_open');
-  }, []);
+  const location = useLocation();
 
   return (
     <div className="pt-20 pb-20">
@@ -27,8 +23,8 @@ const DiagnosticsPage = () => {
           <div>
             <Link
               to="/worksafebc-repricing-risk-diagnostic"
+              state={{ from: location.pathname }}
               className="btn-primary"
-              onClick={() => trackEvent('diag_launch_click', { tool: 'worksafebc' })}
             >
               Open WorkSafeBC Repricing Diagnostic
             </Link>
@@ -44,8 +40,8 @@ const DiagnosticsPage = () => {
           <div>
             <Link
               to="/tools/pst-diagnostic"
+              state={{ from: location.pathname }}
               className="btn-primary"
-              onClick={() => trackEvent('diag_launch_click', { tool: 'pst' })}
             >
               Open PST Diagnostic
             </Link>
