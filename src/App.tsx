@@ -10,6 +10,7 @@ import TermsPage from './pages/TermsPage';
 import BookingConfirmationPage from './pages/BookingConfirmationPage';
 import ConsultationLandingPage from './pages/ConsultationLandingPage';
 import WorkSafeBCDiagnosticPage from './pages/WorkSafeBCDiagnosticPage';
+import DiagnosticsPage from './pages/DiagnosticsPage';
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="contact" element={<ContactPage />} />
           <Route path="privacy" element={<PrivacyPolicyPage />} />
           <Route path="terms" element={<TermsPage />} />
+          <Route path="diagnostics" element={<DiagnosticsPage />} />
           <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
 
           <Route path="consultation" element={<ConsultationLandingPage />} />
