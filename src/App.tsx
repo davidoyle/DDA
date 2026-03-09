@@ -11,7 +11,6 @@ import BookingConfirmationPage from './pages/BookingConfirmationPage';
 import ConsultationLandingPage from './pages/ConsultationLandingPage';
 import WorkSafeBCDiagnosticPage from './pages/WorkSafeBCDiagnosticPage';
 import DiagnosticsPage from './pages/DiagnosticsPage';
-import BCPSTDiagnosticPage from './pages/BCPSTDiagnosticPage';
 import PSTDiagnostic from './pages/PSTDiagnostic';
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';

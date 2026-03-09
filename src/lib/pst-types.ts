@@ -53,14 +53,15 @@ export interface PSTResults {
   passthroughRate: number
   complianceCost: number
   year1TotalImpact: number
-  cfibAggregateCost?: number
+  aggregateComplianceCost?: number
   pctOfSpend: number
-  shockToMarginRatio: number
+  absorbedShockToMarginRatio: number
+  totalPSTToMarginRatio: number
   bcDisadvantageVsAB: number
   bcDisadvantageVsON: number
-  investmentDragLow?: number
+  investmentDragMild?: number
   investmentDragCentral?: number
-  investmentDragHigh?: number
+  investmentDragSevere?: number
   erosionLow: number
   erosionMedium: number
   erosionHigh: number

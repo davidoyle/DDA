@@ -42,9 +42,9 @@ export const IMPLIED_REVENUE: Record<FirmSize, number> = {
 }
 
 export const INVESTMENT_ELASTICITY = {
-  low: -0.12,
+  mild: -0.12,
   central: -0.2,
-  high: -0.28,
+  severe: -0.28,
 }
 
 export const BEHAVIOURAL_EROSION = {
@@ -53,6 +53,6 @@ export const BEHAVIOURAL_EROSION = {
   high: 0.275,
 }
 
-export const CFIB_COST_PER_EMPLOYEE = 7000
+export const COMPLIANCE_COST_PER_EMPLOYEE = 7000
 export const INVESTMENT_PANEL_THRESHOLD = 50000
 export const PARAMETERS_LAST_UPDATED = 'March 2026'
