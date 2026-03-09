@@ -480,7 +480,7 @@ const WorkSafeBCDiagnosticPage = () => {
 
       <section className="px-6 lg:px-[8vw] pt-12 pb-14 border-b border-[#F3EFE6]/15">
         <p className="eyebrow">WorkSafeBC Repricing Risk Diagnostic</p>
-        <h1 className="headline-lg max-w-4xl">The Rate Reckoning</h1>
+        <h1 className="headline-lg max-w-4xl">Repricing Risk Calculator</h1>
         <p className="text-[#F3EFE6]/80 text-lg max-w-3xl mt-5">
           Current rates are policy-smoothed below actuarial cost. When surplus deployment declines, repricing is mathematically unavoidable.
         </p>
@@ -795,16 +795,6 @@ const WorkSafeBCDiagnosticPage = () => {
         </div>
       </section>
 
-      <section className="px-6 lg:px-[8vw] py-14 border-b border-[#F3EFE6]/10">
-        <p className="eyebrow">Bottom Line</p>
-        <h2 className="headline-md">Action Priorities</h2>
-        <ul className="list-disc list-inside space-y-2 text-[#F3EFE6]/85 mt-5">
-          <li>Model your repricing exposure using the tool above.</li>
-          <li>Stress test on Scenario C — highest probability, most visible trigger. Assume 5–8% annual WSBC cost increases over 3 years.</li>
-          <li>Build 15–25% total WSBC cost increase into 3–5 year budget forecasts. Use 25–35% if the political scenario occurs.</li>
-          <li>Coordinate with the BC Chamber of Commerce to demand WorkSafeBC publish: (a) explicit repricing triggers by funded percentage, (b) per-rate-group funded positions, (c) historical cost rate trend data.</li>
-        </ul>
-      </section>
 
       <section className="px-6 lg:px-[8vw] py-14">
         <p className="eyebrow">Data Limitations</p>
