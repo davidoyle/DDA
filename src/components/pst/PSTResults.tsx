@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { INVESTMENT_PANEL_THRESHOLD, PARAMETERS_LAST_UPDATED } from '@/lib/pst-config'
 import type { PSTResults as PSTResultsType } from '@/lib/pst-types'
 import type { AnalyticsEventName, AnalyticsEventParams } from '@/lib/analytics'
+import type { SegmentKey } from '@/lib/segment'
 import { money, pct } from './format'
 import PSTAdvocacy from './PSTAdvocacy'
 import PSTBreakdown from './PSTBreakdown'
@@ -11,15 +12,22 @@ import PSTRiskFlags from './PSTRiskFlags'
 import PSTScenarios from './PSTScenarios'
 import PSTScoreCards from './PSTScoreCards'
 import PSTTransition from './PSTTransition'
+import CTAPanel from '@/components/CTAPanel'
 
 interface Props {
   results: PSTResultsType
+  segment: SegmentKey
   onEvent: (name: AnalyticsEventName, params?: AnalyticsEventParams) => void
+  onBehaviorSignal: (signal: { viewedRiskFlags?: boolean; riskFlagsDwellS?: number; viewedAdvocacy?: boolean; clickedConsultation?: boolean }) => void
 }
 
-export default function PSTResults({ results, onEvent }: Props) {
+export default function PSTResults({ results, segment, onEvent, onBehaviorSignal }: Props) {
   const riskRef = useRef<HTMLElement>(null)
   const advocacyRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    onEvent('dashboard_prompt_shown')
+  }, [onEvent])
 
   useEffect(() => {
     const configs: Array<{
@@ -44,11 +52,14 @@ export default function PSTResults({ results, onEvent }: Props) {
             return
           }
           if (!enteredAt || fired) return
+          const dwell = Math.max(1, Math.round((Date.now() - enteredAt) / 1000))
           fired = true
           onEvent(eventName, {
             ...payload,
-            dwell_time_s: Math.max(1, Math.round((Date.now() - enteredAt) / 1000)),
+            dwell_time_s: dwell,
           })
+          if (eventName === 'risk_flags_viewed') onBehaviorSignal({ viewedRiskFlags: true, riskFlagsDwellS: dwell })
+          if (eventName === 'advocacy_viewed') onBehaviorSignal({ viewedAdvocacy: true })
         })
       }, { threshold: 0.35 })
 
@@ -57,7 +68,7 @@ export default function PSTResults({ results, onEvent }: Props) {
     })
 
     return () => cleanup.forEach((fn) => fn())
-  }, [onEvent, results.riskFlags.length])
+  }, [onBehaviorSignal, onEvent, results.riskFlags.length])
 
   return (
     <section className="px-6 lg:px-[8vw] py-10 space-y-8 print:px-0">
@@ -106,6 +117,20 @@ export default function PSTResults({ results, onEvent }: Props) {
       </article>
 
       <article className="card print:hidden">
+        <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
+        <p className="text-[#F3EFE6]/75 mb-4">Combine your latest WCB and PST snapshots in one view.</p>
+        <Link
+          to="/dashboard"
+          className="btn-primary"
+          onClick={() => onEvent('dashboard_prompt_accepted')}
+        >
+          Open dashboard
+        </Link>
+      </article>
+
+      <CTAPanel segment={segment} onConsultationClick={() => { onBehaviorSignal({ clickedConsultation: true }); onEvent('consultation_click', { source_panel: 'pst_segment_cta' }) }} />
+
+      <article className="card print:hidden">
         <h3 className="font-heading text-2xl mb-4">Export</h3>
         <button className="btn-primary" onClick={() => window.print()}>Download summary</button>
       </article>
@@ -122,6 +147,9 @@ export default function PSTResults({ results, onEvent }: Props) {
         </Link>
       </article>
 
+      <p className="text-sm text-[#F3EFE6]/75">
+        Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
+      </p>
       <p className="text-sm text-[#F3EFE6]/75">
         Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
       </p>

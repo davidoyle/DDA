@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import IntentPrompt, { type IntentValue } from '@/components/IntentPrompt'
 import PSTForm from '@/components/pst/PSTForm'
@@ -7,14 +7,21 @@ import { calculatePST } from '@/lib/pst-engine'
 import { appendSnapshot, bucketSpend } from '@/lib/session'
 import type { PSTFormValues, PSTResults as PSTResultsType } from '@/lib/pst-types'
 import { useDiagnosticSession } from '@/hooks/useDiagnosticSession'
+import { deriveSegment, type SegmentSignals } from '@/lib/segment'
 
 export default function PSTDiagnostic() {
   const [results, setResults] = useState<PSTResultsType | null>(null)
   const [scenarioCount, setScenarioCount] = useState(0)
+  const [signals, setSignals] = useState<SegmentSignals>({
+    viewed_advocacy: false,
+    viewed_risk_flags: false,
+    risk_flags_dwell_s: 0,
+    clicked_consultation: false,
+  })
   const startedAtRef = useRef<number | null>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
-  const { intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('pst')
+  const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('pst')
 
   useEffect(() => {
     if (!intentReady) return
@@ -26,6 +33,8 @@ export default function PSTDiagnostic() {
     maybeTrackReturnRun()
     startedAtRef.current = Date.now()
   }, [fireEvent, intentReady, location.state, maybeTrackReturnRun])
+
+  const segment = useMemo(() => deriveSegment(intent, signals), [intent, signals])
 
   function handleSubmit(values: PSTFormValues) {
     const r = calculatePST(values)
@@ -75,7 +84,20 @@ export default function PSTDiagnostic() {
 
       {results && (
         <div ref={resultsRef} className="print:block">
-          <PSTResults results={results} onEvent={fireEvent} />
+          <PSTResults
+            results={results}
+            segment={segment}
+            onEvent={fireEvent}
+            onBehaviorSignal={(patch) =>
+              setSignals((prev) => ({
+                ...prev,
+                viewed_advocacy: patch.viewedAdvocacy ?? prev.viewed_advocacy,
+                viewed_risk_flags: patch.viewedRiskFlags ?? prev.viewed_risk_flags,
+                risk_flags_dwell_s: patch.riskFlagsDwellS ?? prev.risk_flags_dwell_s,
+                clicked_consultation: patch.clickedConsultation ?? prev.clicked_consultation,
+              }))
+            }
+          />
         </div>
       )}
     </div>

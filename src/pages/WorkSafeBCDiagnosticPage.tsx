@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import IntentPrompt, { type IntentValue } from '@/components/IntentPrompt';
+import CTAPanel from '@/components/CTAPanel';
 import HeroStats from '@/components/worksafebc/HeroStats';
 import ScenarioSelector from '@/components/worksafebc/ScenarioSelector';
 import SectorExposureCharts from '@/components/worksafebc/SectorExposureCharts';
@@ -10,6 +11,7 @@ import { getDriftLine, getScenarioChartData, getScenarioTimeline, getSelectedInd
 import type { Mode, ScenarioId } from '@/lib/worksafebc/types';
 import { useDiagnosticSession } from '@/hooks/useDiagnosticSession';
 import { appendSnapshot, bucketSpend } from '@/lib/session';
+import { deriveSegment, type SegmentSignals } from '@/lib/segment';
 
 const WorkSafeBCDiagnosticPage = () => {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('C');
@@ -26,8 +28,15 @@ const WorkSafeBCDiagnosticPage = () => {
   const [avgCostPerClaim, setAvgCostPerClaim] = useState(23_000);
   const [medicalInflation, setMedicalInflation] = useState(0);
   const [safetyImprovement, setSafetyImprovement] = useState(0);
+  const [signals, setSignals] = useState<SegmentSignals>({
+    viewed_advocacy: false,
+    viewed_risk_flags: false,
+    risk_flags_dwell_s: 0,
+    clicked_consultation: false,
+  });
+
   const location = useLocation();
-  const { intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('wcb');
+  const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('wcb');
   const startTimeRef = useRef<number | null>(null);
   const toggleTimers = useRef<Record<string, number>>({});
   const riskRef = useRef<HTMLElement>(null);
@@ -103,6 +112,7 @@ const WorkSafeBCDiagnosticPage = () => {
   );
 
   const completionCost = scenarioTimeline[scenarioTimeline.length - 1]?.cumulative ?? sharedOutput.baseExposure;
+  const segment = useMemo(() => deriveSegment(intent, signals), [intent, signals]);
 
   const queueToggle = useCallback((toggleId: string, toggleValue: string | number) => {
     if (toggleTimers.current[toggleId]) {
@@ -146,6 +156,7 @@ const WorkSafeBCDiagnosticPage = () => {
 
   useEffect(() => {
     if (!intentReady) return;
+    fireEvent('dashboard_prompt_shown');
 
     const configs: Array<{
       ref: { current: HTMLElement | null }
@@ -169,11 +180,18 @@ const WorkSafeBCDiagnosticPage = () => {
             return;
           }
           if (!enteredAt || fired) return;
+          const dwell = Math.max(1, Math.round((Date.now() - enteredAt) / 1000));
           fired = true;
           fireEvent(eventName, {
             ...payload,
-            dwell_time_s: Math.max(1, Math.round((Date.now() - enteredAt) / 1000)),
+            dwell_time_s: dwell,
           });
+          if (eventName === 'risk_flags_viewed') {
+            setSignals((prev) => ({ ...prev, viewed_risk_flags: true, risk_flags_dwell_s: dwell }));
+          }
+          if (eventName === 'advocacy_viewed') {
+            setSignals((prev) => ({ ...prev, viewed_advocacy: true }));
+          }
         });
       }, { threshold: 0.35 });
 
@@ -342,15 +360,29 @@ const WorkSafeBCDiagnosticPage = () => {
                 Discuss sector advocacy strategy
               </Link>
             </section>
-            <div className="mt-8">
+
+            <article className="card print:hidden mt-8">
+              <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
+              <p className="text-[#F3EFE6]/75 mb-4">Combine your latest WCB and PST snapshots in one view.</p>
               <Link
-                to="/contact"
+                to="/dashboard"
                 className="btn-primary"
-                onClick={() => fireEvent('consultation_click', { source_panel: 'wcb_results_footer' })}
+                onClick={() => fireEvent('dashboard_prompt_accepted')}
               >
-                Book an Exposure Review
+                Open dashboard
               </Link>
+            </article>
+
+            <div className="mt-8">
+              <CTAPanel
+                segment={segment}
+                onConsultationClick={() => {
+                  setSignals((prev) => ({ ...prev, clicked_consultation: true }));
+                  fireEvent('consultation_click', { source_panel: 'wcb_segment_cta' });
+                }}
+              />
             </div>
+
             <p className="text-sm text-[#F3EFE6]/75 mt-6">
               Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
             </p>
