@@ -386,3 +386,26 @@ body {
     animation: none;
   }
 }
+
+@media print {
+  nav,
+  footer,
+  .grain-overlay,
+  #pst-form,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body,
+  .card {
+    background: #fff !important;
+    color: #111 !important;
+    border-color: #d4d4d4 !important;
+    box-shadow: none !important;
+  }
+
+  .card {
+    break-inside: avoid;
+    margin-bottom: 12px;
+  }
+}

@@ -32,9 +32,14 @@ const DiagnosticsPage = () => {
             Quantify the cost impact of BC&apos;s October 2026 PST expansion with service-level spend, behavioural scenarios, and risk flags.
           </p>
           <div>
-            <Link to="/bc-pst-impact-diagnostic" className="btn-primary">
-              Open BC PST Impact Diagnostic
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/bc-pst-impact-diagnostic" className="btn-primary">
+                Open Legacy BC PST Impact Diagnostic
+              </Link>
+              <Link to="/tools/pst-diagnostic" className="btn-primary">
+                Open New PST Diagnostic
+              </Link>
+            </div>
           </div>
         </article>
 
