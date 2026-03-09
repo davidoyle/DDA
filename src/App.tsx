@@ -49,6 +49,7 @@ function App() {
           <Route path="terms" element={<TermsPage />} />
           <Route path="diagnostics" element={<DiagnosticsPage />} />
           <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
+          <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
           <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
 
           <Route path="consultation" element={<ConsultationLandingPage />} />

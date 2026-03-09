@@ -10,6 +10,7 @@ const indexPath = path.join(distDir, 'index.html');
 const routes = [
   'diagnostics',
   'worksafebc-repricing-risk-diagnostic',
+  'bc-pst-impact-diagnostic',
   'tools/pst-diagnostic',
   'services',
   'about',

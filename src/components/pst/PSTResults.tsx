@@ -1,4 +1,5 @@
 import { INVESTMENT_PANEL_THRESHOLD, PARAMETERS_LAST_UPDATED } from '@/lib/pst-config'
+import { PARAMETERS_LAST_UPDATED, INVESTMENT_PANEL_THRESHOLD } from '@/lib/pst-config'
 import type { PSTResults as PSTResultsType } from '@/lib/pst-types'
 import { money, pct } from './format'
 import PSTAdvocacy from './PSTAdvocacy'

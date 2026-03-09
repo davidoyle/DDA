@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Info } from 'lucide-react'
 import { type SubmitHandler, useForm, useWatch } from 'react-hook-form'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
