@@ -135,6 +135,21 @@ export default function PSTResults({ results, segment, onEvent, onBehaviorSignal
         <button className="btn-primary" onClick={() => window.print()}>Download summary</button>
       </article>
 
+      <article className="card print:hidden">
+        <h3 className="font-heading text-2xl mb-3">Next step</h3>
+        <p className="text-[#F3EFE6]/75 mb-4">Get a direct review of your exposure with DDA.</p>
+        <Link
+          to="/contact"
+          className="btn-primary"
+          onClick={() => onEvent('consultation_click', { source_panel: 'pst_next_step' })}
+        >
+          Book a consultation
+        </Link>
+      </article>
+
+      <p className="text-sm text-[#F3EFE6]/75">
+        Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
+      </p>
       <p className="text-sm text-[#F3EFE6]/75">
         Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
       </p>
