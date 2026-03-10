@@ -12,6 +12,10 @@ import { appealThresholdPercent } from '@/lib/tools/experience-rating-config';
 export default function ExperienceRatingOptimizerPage() {
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
+import { appealThresholdPercent } from '@/lib/tools/experience-rating-config';
+
+export default function ExperienceRatingOptimizerPage() {
   const [claimsCost, setClaimsCost] = useState([140000, 130000, 125000]);
   const [payroll, setPayroll] = useState([5_000_000, 5_200_000, 5_500_000]);
   const [currentRate, setCurrentRate] = useState(2.1);
