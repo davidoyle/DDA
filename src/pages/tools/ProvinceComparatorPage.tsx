@@ -12,10 +12,6 @@ import { provinceMeta, provinces, rates } from '@/lib/tools/province-comparator-
 export default function ProvinceComparatorPage() {
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
-import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
-import { provinceMeta, provinces, rates } from '@/lib/tools/province-comparator-config';
-
-export default function ProvinceComparatorPage() {
   const [selected, setSelected] = useState<string[]>(['BC', 'Alberta', 'Ontario']);
   const [year, setYear] = useState<2024 | 2025 | 2026>(2026);
   const [payroll, setPayroll] = useState(5_000_000);
@@ -26,8 +22,6 @@ export default function ProvinceComparatorPage() {
     const meta = provinceMeta[province as keyof typeof provinceMeta];
     const annualCost = meta.unit === 'per-$100 payroll' ? (payroll * currentRate) / 100 : null;
     return { province, currentRate, avg3, annualCost, ...meta };
-    const annualCost = (payroll * currentRate) / 100;
-    return { province, currentRate, avg3, annualCost, ...provinceMeta[province as keyof typeof provinceMeta] };
   }), [selected, year, payroll]);
 
   return (
@@ -53,10 +47,6 @@ export default function ProvinceComparatorPage() {
         updatePlan(tier);
         setUpgradeOpen(false);
       }} />
-          <table className="w-full text-sm"><thead><tr className="text-left"><th>Province</th><th>Rate</th><th>3y avg</th><th>Funded ratio</th><th>Surplus %</th><th>Unit</th><th>Cost</th></tr></thead><tbody>{rows.map((r) => <tr key={r.province} className="border-t border-[#F3EFE6]/10"><td>{r.province}</td><td>{r.currentRate.toFixed(2)}</td><td>{r.avg3.toFixed(2)}</td><td>{r.fundedRatio}%</td><td>{r.surplusPercentPayroll}%</td><td>{r.unit}</td><td>${r.annualCost.toLocaleString()}</td></tr>)}</tbody></table>
-          <div className="mt-3 flex gap-2"><EvidenceTier tier="VERIFIED" /><EvidenceTier tier="MODELLED" /></div>
-        </CardContent>
-      </Card>
       <ToolDisclaimer toolName="Multi-Province Comparator" paramDate="2026-01" text="Washington values are displayed in per-hour units and are not directly commensurate with per-$100 payroll without conversion assumptions." />
     </div>
   );
