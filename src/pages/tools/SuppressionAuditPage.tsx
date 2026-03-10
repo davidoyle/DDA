@@ -4,6 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { EvidenceTier } from '@/components/shared/EvidenceTier';
+import { FeatureLock } from '@/components/shared/FeatureLock';
+import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
+import { UpgradeModal } from '@/components/shared/UpgradeModal';
+import { useLicense } from '@/hooks/useLicense';
+import { questions, scoreBands } from '@/lib/tools/suppression-audit-config';
+
+export default function SuppressionAuditPage() {
+  const { entitlements, updatePlan } = useLicense();
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { questions, scoreBands } from '@/lib/tools/suppression-audit-config';
 
@@ -42,6 +51,15 @@ export default function SuppressionAuditPage() {
       {redFlag && <Alert className="border-rose-500/60"><AlertTitle>High-severity enforcement alert</AlertTitle><AlertDescription>One or more responses indicates a practice directly referenced in WCB enforcement findings. Review with legal counsel before your next WCB audit.</AlertDescription></Alert>}
       <Card><CardHeader><CardTitle>Section 73 fine exposure estimate</CardTitle></CardHeader><CardContent>${(1500 + score * 70).toLocaleString()} – ${(7000 + score * 240).toLocaleString()} per finding<div className="mt-2"><EvidenceTier tier="SPECULATIVE" /></div></CardContent></Card>
       <Card><CardHeader><CardTitle>Tucker/IWH benchmark</CardTitle></CardHeader><CardContent>Your score is approximately at the {Math.min(99, Math.max(1, score))}th percentile of the benchmark range.<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
+      {entitlements.canViewActionPlan ? (
+        <Card><CardHeader><CardTitle>Remediation priority list</CardTitle></CardHeader><CardContent><p>• Formal zero-pressure reporting policy rollout</p><p>• Supervisor claim-handling training refresh</p><p>• Legal review of incentive structures</p></CardContent></Card>
+      ) : (
+        <FeatureLock title="Premium remediation plan" message="Unlock response-mapped remediation actions and legal-risk playbook." onUpgrade={() => setUpgradeOpen(true)} />
+      )}
+      <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {
+        updatePlan(tier);
+        setUpgradeOpen(false);
+      }} />
       <ToolDisclaimer toolName="Claims Suppression Self-Audit" paramDate="2025-12" text="This estimate is based on public enforcement examples and is not legal advice." />
     </div>
   );

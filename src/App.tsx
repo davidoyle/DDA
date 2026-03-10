@@ -19,6 +19,7 @@ import ProvinceComparatorPage from './pages/tools/ProvinceComparatorPage';
 import SuppressionAuditPage from './pages/tools/SuppressionAuditPage';
 import ExperienceRatingOptimizerPage from './pages/tools/ExperienceRatingOptimizerPage';
 import SurplusAlertPage from './pages/tools/SurplusAlertPage';
+import ExecutiveRiskBriefPage from './pages/tools/ExecutiveRiskBriefPage';
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -63,6 +64,7 @@ function App() {
           <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
           <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
           <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
+          <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
           <Route path="dashboard" element={<Dashboard />} />
 
           <Route path="consultation" element={<ConsultationLandingPage />} />

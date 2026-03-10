@@ -6,6 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { EvidenceTier } from '@/components/shared/EvidenceTier';
+import { FeatureLock } from '@/components/shared/FeatureLock';
+import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
+import { UpgradeModal } from '@/components/shared/UpgradeModal';
+import { useLicense } from '@/hooks/useLicense';
+import { saveSnapshot } from '@/lib/tools/snapshot-store';
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { calculateExperienceRatingImpact, fmtMoney } from '@/lib/worksafebc/engine';
 import { healthcareSubSectors, mitigationItems, pickeringMultipliers, rampByYear, rtwAdjustmentFactor, sectorRates } from '@/lib/tools/mental-health-config';
@@ -13,6 +18,8 @@ import { healthcareSubSectors, mitigationItems, pickeringMultipliers, rampByYear
 const sectors = Object.keys(sectorRates);
 
 export default function MentalHealthForecasterPage() {
+  const { entitlements, updatePlan } = useLicense();
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [sector, setSector] = useState<keyof typeof sectorRates>('Healthcare & Social Assistance');
   const [subSector, setSubSector] = useState<string>(healthcareSubSectors[0]);
   const [headcount, setHeadcount] = useState(250);
@@ -35,6 +42,8 @@ export default function MentalHealthForecasterPage() {
 
   const experience = calculateExperienceRatingImpact(projection.claimsTotal, sectorRates[sector].avgCost);
   const checklist = mitigationItems.filter((item) => {
+    const applicableSectors = item.sectors as readonly string[];
+    return applicableSectors.includes('all') || applicableSectors.includes(sector);
     const sectors = item.sectors as readonly string[];
     return sectors.includes('all') || sectors.includes(sector);
   });
@@ -64,6 +73,21 @@ export default function MentalHealthForecasterPage() {
         <Card><CardHeader><CardTitle>Experience rating impact</CardTitle></CardHeader><CardContent>{experience.projectedRateChangePercent.toFixed(1)}%<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
       </section>
 
+      {entitlements.canViewActionPlan ? (
+        <Card><CardHeader><CardTitle>Mitigation checklist</CardTitle></CardHeader><CardContent className="space-y-2">{checklist.map((item) => <p key={item.name}>• {item.name} ({item.impact}% est.) — {item.source}</p>)}</CardContent></Card>
+      ) : (
+        <FeatureLock title="Premium action plan" message="Unlock prioritized mitigation checklist and impact estimates." onUpgrade={() => setUpgradeOpen(true)} />
+      )}
+
+      <div className="flex gap-3">
+        <button className="btn-secondary" onClick={() => saveSnapshot('mental-health-forecaster', { sector, subSector, headcount, province, years, hasRtw, projection })} disabled={!entitlements.canSaveAndCompare}>Save snapshot</button>
+        {!entitlements.canSaveAndCompare && <span className="text-xs text-[#F3EFE6]/70">Pro required for save/compare.</span>}
+      </div>
+
+      <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {
+        updatePlan(tier);
+        setUpgradeOpen(false);
+      }} />
       <Card><CardHeader><CardTitle>Mitigation checklist</CardTitle></CardHeader><CardContent className="space-y-2">{checklist.map((item) => <p key={item.name}>• {item.name} ({item.impact}% est.) — {item.source}</p>)}</CardContent></Card>
 
       <ToolDisclaimer toolName="Mental Health Claims Surge Forecaster" paramDate="2025-12" text="Model output is decision support only and not legal advice." />

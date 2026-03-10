@@ -3,6 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { EvidenceTier } from '@/components/shared/EvidenceTier';
+import { FeatureLock } from '@/components/shared/FeatureLock';
+import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
+import { UpgradeModal } from '@/components/shared/UpgradeModal';
+import { useLicense } from '@/hooks/useLicense';
+import { provinceMeta, provinces, rates } from '@/lib/tools/province-comparator-config';
+
+export default function ProvinceComparatorPage() {
+  const { entitlements, updatePlan } = useLicense();
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { provinceMeta, provinces, rates } from '@/lib/tools/province-comparator-config';
 
@@ -14,6 +23,9 @@ export default function ProvinceComparatorPage() {
   const rows = useMemo(() => selected.map((province) => {
     const currentRate = rates[province as keyof typeof rates][year];
     const avg3 = (rates[province as keyof typeof rates][2024] + rates[province as keyof typeof rates][2025] + rates[province as keyof typeof rates][2026]) / 3;
+    const meta = provinceMeta[province as keyof typeof provinceMeta];
+    const annualCost = meta.unit === 'per-$100 payroll' ? (payroll * currentRate) / 100 : null;
+    return { province, currentRate, avg3, annualCost, ...meta };
     const annualCost = (payroll * currentRate) / 100;
     return { province, currentRate, avg3, annualCost, ...provinceMeta[province as keyof typeof provinceMeta] };
   }), [selected, year, payroll]);
@@ -30,6 +42,17 @@ export default function ProvinceComparatorPage() {
       <Card>
         <CardHeader><CardTitle>Summary comparison</CardTitle></CardHeader>
         <CardContent>
+          <table className="w-full text-sm"><thead><tr className="text-left"><th>Province</th><th>Rate</th><th>3y avg</th><th>Funded ratio</th><th>Surplus %</th><th>Unit</th><th>Cost</th></tr></thead><tbody>{rows.map((r) => <tr key={r.province} className="border-t border-[#F3EFE6]/10"><td>{r.province}</td><td>{r.currentRate.toFixed(2)}</td><td>{r.avg3.toFixed(2)}</td><td>{r.fundedRatio}%</td><td>{r.surplusPercentPayroll}%</td><td>{r.unit}</td><td>{r.annualCost === null ? 'N/A' : `$${r.annualCost.toLocaleString()}`}</td></tr>)}</tbody></table>
+          <div className="mt-3 flex gap-2"><EvidenceTier tier="VERIFIED" /><EvidenceTier tier="MODELLED" /></div>
+        </CardContent>
+      </Card>
+      {!entitlements.canViewBenchmarks && (
+        <FeatureLock title="Benchmarking locked" message="Unlock cross-province benchmark and repricing risk drivers with Pro licensing." onUpgrade={() => setUpgradeOpen(true)} />
+      )}
+      <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {
+        updatePlan(tier);
+        setUpgradeOpen(false);
+      }} />
           <table className="w-full text-sm"><thead><tr className="text-left"><th>Province</th><th>Rate</th><th>3y avg</th><th>Funded ratio</th><th>Surplus %</th><th>Unit</th><th>Cost</th></tr></thead><tbody>{rows.map((r) => <tr key={r.province} className="border-t border-[#F3EFE6]/10"><td>{r.province}</td><td>{r.currentRate.toFixed(2)}</td><td>{r.avg3.toFixed(2)}</td><td>{r.fundedRatio}%</td><td>{r.surplusPercentPayroll}%</td><td>{r.unit}</td><td>${r.annualCost.toLocaleString()}</td></tr>)}</tbody></table>
           <div className="mt-3 flex gap-2"><EvidenceTier tier="VERIFIED" /><EvidenceTier tier="MODELLED" /></div>
         </CardContent>
