@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Component, type ErrorInfo, type ReactNode, Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 
@@ -43,12 +43,61 @@ function AnalyticsTracker() {
   return null;
 }
 
+type RouteChunkErrorBoundaryProps = {
+  children: ReactNode;
+};
+
+type RouteChunkErrorBoundaryState = {
+  hasError: boolean;
+};
+
+class RouteChunkErrorBoundary extends Component<RouteChunkErrorBoundaryProps, RouteChunkErrorBoundaryState> {
+  state: RouteChunkErrorBoundaryState = {
+    hasError: false,
+  };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Route chunk failed to load', error, errorInfo);
+  }
+
+  handleReload = () => {
+    window.location.reload();
+  };
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex min-h-screen flex-col items-center justify-center bg-white px-6 text-center">
+          <h1 className="text-2xl font-semibold text-slate-900">We hit a loading problem.</h1>
+          <p className="mt-3 max-w-lg text-slate-600">
+            A recent update may have changed this page. Please refresh to load the latest version.
+          </p>
+          <button
+            type="button"
+            onClick={this.handleReload}
+            className="mt-6 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-700"
+          >
+            Refresh page
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function App() {
   return (
     <Router>
       <AnalyticsTracker />
-      <Suspense fallback={<div className="min-h-screen bg-white" />}>
-        <Routes>
+      <RouteChunkErrorBoundary>
+        <Suspense fallback={<div className="min-h-screen bg-white" />}>
+          <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="services" element={<ServicesPage />} />
@@ -85,8 +134,9 @@ function App() {
             <Route path="booking-confirmation/journalist" element={<BookingConfirmationPage sector="journalist" />} />
             <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
           </Route>
-        </Routes>
-      </Suspense>
+          </Routes>
+        </Suspense>
+      </RouteChunkErrorBoundary>
     </Router>
   );
 }
