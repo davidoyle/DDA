@@ -6,9 +6,9 @@
   RewriteCond %{HTTP_HOST} !^ddanalytics\.ca$ [NC]
   RewriteRule ^ https://ddanalytics.ca%{REQUEST_URI} [R=301,L]
 
-  # Force HTTPS unless TLS is already handled upstream (e.g., proxy/CDN).
+  # Force HTTPS for every non-TLS request.
+  # NOTE: Do not trust client-controlled forwarding headers here.
   RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
   RewriteRule ^ https://ddanalytics.ca%{REQUEST_URI} [R=301,L]
 
   # Allow existing files and directories to be served directly.
