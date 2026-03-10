@@ -2,9 +2,14 @@
   RewriteEngine On
   RewriteBase /
 
-  # Force canonical host while preserving current scheme.
-  RewriteCond %{HTTP_HOST} ^www\.ddanalytics\.ca$ [NC]
-  RewriteRule ^ %{REQUEST_SCHEME}://ddanalytics.ca%{REQUEST_URI} [R=301,L]
+  # Force canonical host even when requests arrive via alternate domains.
+  RewriteCond %{HTTP_HOST} !^ddanalytics\.ca$ [NC]
+  RewriteRule ^ https://ddanalytics.ca%{REQUEST_URI} [R=301,L]
+
+  # Force HTTPS unless TLS is already handled upstream (e.g., proxy/CDN).
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^ https://ddanalytics.ca%{REQUEST_URI} [R=301,L]
 
   # Allow existing files and directories to be served directly.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
