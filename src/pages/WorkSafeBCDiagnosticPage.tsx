@@ -39,6 +39,7 @@ const WorkSafeBCDiagnosticPage = () => {
   const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('wcb');
   const startTimeRef = useRef<number | null>(null);
   const toggleTimers = useRef<Record<string, number>>({});
+  const toggleValuesRef = useRef<Record<string, string>>({});
   const riskRef = useRef<HTMLElement>(null);
   const advocacyRef = useRef<HTMLElement>(null);
   const toggleCountRef = useRef(0);
@@ -124,35 +125,44 @@ const WorkSafeBCDiagnosticPage = () => {
     }, 500);
   }, [fireEvent]);
 
-  useEffect(() => {
+  const trackToggleChange = useCallback((toggleId: string, toggleValue: string | number) => {
     if (!intentReady) return;
-    queueToggle('scenario', activeScenario);
-  }, [activeScenario, intentReady, queueToggle]);
+
+    const nextValue = String(toggleValue);
+    if (!(toggleId in toggleValuesRef.current)) {
+      toggleValuesRef.current[toggleId] = nextValue;
+      return;
+    }
+
+    if (toggleValuesRef.current[toggleId] === nextValue) return;
+
+    toggleValuesRef.current[toggleId] = nextValue;
+    queueToggle(toggleId, nextValue);
+  }, [intentReady, queueToggle]);
 
   useEffect(() => {
-    if (!intentReady) return;
-    queueToggle('mode', mode);
-  }, [intentReady, mode, queueToggle]);
+    trackToggleChange('scenario', activeScenario);
+  }, [activeScenario, trackToggleChange]);
 
   useEffect(() => {
-    if (!intentReady) return;
-    queueToggle('cost_sensitivity', costSensitivity);
-  }, [costSensitivity, intentReady, queueToggle]);
+    trackToggleChange('mode', mode);
+  }, [mode, trackToggleChange]);
 
   useEffect(() => {
-    if (!intentReady) return;
-    queueToggle('injury_frequency', injuryFrequency);
-  }, [injuryFrequency, intentReady, queueToggle]);
+    trackToggleChange('cost_sensitivity', costSensitivity);
+  }, [costSensitivity, trackToggleChange]);
 
   useEffect(() => {
-    if (!intentReady) return;
-    queueToggle('medical_inflation', medicalInflation);
-  }, [intentReady, medicalInflation, queueToggle]);
+    trackToggleChange('injury_frequency', injuryFrequency);
+  }, [injuryFrequency, trackToggleChange]);
 
   useEffect(() => {
-    if (!intentReady) return;
-    queueToggle('safety_improvement', safetyImprovement);
-  }, [intentReady, safetyImprovement, queueToggle]);
+    trackToggleChange('medical_inflation', medicalInflation);
+  }, [medicalInflation, trackToggleChange]);
+
+  useEffect(() => {
+    trackToggleChange('safety_improvement', safetyImprovement);
+  }, [safetyImprovement, trackToggleChange]);
 
   useEffect(() => {
     if (!intentReady) return;
