@@ -11,7 +11,6 @@ import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { UpgradeModal } from '@/components/shared/UpgradeModal';
 import { useLicense } from '@/hooks/useLicense';
 import { saveSnapshot } from '@/lib/tools/snapshot-store';
-import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { calculateExperienceRatingImpact, fmtMoney } from '@/lib/worksafebc/engine';
 import { healthcareSubSectors, mitigationItems, pickeringMultipliers, rampByYear, rtwAdjustmentFactor, sectorRates } from '@/lib/tools/mental-health-config';
 
@@ -44,8 +43,6 @@ export default function MentalHealthForecasterPage() {
   const checklist = mitigationItems.filter((item) => {
     const applicableSectors = item.sectors as readonly string[];
     return applicableSectors.includes('all') || applicableSectors.includes(sector);
-    const sectors = item.sectors as readonly string[];
-    return sectors.includes('all') || sectors.includes(sector);
   });
 
   return (
@@ -88,8 +85,6 @@ export default function MentalHealthForecasterPage() {
         updatePlan(tier);
         setUpgradeOpen(false);
       }} />
-      <Card><CardHeader><CardTitle>Mitigation checklist</CardTitle></CardHeader><CardContent className="space-y-2">{checklist.map((item) => <p key={item.name}>• {item.name} ({item.impact}% est.) — {item.source}</p>)}</CardContent></Card>
-
       <ToolDisclaimer toolName="Mental Health Claims Surge Forecaster" paramDate="2025-12" text="Model output is decision support only and not legal advice." />
     </div>
   );

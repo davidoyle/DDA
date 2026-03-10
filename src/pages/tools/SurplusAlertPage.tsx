@@ -12,10 +12,6 @@ import { fundedRatioHistory, scenarios, thresholds } from '@/lib/tools/surplus-a
 export default function SurplusAlertPage() {
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
-import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
-import { fundedRatioHistory, scenarios, thresholds } from '@/lib/tools/surplus-alert-config';
-
-export default function SurplusAlertPage() {
   const [payroll, setPayroll] = useState(0);
   const [email, setEmail] = useState('');
   const [t135, setT135] = useState(true);
@@ -44,7 +40,6 @@ export default function SurplusAlertPage() {
         updatePlan(tier);
         setUpgradeOpen(false);
       }} />
-      <Card><CardHeader><CardTitle>Phase 2 email waitlist</CardTitle></CardHeader><CardContent className="space-y-3"><div className="flex items-center gap-2"><Switch checked={t135} onCheckedChange={setT135} /><Label>Alert me at 135%</Label></div><div className="flex items-center gap-2"><Switch checked={t130} onCheckedChange={setT130} /><Label>Alert me at 130%</Label></div><Input placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} className="max-w-sm" /><button className="btn-primary" onClick={() => { if (email) localStorage.setItem('surplus-alert-email', email); }}>Join waitlist</button></CardContent></Card>
       <ToolDisclaimer toolName="Surplus Early-Warning Dashboard" paramDate="2025-12" text="Projection uses public funded-ratio history and modeled proxies; threshold timing is not guaranteed." />
     </div>
   );

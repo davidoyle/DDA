@@ -13,10 +13,6 @@ import { questions, scoreBands } from '@/lib/tools/suppression-audit-config';
 export default function SuppressionAuditPage() {
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
-import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
-import { questions, scoreBands } from '@/lib/tools/suppression-audit-config';
-
-export default function SuppressionAuditPage() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>(Array(questions.length).fill(0));
 
