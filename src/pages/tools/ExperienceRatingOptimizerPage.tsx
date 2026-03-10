@@ -2,6 +2,16 @@ import { useMemo, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { FeatureLock } from '@/components/shared/FeatureLock';
+import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
+import { UpgradeModal } from '@/components/shared/UpgradeModal';
+import { useLicense } from '@/hooks/useLicense';
+import { saveSnapshot } from '@/lib/tools/snapshot-store';
+import { appealThresholdPercent } from '@/lib/tools/experience-rating-config';
+
+export default function ExperienceRatingOptimizerPage() {
+  const { entitlements, updatePlan } = useLicense();
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { appealThresholdPercent } from '@/lib/tools/experience-rating-config';
 
@@ -27,6 +37,16 @@ export default function ExperienceRatingOptimizerPage() {
         <CardContent className="grid md:grid-cols-3 gap-4">{[0, 1, 2].map((i) => <div key={i} className="space-y-2"><p className="font-semibold">Year {i + 1}</p><Label>Claims cost</Label><Input type="number" value={claimsCost[i]} onChange={(e) => setClaimsCost((prev) => prev.map((v, idx) => idx === i ? Number(e.target.value) : v))} /><Label>Assessable payroll</Label><Input type="number" value={payroll[i]} onChange={(e) => setPayroll((prev) => prev.map((v, idx) => idx === i ? Number(e.target.value) : v))} /></div>)}</CardContent>
       </Card>
       <Card><CardHeader><CardTitle>Rate comparison</CardTitle></CardHeader><CardContent className="space-y-2"><Label>Current assessed rate</Label><Input type="number" value={currentRate} onChange={(e) => setCurrentRate(Number(e.target.value))} className="max-w-xs" /><p>True risk-adjusted rate: {model.trueRate.toFixed(2)} per $100 payroll.</p><p>Variance: {model.variance.toFixed(2)} ({model.variancePercent.toFixed(1)}%).</p>{model.variancePercent > appealThresholdPercent && <p className="text-amber-300">Appeal flag: variance is above {appealThresholdPercent}% and may justify review.</p>}</CardContent></Card>
+      {entitlements.canCompareScenarios ? (
+        <Card><CardHeader><CardTitle>Scenario sensitivity (premium)</CardTitle></CardHeader><CardContent><p>Conservative, Moderate, Aggressive forecast matrix unlocked.</p></CardContent></Card>
+      ) : (
+        <FeatureLock title="Scenario comparison locked" message="Unlock multi-scenario forward projections and appeal timing guidance." onUpgrade={() => setUpgradeOpen(true)} />
+      )}
+      <button className="btn-secondary" onClick={() => saveSnapshot('experience-rating-optimizer', { claimsCost, payroll, currentRate, model })} disabled={!entitlements.canSaveAndCompare}>Save scenario snapshot</button>
+      <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {
+        updatePlan(tier);
+        setUpgradeOpen(false);
+      }} />
       <ToolDisclaimer toolName="Experience Rating Optimizer" paramDate="2026-01" text="Scenario output is planning guidance only and does not replace WCB adjudication or appeal advice." />
     </div>
   );

@@ -8,6 +8,7 @@ const tools = [
   { name: 'Claims Suppression Self-Audit', href: '/tools/suppression-audit', status: 'Live', desc: 'Run a 15-question audit with suppression risk and Section 73 exposure range.' },
   { name: 'Experience Rating Optimizer', href: '/tools/experience-rating-optimizer', status: 'Live', desc: 'Estimate true risk-adjusted rate and identify appeal/RTW action triggers.' },
   { name: 'Surplus Run-Down Early-Warning Alert Service', href: '/tools/surplus-alert', status: 'Coming Soon', desc: 'Track funded-ratio erosion and prepare for threshold-triggered repricing shifts.' },
+  { name: 'Executive Risk Brief', href: '/tools/executive-risk-brief', status: 'Enterprise', desc: 'Portfolio-level rollup of the five tools for board and executive review.' },
 ];
 
 const DiagnosticsPage = () => {

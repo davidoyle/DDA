@@ -17,6 +17,7 @@ const routes = [
   'tools/suppression-audit',
   'tools/experience-rating-optimizer',
   'tools/surplus-alert',
+  'tools/executive-risk-brief',
   'dashboard',
   'services',
   'about',
