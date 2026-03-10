@@ -1,25 +1,25 @@
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
-import ServicesPage from './pages/ServicesPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsPage from './pages/TermsPage';
-import BookingConfirmationPage from './pages/BookingConfirmationPage';
-import ConsultationLandingPage from './pages/ConsultationLandingPage';
-import WorkSafeBCDiagnosticPage from './pages/WorkSafeBCDiagnosticPage';
-import DiagnosticsPage from './pages/DiagnosticsPage';
-import BCPSTDiagnosticPage from './pages/BCPSTDiagnosticPage';
-import PSTDiagnostic from './pages/PSTDiagnostic';
-import Dashboard from './pages/Dashboard';
-import MentalHealthForecasterPage from './pages/tools/MentalHealthForecasterPage';
-import ProvinceComparatorPage from './pages/tools/ProvinceComparatorPage';
-import SuppressionAuditPage from './pages/tools/SuppressionAuditPage';
-import ExperienceRatingOptimizerPage from './pages/tools/ExperienceRatingOptimizerPage';
-import SurplusAlertPage from './pages/tools/SurplusAlertPage';
-import ExecutiveRiskBriefPage from './pages/tools/ExecutiveRiskBriefPage';
+
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
+const BookingConfirmationPage = lazy(() => import('./pages/BookingConfirmationPage'));
+const ConsultationLandingPage = lazy(() => import('./pages/ConsultationLandingPage'));
+const WorkSafeBCDiagnosticPage = lazy(() => import('./pages/WorkSafeBCDiagnosticPage'));
+const DiagnosticsPage = lazy(() => import('./pages/DiagnosticsPage'));
+const BCPSTDiagnosticPage = lazy(() => import('./pages/BCPSTDiagnosticPage'));
+const PSTDiagnostic = lazy(() => import('./pages/PSTDiagnostic'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const MentalHealthForecasterPage = lazy(() => import('./pages/tools/MentalHealthForecasterPage'));
+const ProvinceComparatorPage = lazy(() => import('./pages/tools/ProvinceComparatorPage'));
+const SuppressionAuditPage = lazy(() => import('./pages/tools/SuppressionAuditPage'));
+const ExperienceRatingOptimizerPage = lazy(() => import('./pages/tools/ExperienceRatingOptimizerPage'));
+const SurplusAlertPage = lazy(() => import('./pages/tools/SurplusAlertPage'));
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -47,45 +47,46 @@ function App() {
   return (
     <Router>
       <AnalyticsTracker />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="services" element={<ServicesPage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="privacy" element={<PrivacyPolicyPage />} />
-          <Route path="terms" element={<TermsPage />} />
-          <Route path="diagnostics" element={<DiagnosticsPage />} />
-          <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
-          <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
-          <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
-          <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
-          <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />
-          <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
-          <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
-          <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
-          <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
-          <Route path="dashboard" element={<Dashboard />} />
+      <Suspense fallback={<div className="min-h-screen bg-white" />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="services" element={<ServicesPage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="privacy" element={<PrivacyPolicyPage />} />
+            <Route path="terms" element={<TermsPage />} />
+            <Route path="diagnostics" element={<DiagnosticsPage />} />
+            <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
+            <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
+            <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
+            <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
+            <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />
+            <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
+            <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
+            <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
+            <Route path="dashboard" element={<Dashboard />} />
 
-          <Route path="consultation" element={<ConsultationLandingPage />} />
-          <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />
-          <Route path="consultation/union" element={<ConsultationLandingPage sector="union" />} />
-          <Route path="consultation/contractor" element={<ConsultationLandingPage sector="contractor" />} />
-          <Route path="consultation/law-firm" element={<ConsultationLandingPage sector="law-firm" />} />
-          <Route path="consultation/association" element={<ConsultationLandingPage sector="association" />} />
-          <Route path="consultation/journalist" element={<ConsultationLandingPage sector="journalist" />} />
-          <Route path="consultation/small-business" element={<ConsultationLandingPage sector="small-business" />} />
+            <Route path="consultation" element={<ConsultationLandingPage />} />
+            <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />
+            <Route path="consultation/union" element={<ConsultationLandingPage sector="union" />} />
+            <Route path="consultation/contractor" element={<ConsultationLandingPage sector="contractor" />} />
+            <Route path="consultation/law-firm" element={<ConsultationLandingPage sector="law-firm" />} />
+            <Route path="consultation/association" element={<ConsultationLandingPage sector="association" />} />
+            <Route path="consultation/journalist" element={<ConsultationLandingPage sector="journalist" />} />
+            <Route path="consultation/small-business" element={<ConsultationLandingPage sector="small-business" />} />
 
-          <Route path="booking-confirmation" element={<BookingConfirmationPage />} />
-          <Route path="booking-confirmation/municipality" element={<BookingConfirmationPage sector="municipality" />} />
-          <Route path="booking-confirmation/union" element={<BookingConfirmationPage sector="union" />} />
-          <Route path="booking-confirmation/contractor" element={<BookingConfirmationPage sector="contractor" />} />
-          <Route path="booking-confirmation/law-firm" element={<BookingConfirmationPage sector="law-firm" />} />
-          <Route path="booking-confirmation/association" element={<BookingConfirmationPage sector="association" />} />
-          <Route path="booking-confirmation/journalist" element={<BookingConfirmationPage sector="journalist" />} />
-          <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
-        </Route>
-      </Routes>
+            <Route path="booking-confirmation" element={<BookingConfirmationPage />} />
+            <Route path="booking-confirmation/municipality" element={<BookingConfirmationPage sector="municipality" />} />
+            <Route path="booking-confirmation/union" element={<BookingConfirmationPage sector="union" />} />
+            <Route path="booking-confirmation/contractor" element={<BookingConfirmationPage sector="contractor" />} />
+            <Route path="booking-confirmation/law-firm" element={<BookingConfirmationPage sector="law-firm" />} />
+            <Route path="booking-confirmation/association" element={<BookingConfirmationPage sector="association" />} />
+            <Route path="booking-confirmation/journalist" element={<BookingConfirmationPage sector="journalist" />} />
+            <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
