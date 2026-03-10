@@ -83,6 +83,13 @@ Build for production:
 npm run build
 ```
 
+
+## Data Commitments
+
+- Diagnostic tooling in this cycle stores anonymous session and intent data in browser `localStorage` only.
+- No identifying information (name, email, company, free-text entries) is collected in analytics events.
+- Benchmarking language shown in tool UIs must remain true to implementation; if data handling changes (aggregation, export, sharing, sale), the disclosure line must be updated before release.
+
 ## Notes
 
 - This repo currently includes legacy UI components and pages from earlier iterations.
