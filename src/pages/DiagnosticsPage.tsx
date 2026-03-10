@@ -1,5 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
 
+const tools = [
+  { name: 'WorkSafeBC Repricing Risk Diagnostic', href: '/worksafebc-repricing-risk-diagnostic', status: 'Live', desc: 'Model repricing exposure using scenario pathways and sector benchmarks.' },
+  { name: 'PST Diagnostic Tool', href: '/tools/pst-diagnostic', status: 'Live', desc: 'Quantify BC PST expansion cost impacts and behavioural response scenarios.' },
+  { name: 'Mental Health Claims Surge Forecaster', href: '/tools/mental-health-forecaster', status: 'Live', desc: 'Forecast accepted claim volume, projected costs, and mitigation actions.' },
+  { name: 'Multi-Province Surplus & Rate Comparator', href: '/tools/province-comparator', status: 'Live', desc: 'Compare rates, funded ratios, surpluses, and cross-province differentials.' },
+  { name: 'Claims Suppression Self-Audit', href: '/tools/suppression-audit', status: 'Live', desc: 'Run a 15-question audit with suppression risk and Section 73 exposure range.' },
+  { name: 'Experience Rating Optimizer', href: '/tools/experience-rating-optimizer', status: 'Live', desc: 'Estimate true risk-adjusted rate and identify appeal/RTW action triggers.' },
+  { name: 'Surplus Run-Down Early-Warning Alert Service', href: '/tools/surplus-alert', status: 'Coming Soon', desc: 'Track funded-ratio erosion and prepare for threshold-triggered repricing shifts.' },
+  { name: 'Executive Risk Brief', href: '/tools/executive-risk-brief', status: 'Enterprise', desc: 'Portfolio-level rollup of the five tools for board and executive review.' },
+];
+
 const DiagnosticsPage = () => {
   const location = useLocation();
 
@@ -8,46 +19,19 @@ const DiagnosticsPage = () => {
       <section className="px-6 lg:px-[8vw] py-12 border-b border-[#F3EFE6]/10">
         <p className="eyebrow">Diagnostics</p>
         <h1 className="headline-lg max-w-4xl">Diagnostic Tools</h1>
-        <p className="text-[#F3EFE6]/80 text-lg max-w-3xl mt-5">
-          Access our growing library of diagnostics. Start with the WorkSafeBC repricing diagnostic below.
-        </p>
       </section>
 
-      <section className="px-6 lg:px-[8vw] py-14">
-        <article className="card space-y-4 max-w-3xl">
-          <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#D4A03A]">Available now</p>
-          <h2 className="font-heading text-3xl">WorkSafeBC Repricing Risk Diagnostic</h2>
-          <p className="text-[#F3EFE6]/80">
-            Model repricing exposure using scenario pathways, sector benchmarks, and firm-specific inputs.
-          </p>
-          <div>
-            <Link
-              to="/worksafebc-repricing-risk-diagnostic"
-              state={{ from: location.pathname }}
-              className="btn-primary"
-            >
-              Open WorkSafeBC Repricing Diagnostic
-            </Link>
-          </div>
-        </article>
-
-        <article className="card space-y-4 max-w-3xl mt-6">
-          <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#D4A03A]">New</p>
-          <h2 className="font-heading text-3xl">PST Diagnostic Tool — Professional Services 2026</h2>
-          <p className="text-[#F3EFE6]/80">
-            Quantify the cost impact of BC&apos;s October 2026 PST expansion with service-level spend, behavioural scenarios, and risk flags.
-          </p>
-          <div>
-            <Link
-              to="/tools/pst-diagnostic"
-              state={{ from: location.pathname }}
-              className="btn-primary"
-            >
-              Open PST Diagnostic
-            </Link>
-          </div>
-        </article>
-
+      <section className="px-6 lg:px-[8vw] py-14 grid gap-6">
+        {tools.map((tool) => (
+          <article className="card space-y-4 max-w-4xl" key={tool.name}>
+            <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#D4A03A]">{tool.status}</p>
+            <h2 className="font-heading text-3xl">{tool.name}</h2>
+            <p className="text-[#F3EFE6]/80">{tool.desc}</p>
+            <div>
+              <Link to={tool.href} state={{ from: location.pathname }} className="btn-primary">Open tool</Link>
+            </div>
+          </article>
+        ))}
       </section>
     </div>
   );

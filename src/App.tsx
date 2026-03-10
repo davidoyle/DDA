@@ -14,6 +14,12 @@ import DiagnosticsPage from './pages/DiagnosticsPage';
 import BCPSTDiagnosticPage from './pages/BCPSTDiagnosticPage';
 import PSTDiagnostic from './pages/PSTDiagnostic';
 import Dashboard from './pages/Dashboard';
+import MentalHealthForecasterPage from './pages/tools/MentalHealthForecasterPage';
+import ProvinceComparatorPage from './pages/tools/ProvinceComparatorPage';
+import SuppressionAuditPage from './pages/tools/SuppressionAuditPage';
+import ExperienceRatingOptimizerPage from './pages/tools/ExperienceRatingOptimizerPage';
+import SurplusAlertPage from './pages/tools/SurplusAlertPage';
+import ExecutiveRiskBriefPage from './pages/tools/ExecutiveRiskBriefPage';
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -53,6 +59,12 @@ function App() {
           <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
           <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
           <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
+          <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
+          <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />
+          <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
+          <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
+          <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
+          <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
           <Route path="dashboard" element={<Dashboard />} />
 
           <Route path="consultation" element={<ConsultationLandingPage />} />
