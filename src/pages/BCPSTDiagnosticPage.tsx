@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { MoneyInput } from '@/components/shared/NumberInputs';
 
 type FirmSize = 'small' | 'mid' | 'large';
 type Sector = 'construction' | 'mining' | 'tech' | 'retail' | 'manufacturing' | 'finance' | 'other';
@@ -122,7 +123,7 @@ const BCPSTDiagnosticPage = () => {
           ].map(({ label, value, setter }) => (
             <label key={label} className="space-y-2">
               <span className="font-mono text-xs uppercase tracking-[0.1em] text-[#F3EFE6]/70">{label}</span>
-              <input type="number" min={0} value={value} onChange={(e) => setter(Number(e.target.value) || 0)} className="w-full rounded-lg bg-[#F3EFE6]/8 border border-[#F3EFE6]/20 px-4 py-3" />
+              <MoneyInput value={value} min={0} onValueChange={setter} inputClassName="w-full rounded-lg bg-[#F3EFE6]/8 border border-[#F3EFE6]/20 px-4 py-3" />
             </label>
           ))}
         </div>

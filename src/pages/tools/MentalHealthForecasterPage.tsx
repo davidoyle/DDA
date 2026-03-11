@@ -1,18 +1,17 @@
 import { useMemo, useState } from 'react';
+import { EvidenceTier } from '@/components/shared/EvidenceTier';
+import { FeatureLock } from '@/components/shared/FeatureLock';
+import { ValidatedNumberInput } from '@/components/shared/NumberInputs';
+import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
+import { UpgradeModal } from '@/components/shared/UpgradeModal';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { EvidenceTier } from '@/components/shared/EvidenceTier';
-import { FeatureLock } from '@/components/shared/FeatureLock';
-import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
-import { UpgradeModal } from '@/components/shared/UpgradeModal';
 import { useLicense } from '@/hooks/useLicense';
-import { saveSnapshot } from '@/lib/tools/snapshot-store';
-import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { calculateExperienceRatingImpact, fmtMoney } from '@/lib/worksafebc/engine';
+import { saveSnapshot } from '@/lib/tools/snapshot-store';
 import { healthcareSubSectors, mitigationItems, pickeringMultipliers, rampByYear, rtwAdjustmentFactor, sectorRates } from '@/lib/tools/mental-health-config';
 
 const sectors = Object.keys(sectorRates);
@@ -44,8 +43,6 @@ export default function MentalHealthForecasterPage() {
   const checklist = mitigationItems.filter((item) => {
     const applicableSectors = item.sectors as readonly string[];
     return applicableSectors.includes('all') || applicableSectors.includes(sector);
-    const sectors = item.sectors as readonly string[];
-    return sectors.includes('all') || sectors.includes(sector);
   });
 
   return (
@@ -58,7 +55,7 @@ export default function MentalHealthForecasterPage() {
         <CardContent className="grid md:grid-cols-4 gap-4">
           <div><Label>Sector</Label><Select value={sector} onValueChange={(v) => setSector(v as keyof typeof sectorRates)}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{sectors.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select></div>
           {sector === 'Healthcare & Social Assistance' && <div><Label>Sub-sector</Label><Select value={subSector} onValueChange={setSubSector}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{healthcareSubSectors.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select></div>}
-          <div><Label>Headcount</Label><Input type="number" value={headcount} onChange={(e) => setHeadcount(Number(e.target.value))} /></div>
+          <div><Label>Headcount</Label><ValidatedNumberInput value={headcount} min={0} onValueChange={setHeadcount} /></div>
           <div><Label>Province</Label><Select value={province} onValueChange={setProvince}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="BC">BC</SelectItem><SelectItem value="Alberta">Alberta</SelectItem><SelectItem value="Ontario">Ontario</SelectItem></SelectContent></Select></div>
           <div><Label>Projection years</Label><Select value={String(years)} onValueChange={(v) => setYears(Number(v))}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="1">1</SelectItem><SelectItem value="2">2</SelectItem><SelectItem value="3">3</SelectItem></SelectContent></Select></div>
           <div className="flex items-center gap-2"><Switch checked={hasRtw} onCheckedChange={setHasRtw} /><Label>Documented RTW program</Label></div>
@@ -79,8 +76,12 @@ export default function MentalHealthForecasterPage() {
         <FeatureLock title="Premium action plan" message="Unlock prioritized mitigation checklist and impact estimates." onUpgrade={() => setUpgradeOpen(true)} />
       )}
 
-      <div className="flex gap-3">
-        <button className="btn-secondary" onClick={() => saveSnapshot('mental-health-forecaster', { sector, subSector, headcount, province, years, hasRtw, projection })} disabled={!entitlements.canSaveAndCompare}>Save snapshot</button>
+      <div className="flex gap-3 items-center">
+        <button className="btn-secondary" onClick={() => saveSnapshot('mental-health-forecaster', {
+          inputs: { sector, subSector, headcount, province, years, hasRtw },
+          results: { projection, experience },
+          meta: { version: 'v1' },
+        })} disabled={!entitlements.canSaveAndCompare}>Save snapshot</button>
         {!entitlements.canSaveAndCompare && <span className="text-xs text-[#F3EFE6]/70">Pro required for save/compare.</span>}
       </div>
 
@@ -88,7 +89,6 @@ export default function MentalHealthForecasterPage() {
         updatePlan(tier);
         setUpgradeOpen(false);
       }} />
-      <Card><CardHeader><CardTitle>Mitigation checklist</CardTitle></CardHeader><CardContent className="space-y-2">{checklist.map((item) => <p key={item.name}>• {item.name} ({item.impact}% est.) — {item.source}</p>)}</CardContent></Card>
 
       <ToolDisclaimer toolName="Mental Health Claims Surge Forecaster" paramDate="2025-12" text="Model output is decision support only and not legal advice." />
     </div>
