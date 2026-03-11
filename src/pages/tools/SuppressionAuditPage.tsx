@@ -1,22 +1,18 @@
 import { useMemo, useState } from 'react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
 import { EvidenceTier } from '@/components/shared/EvidenceTier';
 import { FeatureLock } from '@/components/shared/FeatureLock';
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { UpgradeModal } from '@/components/shared/UpgradeModal';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import { useLicense } from '@/hooks/useLicense';
 import { questions, scoreBands } from '@/lib/tools/suppression-audit-config';
 
 export default function SuppressionAuditPage() {
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
-import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
-import { questions, scoreBands } from '@/lib/tools/suppression-audit-config';
-
-export default function SuppressionAuditPage() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<number[]>(Array(questions.length).fill(0));
 
