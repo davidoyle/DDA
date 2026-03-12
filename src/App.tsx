@@ -20,6 +20,7 @@ const ProvinceComparatorPage = lazy(() => import('./pages/tools/ProvinceComparat
 const SuppressionAuditPage = lazy(() => import('./pages/tools/SuppressionAuditPage'));
 const ExperienceRatingOptimizerPage = lazy(() => import('./pages/tools/ExperienceRatingOptimizerPage'));
 const SurplusAlertPage = lazy(() => import('./pages/tools/SurplusAlertPage'));
+const ExecutiveRiskBriefPage = lazy(() => import('./pages/tools/ExecutiveRiskBriefPage'));
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -65,6 +66,7 @@ function App() {
             <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
             <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
             <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
+            <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
             <Route path="dashboard" element={<Dashboard />} />
 
             <Route path="consultation" element={<ConsultationLandingPage />} />
