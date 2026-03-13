@@ -71,7 +71,7 @@ export default function PSTDiagnostic() {
   return (
     <div className="pst-diagnostic-page pt-20 pb-20 bg-[#F7F1E6] text-[#1f1f1f] min-h-screen">
       <section className="px-6 lg:px-[8vw] py-12 border-b border-[#d8cdb9]">
-        <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">BC Business Council — Policy Tools</p>
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">Policy Tools</p>
         <h1 className="font-heading text-4xl lg:text-5xl mt-3 max-w-4xl text-[#131313]">PST Diagnostic Tool</h1>
         <p className="text-[#2b2b2b] text-lg max-w-3xl mt-4">Estimate direct PST liability, behavioural adjustments, and strategic risk exposure from BC&apos;s 2026 professional services PST expansion.</p>
       </section>
