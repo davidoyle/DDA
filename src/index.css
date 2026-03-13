@@ -409,3 +409,43 @@ body {
     margin-bottom: 12px;
   }
 }
+
+
+/* PST diagnostic page theme overrides to match diagnostics page */
+.pst-diagnostic-page {
+  background: #F7F1E6;
+  color: #1f1f1f;
+}
+
+.pst-diagnostic-page .card {
+  background: #ffffff;
+  border: 1px solid #d8cdb9;
+  color: #1f1f1f;
+  border-radius: 16px;
+  backdrop-filter: none;
+}
+
+.pst-diagnostic-page .card:hover {
+  transform: translateY(-2px);
+  border-color: #cbbca2;
+}
+
+.pst-diagnostic-page .btn-primary {
+  background: #1f3a5f;
+  color: #ffffff;
+}
+
+.pst-diagnostic-page .btn-primary:hover {
+  box-shadow: 0 8px 20px rgba(31, 58, 95, 0.25);
+}
+
+.pst-diagnostic-page .btn-secondary {
+  color: #1f3a5f;
+  border-color: rgba(31, 58, 95, 0.3);
+}
+
+.pst-diagnostic-page .btn-secondary:hover {
+  color: #1f3a5f;
+  border-color: #1f3a5f;
+  background: rgba(31, 58, 95, 0.06);
+}

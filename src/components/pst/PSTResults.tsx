@@ -118,7 +118,7 @@ export default function PSTResults({ results, segment, onEvent, onBehaviorSignal
 
       <article className="card print:hidden">
         <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
-        <p className="text-[#F3EFE6]/75 mb-4">Combine your latest WCB and PST snapshots in one view.</p>
+        <p className="text-[#5b5347] mb-4">Combine your latest WCB and PST snapshots in one view.</p>
         <Link
           to="/dashboard"
           className="btn-primary"
@@ -137,7 +137,7 @@ export default function PSTResults({ results, segment, onEvent, onBehaviorSignal
 
       <article className="card print:hidden">
         <h3 className="font-heading text-2xl mb-3">Next step</h3>
-        <p className="text-[#F3EFE6]/75 mb-4">Get a direct review of your exposure with DDA.</p>
+        <p className="text-[#5b5347] mb-4">Get a direct review of your exposure with DDA.</p>
         <Link
           to="/contact"
           className="btn-primary"
@@ -147,13 +147,13 @@ export default function PSTResults({ results, segment, onEvent, onBehaviorSignal
         </Link>
       </article>
 
-      <p className="text-sm text-[#F3EFE6]/75">
+      <p className="text-sm text-[#5b5347]">
         Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
       </p>
-      <p className="text-sm text-[#F3EFE6]/75">
+      <p className="text-sm text-[#5b5347]">
         Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
       </p>
-      <p className="text-sm text-[#F3EFE6]/75">
+      <p className="text-sm text-[#5b5347]">
         This tool does not constitute tax or legal advice. Results are modelled estimates based on publicly available data and policy-source assumptions. Parameters last updated: {PARAMETERS_LAST_UPDATED}.
       </p>
     </section>

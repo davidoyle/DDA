@@ -102,7 +102,7 @@ export default function PSTForm({ onSubmit, onToggleUsed }: PSTFormProps) {
   ]
 
   return (
-    <section id="pst-form" className="px-6 lg:px-[8vw] py-10 space-y-8 border-b border-[#F3EFE6]/10 print:hidden">
+    <section id="pst-form" className="px-6 lg:px-[8vw] py-10 space-y-8 border-b border-[#d8cdb9] print:hidden">
       <form onSubmit={form.handleSubmit(handleValidSubmit)} className="space-y-8">
         <div className="space-y-4">
           <h2 className="font-heading text-2xl">Step 1 — Firm profile</h2>
@@ -156,19 +156,19 @@ export default function PSTForm({ onSubmit, onToggleUsed }: PSTFormProps) {
                   <select className="w-full rounded-md border bg-transparent px-3 py-2" {...form.register('bundlingScenario')}>
                     <option value="low">Low (30%)</option><option value="base">Base (42%)</option><option value="high">High (52%)</option>
                   </select>
-                  <p className="text-sm text-[#F3EFE6]/70">Changes the taxable share applied to AEG spend based on observed bundling persistence.</p>
+                  <p className="text-sm text-[#5c5548]">Changes the taxable share applied to AEG spend based on observed bundling persistence.</p>
                 </label>
                 <label className="space-y-2 block">
                   <span>Behavioural response scenario</span>
                   <select className="w-full rounded-md border bg-transparent px-3 py-2" {...form.register('responseScenario')}>
                     <option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option>
                   </select>
-                  <p className="text-sm text-[#F3EFE6]/70">Highlights the scenario card to match your strategic planning assumption.</p>
+                  <p className="text-sm text-[#5c5548]">Highlights the scenario card to match your strategic planning assumption.</p>
                 </label>
                 <label className="space-y-2 block">
                   <span>Pass-through override (0–1)</span>
                   <input type="number" min={0} max={1} step="0.01" className="w-full rounded-md border bg-transparent px-3 py-2" {...form.register('passthroughOverride', { setValueAs: (v) => (v === '' ? undefined : Number(v)) })} />
-                  <p className="text-sm text-[#F3EFE6]/70">Overrides sector-size pass-through defaults sourced from StatsCan I-O and OECD elasticity synthesis.</p>
+                  <p className="text-sm text-[#5c5548]">Overrides sector-size pass-through defaults sourced from StatsCan I-O and OECD elasticity synthesis.</p>
                 </label>
               </div>
             </AccordionContent>
