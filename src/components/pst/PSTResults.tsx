@@ -151,9 +151,6 @@ export default function PSTResults({ results, segment, onEvent, onBehaviorSignal
         Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
       </p>
       <p className="text-sm text-[#5b5347]">
-        Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
-      </p>
-      <p className="text-sm text-[#5b5347]">
         This tool does not constitute tax or legal advice. Results are modelled estimates based on publicly available data and policy-source assumptions. Parameters last updated: {PARAMETERS_LAST_UPDATED}.
       </p>
     </section>

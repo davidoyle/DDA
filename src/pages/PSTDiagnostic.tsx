@@ -77,7 +77,7 @@ export default function PSTDiagnostic() {
       </section>
 
       {!intentReady ? (
-        <IntentPrompt onSelect={(value: IntentValue) => setIntentAndTrack(value)} />
+        <IntentPrompt tone="light" onSelect={(value: IntentValue) => setIntentAndTrack(value)} />
       ) : (
         <PSTForm onSubmit={handleSubmit} onToggleUsed={handleToggleUsed} />
       )}
