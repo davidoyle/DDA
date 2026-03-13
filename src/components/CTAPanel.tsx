@@ -20,12 +20,12 @@ export default function CTAPanel({ segment, onConsultationClick }: Props) {
   return (
     <article className="card print:hidden space-y-4">
       <h3 className="font-heading text-2xl">{content.title}</h3>
-      <p className="text-[#F3EFE6]/75">{content.body}</p>
+      <p className="text-[#5b5347]">{content.body}</p>
       <div className="flex flex-wrap gap-3">
         <Link to={primaryHref} className="btn-primary" onClick={onConsultationClick}>{content.primary.label}</Link>
         <Link to={secondaryHref} className="btn-secondary">{content.secondary.label}</Link>
       </div>
-      <p className="text-sm text-[#F3EFE6]/75">
+      <p className="text-sm text-[#5b5347]">
         This tool does not constitute tax or legal advice. Results are modelled estimates based on publicly available data and policy-source assumptions.
       </p>
     </article>
