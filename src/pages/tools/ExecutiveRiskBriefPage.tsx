@@ -40,9 +40,9 @@ export default function ExecutiveRiskBriefPage() {
   const brief = buildExecutiveBrief(sampleSignals);
 
   return (
-    <div className="px-6 lg:px-[8vw] py-12 space-y-6">
+    <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Executive Risk Brief</h1>
-      <p className="text-[#F3EFE6]/80">Current plan: {plan.toUpperCase()}</p>
+      <p className="text-[#4a453d]">Current plan: {plan.toUpperCase()}</p>
       {entitlements.canViewPortfolioBrief ? (
         <>
           <Card>
