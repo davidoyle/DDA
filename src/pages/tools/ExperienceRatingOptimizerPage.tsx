@@ -25,9 +25,9 @@ export default function ExperienceRatingOptimizerPage() {
   }, [claimsCost, payroll, currentRate]);
 
   return (
-    <div className="px-6 lg:px-[8vw] py-12 space-y-6">
+    <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Experience Rating Optimizer</h1>
-      <p className="text-[#F3EFE6]/80">Phase 2 file upload: coming soon. v1 uses manual NEER/retro entry.</p>
+      <p className="text-[#4a453d]">Phase 2 file upload: coming soon. v1 uses manual NEER/retro entry.</p>
 
       <Card>
         <CardHeader><CardTitle>3-year data entry</CardTitle></CardHeader>
@@ -52,7 +52,7 @@ export default function ExperienceRatingOptimizerPage() {
           <p>True risk-adjusted rate: {model.trueRate.toFixed(2)} per $100 payroll.</p>
           <p>Variance: {model.variance.toFixed(2)} ({model.variancePercent.toFixed(1)}%).</p>
           {model.variancePercent > appealThresholdPercent && (
-            <p className="text-amber-300">Appeal flag: variance is above {appealThresholdPercent}% and may justify review.</p>
+            <p className="text-amber-700">Appeal flag: variance is above {appealThresholdPercent}% and may justify review.</p>
           )}
         </CardContent>
       </Card>

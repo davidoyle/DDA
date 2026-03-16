@@ -165,6 +165,45 @@ body {
   background: rgba(243, 239, 230, 0.05);
 }
 
+.diagnostic-theme {
+  background-color: #F7F1E6;
+  color: #1f1f1f;
+}
+
+.diagnostic-theme .eyebrow {
+  color: #6b6255;
+}
+
+.diagnostic-theme .card {
+  background: #fff;
+  border-color: #d8cdb9;
+  color: #1f1f1f;
+  backdrop-filter: none;
+}
+
+.diagnostic-theme .card:hover {
+  border-color: #1f3a5f;
+}
+
+.diagnostic-theme .btn-primary {
+  background: #1f3a5f;
+  color: #fff;
+}
+
+.diagnostic-theme .btn-primary:hover {
+  box-shadow: 0 8px 24px rgba(31, 58, 95, 0.25);
+}
+
+.diagnostic-theme .btn-secondary {
+  color: #1f3a5f;
+  border-color: rgba(31, 58, 95, 0.35);
+}
+
+.diagnostic-theme .btn-secondary:hover {
+  border-color: #1f3a5f;
+  background: rgba(31, 58, 95, 0.06);
+}
+
 .btn-dark {
   display: inline-flex;
   align-items: center;

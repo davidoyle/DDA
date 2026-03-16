@@ -46,9 +46,9 @@ export default function MentalHealthForecasterPage() {
   });
 
   return (
-    <div className="px-6 lg:px-[8vw] py-12 space-y-6">
+    <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Mental Health Claims Surge Forecaster</h1>
-      <p className="text-[#F3EFE6]/80">Pickering (2025) and the November 2025 policy rewrite signal sustained claim-growth pressure.</p>
+      <p className="text-[#4a453d]">Pickering (2025) and the November 2025 policy rewrite signal sustained claim-growth pressure.</p>
 
       <Card>
         <CardHeader><CardTitle>Employer profile</CardTitle></CardHeader>
@@ -82,7 +82,7 @@ export default function MentalHealthForecasterPage() {
           results: { projection, experience },
           meta: { version: 'v1' },
         })} disabled={!entitlements.canSaveAndCompare}>Save snapshot</button>
-        {!entitlements.canSaveAndCompare && <span className="text-xs text-[#F3EFE6]/70">Pro required for save/compare.</span>}
+        {!entitlements.canSaveAndCompare && <span className="text-xs text-[#5b5347]">Pro required for save/compare.</span>}
       </div>
 
       <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {

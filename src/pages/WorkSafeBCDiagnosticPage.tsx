@@ -237,12 +237,12 @@ const WorkSafeBCDiagnosticPage = () => {
   }
 
   return (
-    <div className="pt-20 pb-20">
-      <section className="px-6 lg:px-[8vw] py-5 bg-[#A63A2C] text-[#F3EFE6]">
+    <div className="diagnostic-theme pt-20 pb-20 min-h-screen">
+      <section className="px-6 lg:px-[8vw] py-5 bg-[#f1e8d8] text-[#3d372f] border-b border-[#d8cdb9]">
         <p className="font-mono text-xs uppercase tracking-[0.12em]">Rate Normalization Exposure · Executive Assessment · Confidential</p>
       </section>
 
-      <section className="px-6 lg:px-[8vw] pt-12 pb-14 border-b border-[#F3EFE6]/15">
+      <section className="px-6 lg:px-[8vw] pt-12 pb-14 border-b border-[#d8cdb9]">
         <p className="eyebrow">WorkSafeBC Repricing Risk Diagnostic</p>
         <h1 className="headline-lg max-w-4xl">Repricing Risk Calculator</h1>
         <p className="text-[#F3EFE6]/80 text-lg max-w-3xl mt-5">
@@ -253,10 +253,10 @@ const WorkSafeBCDiagnosticPage = () => {
       </section>
 
       {!intentReady ? (
-        <IntentPrompt onSelect={(value: IntentValue) => setIntentAndTrack(value)} />
+        <IntentPrompt tone="light" onSelect={(value: IntentValue) => setIntentAndTrack(value)} />
       ) : (
         <>
-          <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#F3EFE6]/10">
+          <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#d8cdb9]">
             <p className="eyebrow">Mechanism</p>
             <h2 className="headline-md">How the Investment Dependency Works</h2>
             <div className="grid lg:grid-cols-3 gap-5">
@@ -267,7 +267,7 @@ const WorkSafeBCDiagnosticPage = () => {
               ].map(([value, label]) => (
                 <article key={value} className="card">
                   <h3 className="font-heading text-3xl mt-1">{value}</h3>
-                  <p className="text-[#F3EFE6]/75 mt-2">{label}</p>
+                  <p className="text-[#4a453d] mt-2">{label}</p>
                 </article>
               ))}
             </div>
@@ -276,7 +276,7 @@ const WorkSafeBCDiagnosticPage = () => {
             </p>
           </section>
 
-          <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#F3EFE6]/10">
+          <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#d8cdb9]">
             <p className="eyebrow">Scenarios</p>
             <h2 className="headline-md">Four Paths to Rate Normalization</h2>
 
@@ -289,14 +289,14 @@ const WorkSafeBCDiagnosticPage = () => {
             />
           </section>
 
-          <section className="px-6 lg:px-[8vw] py-14 space-y-8 border-b border-[#F3EFE6]/10">
+          <section className="px-6 lg:px-[8vw] py-14 space-y-8 border-b border-[#d8cdb9]">
             <p className="eyebrow">Industry Exposure</p>
             <h2 className="headline-md">System-wide Repricing Exposure by Sector</h2>
 
             <SectorExposureCharts industryRows={industryRows} />
           </section>
 
-          <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#F3EFE6]/10">
+          <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#d8cdb9]">
             <p className="eyebrow">Employer Tool</p>
             <h2 className="headline-md">Two-Mode Repricing Exposure Tool</h2>
 
@@ -334,7 +334,7 @@ const WorkSafeBCDiagnosticPage = () => {
             <div className="overflow-x-auto card mt-5">
               <table className="w-full min-w-[760px] text-sm">
                 <thead>
-                  <tr className="border-b border-[#F3EFE6]/25 text-[#D4A03A] font-mono uppercase tracking-[0.08em] text-xs">
+                  <tr className="border-b border-[#d8cdb9] text-[#9A6A28] font-mono uppercase tracking-[0.08em] text-xs">
                     <th className="text-left py-3">What&apos;s Opaque</th>
                     <th className="text-left py-3">Why It Matters</th>
                   </tr>
@@ -347,7 +347,7 @@ const WorkSafeBCDiagnosticPage = () => {
                     ['Board trigger for repricing action', 'Without a published trigger, employers cannot model when adjustment decisions are likely to start'],
                     ['Sensitivity to objective underperformance', 'A normal down-cycle year can materially compress runway, but no public sensitivity table is provided'],
                   ].map(([left, right]) => (
-                    <tr key={left} className="border-b border-[#F3EFE6]/10">
+                    <tr key={left} className="border-b border-[#ece0cc]">
                       <td className="py-3">{left}</td>
                       <td className="py-3">{right}</td>
                     </tr>
@@ -357,7 +357,7 @@ const WorkSafeBCDiagnosticPage = () => {
             </div>
             <section ref={advocacyRef} className="mt-8 card space-y-4">
               <h3 className="font-heading text-2xl">Advocacy priorities</h3>
-              <ul className="space-y-2 list-disc list-inside text-[#F3EFE6]/85">
+              <ul className="space-y-2 list-disc list-inside text-[#4a453d]">
                 <li>Model repricing pathways quarterly and socialize assumptions with operations and finance teams.</li>
                 <li>Document sector-specific cost trends to support policy submissions before repricing pressure peaks.</li>
                 <li>Coordinate with peers on shared exposure narratives when engaging government stakeholders.</li>
@@ -373,7 +373,7 @@ const WorkSafeBCDiagnosticPage = () => {
 
             <article className="card print:hidden mt-8">
               <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
-              <p className="text-[#F3EFE6]/75 mb-4">Combine your latest WCB and PST snapshots in one view.</p>
+              <p className="text-[#5b5347] mb-4">Combine your latest WCB and PST snapshots in one view.</p>
               <Link
                 to="/dashboard"
                 className="btn-primary"
@@ -393,10 +393,10 @@ const WorkSafeBCDiagnosticPage = () => {
               />
             </div>
 
-            <p className="text-sm text-[#F3EFE6]/75 mt-6">
+            <p className="text-sm text-[#5b5347] mt-6">
               Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
             </p>
-            <p className="text-sm text-[#F3EFE6]/75 mt-2">
+            <p className="text-sm text-[#5b5347] mt-2">
               This tool provides scenario modelling based on published data and should be used as decision support, not legal, actuarial, or tax advice.
             </p>
           </section>

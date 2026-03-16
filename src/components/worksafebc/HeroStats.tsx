@@ -9,7 +9,7 @@ const HeroStats = ({ stats }: HeroStatsProps) => (
     {stats.map((stat) => (
       <article key={stat.value} className="card space-y-2">
         <p className="font-heading text-3xl">{stat.value}</p>
-        <p className="text-sm text-[#F3EFE6]/70">{stat.label}</p>
+        <p className="text-sm text-[#5b5347]">{stat.label}</p>
       </article>
     ))}
   </div>

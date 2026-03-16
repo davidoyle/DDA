@@ -10,25 +10,25 @@ const SectorExposureCharts = ({ industryRows }: SectorExposureChartsProps) => (
     <article className="card h-[460px]">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={industryRows} layout="vertical" margin={{ left: 80, right: 16 }}>
-          <CartesianGrid stroke="#F3EFE6" strokeOpacity={0.08} />
-          <XAxis type="number" stroke="#F3EFE6" opacity={0.7} />
-          <YAxis type="category" dataKey="name" width={210} stroke="#F3EFE6" opacity={0.8} />
+          <CartesianGrid stroke="#c7bba7" strokeOpacity={0.08} />
+          <XAxis type="number" stroke="#c7bba7" opacity={0.7} />
+          <YAxis type="category" dataKey="name" width={210} stroke="#c7bba7" opacity={0.8} />
           <Tooltip formatter={(value: number) => `$${value.toFixed(1)}M`} />
           <Legend />
-          <Bar dataKey="currentPremiumM" name="Current premium ($M)" fill="#F3EFE6" fillOpacity={0.35} />
+          <Bar dataKey="currentPremiumM" name="Current premium ($M)" fill="#1f3a5f" fillOpacity={0.25} />
           <Bar dataKey="exposureM" name="Repricing exposure ($M)" fill="#A63A2C" />
         </BarChart>
       </ResponsiveContainer>
     </article>
-    <p className="text-xs text-[#F3EFE6]/70 -mt-5">“Other Sectors (aggregate)” covers approximately 1.92M workers across sectors not individually broken out.</p>
+    <p className="text-xs text-[#5b5347] -mt-5">“Other Sectors (aggregate)” covers approximately 1.92M workers across sectors not individually broken out.</p>
 
     <article className="card h-[360px]">
       <h3 className="font-heading text-2xl mb-4">Per-employee impact by sector</h3>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={industryRows}>
-          <CartesianGrid stroke="#F3EFE6" strokeOpacity={0.08} />
-          <XAxis dataKey="name" interval={0} angle={-35} textAnchor="end" height={130} stroke="#F3EFE6" opacity={0.8} />
-          <YAxis stroke="#F3EFE6" opacity={0.8} />
+          <CartesianGrid stroke="#c7bba7" strokeOpacity={0.08} />
+          <XAxis dataKey="name" interval={0} angle={-35} textAnchor="end" height={130} stroke="#c7bba7" opacity={0.8} />
+          <YAxis stroke="#c7bba7" opacity={0.8} />
           <Tooltip formatter={(value: number) => `~$${value}/yr`} />
           <Bar dataKey="perEmployeeImpact" name="Per-employee impact ($/yr)">
             {industryRows.map((row) => {
@@ -43,7 +43,7 @@ const SectorExposureCharts = ({ industryRows }: SectorExposureChartsProps) => (
     <div className="overflow-x-auto card">
       <table className="w-full min-w-[1400px] text-sm">
         <thead>
-          <tr className="border-b border-[#F3EFE6]/25 text-[#D4A03A] font-mono uppercase tracking-[0.08em] text-xs">
+          <tr className="border-b border-[#d8cdb9] text-[#9A6A28] font-mono uppercase tracking-[0.08em] text-xs">
             <th className="text-left py-3">Industry</th>
             <th className="text-left py-3">Base Rate</th>
             <th className="text-left py-3">Risk Factor</th>
@@ -58,7 +58,7 @@ const SectorExposureCharts = ({ industryRows }: SectorExposureChartsProps) => (
         </thead>
         <tbody>
           {industryRows.map((item) => (
-            <tr key={item.name} className="border-b border-[#F3EFE6]/10">
+            <tr key={item.name} className="border-b border-[#ece0cc]">
               <td className="py-3">{item.name}</td>
               <td>${item.baseRate.toFixed(2)}</td>
               <td>{item.riskFactor.toFixed(4)}</td>
@@ -73,7 +73,7 @@ const SectorExposureCharts = ({ industryRows }: SectorExposureChartsProps) => (
           ))}
         </tbody>
       </table>
-      <p className="text-xs text-[#F3EFE6]/65 mt-4">
+      <p className="text-xs text-[#6b6255] mt-4">
         Cost rate = industry base rate × 1.1806 (1.83 ÷ 1.55). Repricing exposure = payroll × (cost rate − base rate). Base rates sourced directly from WorkSafeBC 2026 Classification and Rate List. Payroll estimates from Statistics Canada Labour Force Survey (BC, 2024–2025). Uncertainty: ±10–15%.
       </p>
     </div>
