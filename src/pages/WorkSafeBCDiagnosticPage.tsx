@@ -246,7 +246,7 @@ const WorkSafeBCDiagnosticPage = () => {
         <p className="eyebrow">WorkSafeBC Repricing Risk Diagnostic</p>
         <h1 className="headline-lg max-w-4xl">Repricing Risk Calculator</h1>
         <p className="text-[#F3EFE6]/80 text-lg max-w-3xl mt-5">
-          Current rates are policy-smoothed below actuarial cost. When surplus deployment declines, repricing is mathematically unavoidable.
+          Current rates are still priced below system cost, with the gap bridged by surplus and return performance. The core planning risk is investment dependency, not whether normalization eventually appears.
         </p>
 
         <HeroStats stats={heroStats} />
@@ -258,12 +258,12 @@ const WorkSafeBCDiagnosticPage = () => {
         <>
           <section className="px-6 lg:px-[8vw] py-14 space-y-6 border-b border-[#F3EFE6]/10">
             <p className="eyebrow">Mechanism</p>
-            <h2 className="headline-md">How Surplus Suppression Works</h2>
+            <h2 className="headline-md">How the Investment Dependency Works</h2>
             <div className="grid lg:grid-cols-3 gap-5">
               {[
-                ['$1.55', 'System average base rate. Stable for 9 consecutive years, 2018–2026.'],
-                ['$1.83', "System claim cost rate. Stated in WorkSafeBC's 2026 premium announcement."],
-                ['$0.28', 'Gap per $100 payroll. 15% below cost. Funded by deploying ~$570M surplus annually.'],
+                ['$1.55', 'Published base rate charged to employers.'],
+                ['$1.83', "Published system cost rate from WorkSafeBC's 2026 rate announcement."],
+                ['$570M', 'Annual system-wide gap funded through surplus/returns when charging $1.55 vs. $1.83.'],
               ].map(([value, label]) => (
                 <article key={value} className="card">
                   <h3 className="font-heading text-3xl mt-1">{value}</h3>
@@ -272,7 +272,7 @@ const WorkSafeBCDiagnosticPage = () => {
               ))}
             </div>
             <p className="text-[#F3EFE6]/85 max-w-4xl">
-              Surplus currently stands at 141% of liabilities. The target floor is 130%, leaving an 11-percentage-point buffer before repricing becomes mandatory.
+              The funded ratio is 140.8% versus a 130% policy floor, leaving a finite buffer. At the stated investment objective, only about 22% of the annual suppression gap is covered by objective outperformance; the remainder implies continued drawdown or higher returns. Repricing can begin before the 130% floor if trajectory risk rises.
             </p>
           </section>
 
@@ -330,7 +330,7 @@ const WorkSafeBCDiagnosticPage = () => {
 
           <section ref={riskRef} className="px-6 lg:px-[8vw] py-14">
             <p className="eyebrow">Data Limitations</p>
-            <h2 className="headline-md">What remains opaque in the public data</h2>
+            <h2 className="headline-md">What remains undisclosed in employer-facing documents</h2>
             <div className="overflow-x-auto card mt-5">
               <table className="w-full min-w-[760px] text-sm">
                 <thead>
@@ -341,11 +341,11 @@ const WorkSafeBCDiagnosticPage = () => {
                 </thead>
                 <tbody>
                   {[
-                    ['Per-rate-group funded percentages', 'System is 141% overall; unknown if all groups are equally funded'],
-                    ['Per-industry claim costs', 'Cannot verify which sectors are truly low-cost vs. surplus-suppressed'],
-                    ['Experience rating distribution', 'Individual firms deviate widely from sector averages'],
-                    ['Surplus deployment policy', 'No published triggers for when or how rates increase'],
-                    ['Cost rate historical trend', 'Unknown whether $1.83 is stable or rising'],
+                    ['Return required to sustain $1.55', 'Employers cannot plan rate durability without the annual return assumption that keeps reserves from eroding'],
+                    ['Objective coverage share of the annual gap', 'Published objective performance appears to cover only a minority of the suppression gap, changing planning timelines'],
+                    ['Per-rate-group funded percentages', 'System average funded ratio can mask group-level pressure and uneven repricing risk'],
+                    ['Board trigger for repricing action', 'Without a published trigger, employers cannot model when adjustment decisions are likely to start'],
+                    ['Sensitivity to objective underperformance', 'A normal down-cycle year can materially compress runway, but no public sensitivity table is provided'],
                   ].map(([left, right]) => (
                     <tr key={left} className="border-b border-[#F3EFE6]/10">
                       <td className="py-3">{left}</td>
