@@ -25,18 +25,18 @@ export default function ProvinceComparatorPage() {
   }), [selected, year, payroll]);
 
   return (
-    <div className="px-6 lg:px-[8vw] py-12 space-y-6">
+    <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Multi-Province Surplus & Rate Comparator</h1>
       <div className="card">
         <Label>Annual assessable payroll</Label>
         <MoneyInput value={payroll} min={0} onValueChange={setPayroll} className="max-w-sm mt-2" />
-        <div className="flex gap-2 mt-4">{([2024, 2025, 2026] as const).map((y) => <button key={y} className={`btn-secondary ${year === y ? 'border-[#D4A03A]' : ''}`} onClick={() => setYear(y)}>{y}</button>)}</div>
-        <div className="flex flex-wrap gap-2 mt-4">{provinces.map((p) => <button key={p} className={`btn-secondary ${selected.includes(p) ? 'border-[#D4A03A]' : ''}`} onClick={() => setSelected((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p].slice(0, 5))}>{p}</button>)}</div>
+        <div className="flex gap-2 mt-4">{([2024, 2025, 2026] as const).map((y) => <button key={y} className={`btn-secondary ${year === y ? 'border-[#1f3a5f]' : ''}`} onClick={() => setYear(y)}>{y}</button>)}</div>
+        <div className="flex flex-wrap gap-2 mt-4">{provinces.map((p) => <button key={p} className={`btn-secondary ${selected.includes(p) ? 'border-[#1f3a5f]' : ''}`} onClick={() => setSelected((prev) => prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p].slice(0, 5))}>{p}</button>)}</div>
       </div>
       <Card>
         <CardHeader><CardTitle>Summary comparison</CardTitle></CardHeader>
         <CardContent>
-          <table className="w-full text-sm"><thead><tr className="text-left"><th>Province</th><th>Rate</th><th>3y avg</th><th>Funded ratio</th><th>Surplus %</th><th>Unit</th><th>Cost</th></tr></thead><tbody>{rows.map((r) => <tr key={r.province} className="border-t border-[#F3EFE6]/10"><td>{r.province}</td><td>{r.currentRate.toFixed(2)}</td><td>{r.avg3.toFixed(2)}</td><td>{r.fundedRatio}%</td><td>{r.surplusPercentPayroll}%</td><td>{r.unit}</td><td>{r.annualCost === null ? 'N/A' : `$${r.annualCost.toLocaleString()}`}</td></tr>)}</tbody></table>
+          <table className="w-full text-sm"><thead><tr className="text-left"><th>Province</th><th>Rate</th><th>3y avg</th><th>Funded ratio</th><th>Surplus %</th><th>Unit</th><th>Cost</th></tr></thead><tbody>{rows.map((r) => <tr key={r.province} className="border-t border-[#ece0cc]"><td>{r.province}</td><td>{r.currentRate.toFixed(2)}</td><td>{r.avg3.toFixed(2)}</td><td>{r.fundedRatio}%</td><td>{r.surplusPercentPayroll}%</td><td>{r.unit}</td><td>{r.annualCost === null ? 'N/A' : `$${r.annualCost.toLocaleString()}`}</td></tr>)}</tbody></table>
           <div className="mt-3 flex gap-2"><EvidenceTier tier="VERIFIED" /><EvidenceTier tier="MODELLED" /></div>
         </CardContent>
       </Card>

@@ -28,7 +28,7 @@ export default function SurplusAlertPage() {
   const impact130 = payroll > 0 ? payroll * 0.0045 : 0;
 
   return (
-    <div className="px-6 lg:px-[8vw] py-12 space-y-6">
+    <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Surplus Run-Down Early-Warning Alert Service</h1>
       <Card><CardHeader><CardTitle>Current status</CardTitle></CardHeader><CardContent>Published funded ratio: {fundedRatioHistory[fundedRatioHistory.length - 1].ratio}%. Thresholds: {thresholds.join('% / ')}%.</CardContent></Card>
       <Card><CardHeader><CardTitle>Threshold alert</CardTitle></CardHeader><CardContent>{breach ? `Amber alert: base-case projects a 135% breach in ~${breach.year} year(s).` : 'No alert — both thresholds unbreached in base case.'}</CardContent></Card>
