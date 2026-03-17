@@ -1,0 +1,46 @@
+export const serviceTiers = [
+  {
+    id: 'quick',
+    tier: 'Tier 1',
+    name: 'Quick Assessment',
+    timeline: '1–2 weeks',
+    featured: false,
+    items: [
+      'One-page evidence summary of the structural pattern in question',
+      '30-minute call to review findings and implications',
+      'Single system element or structural question',
+      'Immediate problem framing',
+    ],
+  },
+  {
+    id: 'comprehensive',
+    tier: 'Tier 2',
+    name: 'Comprehensive Analysis',
+    timeline: '4–8 weeks',
+    featured: true,
+    featuredLabel: 'Most common',
+    items: [
+      'Full multi-source evidence synthesis',
+      'Structural pattern identification across years and departments',
+      'Reported vs. observable outcome analysis',
+      'Scenario modeling of policy changes',
+      'Comparative benchmarking against peer organizations',
+      'Decision implications and trade-offs',
+      '20–50 page documented analysis',
+    ],
+  },
+  {
+    id: 'strategic',
+    tier: 'Tier 3',
+    name: 'Strategic Systems Assessment',
+    timeline: '8–12 weeks',
+    featured: false,
+    items: [
+      'Multiple interconnected systems analyzed together',
+      '3–5 year structural risk modeling',
+      'Evaluation architecture design',
+      'Reform pathway modeling',
+      'Ongoing support during implementation',
+    ],
+  },
+] as const;

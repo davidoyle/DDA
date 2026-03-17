@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const WorkPage = lazy(() => import('./pages/WorkPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
@@ -53,11 +54,13 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="services" element={<ServicesPage />} />
+            <Route path="work" element={<WorkPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="terms" element={<TermsPage />} />
             <Route path="diagnostics" element={<DiagnosticsPage />} />
+            <Route path="tools" element={<DiagnosticsPage />} />
             <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
             <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
             <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />

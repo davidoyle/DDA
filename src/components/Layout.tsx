@@ -16,14 +16,12 @@ const Layout = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
   const navLinks = [
-    { label: 'Home', path: '/' },
-    { label: 'Services', path: '/services' },
-    { label: 'Diagnostics', path: '/diagnostics' },
-    { label: 'Dashboard', path: '/dashboard' },
-    { label: 'About', path: '/about' },
-    { label: 'Contact', path: '/contact' },
+    { label: 'Home', href: '/' },
+    { label: 'Work', href: '/work' },
+    { label: 'Services', href: '/services' },
+    { label: 'Tools', href: '/tools' },
+    { label: 'About', href: '/about' },
   ];
 
   return (
@@ -35,7 +33,7 @@ const Layout = () => {
           isScrolled ? 'bg-[#0B3C43]/95 backdrop-blur-md py-3 border-b border-[#F3EFE6]/10' : 'bg-transparent py-5'
         }`}
       >
-        <div className="w-full px-6 lg:px-10 flex items-center justify-between">
+        <div className="w-full px-6 lg:px-10 flex items-center justify-between gap-4">
           <Link to="/" className="font-mono text-xs uppercase tracking-[0.14em] text-[#F3EFE6] hover:text-[#D4A03A] transition-colors">
             DDA
           </Link>
@@ -43,14 +41,20 @@ const Layout = () => {
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
-                key={link.path}
-                to={link.path}
+                key={link.href}
+                to={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`nav-link ${location.pathname === link.path ? 'text-[#D4A03A]' : ''}`}
+                className={`nav-link ${location.pathname === link.href ? 'text-[#D4A03A]' : ''}`}
               >
                 {link.label}
               </Link>
             ))}
+          </div>
+
+          <div className="hidden md:flex items-center">
+            <Link to="/contact" className="btn-secondary text-sm">
+              Start an assessment
+            </Link>
           </div>
 
           <button
@@ -68,14 +72,17 @@ const Layout = () => {
           <div className="flex flex-col items-center justify-center h-full gap-6">
             {navLinks.map((link) => (
               <Link
-                key={link.path}
-                to={link.path}
+                key={link.href}
+                to={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`font-heading text-2xl font-bold text-[#F3EFE6] hover:text-[#D4A03A] transition-colors ${location.pathname === link.path ? 'text-[#D4A03A]' : ''}`}
+                className={`font-heading text-2xl font-bold text-[#F3EFE6] hover:text-[#D4A03A] transition-colors ${location.pathname === link.href ? 'text-[#D4A03A]' : ''}`}
               >
                 {link.label}
               </Link>
             ))}
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary text-sm mt-2">
+              Start an assessment
+            </Link>
           </div>
         </div>
       )}

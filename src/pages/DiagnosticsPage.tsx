@@ -158,10 +158,10 @@ function DiagnosticsPage() {
   return (
     <div className="pt-20 pb-28 bg-[#F7F1E6] text-[#1f1f1f] min-h-screen">
       <section className="px-6 lg:px-[6vw] py-12 border-b border-[#d8cdb9]">
-        <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">DDA Diagnostics Platform</p>
-        <h1 className="font-heading text-4xl lg:text-5xl mt-3 text-[#131313]">Diagnostic tools for BC employer cost risk.</h1>
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">Diagnostic tools</p>
+        <h1 className="font-heading text-4xl lg:text-5xl mt-3 text-[#131313]">Self-serve exposure tools for BC employers</h1>
         <p className="mt-4 text-lg text-[#2b2b2b] max-w-4xl">
-          BC employers face an estimated <span className="font-semibold">$340M–$560M</span> in combined WCB and PST exposure through 2027.
+          Seven tools covering WCB repricing risk, PST burden, experience rating variance, claims suppression patterns, and mental health claims trajectory. Free tier available. Pro unlocks full modeling.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
@@ -250,8 +250,16 @@ function DiagnosticsPage() {
                 </div>
               </section>
             ))}
-          </div>
 
+            <section className="bg-white border border-[#d8cdb9] rounded-xl p-5 space-y-4">
+              <p className="text-sm text-[#2b2b2b]">
+                The diagnostic tools are a starting point — self-serve exposure modeling built from publicly available parameters. For organizations that need the full picture, a commissioned analysis goes further: multi-source synthesis, structural pattern identification, scenario modeling, and a documented deliverable your team can use.
+              </p>
+              <Link to="/contact" className="inline-flex items-center justify-center rounded-md px-4 py-2.5 border border-[#1f3a5f] text-[#1f3a5f] font-medium">
+                Commission full analysis
+              </Link>
+            </section>
+          </div>
           <aside className="hidden xl:block sticky top-24">
             <div className="bg-white border border-[#d8cdb9] rounded-xl p-5 space-y-5">
               <div>
