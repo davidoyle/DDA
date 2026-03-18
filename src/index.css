@@ -12,6 +12,11 @@
   --text-secondary: rgba(243, 239, 230, 0.72);
   --text-dark: #0B3C43;
   --text-dark-secondary: rgba(11, 60, 67, 0.68);
+  --text-tertiary: rgba(243, 239, 230, 0.62);
+  --border-color: rgba(243, 239, 230, 0.2);
+  --bg-info: rgba(111, 195, 208, 0.14);
+  --text-info: #6FC3D0;
+  --radius: 12px;
 }
 
 * {
@@ -487,4 +492,60 @@ body {
   color: #1f3a5f;
   border-color: #1f3a5f;
   background: rgba(31, 58, 95, 0.06);
+}
+
+
+.finding-block {
+  background: var(--bg-secondary);
+  border-left: 2px solid var(--border-color);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 1.5rem 0;
+  color: var(--text-dark);
+}
+
+.finding-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(11, 60, 67, 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.case-tag {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.meta-strip {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 0;
+  border-top: 0.5px solid var(--border-color);
+  border-bottom: 0.5px solid var(--border-color);
+  margin-top: 1.5rem;
+}
+
+.meta-strip-item {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.meta-strip-item span {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.tier-featured-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: var(--radius);
+  background: var(--bg-info);
+  color: var(--text-info);
+  margin-bottom: 0.75rem;
 }
