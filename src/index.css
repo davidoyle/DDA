@@ -549,3 +549,20 @@ body {
   color: var(--text-info);
   margin-bottom: 0.75rem;
 }
+
+
+.brand-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-panel::after {
+  content: '';
+  position: absolute;
+  inset: auto -4rem -4rem auto;
+  width: 13rem;
+  height: 13rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(115, 130, 182, 0.22), rgba(115, 130, 182, 0));
+  pointer-events: none;
+}

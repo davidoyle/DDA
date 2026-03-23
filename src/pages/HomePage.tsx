@@ -1,3 +1,4 @@
+import DdaLogo from '../components/DdaLogo';
 import { Link } from 'react-router-dom';
 
 const hero = {
@@ -64,6 +65,7 @@ const HomePage = () => {
   return (
     <div className="pt-24 pb-20 px-6 lg:px-[8vw] space-y-20">
       <section className="space-y-6 max-w-5xl">
+        <DdaLogo className="mb-2" />
         <p className="eyebrow">{hero.eyebrow}</p>
         <h1 className="headline-lg whitespace-pre-line">{hero.headline}</h1>
         {hero.body.map((paragraph) => (
