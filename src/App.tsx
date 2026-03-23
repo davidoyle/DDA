@@ -22,6 +22,7 @@ const SuppressionAuditPage = lazy(() => import('./pages/tools/SuppressionAuditPa
 const ExperienceRatingOptimizerPage = lazy(() => import('./pages/tools/ExperienceRatingOptimizerPage'));
 const SurplusAlertPage = lazy(() => import('./pages/tools/SurplusAlertPage'));
 const ExecutiveRiskBriefPage = lazy(() => import('./pages/tools/ExecutiveRiskBriefPage'));
+const BCDecarbonizationModelPage = lazy(() => import('./pages/tools/BCDecarbonizationModelPage'));
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -70,6 +71,7 @@ function App() {
             <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
             <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
             <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
+            <Route path="tools/bc-decarbonization-model" element={<BCDecarbonizationModelPage />} />
             <Route path="dashboard" element={<Dashboard />} />
 
             <Route path="consultation" element={<ConsultationLandingPage />} />
