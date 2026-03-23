@@ -108,6 +108,17 @@ const tools: ToolEntry[] = [
     free: ['Sector + headcount input', 'Year-1 claim count', 'Generic exposure label'],
     pro: ['Three-year claims/cost forecast', 'Experience-rating impact', 'Mitigation checklist impact', 'Sector comparison chart'],
   },
+
+  {
+    group: 'monitoring',
+    name: 'BC Decarbonization Model',
+    href: '/tools/bc-decarbonization-model',
+    status: 'Live',
+    description: 'Stress-tests BC emissions policy pathways against the 2030 legal target.',
+    headlineOutput: 'Baseline scenario: grid and sector constraints determine whether 61.0 Mt is achievable by 2030.',
+    free: ['Explore policy sliders', 'Baseline dashboard', 'Three-scenario comparison', 'JSON export'],
+    pro: ['Scenario libraries', 'Deeper calibration', 'Stakeholder packaging', 'Advisory interpretation'],
+  },
   {
     group: 'monitoring',
     name: 'Surplus Run-Down Early-Warning Alert Service',
@@ -161,11 +172,11 @@ function DiagnosticsPage() {
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">Diagnostic tools</p>
         <h1 className="font-heading text-4xl lg:text-5xl mt-3 text-[#131313]">Self-serve exposure tools for BC employers</h1>
         <p className="mt-4 text-lg text-[#2b2b2b] max-w-4xl">
-          Seven tools covering WCB repricing risk, PST burden, experience rating variance, claims suppression patterns, and mental health claims trajectory. Free tier available. Pro unlocks full modeling.
+          Eight tools covering WCB repricing risk, PST burden, experience rating variance, claims suppression patterns, mental health claims trajectory, and BC decarbonization scenario modelling. Free tier available. Pro unlocks full modeling.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">7 diagnostic tools</span>
+          <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">8 diagnostic tools</span>
           <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">5 provinces covered</span>
           <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">Parameters updated March 2026</span>
         </div>
@@ -269,7 +280,7 @@ function DiagnosticsPage() {
                     <div className="p-2">Capability</div><div className="p-2">Free</div><div className="p-2">Pro</div><div className="p-2">Association</div>
                   </div>
                   {[
-                    ['Tools', '7', '7', '7'],
+                    ['Tools', '8', '8', '8'],
                     ['Provinces', '1', '5', '5+custom'],
                     ['Export', '✕', '✓', '✓'],
                     ['Benchmarking', '✕', '✓', '✓'],
