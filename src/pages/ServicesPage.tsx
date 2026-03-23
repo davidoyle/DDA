@@ -1,3 +1,4 @@
+import DdaLogo from '../components/DdaLogo';
 import { Link } from 'react-router-dom';
 import { serviceTiers } from '../lib/serviceTiers';
 
@@ -46,7 +47,8 @@ const notIncluded = [
 const ServicesPage = () => {
   return (
     <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-14">
-      <section className="space-y-4 max-w-5xl">
+      <section className="brand-panel space-y-4 max-w-5xl">
+        <DdaLogo compact className="mb-4" />
         <p className="eyebrow">{header.eyebrow}</p>
         <h1 className="headline-md">{header.headline}</h1>
         <p className="text-xl text-[#F3EFE6]/85">{header.body}</p>

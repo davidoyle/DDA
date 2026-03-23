@@ -1,3 +1,4 @@
+import DdaLogo from '../components/DdaLogo';
 import { Link } from 'react-router-dom';
 
 const header = {
@@ -44,7 +45,8 @@ const workFooter = {
 const WorkPage = () => {
   return (
     <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-12">
-      <section className="max-w-5xl space-y-4">
+      <section className="brand-panel max-w-5xl space-y-4">
+        <DdaLogo compact className="mb-4" />
         <p className="eyebrow">{header.eyebrow}</p>
         <h1 className="headline-md">{header.headline}</h1>
         <p className="text-xl text-[#F3EFE6]/85">{header.body}</p>

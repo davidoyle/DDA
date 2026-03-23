@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import DdaLogo from './DdaLogo';
 
 const Layout = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,9 +35,7 @@ const Layout = () => {
         }`}
       >
         <div className="w-full px-6 lg:px-10 flex items-center justify-between gap-4">
-          <Link to="/" className="font-mono text-xs uppercase tracking-[0.14em] text-[#F3EFE6] hover:text-[#D4A03A] transition-colors">
-            DDA
-          </Link>
+          <DdaLogo linkToHome compact className="transition-opacity hover:opacity-90" />
 
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
@@ -92,10 +91,18 @@ const Layout = () => {
       </main>
 
       <footer className="border-t border-[#F3EFE6]/10 px-6 lg:px-[8vw] py-8 bg-[#0B3C43]">
-        <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-[#F3EFE6]/75">
-          <Link to="/privacy" className="hover:text-[#D4A03A] transition-colors">Privacy Policy</Link>
-          <Link to="/terms" className="hover:text-[#D4A03A] transition-colors">Terms of Service</Link>
-          <Link to="/contact" className="hover:text-[#D4A03A] transition-colors">Contact</Link>
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-3">
+            <DdaLogo linkToHome className="max-w-full" />
+            <p className="max-w-xl text-sm text-[#F3EFE6]/60">
+              Systematic analysis of public evidence for institutions, operators, legal teams, and oversight bodies.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-6 text-sm text-[#F3EFE6]/75">
+            <Link to="/privacy" className="hover:text-[#D4A03A] transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-[#D4A03A] transition-colors">Terms of Service</Link>
+            <Link to="/contact" className="hover:text-[#D4A03A] transition-colors">Contact</Link>
+          </div>
         </div>
       </footer>
     </div>

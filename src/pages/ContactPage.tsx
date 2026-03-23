@@ -1,3 +1,4 @@
+import DdaLogo from '../components/DdaLogo';
 const contactHeader = {
   eyebrow: 'Start an assessment',
   headline: 'Describe your system',
@@ -7,7 +8,8 @@ const contactHeader = {
 const ContactPage = () => {
   return (
     <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-12">
-      <section className="max-w-4xl space-y-4">
+      <section className="brand-panel max-w-4xl space-y-4">
+        <DdaLogo compact className="mb-4" />
         <p className="eyebrow">{contactHeader.eyebrow}</p>
         <h1 className="headline-md">{contactHeader.headline}</h1>
         <p className="text-xl text-[#F3EFE6]/85">{contactHeader.body}</p>

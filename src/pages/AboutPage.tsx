@@ -1,3 +1,4 @@
+import DdaLogo from '../components/DdaLogo';
 import { Link } from 'react-router-dom';
 
 const methodology = [
@@ -45,7 +46,8 @@ const differentiators = [
 const AboutPage = () => {
   return (
     <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-12">
-      <section className="space-y-4 max-w-5xl">
+      <section className="brand-panel space-y-4 max-w-5xl">
+        <DdaLogo compact className="mb-4" />
         <p className="eyebrow">About</p>
         <h1 className="headline-md">Public-evidence systems analysis</h1>
       </section>
