@@ -60,21 +60,21 @@ function computeAbatement(sector: Sector, controls: PolicyControls, state: Model
   if (sector === 'transport') {
     const evAnchor = interpolate2050Anchor(EV_AVOIDED_EMISSIONS_MT_BY_2050, state.year);
     const zevLift = evAnchor * (0.45 + 0.55 * state.zevShare) * (0.6 + 0.4 * controls.zevSupport);
-    return (0.18 + 0.28 * priceSignal + 0.18 * controls.zevSupport) * state.emissions.transport * 0.08 + zevLift * 0.45;
+    return (0.085 + 0.095 * priceSignal + 0.085 * controls.zevSupport) * state.emissions.transport * 0.022 + zevLift * 0.145;
   }
 
   if (sector === 'industry') {
     const industrialCapital = 0.55 * controls.industrySupport + 0.25 * state.cleanCapital.industry + 0.2 * priceSignal;
     const pulpPaperFactor = 0.2 + PULP_PAPER_SHARE_OF_PROVINCIAL;
-    const gross = state.emissions.industry * (0.024 + industrialCapital * 0.045) + CLEANBC_INDUSTRY_FUND_CUMULATIVE_ABATEMENT_MT / 10 * 0.09 * controls.industrySupport * pulpPaperFactor;
+    const gross = state.emissions.industry * (0.0045 + industrialCapital * 0.009) + CLEANBC_INDUSTRY_FUND_CUMULATIVE_ABATEMENT_MT / 10 * 0.022 * controls.industrySupport * pulpPaperFactor;
     return gross * gridConstraint.penaltyFactor * infeasiblePenalty;
   }
 
-  const buildingElectrification = state.emissions.buildings * (0.018 + controls.buildingsSupport * 0.042 + controls.regulatoryStringency * 0.032);
+  const buildingElectrification = state.emissions.buildings * (0.0055 + controls.buildingsSupport * 0.01 + controls.regulatoryStringency * 0.0075);
   const stepCode = interpolate2050Anchor(ZERO_CARBON_STEP_CODE_MT_BY_2050, state.year);
   const gasSystem = interpolate2050Anchor(GAS_PIPELINE_PROCESSING_MT_BY_2050, state.year);
   const dualFuelDrag = 1 - controls.dualFuelPolicy * 0.3;
-  return (buildingElectrification * dualFuelDrag + stepCode * 0.5 + gasSystem * 0.18) * gridConstraint.penaltyFactor * infeasiblePenalty;
+  return (buildingElectrification * dualFuelDrag + stepCode * 0.13 + gasSystem * 0.05) * gridConstraint.penaltyFactor * infeasiblePenalty;
 }
 
 function politicalCost(controls: PolicyControls, state: ModelState, phiWeights: PhiWeights) {
