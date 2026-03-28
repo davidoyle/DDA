@@ -19,9 +19,8 @@ const Layout = () => {
 
   const navLinks = [
     { label: 'Home', href: '/' },
-    { label: 'Work', href: '/work' },
-    { label: 'Services', href: '/services' },
-    { label: 'Tools', href: '/tools' },
+    { label: 'Analysis', href: '/work' },
+    { label: 'Research', href: '/services' },
     { label: 'About', href: '/about' },
   ];
 
@@ -52,7 +51,7 @@ const Layout = () => {
 
           <div className="hidden md:flex items-center">
             <Link to="/contact" className="btn-secondary text-sm">
-              Start an assessment
+              Commission research
             </Link>
           </div>
 
@@ -80,7 +79,7 @@ const Layout = () => {
               </Link>
             ))}
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary text-sm mt-2">
-              Start an assessment
+              Commission research
             </Link>
           </div>
         </div>

@@ -1,131 +1,84 @@
 import DdaLogo from '../components/DdaLogo';
 import { Link } from 'react-router-dom';
 
-const hero = {
-  eyebrow: 'Public-evidence systems analysis',
-  headline: 'We read what institutions publish.\nWe show you what it reveals.',
-  body: [
-    'Every organization produces data. Annual reports. Budgets. Policy manuals. Enforcement records. Tribunal decisions.',
-    'Most people read these separately. We read them as a system — across years, across departments — and find what fragmented reading misses.',
-  ],
-  ctas: [
-    { label: 'See the work', href: '/work', variant: 'primary' },
-    { label: 'How it works', href: '/services', variant: 'secondary' },
-  ],
-};
-
-const metaStrip = [
+const frontDoors = [
   {
-    label: 'Source types',
-    value: 'Annual reports, budgets, policy docs, tribunal records, enforcement data',
-  },
-  { label: 'Deliverable', value: 'Evidence. Not advice.' },
-];
-
-const methodSection = {
-  eyebrow: 'What the method finds',
-  headline: 'The gap between what institutions report and what they produce',
-  body: "When an institution's reported outcomes don't match its observable system behavior, the gap is meaningful. We find it, quantify it, and show you what it indicates.",
-  pillars: [
-    {
-      label: 'Multi-source synthesis',
-      body: 'We read across years, departments, and document types simultaneously. Patterns that single-source analysis misses become visible.',
-    },
-    {
-      label: 'Structural consistency',
-      body: 'We compare reported outcomes against observable system behavior. When these diverge, we quantify the gap.',
-    },
-    {
-      label: 'Decision framing',
-      body: 'Findings are presented as structured choices. If you want X, the evidence suggests Y. Explicit trade-offs, not abstract debate.',
-    },
-  ],
-};
-
-const audienceCards = [
-  {
-    title: 'Organizations',
-    body: 'Municipalities, health authorities, associations, unions — any organization that needs to understand what their system actually produces versus what it claims to produce.',
+    eyebrow: 'Door 1',
+    title: 'Public interest analysis',
+    audience: 'For policy readers, journalists, advocates, and researchers following published investigations and briefs.',
+    body: 'Read independent, evidence-led analysis of institutional behaviour and accountability.',
+    cta: 'Read the work',
+    href: '/work',
+    style: 'border-[#D4A03A]/45',
   },
   {
-    title: 'Legal and advisory',
-    body: 'Law firms, consultants, and advisors who need structured analysis of publicly available evidence — sourced, verifiable, and replicable.',
+    eyebrow: 'Door 2',
+    title: 'Employer diagnostic tools',
+    audience: 'For HR, finance, risk, and operations leaders managing WorkSafeBC and compliance exposure.',
+    body: 'Use technical decision-support diagnostics in a neutral employer-facing environment.',
+    cta: 'Open diagnostics',
+    href: '/tools',
+    style: 'border-[#6D8FA6]/45',
   },
   {
-    title: 'Oversight and journalism',
-    body: 'Journalists and oversight bodies who need deep, multi-source synthesis of public evidence — publication-ready, fully documented.',
-  },
-  {
-    title: 'Business leaders',
-    body: "CFOs, finance directors, and operators who need to understand structural cost flows and what's actually controllable before it hits the budget.",
+    eyebrow: 'Door 3',
+    title: 'Research and engagements',
+    audience: 'For procurement teams, legal counsel, and organizations scoping custom analysis.',
+    body: 'Review methods, engagement structure, and outputs before starting a commissioned project.',
+    cta: 'Explore engagements',
+    href: '/services',
+    style: 'border-[#6FA680]/45',
   },
 ];
 
 const HomePage = () => {
   return (
-    <div className="pt-24 pb-20 px-6 lg:px-[8vw] space-y-20">
+    <div className="pt-24 pb-20 px-6 lg:px-[8vw] space-y-16">
       <section className="space-y-6 max-w-5xl">
         <DdaLogo className="mb-2" />
-        <p className="eyebrow">{hero.eyebrow}</p>
-        <h1 className="headline-lg whitespace-pre-line">{hero.headline}</h1>
-        {hero.body.map((paragraph) => (
-          <p key={paragraph} className="body-text body-text-secondary max-w-3xl">
-            {paragraph}
-          </p>
-        ))}
-        <div className="flex flex-wrap gap-4 pt-2">
-          {hero.ctas.map((cta) => (
-            <Link
-              key={cta.label}
-              to={cta.href}
-              className={cta.variant === 'primary' ? 'btn-primary' : 'btn-secondary'}
-            >
-              {cta.label}
+        <p className="eyebrow">Data-driven Decisions Analytics</p>
+        <h1 className="headline-lg max-w-4xl">
+          Three services. Three audiences. Choose your entry point.
+        </h1>
+        <p className="body-text body-text-secondary max-w-3xl">
+          DDA operates across public-interest investigations, employer diagnostics, and commissioned research.
+          Start in the section built for your mandate.
+        </p>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-3">
+        {frontDoors.map((door) => (
+          <article
+            key={door.title}
+            className={`card space-y-4 border-l-2 ${door.style} bg-[#0e454c]/70 backdrop-blur-sm`}
+          >
+            <p className="eyebrow text-[#D4A03A]">{door.eyebrow}</p>
+            <h2 className="headline-sm">{door.title}</h2>
+            <p className="text-[#F3EFE6]/90 text-sm">{door.audience}</p>
+            <p className="text-[#F3EFE6]/75 text-sm">{door.body}</p>
+            <Link to={door.href} className="btn-secondary inline-flex w-full justify-center">
+              {door.cta}
             </Link>
-          ))}
-        </div>
-        <div className="meta-strip">
-          {metaStrip.map((item) => (
-            <p key={item.label} className="meta-strip-item">
-              {item.label}: <span>{item.value}</span>
-            </p>
-          ))}
-        </div>
+          </article>
+        ))}
       </section>
 
-      <section className="space-y-8 max-w-6xl">
-        <div className="space-y-4 max-w-4xl">
-          <p className="eyebrow">{methodSection.eyebrow}</p>
-          <h2 className="headline-md">{methodSection.headline}</h2>
-          <p className="text-[#F3EFE6]/85">{methodSection.body}</p>
+      <section className="card space-y-4 max-w-5xl">
+        <p className="eyebrow">What DDA does</p>
+        <h2 className="headline-md">Public evidence systems analysis for accountability and decision support</h2>
+        <p className="text-[#F3EFE6]/82 max-w-4xl">
+          We synthesize published records across years, departments, and institutions to surface structural patterns.
+          The same method powers editorial investigations, employer risk diagnostics, and scoped research
+          engagements.
+        </p>
+        <div className="flex flex-wrap gap-3 pt-2">
+          <Link to="/work" className="btn-primary">
+            Latest analysis
+          </Link>
+          <Link to="/contact" className="btn-secondary">
+            Commission research
+          </Link>
         </div>
-        <div className="grid gap-8 md:grid-cols-3">
-          {methodSection.pillars.map((pillar) => (
-            <div key={pillar.label} className="space-y-3">
-              <p className="eyebrow text-[#D4A03A]">{pillar.label}</p>
-              <p className="text-[#F3EFE6]/80">{pillar.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="space-y-8">
-        <div className="space-y-3 max-w-4xl">
-          <h2 className="headline-md">Who uses this</h2>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {audienceCards.map((audience) => (
-            <article key={audience.title} className="card space-y-3">
-              <h3 className="text-[15px] font-medium">{audience.title}</h3>
-              <p className="text-[13px] text-[#F3EFE6]/72">{audience.body}</p>
-            </article>
-          ))}
-        </div>
-
-        <Link to="/contact" className="btn-primary">
-          Describe your system
-        </Link>
       </section>
     </div>
   );
