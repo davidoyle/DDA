@@ -60,36 +60,6 @@ const CITY_MODELS: CityModel[] = [
       high: { pop2041: 165_400, jobs2041: 96_600, base2041: 16_600, label: 'High', color: '#BA7517' },
     },
   },
-  {
-    province: 'New Brunswick',
-    city: 'Fredericton',
-    base: { pop2025: 69_400, hhSize: 2.2, jobs2021: 34_400, econBase2021: 7_300, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 44, indDensity: 18, svcDensity: 84, indShare: 0.29 },
-    scenarios: {
-      low: { pop2041: 77_000, jobs2041: 40_900, base2041: 8_500, label: 'Low', color: '#378ADD' },
-      med: { pop2041: 82_200, jobs2041: 45_800, base2041: 9_400, label: 'Medium', color: '#639922' },
-      high: { pop2041: 90_600, jobs2041: 52_600, base2041: 10_700, label: 'High', color: '#BA7517' },
-    },
-  },
-  {
-    province: 'Nova Scotia',
-    city: 'Halifax',
-    base: { pop2025: 506_000, hhSize: 2.2, jobs2021: 267_900, econBase2021: 48_600, vacancyTarget: 0.028, replacementRate: 0.004, pdaDensity: 52, indDensity: 19, svcDensity: 88, indShare: 0.24 },
-    scenarios: {
-      low: { pop2041: 552_000, jobs2041: 296_000, base2041: 53_200, label: 'Low', color: '#378ADD' },
-      med: { pop2041: 585_000, jobs2041: 324_000, base2041: 58_800, label: 'Medium', color: '#639922' },
-      high: { pop2041: 622_000, jobs2041: 354_000, base2041: 64_500, label: 'High', color: '#BA7517' },
-    },
-  },
-  {
-    province: 'Ontario',
-    city: 'London',
-    base: { pop2025: 582_000, hhSize: 2.3, jobs2021: 275_000, econBase2021: 57_400, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 50, indDensity: 17, svcDensity: 86, indShare: 0.31 },
-    scenarios: {
-      low: { pop2041: 635_000, jobs2041: 309_000, base2041: 63_000, label: 'Low', color: '#378ADD' },
-      med: { pop2041: 672_000, jobs2041: 342_000, base2041: 69_500, label: 'Medium', color: '#639922' },
-      high: { pop2041: 718_000, jobs2041: 382_000, base2041: 76_300, label: 'High', color: '#BA7517' },
-    },
-  },
 ];
 
 function lerp(a: number, b: number, t: number) {
@@ -208,7 +178,7 @@ export default function MunicipalModelsPage() {
         <header className="space-y-3">
           <p className="eyebrow">Municipal models</p>
           <h1 className="headline-md text-[#1f1f1f]">Municipal Growth Models</h1>
-          <p className="max-w-4xl text-[#4a453d]">Choose a province, then a city. Adjust variable assumptions live to remodel low/medium/high scenarios.</p>
+          <p className="max-w-4xl text-[#4a453d]">Current release is calibrated for Saint John only. Province/city controls stay in place for upcoming model rollouts.</p>
         </header>
 
         <section className="space-y-4 rounded-xl border border-[#d8cdb9] bg-white p-5">
