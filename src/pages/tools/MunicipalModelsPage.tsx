@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useState } from 'react';
 import {
   Area,
   Bar,
@@ -27,6 +27,16 @@ type ScenarioKey = 'low' | 'med' | 'high';
 type CityModel = {
   province: string;
   city: string;
+  zones: Record<ZoneCode, {
+    areaHa: number;
+    developableHa: number;
+    servicedCapacityHa: number;
+    minDensity: number;
+    maxDensity: number;
+    jobsPerHa: number;
+    costIndex: number;
+    housingWeight: number;
+  }>;
   pipelineData: Array<{ label: string; value: string }>;
   base: {
     pop2025: number;
@@ -92,6 +102,11 @@ const CITY_MODELS: CityModel[] = [
   {
     province: 'New Brunswick',
     city: 'Saint John',
+    zones: {
+      G1: { areaHa: 450, developableHa: 120, servicedCapacityHa: 350, minDensity: 70, maxDensity: 120, jobsPerHa: 150, costIndex: 1.0, housingWeight: 0.8 },
+      G2: { areaHa: 3200, developableHa: 800, servicedCapacityHa: 2400, minDensity: 35, maxDensity: 70, jobsPerHa: 75, costIndex: 1.3, housingWeight: 1.0 },
+      G3: { areaHa: 15000, developableHa: 5000, servicedCapacityHa: 15000, minDensity: 20, maxDensity: 45, jobsPerHa: 30, costIndex: 2.5, housingWeight: 1.3 },
+    },
     pipelineData: [
       { label: '2025 units created', value: '606' },
       { label: 'Pipeline (approved)', value: '>750' },
@@ -203,21 +218,6 @@ const AGE_STRUCTURE_PROXY_2041 = [
   { scenario: 'Medium', totalPop: 99234, age0to14: 3.3, age15to64: 70.1, age65plus: 26.6 },
   { scenario: 'High', totalPop: 116934, age0to14: 4.3, age15to64: 73.1, age65plus: 22.6 },
 ];
-
-const ZONE_CONFIG: Record<ZoneCode, {
-  areaHa: number;
-  developableHa: number;
-  servicedCapacityHa: number;
-  minDensity: number;
-  maxDensity: number;
-  jobsPerHa: number;
-  costIndex: number;
-  housingWeight: number;
-}> = {
-  G1: { areaHa: 450, developableHa: 120, servicedCapacityHa: 350, minDensity: 70, maxDensity: 120, jobsPerHa: 150, costIndex: 1.0, housingWeight: 0.8 },
-  G2: { areaHa: 3200, developableHa: 800, servicedCapacityHa: 2400, minDensity: 35, maxDensity: 70, jobsPerHa: 75, costIndex: 1.3, housingWeight: 1.0 },
-  G3: { areaHa: 15000, developableHa: 5000, servicedCapacityHa: 15000, minDensity: 20, maxDensity: 45, jobsPerHa: 30, costIndex: 2.5, housingWeight: 1.3 },
-};
 
 const ALLOCATION_PLANS: Record<ScenarioPlanCode, { residential: Record<ZoneCode, number>; employment: Record<ZoneCode, number>; label: string }> = {
   A: { label: 'Uptown Concentration', residential: { G1: 0.75, G2: 0.2, G3: 0.05 }, employment: { G1: 0.65, G2: 0.25, G3: 0.1 } },
@@ -340,6 +340,8 @@ export default function MunicipalModelsPage() {
     };
   });
   const [shareCopied, setShareCopied] = useState(false);
+  const deferredControls = useDeferredValue(controls);
+  const deferredHorizon = useDeferredValue(horizon);
 
   const syncCity = (province: string, cityName: string) => {
     const nextCity = CITY_MODELS.find((entry) => entry.province === province && entry.city === cityName);
@@ -436,15 +438,14 @@ export default function MunicipalModelsPage() {
   const model2Results = useMemo(() => {
     const sourceScenarios: ScenarioKey[] = ['low', 'med', 'high'];
     const plans: ScenarioPlanCode[] = ['A', 'B', 'C'];
-    const serviceCapTotal = (Object.values(ZONE_CONFIG)).reduce((sum, zone) => sum + zone.servicedCapacityHa, 0);
 
     const results: Model2Result[] = [];
     sourceScenarios.forEach((model1Scenario) => {
-      const row = project(city, model1Scenario, horizon, controls)[horizon];
+      const row = project(city, model1Scenario, deferredHorizon, deferredControls)[deferredHorizon];
       const H_total = row.hh;
-      const U_total = row.hh;
+      const U_total = row.unitsReq;
       const E_total = row.jobs;
-      const workersPerHousehold = E_total / Math.max(H_total, 1);
+      const workersPerHousehold = H_total > 0 ? E_total / H_total : 1;
 
       plans.forEach((plan) => {
         const planCfg = ALLOCATION_PLANS[plan];
@@ -455,7 +456,7 @@ export default function MunicipalModelsPage() {
         const jobsHousingRatioByZone = { G1: 1, G2: 1, G3: 1 } as Record<ZoneCode, number>;
 
         (['G1', 'G2', 'G3'] as ZoneCode[]).forEach((zone) => {
-          const zoneCfg = ZONE_CONFIG[zone];
+          const zoneCfg = city.zones[zone];
           unitsByZone[zone] = U_total * planCfg.residential[zone];
           jobsByZone[zone] = E_total * planCfg.employment[zone];
           residentialLandByZone[zone] = unitsByZone[zone] / zoneCfg.minDensity;
@@ -464,13 +465,13 @@ export default function MunicipalModelsPage() {
         });
 
         const totalLand = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + residentialLandByZone[zone] + employmentLandByZone[zone], 0);
-        const infraCost = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + unitsByZone[zone] * (ZONE_CONFIG[zone].costIndex / ZONE_CONFIG[zone].minDensity), 0);
-        const housingPressure = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + unitsByZone[zone] * ZONE_CONFIG[zone].housingWeight, 0) / Math.max(U_total, 1);
+        const infraCost = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + unitsByZone[zone] * (city.zones[zone].costIndex / city.zones[zone].minDensity), 0);
+        const housingPressure = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + unitsByZone[zone] * city.zones[zone].housingWeight, 0) / Math.max(U_total, 1);
         const efficiency = (U_total + E_total) / Math.max(totalLand, 1);
 
-        const residentialUtilization = Math.max(...(['G1', 'G2', 'G3'] as ZoneCode[]).map((zone) => unitsByZone[zone] / (ZONE_CONFIG[zone].developableHa * ZONE_CONFIG[zone].maxDensity)));
-        const employmentUtilization = Math.max(...(['G1', 'G2', 'G3'] as ZoneCode[]).map((zone) => jobsByZone[zone] / (ZONE_CONFIG[zone].developableHa * ZONE_CONFIG[zone].jobsPerHa)));
-        const servicedUtilization = totalLand / serviceCapTotal;
+        const residentialUtilization = Math.max(...(['G1', 'G2', 'G3'] as ZoneCode[]).map((zone) => unitsByZone[zone] / (city.zones[zone].developableHa * city.zones[zone].maxDensity)));
+        const employmentUtilization = Math.max(...(['G1', 'G2', 'G3'] as ZoneCode[]).map((zone) => jobsByZone[zone] / (city.zones[zone].developableHa * city.zones[zone].jobsPerHa)));
+        const servicedUtilization = Math.max(...(['G1', 'G2', 'G3'] as ZoneCode[]).map((zone) => (residentialLandByZone[zone] + employmentLandByZone[zone]) / city.zones[zone].servicedCapacityHa));
         const jobsHousingDeviation = Math.max(...Object.values(jobsHousingRatioByZone).map((ratio) => Math.abs(ratio - 1)));
 
         const residentialCapacity = flagFromUtilization(residentialUtilization);
@@ -496,7 +497,7 @@ export default function MunicipalModelsPage() {
       });
     });
     return results;
-  }, [city, controls, horizon]);
+  }, [city, deferredControls, deferredHorizon]);
 
   const handleResetDefaults = () => {
     setScenario('med');
@@ -513,6 +514,69 @@ export default function MunicipalModelsPage() {
     const link = document.createElement('a');
     link.href = url;
     link.download = `${city.city.toLowerCase().replace(/\s+/g, '-')}-municipal-model.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportModel2Csv = () => {
+    const header = [
+      'model1Scenario',
+      'plan',
+      'planLabel',
+      'units_G1',
+      'units_G2',
+      'units_G3',
+      'jobs_G1',
+      'jobs_G2',
+      'jobs_G3',
+      'resLand_G1',
+      'resLand_G2',
+      'resLand_G3',
+      'empLand_G1',
+      'empLand_G2',
+      'empLand_G3',
+      'totalLand',
+      'infraCost',
+      'housingPressure',
+      'efficiency',
+      'status',
+      'residentialCapacity',
+      'employmentCapacity',
+      'servicedCapacity',
+      'jobsHousingBalance',
+    ];
+    const rows = model2Results.map((r) => [
+      city.scenarios[r.model1Scenario].label,
+      r.plan,
+      ALLOCATION_PLANS[r.plan].label,
+      Math.round(r.unitsByZone.G1),
+      Math.round(r.unitsByZone.G2),
+      Math.round(r.unitsByZone.G3),
+      Math.round(r.jobsByZone.G1),
+      Math.round(r.jobsByZone.G2),
+      Math.round(r.jobsByZone.G3),
+      r.residentialLandByZone.G1.toFixed(2),
+      r.residentialLandByZone.G2.toFixed(2),
+      r.residentialLandByZone.G3.toFixed(2),
+      r.employmentLandByZone.G1.toFixed(2),
+      r.employmentLandByZone.G2.toFixed(2),
+      r.employmentLandByZone.G3.toFixed(2),
+      r.totalLand.toFixed(2),
+      r.infraCost.toFixed(2),
+      r.housingPressure.toFixed(3),
+      r.efficiency.toFixed(3),
+      r.status,
+      r.flags.residentialCapacity,
+      r.flags.employmentCapacity,
+      r.flags.servicedCapacity,
+      r.flags.jobsHousingBalance,
+    ]);
+    const csv = [header.join(','), ...rows.map((row) => row.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${city.city.toLowerCase().replace(/\s+/g, '-')}-model2-scenarios.csv`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -615,6 +679,7 @@ export default function MunicipalModelsPage() {
 
         <section className="flex flex-wrap gap-2">
           <Button variant="outline" className="border-[#cfc2ab]" onClick={handleExportCsv}>Export CSV</Button>
+          <Button variant="outline" className="border-[#cfc2ab]" onClick={handleExportModel2Csv}>Export Model 2 CSV</Button>
           <Button variant="outline" className="border-[#cfc2ab]" onClick={handleCopyShareLink}>{shareCopied ? 'Link copied' : 'Copy share link'}</Button>
           <Button variant="outline" className="border-[#cfc2ab]" onClick={handleResetDefaults}>Reset to defaults</Button>
         </section>
@@ -886,13 +951,37 @@ export default function MunicipalModelsPage() {
             <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
               <p className="mb-2 text-sm font-medium text-[#4a453d]">Model 2 — City-Wide Growth Scenario Engine</p>
               <p className="text-sm text-[#5e574a]">Deterministic allocation + constraint + cost model (Abstract mode) with 3 Model 1 scenarios × 3 allocation plans = 9 combinations.</p>
+              <p className="mt-2 text-xs text-[#6b6255]">Uses current horizon year ({START_YEAR + horizon}) totals from Model 1. Land demand uses minimum residential densities (conservative), so actual land required may be lower.</p>
+              <p className="mt-1 text-xs text-[#6b6255]">Jobs-housing balance thresholds: WARN when deviation &gt; 15%, FAIL when deviation &gt; 30%.</p>
             </article>
 
             {(['low', 'med', 'high'] as ScenarioKey[]).map((model1) => {
               const rows = model2Results.filter((result) => result.model1Scenario === model1);
+              const chartData = (['A', 'B', 'C'] as ScenarioPlanCode[]).map((plan) => {
+                const r = rows.find((entry) => entry.plan === plan);
+                return {
+                  plan,
+                  land: r?.totalLand ?? 0,
+                  infra: r?.infraCost ?? 0,
+                  pressure: r?.housingPressure ?? 0,
+                };
+              });
               return (
                 <article key={model1} className="rounded-xl border border-[#d8cdb9] bg-white p-4">
                   <p className="mb-3 text-sm font-medium text-[#4a453d]">Model 1 Scenario: {city.scenarios[model1].label}</p>
+                  <div className="mb-4 h-[220px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={chartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="plan" />
+                        <YAxis />
+                        <Tooltip />
+                        <Bar dataKey="land" fill="#5DCAA5" name="Total land (ha)" />
+                        <Bar dataKey="infra" fill="#EF9F27" name="Infra cost index" />
+                        <Bar dataKey="pressure" fill="#AFA9EC" name="Housing pressure" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
                   <div className="overflow-x-auto">
                     <table className="w-full min-w-[980px] text-sm">
                       <thead>
