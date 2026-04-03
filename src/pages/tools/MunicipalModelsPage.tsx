@@ -1,13 +1,16 @@
 import { useMemo, useState } from 'react';
 import {
+  Area,
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
+  ComposedChart,
   Line,
   LineChart,
   Pie,
   PieChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -23,6 +26,7 @@ type ScenarioKey = 'low' | 'med' | 'high';
 type CityModel = {
   province: string;
   city: string;
+  pipelineData: Array<{ label: string; value: string }>;
   base: {
     pop2025: number;
     hhSize: number;
@@ -64,6 +68,14 @@ const CITY_MODELS: CityModel[] = [
   {
     province: 'New Brunswick',
     city: 'Saint John',
+    pipelineData: [
+      { label: '2025 units created', value: '606' },
+      { label: 'Pipeline (approved)', value: '>750' },
+      { label: 'Rental vacancy rate', value: '4.0%' },
+      { label: 'Vacancy direction', value: '+1.7 pp YoY' },
+      { label: 'Avg 2-bed rent', value: '~$1,148' },
+      { label: 'Record permit value', value: '$389.9M' },
+    ],
     base: { pop2025: 132_800, hhSize: 2.1, jobs2021: 54_140, econBase2021: 11_170, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 40, indDensity: 15, svcDensity: 80, indShare: 0.36 },
     scenarios: {
       low: { pop2041: 142_900, jobs2041: 64_840, base2041: 12_900, label: 'Low', color: '#378ADD' },
@@ -180,7 +192,7 @@ function project(city: CityModel, scenario: ScenarioKey, years: number, controls
 
   return Array.from({ length: years + 1 }, (_, i) => {
     const year = START_YEAR + i;
-    const t = Math.min(i / 25, 1);
+    const t = Math.min(i / 16, 1);
     const pop = round(lerp(city.base.pop2025, pop2041, t));
     const hh = round(pop / controls.hhSize);
     const newHH = i === 0 ? 0 : hh - prevHH;
@@ -201,6 +213,8 @@ function project(city: CityModel, scenario: ScenarioKey, years: number, controls
       pop,
       hh,
       newHH: Math.max(0, newHH),
+      vacAdj: Math.max(0, vacAdj),
+      replUnits: Math.max(0, replUnits),
       unitsReq,
       resHaCum: Math.max(0, resHaCum),
       jobs,
@@ -260,6 +274,52 @@ export default function MunicipalModelsPage() {
       rows: project(city, key, horizon, controls),
     }));
   }, [city, horizon, controls]);
+
+  const hasMultiplierShift = useMemo(() => {
+    return (['low', 'med', 'high'] as ScenarioKey[]).some((key) => Math.abs(controls.scenarioMultiplier[key] - 1) > 0.0001);
+  }, [controls]);
+
+  const populationChartData = useMemo(() => {
+    const lowRows = project(city, 'low', horizon, controls);
+    const medRows = project(city, 'med', horizon, controls);
+    const highRows = project(city, 'high', horizon, controls);
+
+    const low2041 = lowRows[16]?.pop ?? lowRows[lowRows.length - 1].pop;
+    const high2041 = highRows[16]?.pop ?? highRows[highRows.length - 1].pop;
+    const basePop = city.base.pop2025;
+    const lowCagr = Math.pow(low2041 / basePop, 1 / 16) - 1;
+    const highCagr = Math.pow(high2041 / basePop, 1 / 16) - 1;
+
+    return Array.from({ length: horizon + 1 }, (_, i) => {
+      const year = START_YEAR + i;
+      const lowPoint = lowRows[i]?.pop ?? lowRows[lowRows.length - 1].pop;
+      const medPoint = medRows[i]?.pop ?? medRows[medRows.length - 1].pop;
+      const highPoint = highRows[i]?.pop ?? highRows[highRows.length - 1].pop;
+
+      if (year <= 2041) {
+        return {
+          year,
+          lowPop: lowPoint,
+          medPop: medPoint,
+          highPop: highPoint,
+          bandLow: null,
+          bandRange: null,
+        };
+      }
+
+      const yearsPastBoundary = year - 2041;
+      const lowExt = round(low2041 * Math.pow(1 + lowCagr, yearsPastBoundary));
+      const highExt = round(high2041 * Math.pow(1 + highCagr, yearsPastBoundary));
+      return {
+        year,
+        lowPop: null,
+        medPop: null,
+        highPop: null,
+        bandLow: lowExt,
+        bandRange: Math.max(0, highExt - lowExt),
+      };
+    });
+  }, [city, controls, horizon]);
 
   const migrationRows = useMemo(() => {
     const total = MIGRATION_COMPONENTS_2025.totalNetGrowth;
@@ -351,9 +411,15 @@ export default function MunicipalModelsPage() {
           </div>
           <div>
             <p className="mb-2 text-xs uppercase tracking-[0.08em] text-[#6b6255]">Horizon ({START_YEAR + horizon})</p>
-            <Slider min={5} max={25} step={5} value={[horizon]} onValueChange={(value) => setHorizon(value[0] ?? 25)} />
+            <Slider min={5} max={25} step={1} value={[horizon]} onValueChange={(value) => setHorizon(value[0] ?? 25)} />
           </div>
         </section>
+
+        {hasMultiplierShift && (
+          <section className="rounded-xl border border-[#BA7517]/40 bg-[#FAEEDA] px-4 py-3 text-sm text-[#633806]">
+            Multipliers shift projections outside the source data envelope.
+          </section>
+        )}
 
         <section className="rounded-xl border border-[#d8cdb9] bg-white p-5">
           <p className="mb-4 text-sm font-medium text-[#1f1f1f]">Scenario variable toggles</p>
@@ -425,15 +491,26 @@ export default function MunicipalModelsPage() {
               <p className="mb-3 text-sm font-medium text-[#4a453d]">Population — annual projection, all scenarios</p>
               <div className="h-[320px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart>
+                  <ComposedChart data={populationChartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" type="number" domain={[START_YEAR, START_YEAR + horizon]} allowDecimals={false} />
                     <YAxis tickFormatter={(value) => `${Math.round(Number(value) / 1000)}k`} />
-                    <Tooltip formatter={(value: number) => value.toLocaleString()} />
-                    {allScenarioRows.map((entry) => (
-                      <Line key={entry.key} data={entry.rows} dataKey="pop" name={entry.label} stroke={entry.color} strokeWidth={2} dot={false} />
-                    ))}
-                  </LineChart>
+                    <Tooltip
+                      formatter={(value: number, _name, item) => {
+                        const year = Number(item?.payload?.year);
+                        if (year > 2041) {
+                          return [`CAGR extension — not from source data: ${value.toLocaleString()}`, 'Population'];
+                        }
+                        return [value.toLocaleString(), 'Population'];
+                      }}
+                    />
+                    <ReferenceLine x={2041} stroke="#888780" strokeDasharray="4 4" label={{ value: 'Source data boundary', position: 'insideTopRight', fill: '#6b6255', fontSize: 11 }} />
+                    <Line dataKey="lowPop" name="Low" stroke="#378ADD" strokeWidth={2} dot={false} />
+                    <Line dataKey="medPop" name="Medium" stroke="#639922" strokeWidth={2} dot={false} />
+                    <Line dataKey="highPop" name="High" stroke="#BA7517" strokeWidth={2} dot={false} />
+                    <Area dataKey="bandLow" fill="#378ADD" fillOpacity={0.12} stroke="none" />
+                    <Area dataKey="bandRange" fill="#639922" fillOpacity={0.15} stroke="none" stackId="post2041-band" />
+                  </ComposedChart>
                 </ResponsiveContainer>
               </div>
             </div>
@@ -498,9 +575,18 @@ export default function MunicipalModelsPage() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip
+                      formatter={(value: number, _name, item) => {
+                        const year = Number(item?.payload?.year);
+                        if (year > 2041) {
+                          return [`CAGR extension — not from source data: ${value.toLocaleString()}`, 'Value'];
+                        }
+                        return [value.toLocaleString(), 'Value'];
+                      }}
+                    />
                     <Bar dataKey="newHH" stackId="a" fill="#5DCAA5" />
-                    <Bar dataKey="unitsReq" stackId="a" fill="#AFA9EC" />
+                    <Bar dataKey="vacAdj" stackId="a" fill="#AFA9EC" />
+                    <Bar dataKey="replUnits" stackId="a" fill="#F09595" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -526,12 +612,12 @@ export default function MunicipalModelsPage() {
                 <p className="mb-3 text-sm font-medium text-[#4a453d]">Supply pipeline status</p>
                 <table className="w-full text-sm">
                   <tbody>
-                    <tr className="border-b border-[#efe4d1]"><td className="py-2">2025 units created</td><td className="py-2 text-right">606</td></tr>
-                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Pipeline (approved)</td><td className="py-2 text-right">&gt;750</td></tr>
-                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Rental vacancy rate</td><td className="py-2 text-right">4.0%</td></tr>
-                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Vacancy direction</td><td className="py-2 text-right">+1.7 pp YoY</td></tr>
-                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Avg 2-bed rent</td><td className="py-2 text-right">~$1,148</td></tr>
-                    <tr><td className="py-2">Record permit value</td><td className="py-2 text-right">$389.9M</td></tr>
+                    {city.pipelineData.map((item, index) => (
+                      <tr key={item.label} className={cn(index < city.pipelineData.length - 1 && 'border-b border-[#efe4d1]')}>
+                        <td className="py-2">{item.label}</td>
+                        <td className="py-2 text-right">{item.value}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
                 <p className="mt-3 border-t border-[#efe4d1] pt-3 text-xs text-[#6b6255]">
@@ -549,7 +635,15 @@ export default function MunicipalModelsPage() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="year" type="number" domain={[START_YEAR, START_YEAR + horizon]} allowDecimals={false} />
                   <YAxis tickFormatter={(value) => `${Math.round(Number(value) / 1000)}k`} />
-                  <Tooltip formatter={(value: number) => value.toLocaleString()} />
+                  <Tooltip
+                    formatter={(value: number, _name, item) => {
+                      const year = Number(item?.payload?.year);
+                      if (year > 2041) {
+                        return [`CAGR extension — not from source data: ${value.toLocaleString()}`, 'Jobs'];
+                      }
+                      return [value.toLocaleString(), 'Jobs'];
+                    }}
+                  />
                   {allScenarioRows.map((entry) => (
                     <Line key={entry.key} data={entry.rows} dataKey="jobs" name={entry.label} stroke={entry.color} strokeWidth={2} dot={false} />
                   ))}
@@ -566,7 +660,15 @@ export default function MunicipalModelsPage() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="year" />
                   <YAxis tickFormatter={(value) => `${value} ha`} />
-                  <Tooltip />
+                  <Tooltip
+                    formatter={(value: number, _name, item) => {
+                      const year = Number(item?.payload?.year);
+                      if (year > 2041) {
+                        return [`CAGR extension — not from source data: ${value.toLocaleString()}`, 'Hectares'];
+                      }
+                      return [value.toLocaleString(), 'Hectares'];
+                    }}
+                  />
                   <Bar dataKey="resHaCum" fill="#5DCAA5" />
                   <Bar dataKey="indHa" fill="#EF9F27" />
                 </BarChart>
