@@ -302,6 +302,7 @@ export default function MunicipalModelsPage() {
     };
   });
   const [shareCopied, setShareCopied] = useState(false);
+  const [activeModel, setActiveModel] = useState<'model1' | 'model2'>('model1');
   const deferredControls = useDeferredValue(controls);
   const deferredHorizon = useDeferredValue(horizon);
 
@@ -311,6 +312,7 @@ export default function MunicipalModelsPage() {
     setSelectedProvince(province);
     setSelectedCity(cityName);
     setControls(initialControls(nextCity));
+    setActiveModel('model1');
   };
 
   const activeRows = useMemo(() => project(city, scenario, horizon, controls), [city, scenario, horizon, controls]);
@@ -498,6 +500,26 @@ export default function MunicipalModelsPage() {
           </div>
         </section>
 
+        <section className="rounded-xl border border-[#d8cdb9] bg-white p-5">
+          <p className="mb-2 text-xs uppercase tracking-[0.08em] text-[#6b6255]">Model selection — {city.city}</p>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              className={cn('border-[#cfc2ab]', activeModel === 'model1' && 'bg-[#1f1f1f] text-white hover:bg-[#1f1f1f]')}
+              onClick={() => setActiveModel('model1')}
+            >
+              Model 1
+            </Button>
+            <Button
+              variant="outline"
+              className={cn('border-[#cfc2ab]', activeModel === 'model2' && 'bg-[#1f1f1f] text-white hover:bg-[#1f1f1f]')}
+              onClick={() => setActiveModel('model2')}
+            >
+              Model 2
+            </Button>
+          </div>
+        </section>
+
         <section className="grid gap-4 rounded-xl border border-[#d8cdb9] bg-white p-5 lg:grid-cols-2">
           <div>
             <p className="mb-2 text-xs uppercase tracking-[0.08em] text-[#6b6255]">Scenario</p>
@@ -591,13 +613,13 @@ export default function MunicipalModelsPage() {
           ))}
         </section>
 
-        <Tabs defaultValue="population" className="space-y-4">
+        {activeModel === 'model1' ? (
+          <Tabs defaultValue="population" className="space-y-4">
           <TabsList className="h-auto w-full flex-wrap justify-start bg-white p-1">
             <TabsTrigger value="population">Population</TabsTrigger>
             <TabsTrigger value="housing">Housing</TabsTrigger>
             <TabsTrigger value="employment">Employment</TabsTrigger>
             <TabsTrigger value="land">Land demand</TabsTrigger>
-            <TabsTrigger value="model2">Model 2 engine</TabsTrigger>
             <TabsTrigger value="summary">Full table</TabsTrigger>
             <TabsTrigger value="lexicon">Data lexicon</TabsTrigger>
           </TabsList>
@@ -795,15 +817,6 @@ export default function MunicipalModelsPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="model2" className="space-y-4">
-            <Model2EnginePanel
-              cityLabel={city.city}
-              horizonYear={START_YEAR + horizon}
-              snapshots={model1Snapshots}
-              zones={city.zones}
-            />
-          </TabsContent>
-
           <TabsContent value="summary" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
             <p className="mb-3 text-sm font-medium text-[#4a453d]">Full 5-year projection table — active scenario</p>
             <div className="overflow-x-auto">
@@ -892,7 +905,17 @@ export default function MunicipalModelsPage() {
               </ul>
             </article>
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        ) : (
+          <section className="space-y-4">
+            <Model2EnginePanel
+              cityLabel={city.city}
+              horizonYear={START_YEAR + horizon}
+              snapshots={model1Snapshots}
+              zones={city.zones}
+            />
+          </section>
+        )}
       </div>
     </div>
   );
