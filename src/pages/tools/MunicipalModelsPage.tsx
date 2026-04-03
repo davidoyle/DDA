@@ -354,19 +354,70 @@ export default function MunicipalModelsPage() {
 
             <div className="grid gap-4 lg:grid-cols-2">
               <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+                <p className="mb-3 text-sm font-medium text-[#4a453d]">Age structure shift (active scenario)</p>
+                <div className="h-[240px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={[
+                        { name: '0–14', share: 13 },
+                        { name: '15–24', share: 11 },
+                        { name: '25–44', share: 26 },
+                        { name: '45–64', share: 27 },
+                        { name: '65+', share: scenario === 'high' ? 26 : scenario === 'low' ? 29 : 28 },
+                      ]}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis unit="%" />
+                      <Tooltip formatter={(value: number) => `${value}%`} />
+                      <Bar dataKey="share" fill="#1D9E75" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </article>
+
+              <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
                 <p className="mb-3 text-sm font-medium text-[#4a453d]">Migration components</p>
                 <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-[#efe4d1] text-left text-xs text-[#6b6255]">
+                      <th className="py-2">Component</th>
+                      <th className="py-2 text-right">2025 base</th>
+                      <th className="py-2 text-right">Annual avg</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     {migrationRows.map((row) => (
                       <tr key={row.component} className="border-b border-[#efe4d1] last:border-b-0">
                         <td className="py-2">{row.component}</td>
+                        <td className="py-2 text-right">{row.component === 'International immigration' ? `~${city.base.pop2025.toLocaleString()}` : '—'}</td>
                         <td className="py-2 text-right">+{row.annualAvg.toLocaleString()}/yr</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </article>
+            </div>
+          </TabsContent>
 
+          <TabsContent value="housing" className="space-y-4">
+            <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+              <p className="mb-3 text-sm font-medium text-[#4a453d]">Housing demand — units required annually</p>
+              <div className="h-[320px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={activeRows}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="newHH" stackId="a" fill="#5DCAA5" />
+                    <Bar dataKey="unitsReq" stackId="a" fill="#AFA9EC" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </article>
+
+            <div className="grid gap-4 lg:grid-cols-2">
               <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
                 <p className="mb-3 text-sm font-medium text-[#4a453d]">Unit mix (active scenario)</p>
                 <div className="h-[240px]">
@@ -381,22 +432,23 @@ export default function MunicipalModelsPage() {
                   </ResponsiveContainer>
                 </div>
               </article>
-            </div>
-          </TabsContent>
 
-          <TabsContent value="housing" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
-            <p className="mb-3 text-sm font-medium text-[#4a453d]">Housing demand — units required annually</p>
-            <div className="h-[320px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={activeRows}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="newHH" stackId="a" fill="#5DCAA5" />
-                  <Bar dataKey="unitsReq" stackId="a" fill="#AFA9EC" />
-                </BarChart>
-              </ResponsiveContainer>
+              <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+                <p className="mb-3 text-sm font-medium text-[#4a453d]">Supply pipeline status</p>
+                <table className="w-full text-sm">
+                  <tbody>
+                    <tr className="border-b border-[#efe4d1]"><td className="py-2">2025 units created</td><td className="py-2 text-right">606</td></tr>
+                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Pipeline (approved)</td><td className="py-2 text-right">&gt;750</td></tr>
+                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Rental vacancy rate</td><td className="py-2 text-right">4.0%</td></tr>
+                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Vacancy direction</td><td className="py-2 text-right">+1.7 pp YoY</td></tr>
+                    <tr className="border-b border-[#efe4d1]"><td className="py-2">Avg 2-bed rent</td><td className="py-2 text-right">~$1,148</td></tr>
+                    <tr><td className="py-2">Record permit value</td><td className="py-2 text-right">$389.9M</td></tr>
+                  </tbody>
+                </table>
+                <p className="mt-3 border-t border-[#efe4d1] pt-3 text-xs text-[#6b6255]">
+                  4.0% vacancy above structural equilibrium (~3%) suggests temporary lease-up lag; pressure can return under medium/high scenarios by 2028–2030.
+                </p>
+              </article>
             </div>
           </TabsContent>
 
