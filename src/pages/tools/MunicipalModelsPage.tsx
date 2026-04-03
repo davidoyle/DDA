@@ -75,6 +75,7 @@ type LexiconRow = {
 };
 
 type ZoneCode = 'G1' | 'G2' | 'G3';
+type Model1TabKey = 'population' | 'housing' | 'employment' | 'land' | 'summary' | 'lexicon';
 
 const START_YEAR = 2025;
 
@@ -182,6 +183,30 @@ const KNOWN_GAPS = [
   'Transport capacity ceiling quantification.',
   'Serviced land hectare inventory from public GIS extraction.',
   'City/CMA current LFS employment by NAICS in public disaggregation.',
+];
+
+const TRANSLATION_LEXICON: Array<{
+  abbreviation: string;
+  standsFor: string;
+  plainEnglish: string;
+  model: 'model1' | 'model2';
+  tab?: Exclude<Model1TabKey, 'lexicon'>;
+  targetId: string;
+}> = [
+  { abbreviation: 'CMA', standsFor: 'Census Metropolitan Area', plainEnglish: 'The whole city region, including suburbs and nearby towns.', model: 'model1', tab: 'population', targetId: 'model-population' },
+  { abbreviation: 'CSD', standsFor: 'Census Subdivision', plainEnglish: 'The city proper (inside legal municipal boundaries).', model: 'model1', tab: 'population', targetId: 'model-population' },
+  { abbreviation: 'PDA', standsFor: 'Primary Development Area', plainEnglish: 'Where growth should go first because services already exist.', model: 'model1', tab: 'land', targetId: 'model-land' },
+  { abbreviation: 'G1 / G2 / G3', standsFor: 'Growth zones 1, 2, and 3', plainEnglish: 'Core, established neighborhoods, and edge/greenfield growth areas.', model: 'model2', targetId: 'model2-zone-split' },
+  { abbreviation: 'u/ha', standsFor: 'Units per hectare', plainEnglish: 'How many homes fit in about a soccer-field-sized area.', model: 'model1', tab: 'land', targetId: 'model-land' },
+  { abbreviation: 'jobs/ha', standsFor: 'Jobs per hectare', plainEnglish: 'How many jobs fit in that same land area.', model: 'model2', targetId: 'model2-utilization' },
+  { abbreviation: 'ha', standsFor: 'Hectare', plainEnglish: 'Land unit (~2.5 acres, roughly a soccer field).', model: 'model1', tab: 'land', targetId: 'model-land' },
+  { abbreviation: 'HH', standsFor: 'Household', plainEnglish: 'People living in one home (single person or family).', model: 'model1', tab: 'summary', targetId: 'model-summary' },
+  { abbreviation: 'pop', standsFor: 'Population', plainEnglish: 'People/residents.', model: 'model1', tab: 'population', targetId: 'model-population' },
+  { abbreviation: 'jobs', standsFor: 'Employment', plainEnglish: 'Workplaces/jobs in the model.', model: 'model1', tab: 'employment', targetId: 'model-employment' },
+  { abbreviation: 'U_total', standsFor: 'Total required housing units', plainEnglish: 'All new homes needed including vacancy and replacement.', model: 'model2', targetId: 'model2-zone-split' },
+  { abbreviation: 'E_total', standsFor: 'Total jobs', plainEnglish: 'All jobs used by Model 2 from Model 1 scenarios.', model: 'model2', targetId: 'model2-zone-split' },
+  { abbreviation: 'H_total', standsFor: 'Total households', plainEnglish: 'Total households used for workers-per-household matching.', model: 'model2', targetId: 'model2-zone-split' },
+  { abbreviation: 'λ (lambda)', standsFor: 'Workers per household', plainEnglish: 'Average workers in each household for jobs-housing matching.', model: 'model2', targetId: 'model2-utilization' },
 ];
 
 const MIGRATION_COMPONENTS_2025 = {
@@ -303,6 +328,7 @@ export default function MunicipalModelsPage() {
   });
   const [shareCopied, setShareCopied] = useState(false);
   const [activeModel, setActiveModel] = useState<'model1' | 'model2'>('model1');
+  const [model1Tab, setModel1Tab] = useState<Model1TabKey>('population');
   const deferredControls = useDeferredValue(controls);
   const deferredHorizon = useDeferredValue(horizon);
 
@@ -313,6 +339,7 @@ export default function MunicipalModelsPage() {
     setSelectedCity(cityName);
     setControls(initialControls(nextCity));
     setActiveModel('model1');
+    setModel1Tab('population');
   };
 
   const activeRows = useMemo(() => project(city, scenario, horizon, controls), [city, scenario, horizon, controls]);
@@ -452,6 +479,19 @@ export default function MunicipalModelsPage() {
     await navigator.clipboard.writeText(url.toString());
     setShareCopied(true);
     window.setTimeout(() => setShareCopied(false), 2000);
+  };
+
+  const handleLexiconJump = (entry: (typeof TRANSLATION_LEXICON)[number]) => {
+    if (entry.model === 'model1') {
+      setActiveModel('model1');
+      if (entry.tab) setModel1Tab(entry.tab);
+    } else {
+      setActiveModel('model2');
+    }
+
+    window.setTimeout(() => {
+      document.getElementById(entry.targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
   };
 
   return (
@@ -614,7 +654,7 @@ export default function MunicipalModelsPage() {
         </section>
 
         {activeModel === 'model1' ? (
-          <Tabs defaultValue="population" className="space-y-4">
+          <Tabs value={model1Tab} onValueChange={(value) => setModel1Tab(value as Model1TabKey)} className="space-y-4">
           <TabsList className="h-auto w-full flex-wrap justify-start bg-white p-1">
             <TabsTrigger value="population">Population</TabsTrigger>
             <TabsTrigger value="housing">Housing</TabsTrigger>
@@ -625,7 +665,7 @@ export default function MunicipalModelsPage() {
           </TabsList>
 
           <TabsContent value="population" className="space-y-4">
-            <div className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+            <div id="model-population" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
               <p className="mb-3 text-sm font-medium text-[#4a453d]">Population — annual projection, all scenarios</p>
               <div className="h-[320px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -708,7 +748,7 @@ export default function MunicipalModelsPage() {
           </TabsContent>
 
           <TabsContent value="housing" className="space-y-4">
-            <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+            <article id="model-housing" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
               <p className="mb-3 text-sm font-medium text-[#4a453d]">Housing demand — units required annually</p>
               <div className="h-[320px]">
                 <ResponsiveContainer width="100%" height="100%">
@@ -768,7 +808,7 @@ export default function MunicipalModelsPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="employment" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+          <TabsContent value="employment" className="rounded-xl border border-[#d8cdb9] bg-white p-4" id="model-employment">
             <p className="mb-3 text-sm font-medium text-[#4a453d]">Employment — total jobs by scenario</p>
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -793,7 +833,7 @@ export default function MunicipalModelsPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="land" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+          <TabsContent value="land" className="rounded-xl border border-[#d8cdb9] bg-white p-4" id="model-land">
             <p className="mb-3 text-sm font-medium text-[#4a453d]">Land demand — cumulative hectares required</p>
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -817,7 +857,7 @@ export default function MunicipalModelsPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="summary" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+          <TabsContent value="summary" className="rounded-xl border border-[#d8cdb9] bg-white p-4" id="model-summary">
             <p className="mb-3 text-sm font-medium text-[#4a453d]">Full 5-year projection table — active scenario</p>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[820px] text-sm">
@@ -848,6 +888,37 @@ export default function MunicipalModelsPage() {
           </TabsContent>
 
           <TabsContent value="lexicon" className="space-y-4">
+            <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+              <p className="mb-2 text-sm font-medium text-[#4a453d]">Lexicon translation — clickable model terms</p>
+              <p className="mb-3 text-xs text-[#6b6255]">Click any abbreviation to jump to where it appears in Model 1 or Model 2.</p>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[980px] text-sm">
+                  <thead>
+                    <tr className="border-b border-[#e9dcc6] text-left text-xs text-[#6b6255]">
+                      <th className="px-2 py-2">Abbreviation</th>
+                      <th className="px-2 py-2">What it stands for</th>
+                      <th className="px-2 py-2">Plain-English translation</th>
+                      <th className="px-2 py-2">Jump</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {TRANSLATION_LEXICON.map((entry) => (
+                      <tr key={entry.abbreviation} className="border-b border-[#efe4d1] last:border-b-0">
+                        <td className="px-2 py-2 font-semibold">{entry.abbreviation}</td>
+                        <td className="px-2 py-2">{entry.standsFor}</td>
+                        <td className="px-2 py-2">{entry.plainEnglish}</td>
+                        <td className="px-2 py-2">
+                          <Button variant="outline" className="border-[#cfc2ab]" onClick={() => handleLexiconJump(entry)}>
+                            Go to term
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
             <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
               <p className="mb-2 text-sm font-medium text-[#4a453d]">Data lexicon — Saint John land use growth model</p>
               <p className="text-xs text-[#6b6255]">Projection endpoint is capped at 2041. Values are tagged as ACTUAL, PROXY, or FLAGGED exactly per the provided data lexicon.</p>

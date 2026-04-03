@@ -29,7 +29,7 @@ export function Model2EnginePanel({ cityLabel, horizonYear, snapshots, zones }: 
 
   return (
     <div className="space-y-4">
-      <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+      <article id="model2-zone-split" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-sm font-medium text-[#4a453d]">Model 2 — City-Wide Growth Scenario Engine</p>
           <Button variant="outline" className="border-[#cfc2ab]" onClick={handleExportModel2Csv}>Export Model 2 CSV</Button>
@@ -74,7 +74,7 @@ export function Model2EnginePanel({ cityLabel, horizonYear, snapshots, zones }: 
           <article key={model1} className="rounded-xl border border-[#d8cdb9] bg-white p-4 space-y-4">
             <p className="text-sm font-medium text-[#4a453d]">Model 1 Scenario: {model1.toUpperCase()}</p>
 
-            <div className="h-[220px]">
+            <div id="model2-utilization" className="h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
