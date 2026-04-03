@@ -63,6 +63,29 @@ type LexiconRow = {
   notes: string;
 };
 
+type ZoneCode = 'G1' | 'G2' | 'G3';
+type ScenarioPlanCode = 'A' | 'B' | 'C';
+
+type Model2Result = {
+  model1Scenario: ScenarioKey;
+  plan: ScenarioPlanCode;
+  unitsByZone: Record<ZoneCode, number>;
+  jobsByZone: Record<ZoneCode, number>;
+  residentialLandByZone: Record<ZoneCode, number>;
+  employmentLandByZone: Record<ZoneCode, number>;
+  totalLand: number;
+  infraCost: number;
+  housingPressure: number;
+  efficiency: number;
+  status: 'PASS' | 'WARN' | 'FAIL';
+  flags: {
+    residentialCapacity: 'PASS' | 'WARN' | 'FAIL';
+    employmentCapacity: 'PASS' | 'WARN' | 'FAIL';
+    servicedCapacity: 'PASS' | 'WARN' | 'FAIL';
+    jobsHousingBalance: 'PASS' | 'WARN' | 'FAIL';
+  };
+};
+
 const START_YEAR = 2025;
 
 const CITY_MODELS: CityModel[] = [
@@ -181,6 +204,27 @@ const AGE_STRUCTURE_PROXY_2041 = [
   { scenario: 'High', totalPop: 116934, age0to14: 4.3, age15to64: 73.1, age65plus: 22.6 },
 ];
 
+const ZONE_CONFIG: Record<ZoneCode, {
+  areaHa: number;
+  developableHa: number;
+  servicedCapacityHa: number;
+  minDensity: number;
+  maxDensity: number;
+  jobsPerHa: number;
+  costIndex: number;
+  housingWeight: number;
+}> = {
+  G1: { areaHa: 450, developableHa: 120, servicedCapacityHa: 350, minDensity: 70, maxDensity: 120, jobsPerHa: 150, costIndex: 1.0, housingWeight: 0.8 },
+  G2: { areaHa: 3200, developableHa: 800, servicedCapacityHa: 2400, minDensity: 35, maxDensity: 70, jobsPerHa: 75, costIndex: 1.3, housingWeight: 1.0 },
+  G3: { areaHa: 15000, developableHa: 5000, servicedCapacityHa: 15000, minDensity: 20, maxDensity: 45, jobsPerHa: 30, costIndex: 2.5, housingWeight: 1.3 },
+};
+
+const ALLOCATION_PLANS: Record<ScenarioPlanCode, { residential: Record<ZoneCode, number>; employment: Record<ZoneCode, number>; label: string }> = {
+  A: { label: 'Uptown Concentration', residential: { G1: 0.75, G2: 0.2, G3: 0.05 }, employment: { G1: 0.65, G2: 0.25, G3: 0.1 } },
+  B: { label: 'Distributed Growth', residential: { G1: 0.35, G2: 0.35, G3: 0.3 }, employment: { G1: 0.35, G2: 0.35, G3: 0.3 } },
+  C: { label: 'Emerging Expansion', residential: { G1: 0.15, G2: 0.25, G3: 0.6 }, employment: { G1: 0.25, G2: 0.25, G3: 0.5 } },
+};
+
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
@@ -245,6 +289,18 @@ function initialControls(city: CityModel): ModelControls {
       high: 1,
     },
   };
+}
+
+function flagFromUtilization(utilization: number): 'PASS' | 'WARN' | 'FAIL' {
+  if (utilization > 1) return 'FAIL';
+  if (utilization > 0.9) return 'WARN';
+  return 'PASS';
+}
+
+function overallStatus(flags: Array<'PASS' | 'WARN' | 'FAIL'>): 'PASS' | 'WARN' | 'FAIL' {
+  if (flags.includes('FAIL')) return 'FAIL';
+  if (flags.includes('WARN')) return 'WARN';
+  return 'PASS';
 }
 
 export default function MunicipalModelsPage() {
@@ -376,6 +432,71 @@ export default function MunicipalModelsPage() {
       },
     ];
   }, []);
+
+  const model2Results = useMemo(() => {
+    const sourceScenarios: ScenarioKey[] = ['low', 'med', 'high'];
+    const plans: ScenarioPlanCode[] = ['A', 'B', 'C'];
+    const serviceCapTotal = (Object.values(ZONE_CONFIG)).reduce((sum, zone) => sum + zone.servicedCapacityHa, 0);
+
+    const results: Model2Result[] = [];
+    sourceScenarios.forEach((model1Scenario) => {
+      const row = project(city, model1Scenario, horizon, controls)[horizon];
+      const H_total = row.hh;
+      const U_total = row.hh;
+      const E_total = row.jobs;
+      const workersPerHousehold = E_total / Math.max(H_total, 1);
+
+      plans.forEach((plan) => {
+        const planCfg = ALLOCATION_PLANS[plan];
+        const unitsByZone = { G1: 0, G2: 0, G3: 0 } as Record<ZoneCode, number>;
+        const jobsByZone = { G1: 0, G2: 0, G3: 0 } as Record<ZoneCode, number>;
+        const residentialLandByZone = { G1: 0, G2: 0, G3: 0 } as Record<ZoneCode, number>;
+        const employmentLandByZone = { G1: 0, G2: 0, G3: 0 } as Record<ZoneCode, number>;
+        const jobsHousingRatioByZone = { G1: 1, G2: 1, G3: 1 } as Record<ZoneCode, number>;
+
+        (['G1', 'G2', 'G3'] as ZoneCode[]).forEach((zone) => {
+          const zoneCfg = ZONE_CONFIG[zone];
+          unitsByZone[zone] = U_total * planCfg.residential[zone];
+          jobsByZone[zone] = E_total * planCfg.employment[zone];
+          residentialLandByZone[zone] = unitsByZone[zone] / zoneCfg.minDensity;
+          employmentLandByZone[zone] = jobsByZone[zone] / zoneCfg.jobsPerHa;
+          jobsHousingRatioByZone[zone] = jobsByZone[zone] / Math.max(unitsByZone[zone] * workersPerHousehold, 1);
+        });
+
+        const totalLand = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + residentialLandByZone[zone] + employmentLandByZone[zone], 0);
+        const infraCost = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + unitsByZone[zone] * (ZONE_CONFIG[zone].costIndex / ZONE_CONFIG[zone].minDensity), 0);
+        const housingPressure = (['G1', 'G2', 'G3'] as ZoneCode[]).reduce((sum, zone) => sum + unitsByZone[zone] * ZONE_CONFIG[zone].housingWeight, 0) / Math.max(U_total, 1);
+        const efficiency = (U_total + E_total) / Math.max(totalLand, 1);
+
+        const residentialUtilization = Math.max(...(['G1', 'G2', 'G3'] as ZoneCode[]).map((zone) => unitsByZone[zone] / (ZONE_CONFIG[zone].developableHa * ZONE_CONFIG[zone].maxDensity)));
+        const employmentUtilization = Math.max(...(['G1', 'G2', 'G3'] as ZoneCode[]).map((zone) => jobsByZone[zone] / (ZONE_CONFIG[zone].developableHa * ZONE_CONFIG[zone].jobsPerHa)));
+        const servicedUtilization = totalLand / serviceCapTotal;
+        const jobsHousingDeviation = Math.max(...Object.values(jobsHousingRatioByZone).map((ratio) => Math.abs(ratio - 1)));
+
+        const residentialCapacity = flagFromUtilization(residentialUtilization);
+        const employmentCapacity = flagFromUtilization(employmentUtilization);
+        const servicedCapacity = flagFromUtilization(servicedUtilization);
+        const jobsHousingBalance: 'PASS' | 'WARN' | 'FAIL' = jobsHousingDeviation > 0.3 ? 'FAIL' : jobsHousingDeviation > 0.15 ? 'WARN' : 'PASS';
+        const status = overallStatus([residentialCapacity, employmentCapacity, servicedCapacity, jobsHousingBalance]);
+
+        results.push({
+          model1Scenario,
+          plan,
+          unitsByZone,
+          jobsByZone,
+          residentialLandByZone,
+          employmentLandByZone,
+          totalLand,
+          infraCost,
+          housingPressure,
+          efficiency,
+          status,
+          flags: { residentialCapacity, employmentCapacity, servicedCapacity, jobsHousingBalance },
+        });
+      });
+    });
+    return results;
+  }, [city, controls, horizon]);
 
   const handleResetDefaults = () => {
     setScenario('med');
@@ -563,6 +684,7 @@ export default function MunicipalModelsPage() {
             <TabsTrigger value="housing">Housing</TabsTrigger>
             <TabsTrigger value="employment">Employment</TabsTrigger>
             <TabsTrigger value="land">Land demand</TabsTrigger>
+            <TabsTrigger value="model2">Model 2 engine</TabsTrigger>
             <TabsTrigger value="summary">Full table</TabsTrigger>
             <TabsTrigger value="lexicon">Data lexicon</TabsTrigger>
           </TabsList>
@@ -758,6 +880,84 @@ export default function MunicipalModelsPage() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
+          </TabsContent>
+
+          <TabsContent value="model2" className="space-y-4">
+            <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+              <p className="mb-2 text-sm font-medium text-[#4a453d]">Model 2 — City-Wide Growth Scenario Engine</p>
+              <p className="text-sm text-[#5e574a]">Deterministic allocation + constraint + cost model (Abstract mode) with 3 Model 1 scenarios × 3 allocation plans = 9 combinations.</p>
+            </article>
+
+            {(['low', 'med', 'high'] as ScenarioKey[]).map((model1) => {
+              const rows = model2Results.filter((result) => result.model1Scenario === model1);
+              return (
+                <article key={model1} className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+                  <p className="mb-3 text-sm font-medium text-[#4a453d]">Model 1 Scenario: {city.scenarios[model1].label}</p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full min-w-[980px] text-sm">
+                      <thead>
+                        <tr className="border-b border-[#e9dcc6] text-left text-xs text-[#6b6255]">
+                          <th className="px-2 py-2">Metric</th>
+                          <th className="px-2 py-2">A</th>
+                          <th className="px-2 py-2">B</th>
+                          <th className="px-2 py-2">C</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { key: 'units', label: 'Units by zone (G1/G2/G3)', render: (r: Model2Result) => `${Math.round(r.unitsByZone.G1).toLocaleString()} / ${Math.round(r.unitsByZone.G2).toLocaleString()} / ${Math.round(r.unitsByZone.G3).toLocaleString()}` },
+                          { key: 'jobs', label: 'Jobs by zone (G1/G2/G3)', render: (r: Model2Result) => `${Math.round(r.jobsByZone.G1).toLocaleString()} / ${Math.round(r.jobsByZone.G2).toLocaleString()} / ${Math.round(r.jobsByZone.G3).toLocaleString()}` },
+                          { key: 'res', label: 'Residential land (ha)', render: (r: Model2Result) => (r.residentialLandByZone.G1 + r.residentialLandByZone.G2 + r.residentialLandByZone.G3).toFixed(1) },
+                          { key: 'emp', label: 'Employment land (ha)', render: (r: Model2Result) => (r.employmentLandByZone.G1 + r.employmentLandByZone.G2 + r.employmentLandByZone.G3).toFixed(1) },
+                          { key: 'tot', label: 'Total land (ha)', render: (r: Model2Result) => r.totalLand.toFixed(1) },
+                          { key: 'infra', label: 'Infra cost index', render: (r: Model2Result) => r.infraCost.toFixed(1) },
+                          { key: 'press', label: 'Housing pressure', render: (r: Model2Result) => r.housingPressure.toFixed(2) },
+                          { key: 'eff', label: 'Efficiency', render: (r: Model2Result) => r.efficiency.toFixed(1) },
+                          { key: 'stat', label: 'Capacity status', render: (r: Model2Result) => r.status },
+                        ].map((metric) => (
+                          <tr key={metric.key} className="border-b border-[#efe4d1] last:border-b-0">
+                            <td className="px-2 py-2">{metric.label}</td>
+                            {(['A', 'B', 'C'] as ScenarioPlanCode[]).map((plan) => {
+                              const result = rows.find((row) => row.plan === plan);
+                              return <td key={plan} className="px-2 py-2">{result ? metric.render(result) : '—'}</td>;
+                            })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="mt-4 overflow-x-auto">
+                    <table className="w-full min-w-[980px] text-sm">
+                      <thead>
+                        <tr className="border-b border-[#e9dcc6] text-left text-xs text-[#6b6255]">
+                          <th className="px-2 py-2">Feasibility flags</th>
+                          <th className="px-2 py-2">A</th>
+                          <th className="px-2 py-2">B</th>
+                          <th className="px-2 py-2">C</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { key: 'resCap', label: 'Residential capacity', pick: (r: Model2Result) => r.flags.residentialCapacity },
+                          { key: 'empCap', label: 'Employment capacity', pick: (r: Model2Result) => r.flags.employmentCapacity },
+                          { key: 'srvCap', label: 'Serviced capacity', pick: (r: Model2Result) => r.flags.servicedCapacity },
+                          { key: 'jh', label: 'Jobs-housing balance', pick: (r: Model2Result) => r.flags.jobsHousingBalance },
+                        ].map((flag) => (
+                          <tr key={flag.key} className="border-b border-[#efe4d1] last:border-b-0">
+                            <td className="px-2 py-2">{flag.label}</td>
+                            {(['A', 'B', 'C'] as ScenarioPlanCode[]).map((plan) => {
+                              const result = rows.find((row) => row.plan === plan);
+                              return <td key={plan} className="px-2 py-2">{result ? flag.pick(result) : '—'}</td>;
+                            })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </article>
+              );
+            })}
           </TabsContent>
 
           <TabsContent value="summary" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
