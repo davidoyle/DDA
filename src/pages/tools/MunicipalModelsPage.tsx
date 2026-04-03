@@ -197,12 +197,12 @@ const TRANSLATION_LEXICON: Array<{
   { abbreviation: 'CSD', standsFor: 'Census Subdivision', plainEnglish: 'The city proper (inside legal municipal boundaries).', model: 'model1', tab: 'population', targetId: 'model-population' },
   { abbreviation: 'PDA', standsFor: 'Primary Development Area', plainEnglish: 'Where growth should go first because services already exist.', model: 'model1', tab: 'land', targetId: 'model-land' },
   { abbreviation: 'G1 / G2 / G3', standsFor: 'Growth zones 1, 2, and 3', plainEnglish: 'Core, established neighborhoods, and edge/greenfield growth areas.', model: 'model2', targetId: 'model2-zone-split' },
-  { abbreviation: 'u/ha', standsFor: 'Units per hectare', plainEnglish: 'How many homes fit in about a soccer-field-sized area.', model: 'model1', tab: 'land', targetId: 'model-land' },
+  { abbreviation: 'u/ha', standsFor: 'Units per hectare', plainEnglish: 'How many homes fit in about a soccer-field-sized area.', model: 'model1', tab: 'land', targetId: 'model-term-uha' },
   { abbreviation: 'jobs/ha', standsFor: 'Jobs per hectare', plainEnglish: 'How many jobs fit in that same land area.', model: 'model2', targetId: 'model2-utilization' },
   { abbreviation: 'ha', standsFor: 'Hectare', plainEnglish: 'Land unit (~2.5 acres, roughly a soccer field).', model: 'model1', tab: 'land', targetId: 'model-land' },
-  { abbreviation: 'HH', standsFor: 'Household', plainEnglish: 'People living in one home (single person or family).', model: 'model1', tab: 'summary', targetId: 'model-summary' },
-  { abbreviation: 'pop', standsFor: 'Population', plainEnglish: 'People/residents.', model: 'model1', tab: 'population', targetId: 'model-population' },
-  { abbreviation: 'jobs', standsFor: 'Employment', plainEnglish: 'Workplaces/jobs in the model.', model: 'model1', tab: 'employment', targetId: 'model-employment' },
+  { abbreviation: 'HH', standsFor: 'Household', plainEnglish: 'People living in one home (single person or family).', model: 'model1', tab: 'summary', targetId: 'model-term-hh' },
+  { abbreviation: 'pop', standsFor: 'Population', plainEnglish: 'People/residents.', model: 'model1', tab: 'population', targetId: 'model-term-pop' },
+  { abbreviation: 'jobs', standsFor: 'Employment', plainEnglish: 'Workplaces/jobs in the model.', model: 'model1', tab: 'employment', targetId: 'model-term-jobs' },
   { abbreviation: 'U_total', standsFor: 'Total required housing units', plainEnglish: 'All new homes needed including vacancy and replacement.', model: 'model2', targetId: 'model2-zone-split' },
   { abbreviation: 'E_total', standsFor: 'Total jobs', plainEnglish: 'All jobs used by Model 2 from Model 1 scenarios.', model: 'model2', targetId: 'model2-zone-split' },
   { abbreviation: 'H_total', standsFor: 'Total households', plainEnglish: 'Total households used for workers-per-household matching.', model: 'model2', targetId: 'model2-zone-split' },
@@ -329,6 +329,8 @@ export default function MunicipalModelsPage() {
   const [shareCopied, setShareCopied] = useState(false);
   const [activeModel, setActiveModel] = useState<'model1' | 'model2'>('model1');
   const [model1Tab, setModel1Tab] = useState<Model1TabKey>('population');
+  const [showBackToLexicon, setShowBackToLexicon] = useState(false);
+  const [jumpFeedback, setJumpFeedback] = useState<string | null>(null);
   const deferredControls = useDeferredValue(controls);
   const deferredHorizon = useDeferredValue(horizon);
 
@@ -482,6 +484,8 @@ export default function MunicipalModelsPage() {
   };
 
   const handleLexiconJump = (entry: (typeof TRANSLATION_LEXICON)[number]) => {
+    setJumpFeedback(null);
+
     if (entry.model === 'model1') {
       setActiveModel('model1');
       if (entry.tab) setModel1Tab(entry.tab);
@@ -490,8 +494,27 @@ export default function MunicipalModelsPage() {
     }
 
     window.setTimeout(() => {
-      document.getElementById(entry.targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 120);
+      const element = document.getElementById(entry.targetId);
+      if (!element) {
+        console.warn(`Lexicon target not found: ${entry.targetId}`);
+        setJumpFeedback(`Couldn't find "${entry.abbreviation}" target in the model view. Please try manually.`);
+        return;
+      }
+
+      const yOffset = window.innerWidth < 768 ? -84 : -32;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      const previousTransition = element.style.transition;
+      const previousBackground = element.style.backgroundColor;
+      element.style.transition = 'background-color 0.9s ease';
+      element.style.backgroundColor = '#FEF3C7';
+      window.setTimeout(() => {
+        element.style.backgroundColor = previousBackground;
+        element.style.transition = previousTransition;
+      }, 2200);
+      setShowBackToLexicon(true);
+    }, 140);
   };
 
   return (
@@ -611,7 +634,7 @@ export default function MunicipalModelsPage() {
                 </div>
 
                 <div className="space-y-4">
-                  <label className="block text-sm text-[#4a453d]">PDA density: {controls.pdaDensity.toFixed(0)} u/net ha</label>
+                  <label id="model-term-uha" className="block text-sm text-[#4a453d]">PDA density: {controls.pdaDensity.toFixed(0)} u/net ha</label>
                   <Slider min={25} max={90} step={1} value={[controls.pdaDensity]} onValueChange={(v) => setControls((prev) => ({ ...prev, pdaDensity: v[0] ?? prev.pdaDensity }))} />
 
                   <label className="block text-sm text-[#4a453d]">Industrial share: {(controls.indShare * 100).toFixed(1)}%</label>
@@ -640,12 +663,12 @@ export default function MunicipalModelsPage() {
 
         <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {[
-            { label: `Population ${START_YEAR + horizon}`, value: last.pop.toLocaleString(), sub: city.scenarios[scenario].label + ' scenario' },
-            { label: 'Total households', value: last.hh.toLocaleString(), sub: `at ${controls.hhSize.toFixed(2)} persons/hh` },
+            { id: 'model-term-pop', label: `Population ${START_YEAR + horizon}`, value: last.pop.toLocaleString(), sub: city.scenarios[scenario].label + ' scenario' },
+            { id: 'model-term-hh', label: 'Total households', value: last.hh.toLocaleString(), sub: `at ${controls.hhSize.toFixed(2)} persons/hh` },
             { label: 'Cumulative res land', value: `${last.resHaCum} ha`, sub: `@ ${controls.pdaDensity.toFixed(0)} u/net ha` },
-            { label: 'Total jobs', value: last.jobs.toLocaleString(), sub: `econ base: ${last.econ.toLocaleString()}` },
+            { id: 'model-term-jobs', label: 'Total jobs', value: last.jobs.toLocaleString(), sub: `econ base: ${last.econ.toLocaleString()}` },
           ].map((metric) => (
-            <article key={metric.label} className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+            <article key={metric.label} id={metric.id} className="rounded-xl border border-[#d8cdb9] bg-white p-4">
               <p className="text-xs text-[#6b6255]">{metric.label}</p>
               <p className="mt-1 text-2xl font-semibold text-[#1f1f1f]">{metric.value}</p>
               <p className="text-xs text-[#6b6255]">{metric.sub}</p>
@@ -888,9 +911,12 @@ export default function MunicipalModelsPage() {
           </TabsContent>
 
           <TabsContent value="lexicon" className="space-y-4">
-            <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+            <article id="lexicon-translation" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
               <p className="mb-2 text-sm font-medium text-[#4a453d]">Lexicon translation — clickable model terms</p>
               <p className="mb-3 text-xs text-[#6b6255]">Click any abbreviation to jump to where it appears in Model 1 or Model 2.</p>
+              {jumpFeedback && (
+                <p className="mb-3 rounded-md border border-[#BA7517]/40 bg-[#FAEEDA] px-3 py-2 text-xs text-[#633806]">{jumpFeedback}</p>
+              )}
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[980px] text-sm">
                   <thead>
@@ -908,8 +934,14 @@ export default function MunicipalModelsPage() {
                         <td className="px-2 py-2">{entry.standsFor}</td>
                         <td className="px-2 py-2">{entry.plainEnglish}</td>
                         <td className="px-2 py-2">
-                          <Button variant="outline" className="border-[#cfc2ab]" onClick={() => handleLexiconJump(entry)}>
-                            Go to term
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-xs text-[#1f3a5f] hover:text-[#BA7517]"
+                            title="Click to jump to this term in the model"
+                            onClick={() => handleLexiconJump(entry)}
+                          >
+                            🔍 Go to term
                           </Button>
                         </td>
                       </tr>
@@ -986,6 +1018,25 @@ export default function MunicipalModelsPage() {
               zones={city.zones}
             />
           </section>
+        )}
+
+        {showBackToLexicon && (
+          <div className="fixed bottom-5 right-5 z-20">
+            <Button
+              className="bg-[#1f3a5f] text-white hover:bg-[#1f3a5f]/90"
+              onClick={() => {
+                setActiveModel('model1');
+                setModel1Tab('lexicon');
+                setShowBackToLexicon(false);
+                setJumpFeedback(null);
+                window.setTimeout(() => {
+                  document.getElementById('lexicon-translation')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 120);
+              }}
+            >
+              ← Back to lexicon
+            </Button>
+          </div>
         )}
       </div>
     </div>
