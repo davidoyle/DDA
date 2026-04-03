@@ -13,11 +13,26 @@ type Props = {
 export function Model2EnginePanel({ cityLabel, horizonYear, snapshots, zones }: Props) {
   const deferredSnapshots = useDeferredValue(snapshots);
   const results = useMemo(() => runModel2Engine(deferredSnapshots, zones), [deferredSnapshots, zones]);
+  const hasCapacityFail = useMemo(
+    () => results.some((r) => r.utilizations.residential > 1 || r.utilizations.employment > 1 || r.utilizations.serviced > 1),
+    [results],
+  );
 
   const handleExportModel2Csv = () => {
     const header = ['model1Scenario','plan','planLabel','totalLand','infraCost','housingPressure','efficiency','status','residentialCapacity','employmentCapacity','servicedCapacity','jobsHousingBalance'];
     const rows = results.map((r) => [r.model1Scenario, r.plan, ALLOCATION_PLANS[r.plan].label, r.totalLand.toFixed(2), r.infraCost.toFixed(2), r.housingPressure.toFixed(3), r.efficiency.toFixed(3), r.status, r.flags.residentialCapacity, r.flags.employmentCapacity, r.flags.servicedCapacity, r.flags.jobsHousingBalance]);
-    const csv = [header.join(','), ...rows.map((row) => row.join(','))].join('\n');
+    const metadata = [
+      `# City: ${cityLabel}`,
+      `# Horizon: ${horizonYear}`,
+      `# Export date: ${new Date().toISOString().slice(0, 10)}`,
+      '# PASS = <=90% utilization, WARN = >90%-100%, FAIL = >100%',
+      '# Jobs-housing threshold: WARN >15% deviation, FAIL >30%',
+      '# Employment density is fixed (jobs/ha), unlike residential min/max density bands.',
+      '# Serviced capacity check uses per-zone utilization (stricter than aggregate-only checks).',
+      '# Efficiency = (units + jobs) / total land; this is a comparative index, not a welfare score.',
+      '',
+    ].join('\n');
+    const csv = `${metadata}${[header.join(','), ...rows.map((row) => row.join(','))].join('\n')}`;
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -34,9 +49,28 @@ export function Model2EnginePanel({ cityLabel, horizonYear, snapshots, zones }: 
           <p className="text-sm font-medium text-[#4a453d]">Model 2 — City-Wide Growth Scenario Engine</p>
           <Button variant="outline" className="border-[#cfc2ab]" onClick={handleExportModel2Csv}>Export Model 2 CSV</Button>
         </div>
+        {hasCapacityFail && (
+          <p className="mt-3 rounded-md border border-[#B42318]/40 bg-[#FEF3F2] px-3 py-2 text-xs text-[#912018]">
+            Warning: at least one scenario exceeds capacity (&gt;100% utilization) in residential, employment, or serviced land.
+          </p>
+        )}
         <p className="mt-2 text-sm text-[#5e574a]">Feasible-set view (trade-offs): x = total land, y = infrastructure cost, bubble size/color = housing pressure.</p>
         <p className="mt-1 text-xs text-[#6b6255]">Uses Model 1 totals at horizon year {horizonYear}. Conservative min-density assumption may overstate land demand.</p>
+        <p className="mt-1 text-xs text-[#6b6255]">Employment utilization uses fixed jobs/ha (no min/max band), while residential uses min/max density bands.</p>
+        <p className="mt-1 text-xs text-[#6b6255]">Serviced-capacity status is checked per zone (stricter than aggregate-only checks).</p>
+        <p className="mt-1 text-xs text-[#6b6255]">Efficiency is a comparative index: (units + jobs) / total land.</p>
         <p className="mt-1 text-xs text-[#6b6255]">Jobs-housing threshold: WARN &gt;15% deviation from unity, FAIL &gt;30%.</p>
+        <div className="mt-2 flex items-center gap-3 text-xs text-[#6b6255]">
+          <span className="font-medium">Bubble size legend:</span>
+          <span className="inline-flex items-center gap-2"><span className="inline-block h-2.5 w-2.5 rounded-full bg-[#639922]/70" /> lower pressure</span>
+          <span className="inline-flex items-center gap-2"><span className="inline-block h-4 w-4 rounded-full bg-[#639922]/70" /> higher pressure</span>
+        </div>
+        <div className="mt-2 grid gap-1 text-xs text-[#6b6255]">
+          <p id="model2-utotal"><strong>U_total:</strong> total required housing units from Model 1.</p>
+          <p id="model2-etotal"><strong>E_total:</strong> total jobs from Model 1.</p>
+          <p id="model2-htotal"><strong>H_total:</strong> total households from Model 1.</p>
+          <p id="model2-lambda"><strong>λ (lambda):</strong> workers per household used in jobs-housing balancing.</p>
+        </div>
       </article>
 
       <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">

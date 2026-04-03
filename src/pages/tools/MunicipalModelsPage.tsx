@@ -203,10 +203,10 @@ const TRANSLATION_LEXICON: Array<{
   { abbreviation: 'HH', standsFor: 'Household', plainEnglish: 'People living in one home (single person or family).', model: 'model1', tab: 'summary', targetId: 'model-term-hh' },
   { abbreviation: 'pop', standsFor: 'Population', plainEnglish: 'People/residents.', model: 'model1', tab: 'population', targetId: 'model-term-pop' },
   { abbreviation: 'jobs', standsFor: 'Employment', plainEnglish: 'Workplaces/jobs in the model.', model: 'model1', tab: 'employment', targetId: 'model-term-jobs' },
-  { abbreviation: 'U_total', standsFor: 'Total required housing units', plainEnglish: 'All new homes needed including vacancy and replacement.', model: 'model2', targetId: 'model2-zone-split' },
-  { abbreviation: 'E_total', standsFor: 'Total jobs', plainEnglish: 'All jobs used by Model 2 from Model 1 scenarios.', model: 'model2', targetId: 'model2-zone-split' },
-  { abbreviation: 'H_total', standsFor: 'Total households', plainEnglish: 'Total households used for workers-per-household matching.', model: 'model2', targetId: 'model2-zone-split' },
-  { abbreviation: 'λ (lambda)', standsFor: 'Workers per household', plainEnglish: 'Average workers in each household for jobs-housing matching.', model: 'model2', targetId: 'model2-utilization' },
+  { abbreviation: 'U_total', standsFor: 'Total required housing units', plainEnglish: 'All new homes needed including vacancy and replacement.', model: 'model2', targetId: 'model2-utotal' },
+  { abbreviation: 'E_total', standsFor: 'Total jobs', plainEnglish: 'All jobs used by Model 2 from Model 1 scenarios.', model: 'model2', targetId: 'model2-etotal' },
+  { abbreviation: 'H_total', standsFor: 'Total households', plainEnglish: 'Total households used for workers-per-household matching.', model: 'model2', targetId: 'model2-htotal' },
+  { abbreviation: 'λ (lambda)', standsFor: 'Workers per household', plainEnglish: 'Average workers in each household for jobs-housing matching.', model: 'model2', targetId: 'model2-lambda' },
 ];
 
 const MIGRATION_COMPONENTS_2025 = {
