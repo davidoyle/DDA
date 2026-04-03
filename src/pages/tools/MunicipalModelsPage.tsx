@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 type ScenarioKey = 'low' | 'med' | 'high';
 
 type CityModel = {
+  province: string;
   city: string;
   base: {
     pop2025: number;
@@ -37,23 +38,22 @@ type CityModel = {
   scenarios: Record<ScenarioKey, { pop2041: number; jobs2041: number; base2041: number; label: string; color: string }>;
 };
 
+type ModelControls = {
+  hhSize: number;
+  vacancyTarget: number;
+  replacementRate: number;
+  pdaDensity: number;
+  indShare: number;
+  scenarioMultiplier: Record<ScenarioKey, number>;
+};
+
 const START_YEAR = 2025;
 
 const CITY_MODELS: CityModel[] = [
   {
+    province: 'New Brunswick',
     city: 'Saint John',
-    base: {
-      pop2025: 132_800,
-      hhSize: 2.1,
-      jobs2021: 54_140,
-      econBase2021: 11_170,
-      vacancyTarget: 0.03,
-      replacementRate: 0.004,
-      pdaDensity: 40,
-      indDensity: 15,
-      svcDensity: 80,
-      indShare: 0.36,
-    },
+    base: { pop2025: 132_800, hhSize: 2.1, jobs2021: 54_140, econBase2021: 11_170, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 40, indDensity: 15, svcDensity: 80, indShare: 0.36 },
     scenarios: {
       low: { pop2041: 142_900, jobs2041: 64_840, base2041: 12_900, label: 'Low', color: '#378ADD' },
       med: { pop2041: 147_800, jobs2041: 77_100, base2041: 14_800, label: 'Medium', color: '#639922' },
@@ -61,19 +61,9 @@ const CITY_MODELS: CityModel[] = [
     },
   },
   {
+    province: 'New Brunswick',
     city: 'Fredericton',
-    base: {
-      pop2025: 69_400,
-      hhSize: 2.2,
-      jobs2021: 34_400,
-      econBase2021: 7_300,
-      vacancyTarget: 0.03,
-      replacementRate: 0.004,
-      pdaDensity: 44,
-      indDensity: 18,
-      svcDensity: 84,
-      indShare: 0.29,
-    },
+    base: { pop2025: 69_400, hhSize: 2.2, jobs2021: 34_400, econBase2021: 7_300, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 44, indDensity: 18, svcDensity: 84, indShare: 0.29 },
     scenarios: {
       low: { pop2041: 77_000, jobs2041: 40_900, base2041: 8_500, label: 'Low', color: '#378ADD' },
       med: { pop2041: 82_200, jobs2041: 45_800, base2041: 9_400, label: 'Medium', color: '#639922' },
@@ -81,23 +71,23 @@ const CITY_MODELS: CityModel[] = [
     },
   },
   {
-    city: 'Moncton',
-    base: {
-      pop2025: 96_200,
-      hhSize: 2.2,
-      jobs2021: 45_700,
-      econBase2021: 9_200,
-      vacancyTarget: 0.03,
-      replacementRate: 0.004,
-      pdaDensity: 42,
-      indDensity: 16,
-      svcDensity: 78,
-      indShare: 0.34,
-    },
+    province: 'Nova Scotia',
+    city: 'Halifax',
+    base: { pop2025: 506_000, hhSize: 2.2, jobs2021: 267_900, econBase2021: 48_600, vacancyTarget: 0.028, replacementRate: 0.004, pdaDensity: 52, indDensity: 19, svcDensity: 88, indShare: 0.24 },
     scenarios: {
-      low: { pop2041: 109_400, jobs2041: 53_400, base2041: 10_500, label: 'Low', color: '#378ADD' },
-      med: { pop2041: 118_600, jobs2041: 61_900, base2041: 11_900, label: 'Medium', color: '#639922' },
-      high: { pop2041: 129_200, jobs2041: 71_300, base2041: 13_600, label: 'High', color: '#BA7517' },
+      low: { pop2041: 552_000, jobs2041: 296_000, base2041: 53_200, label: 'Low', color: '#378ADD' },
+      med: { pop2041: 585_000, jobs2041: 324_000, base2041: 58_800, label: 'Medium', color: '#639922' },
+      high: { pop2041: 622_000, jobs2041: 354_000, base2041: 64_500, label: 'High', color: '#BA7517' },
+    },
+  },
+  {
+    province: 'Ontario',
+    city: 'London',
+    base: { pop2025: 582_000, hhSize: 2.3, jobs2021: 275_000, econBase2021: 57_400, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 50, indDensity: 17, svcDensity: 86, indShare: 0.31 },
+    scenarios: {
+      low: { pop2041: 635_000, jobs2041: 309_000, base2041: 63_000, label: 'Low', color: '#378ADD' },
+      med: { pop2041: 672_000, jobs2041: 342_000, base2041: 69_500, label: 'Medium', color: '#639922' },
+      high: { pop2041: 718_000, jobs2041: 382_000, base2041: 76_300, label: 'High', color: '#BA7517' },
     },
   },
 ];
@@ -106,56 +96,111 @@ function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
-function project(city: CityModel, scenario: ScenarioKey, years: number) {
+function round(v: number) {
+  return Math.round(v);
+}
+
+function project(city: CityModel, scenario: ScenarioKey, years: number, controls: ModelControls) {
   const sc = city.scenarios[scenario];
-  const base = city.base;
-  let prevHH = base.pop2025 / base.hhSize;
+  const mult = controls.scenarioMultiplier[scenario];
+  const pop2041 = round(sc.pop2041 * mult);
+  const jobs2041 = round(sc.jobs2041 * mult);
+  const base2041 = round(sc.base2041 * mult);
+
+  let prevHH = city.base.pop2025 / controls.hhSize;
+
   return Array.from({ length: years + 1 }, (_, i) => {
     const year = START_YEAR + i;
     const t = Math.min(i / 25, 1);
-    const pop = Math.round(lerp(base.pop2025, sc.pop2041, t));
-    const hh = Math.round(pop / base.hhSize);
+    const pop = round(lerp(city.base.pop2025, pop2041, t));
+    const hh = round(pop / controls.hhSize);
     const newHH = i === 0 ? 0 : hh - prevHH;
-    const vacAdj = Math.round(newHH * base.vacancyTarget);
-    const replUnits = Math.round(hh * base.replacementRate);
+    const vacAdj = round(newHH * controls.vacancyTarget);
+    const replUnits = round(hh * controls.replacementRate);
     const unitsReq = Math.max(0, newHH + vacAdj + replUnits);
-    const resHaCum = Math.round((hh - base.pop2025 / base.hhSize) / base.pdaDensity);
-    const jobs = Math.round(lerp(base.jobs2021, sc.jobs2041, t));
-    const econ = Math.round(lerp(base.econBase2021, sc.base2041, t));
-    const indJobs = Math.round(econ * base.indShare);
+    const resHaCum = round((hh - city.base.pop2025 / controls.hhSize) / controls.pdaDensity);
+    const jobs = round(lerp(city.base.jobs2021, jobs2041, t));
+    const econ = round(lerp(city.base.econBase2021, base2041, t));
+    const indJobs = round(econ * controls.indShare);
     const svcJobs = econ - indJobs;
-    const indHa = Math.round(indJobs / base.indDensity);
-    const svcHa = Math.round(svcJobs / base.svcDensity);
+    const indHa = round(indJobs / city.base.indDensity);
+    const svcHa = round(svcJobs / city.base.svcDensity);
     prevHH = hh;
-    return { year, pop, hh, newHH: Math.max(0, newHH), unitsReq, resHaCum: Math.max(0, resHaCum), jobs, econ, indHa: indHa + svcHa };
+
+    return {
+      year,
+      pop,
+      hh,
+      newHH: Math.max(0, newHH),
+      unitsReq,
+      resHaCum: Math.max(0, resHaCum),
+      jobs,
+      econ,
+      indHa: indHa + svcHa,
+    };
   });
 }
 
+function initialControls(city: CityModel): ModelControls {
+  return {
+    hhSize: city.base.hhSize,
+    vacancyTarget: city.base.vacancyTarget,
+    replacementRate: city.base.replacementRate,
+    pdaDensity: city.base.pdaDensity,
+    indShare: city.base.indShare,
+    scenarioMultiplier: {
+      low: 1,
+      med: 1,
+      high: 1,
+    },
+  };
+}
+
 export default function MunicipalModelsPage() {
-  const [city, setCity] = useState(CITY_MODELS[0]);
+  const provinces = useMemo(() => Array.from(new Set(CITY_MODELS.map((entry) => entry.province))), []);
+  const [selectedProvince, setSelectedProvince] = useState(provinces[0] ?? '');
+  const provinceCities = useMemo(() => CITY_MODELS.filter((entry) => entry.province === selectedProvince), [selectedProvince]);
+
+  const [selectedCity, setSelectedCity] = useState(provinceCities[0]?.city ?? CITY_MODELS[0].city);
+  const city = useMemo(() => {
+    return CITY_MODELS.find((entry) => entry.province === selectedProvince && entry.city === selectedCity)
+      ?? provinceCities[0]
+      ?? CITY_MODELS[0];
+  }, [selectedProvince, selectedCity, provinceCities]);
+
   const [scenario, setScenario] = useState<ScenarioKey>('med');
   const [horizon, setHorizon] = useState(25);
+  const [controls, setControls] = useState<ModelControls>(initialControls(CITY_MODELS[0]));
 
-  const activeRows = useMemo(() => project(city, scenario, horizon), [city, scenario, horizon]);
+  const syncCity = (province: string, cityName: string) => {
+    const nextCity = CITY_MODELS.find((entry) => entry.province === province && entry.city === cityName);
+    if (!nextCity) return;
+    setSelectedProvince(province);
+    setSelectedCity(cityName);
+    setControls(initialControls(nextCity));
+  };
+
+  const activeRows = useMemo(() => project(city, scenario, horizon, controls), [city, scenario, horizon, controls]);
   const last = activeRows[activeRows.length - 1];
+
   const allScenarioRows = useMemo(() => {
-    return (['low', 'med', 'high'] as ScenarioKey[]).map((sc) => ({
-      key: sc,
-      label: city.scenarios[sc].label,
-      color: city.scenarios[sc].color,
-      rows: project(city, sc, horizon),
+    return (['low', 'med', 'high'] as ScenarioKey[]).map((key) => ({
+      key,
+      label: city.scenarios[key].label,
+      color: city.scenarios[key].color,
+      rows: project(city, key, horizon, controls),
     }));
-  }, [city, horizon]);
+  }, [city, horizon, controls]);
 
   const migrationRows = useMemo(() => {
-    const annualPop = (city.scenarios[scenario].pop2041 - city.base.pop2025) / 16;
+    const annualPop = (city.scenarios[scenario].pop2041 * controls.scenarioMultiplier[scenario] - city.base.pop2025) / 16;
     return [
-      { component: 'International immigration', annualAvg: Math.round(annualPop * 0.75) },
-      { component: 'Interprovincial net', annualAvg: Math.round(annualPop * 0.15) },
-      { component: 'Natural increase', annualAvg: Math.round(annualPop * 0.1) },
-      { component: 'Total net', annualAvg: Math.round(annualPop) },
+      { component: 'International immigration', annualAvg: round(annualPop * 0.75) },
+      { component: 'Interprovincial net', annualAvg: round(annualPop * 0.15) },
+      { component: 'Natural increase', annualAvg: round(annualPop * 0.10) },
+      { component: 'Total net', annualAvg: round(annualPop) },
     ];
-  }, [city, scenario]);
+  }, [city, scenario, controls]);
 
   return (
     <div className="diagnostic-theme min-h-screen bg-[#F7F1E6] px-6 py-12 lg:px-[6vw]">
@@ -163,22 +208,43 @@ export default function MunicipalModelsPage() {
         <header className="space-y-3">
           <p className="eyebrow">Municipal models</p>
           <h1 className="headline-md text-[#1f1f1f]">Municipal Growth Models</h1>
-          <p className="max-w-4xl text-[#4a453d]">Select a city to load its model inputs. Scenario, horizon, and tab views match the municipal planning workflow.</p>
+          <p className="max-w-4xl text-[#4a453d]">Choose a province, then a city. Adjust variable assumptions live to remodel low/medium/high scenarios.</p>
         </header>
 
-        <section className="rounded-xl border border-[#d8cdb9] bg-white p-5">
-          <p className="mb-3 text-sm font-medium text-[#1f1f1f]">City</p>
-          <div className="flex flex-wrap gap-2">
-            {CITY_MODELS.map((entry) => (
-              <Button
-                key={entry.city}
-                variant="outline"
-                className={cn('border-[#cfc2ab] text-[#4a453d]', city.city === entry.city && 'bg-[#1f3a5f] text-white hover:bg-[#1f3a5f] hover:text-white')}
-                onClick={() => setCity(entry)}
-              >
-                {entry.city}
-              </Button>
-            ))}
+        <section className="space-y-4 rounded-xl border border-[#d8cdb9] bg-white p-5">
+          <div>
+            <p className="mb-2 text-sm font-medium text-[#1f1f1f]">Province</p>
+            <div className="flex flex-wrap gap-2">
+              {provinces.map((province) => (
+                <Button
+                  key={province}
+                  variant="outline"
+                  className={cn('border-[#cfc2ab] text-[#4a453d]', selectedProvince === province && 'bg-[#1f3a5f] text-white hover:bg-[#1f3a5f] hover:text-white')}
+                  onClick={() => {
+                    const firstCity = CITY_MODELS.find((entry) => entry.province === province)?.city;
+                    if (firstCity) syncCity(province, firstCity);
+                  }}
+                >
+                  {province}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="mb-2 text-sm font-medium text-[#1f1f1f]">City</p>
+            <div className="flex flex-wrap gap-2">
+              {provinceCities.map((entry) => (
+                <Button
+                  key={entry.city}
+                  variant="outline"
+                  className={cn('border-[#cfc2ab] text-[#4a453d]', selectedCity === entry.city && 'bg-[#1f3a5f] text-white hover:bg-[#1f3a5f] hover:text-white')}
+                  onClick={() => syncCity(selectedProvince, entry.city)}
+                >
+                  {entry.city}
+                </Button>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -204,11 +270,51 @@ export default function MunicipalModelsPage() {
           </div>
         </section>
 
+        <section className="rounded-xl border border-[#d8cdb9] bg-white p-5">
+          <p className="mb-4 text-sm font-medium text-[#1f1f1f]">Scenario variable toggles</p>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="space-y-4">
+              <label className="block text-sm text-[#4a453d]">Household size: {controls.hhSize.toFixed(2)}</label>
+              <Slider min={1.8} max={3} step={0.05} value={[controls.hhSize]} onValueChange={(v) => setControls((prev) => ({ ...prev, hhSize: v[0] ?? prev.hhSize }))} />
+
+              <label className="block text-sm text-[#4a453d]">Vacancy target: {(controls.vacancyTarget * 100).toFixed(1)}%</label>
+              <Slider min={0.01} max={0.06} step={0.002} value={[controls.vacancyTarget]} onValueChange={(v) => setControls((prev) => ({ ...prev, vacancyTarget: v[0] ?? prev.vacancyTarget }))} />
+
+              <label className="block text-sm text-[#4a453d]">Replacement rate: {(controls.replacementRate * 100).toFixed(2)}%</label>
+              <Slider min={0.002} max={0.01} step={0.0005} value={[controls.replacementRate]} onValueChange={(v) => setControls((prev) => ({ ...prev, replacementRate: v[0] ?? prev.replacementRate }))} />
+            </div>
+
+            <div className="space-y-4">
+              <label className="block text-sm text-[#4a453d]">PDA density: {controls.pdaDensity.toFixed(0)} u/net ha</label>
+              <Slider min={25} max={90} step={1} value={[controls.pdaDensity]} onValueChange={(v) => setControls((prev) => ({ ...prev, pdaDensity: v[0] ?? prev.pdaDensity }))} />
+
+              <label className="block text-sm text-[#4a453d]">Industrial share: {(controls.indShare * 100).toFixed(1)}%</label>
+              <Slider min={0.15} max={0.55} step={0.01} value={[controls.indShare]} onValueChange={(v) => setControls((prev) => ({ ...prev, indShare: v[0] ?? prev.indShare }))} />
+
+              {(['low', 'med', 'high'] as ScenarioKey[]).map((key) => (
+                <div key={key}>
+                  <label className="block text-sm text-[#4a453d]">{city.scenarios[key].label} multiplier: {controls.scenarioMultiplier[key].toFixed(2)}x</label>
+                  <Slider
+                    min={0.8}
+                    max={1.4}
+                    step={0.01}
+                    value={[controls.scenarioMultiplier[key]]}
+                    onValueChange={(v) => setControls((prev) => ({
+                      ...prev,
+                      scenarioMultiplier: { ...prev.scenarioMultiplier, [key]: v[0] ?? prev.scenarioMultiplier[key] },
+                    }))}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {[
             { label: `Population ${START_YEAR + horizon}`, value: last.pop.toLocaleString(), sub: city.scenarios[scenario].label + ' scenario' },
-            { label: 'Total households', value: last.hh.toLocaleString(), sub: `at ${city.base.hhSize} persons/hh` },
-            { label: 'Cumulative res land', value: `${last.resHaCum} ha`, sub: `@ ${city.base.pdaDensity} u/net ha` },
+            { label: 'Total households', value: last.hh.toLocaleString(), sub: `at ${controls.hhSize.toFixed(2)} persons/hh` },
+            { label: 'Cumulative res land', value: `${last.resHaCum} ha`, sub: `@ ${controls.pdaDensity.toFixed(0)} u/net ha` },
             { label: 'Total jobs', value: last.jobs.toLocaleString(), sub: `econ base: ${last.econ.toLocaleString()}` },
           ].map((metric) => (
             <article key={metric.label} className="rounded-xl border border-[#d8cdb9] bg-white p-4">
@@ -236,15 +342,16 @@ export default function MunicipalModelsPage() {
                   <LineChart>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="year" type="number" domain={[START_YEAR, START_YEAR + horizon]} allowDecimals={false} />
-                    <YAxis tickFormatter={(v) => `${Math.round(v / 1000)}k`} />
+                    <YAxis tickFormatter={(value) => `${Math.round(Number(value) / 1000)}k`} />
                     <Tooltip formatter={(value: number) => value.toLocaleString()} />
-                    {allScenarioRows.map((sc) => (
-                      <Line key={sc.key} data={sc.rows} dataKey="pop" name={sc.label} stroke={sc.color} strokeWidth={2} dot={false} />
+                    {allScenarioRows.map((entry) => (
+                      <Line key={entry.key} data={entry.rows} dataKey="pop" name={entry.label} stroke={entry.color} strokeWidth={2} dot={false} />
                     ))}
                   </LineChart>
                 </ResponsiveContainer>
               </div>
             </div>
+
             <div className="grid gap-4 lg:grid-cols-2">
               <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
                 <p className="mb-3 text-sm font-medium text-[#4a453d]">Migration components</p>
@@ -259,58 +366,38 @@ export default function MunicipalModelsPage() {
                   </tbody>
                 </table>
               </article>
+
               <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
-                <p className="mb-3 text-sm font-medium text-[#4a453d]">Age structure shift (active scenario)</p>
-                <div className="h-[220px]">
+                <p className="mb-3 text-sm font-medium text-[#4a453d]">Unit mix (active scenario)</p>
+                <div className="h-[240px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={[
-                      { name: '0–14', value: 13 },
-                      { name: '15–24', value: 11 },
-                      { name: '25–44', value: 26 },
-                      { name: '45–64', value: 27 },
-                      { name: '65+', value: scenario === 'high' ? 26 : scenario === 'low' ? 29 : 28 },
-                    ]}>
-                      <XAxis dataKey="name" />
-                      <YAxis unit="%" />
+                    <PieChart>
+                      <Pie data={[{ name: 'Owner-occupied', value: 58 }, { name: 'Rental', value: 42 }]} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90}>
+                        <Cell fill="#1D9E75" />
+                        <Cell fill="#AFA9EC" />
+                      </Pie>
                       <Tooltip />
-                      <Bar dataKey="value" fill="#1D9E75" radius={[4, 4, 0, 0]} />
-                    </BarChart>
+                    </PieChart>
                   </ResponsiveContainer>
                 </div>
               </article>
             </div>
           </TabsContent>
 
-          <TabsContent value="housing" className="grid gap-4 lg:grid-cols-2">
-            <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
-              <p className="mb-3 text-sm font-medium text-[#4a453d]">Housing demand — units required annually</p>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={activeRows}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="newHH" stackId="a" fill="#5DCAA5" />
-                    <Bar dataKey="unitsReq" stackId="a" fill="#AFA9EC" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </article>
-            <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
-              <p className="mb-3 text-sm font-medium text-[#4a453d]">Unit mix (active scenario)</p>
-              <div className="h-[300px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie data={[{ name: 'Owner-occupied', value: 58 }, { name: 'Rental', value: 42 }]} dataKey="value" nameKey="name" innerRadius={65} outerRadius={100}>
-                      <Cell fill="#1D9E75" />
-                      <Cell fill="#AFA9EC" />
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </article>
+          <TabsContent value="housing" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+            <p className="mb-3 text-sm font-medium text-[#4a453d]">Housing demand — units required annually</p>
+            <div className="h-[320px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={activeRows}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="year" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="newHH" stackId="a" fill="#5DCAA5" />
+                  <Bar dataKey="unitsReq" stackId="a" fill="#AFA9EC" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </TabsContent>
 
           <TabsContent value="employment" className="rounded-xl border border-[#d8cdb9] bg-white p-4">
@@ -320,10 +407,10 @@ export default function MunicipalModelsPage() {
                 <LineChart>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="year" type="number" domain={[START_YEAR, START_YEAR + horizon]} allowDecimals={false} />
-                  <YAxis tickFormatter={(v) => `${Math.round(v / 1000)}k`} />
+                  <YAxis tickFormatter={(value) => `${Math.round(Number(value) / 1000)}k`} />
                   <Tooltip formatter={(value: number) => value.toLocaleString()} />
-                  {allScenarioRows.map((sc) => (
-                    <Line key={sc.key} data={sc.rows} dataKey="jobs" name={sc.label} stroke={sc.color} strokeWidth={2} dot={false} />
+                  {allScenarioRows.map((entry) => (
+                    <Line key={entry.key} data={entry.rows} dataKey="jobs" name={entry.label} stroke={entry.color} strokeWidth={2} dot={false} />
                   ))}
                 </LineChart>
               </ResponsiveContainer>
@@ -337,7 +424,7 @@ export default function MunicipalModelsPage() {
                 <BarChart data={activeRows}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="year" />
-                  <YAxis tickFormatter={(v) => `${v} ha`} />
+                  <YAxis tickFormatter={(value) => `${value} ha`} />
                   <Tooltip />
                   <Bar dataKey="resHaCum" fill="#5DCAA5" />
                   <Bar dataKey="indHa" fill="#EF9F27" />
@@ -358,7 +445,7 @@ export default function MunicipalModelsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {activeRows.filter((_, idx) => idx % 5 === 0).map((row) => (
+                  {activeRows.filter((_, index) => index % 5 === 0).map((row) => (
                     <tr key={row.year} className="border-b border-[#efe4d1] last:border-b-0">
                       <td className="px-2 py-2 font-medium">{row.year}</td>
                       <td className="px-2 py-2 text-right">{row.pop.toLocaleString()}</td>
