@@ -130,14 +130,18 @@ const DATA_LEXICON_ROWS: LexiconRow[] = [
   { id: '54', variable: 'City child poverty rate (2023)', value: '30.7%', unit: '% children 0–17', source: 'HDC NB report card (T1FF-based)', released: 'Feb 2026', status: 'ACTUAL', notes: 'Context for tenure pressure only.' },
   { id: '55', variable: 'Average single-family home price (Dec 2025)', value: '$345,000', unit: 'CAD', source: 'Envision Dashboard (CREA/MLS)', released: 'Mar 17, 2026', status: 'ACTUAL', notes: 'Context metric; not model input.' },
   { id: '56', variable: 'MLS HPI composite benchmark (Feb 2026)', value: '$330,300', unit: 'CAD', source: 'CREA via Envision Dashboard', released: 'Mar 2026', status: 'ACTUAL', notes: 'Context metric; not model input.' },
+  { id: '57', variable: 'CMA net population growth (Jul 1, 2024–Jul 1, 2025)', value: '+1,638', unit: 'persons', source: 'StatCan Tables 17-10-0148-01 / 17-10-0149-01', released: 'Jan 14, 2026', status: 'ACTUAL', notes: '+1.1% YoY to 144,543.' },
+  { id: '58', variable: 'Net interprovincial migration share of growth', value: '+82 (5.0%)', unit: 'persons / %', source: 'StatCan Tables 17-10-0148-01 / 17-10-0149-01', released: 'Jan 14, 2026', status: 'ACTUAL', notes: 'Sharply lower than prior years.' },
+  { id: '59', variable: 'International immigration share of growth', value: '~95% (~+1,556 residual)', unit: '% / persons', source: 'Derived from StatCan growth components', released: 'Derived', status: 'PROXY', notes: 'Residual after interprovincial and natural components.' },
+  { id: '60', variable: 'Natural increase share of growth', value: '~0%', unit: '%', source: 'StatCan growth components', released: 'Jan 14, 2026', status: 'ACTUAL', notes: 'No meaningful contribution in this period.' },
   { id: 'A1', variable: '0–14 share, base 2025', value: '13%', unit: '%', source: 'Directional proxy', released: 'Derived', status: 'PROXY', notes: 'Age-chart proxy only.' },
   { id: 'A2', variable: '15–24 share, base 2025', value: '11%', unit: '%', source: 'Directional proxy', released: 'Derived', status: 'PROXY', notes: 'Age-chart proxy only.' },
   { id: 'A3', variable: '25–44 share, base 2025', value: '26%', unit: '%', source: 'Directional proxy', released: 'Derived', status: 'PROXY', notes: 'Age-chart proxy only.' },
   { id: 'A4', variable: '45–64 share, base 2025', value: '27%', unit: '%', source: 'Directional proxy', released: 'Derived', status: 'PROXY', notes: 'Age-chart proxy only.' },
   { id: 'A5', variable: '65+ share, base 2025', value: '23%', unit: '%', source: 'Directional proxy', released: 'Derived', status: 'PROXY', notes: 'Age-chart proxy only.' },
-  { id: 'A6', variable: 'Cohort shift adjustments (Low)', value: '0–14: –1pp, 65+: flat', unit: 'pp', source: 'No extraction', released: 'N/A', status: 'FLAGGED', notes: 'Replace with StatCan headship tabulation.' },
-  { id: 'A7', variable: 'Cohort shift adjustments (Medium)', value: '25–44: –1pp, 65+: +1pp', unit: 'pp', source: 'No extraction', released: 'N/A', status: 'FLAGGED', notes: 'Replace with StatCan headship tabulation.' },
-  { id: 'A8', variable: 'Cohort shift adjustments (High)', value: '0–14: +1pp, 45–64: –1pp, 65+: +1pp', unit: 'pp', source: 'No extraction', released: 'N/A', status: 'FLAGGED', notes: 'Replace with StatCan headship tabulation.' },
+  { id: 'A6', variable: 'Cohort shift adjustments (Low)', value: 'No public cohort headship rates', unit: 'N/A', source: 'StatCan 2021 PUMF + Table 98-10-0132-01', released: 'Mar 29, 2023 / Nov 15, 2023', status: 'FLAGGED', notes: 'Custom tabulation required; unavailable as of Apr 3, 2026.' },
+  { id: 'A7', variable: 'Cohort shift adjustments (Medium)', value: 'No public cohort headship rates', unit: 'N/A', source: 'StatCan 2021 PUMF + Table 98-10-0132-01', released: 'Mar 29, 2023 / Nov 15, 2023', status: 'FLAGGED', notes: 'Model remains aggregate (population ÷ 2.1 hh size).' },
+  { id: 'A8', variable: 'Cohort shift adjustments (High)', value: 'No public cohort headship rates', unit: 'N/A', source: 'StatCan 2021 PUMF + Table 98-10-0132-01', released: 'Mar 29, 2023 / Nov 15, 2023', status: 'FLAGGED', notes: 'No numeric cohort update possible without custom request.' },
 ];
 
 const KNOWN_GAPS = [
@@ -148,6 +152,14 @@ const KNOWN_GAPS = [
   'Serviced land hectare inventory from public GIS extraction.',
   'City/CMA current LFS employment by NAICS in public disaggregation.',
 ];
+
+const MIGRATION_COMPONENTS_2025 = {
+  totalNetGrowth: 1638,
+  interprovincial: 82,
+  internationalResidual: 1556,
+  naturalIncrease: 0,
+  source: 'StatCan Tables 17-10-0148-01 & 17-10-0149-01 (released Jan 14, 2026; ~6-month lag).',
+};
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
@@ -250,14 +262,30 @@ export default function MunicipalModelsPage() {
   }, [city, horizon, controls]);
 
   const migrationRows = useMemo(() => {
-    const annualPop = (city.scenarios[scenario].pop2041 * controls.scenarioMultiplier[scenario] - city.base.pop2025) / 16;
+    const total = MIGRATION_COMPONENTS_2025.totalNetGrowth;
     return [
-      { component: 'International immigration', annualAvg: round(annualPop * 0.75) },
-      { component: 'Interprovincial net', annualAvg: round(annualPop * 0.15) },
-      { component: 'Natural increase', annualAvg: round(annualPop * 0.10) },
-      { component: 'Total net', annualAvg: round(annualPop) },
+      {
+        component: 'International immigration (PR + net temporary)',
+        value: MIGRATION_COMPONENTS_2025.internationalResidual,
+        share: (MIGRATION_COMPONENTS_2025.internationalResidual / total) * 100,
+      },
+      {
+        component: 'Net interprovincial migration',
+        value: MIGRATION_COMPONENTS_2025.interprovincial,
+        share: (MIGRATION_COMPONENTS_2025.interprovincial / total) * 100,
+      },
+      {
+        component: 'Natural increase (births − deaths)',
+        value: MIGRATION_COMPONENTS_2025.naturalIncrease,
+        share: 0,
+      },
+      {
+        component: 'Total net growth',
+        value: total,
+        share: 100,
+      },
     ];
-  }, [city, scenario, controls]);
+  }, []);
 
   return (
     <div className="diagnostic-theme min-h-screen bg-[#F7F1E6] px-6 py-12 lg:px-[6vw]">
@@ -421,7 +449,7 @@ export default function MunicipalModelsPage() {
                         { name: '15–24', share: 11 },
                         { name: '25–44', share: 26 },
                         { name: '45–64', share: 27 },
-                        { name: '65+', share: scenario === 'high' ? 26 : scenario === 'low' ? 29 : 28 },
+                        { name: '65+', share: 23 },
                       ]}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
@@ -440,20 +468,23 @@ export default function MunicipalModelsPage() {
                   <thead>
                     <tr className="border-b border-[#efe4d1] text-left text-xs text-[#6b6255]">
                       <th className="py-2">Component</th>
-                      <th className="py-2 text-right">2025 base</th>
-                      <th className="py-2 text-right">Annual avg</th>
+                      <th className="py-2 text-right">2024–2025 value</th>
+                      <th className="py-2 text-right">Share of net growth</th>
                     </tr>
                   </thead>
                   <tbody>
                     {migrationRows.map((row) => (
                       <tr key={row.component} className="border-b border-[#efe4d1] last:border-b-0">
                         <td className="py-2">{row.component}</td>
-                        <td className="py-2 text-right">{row.component === 'International immigration' ? `~${city.base.pop2025.toLocaleString()}` : '—'}</td>
-                        <td className="py-2 text-right">+{row.annualAvg.toLocaleString()}/yr</td>
+                        <td className="py-2 text-right">{row.value.toLocaleString()}</td>
+                        <td className="py-2 text-right">{row.component === 'Total net growth' ? '100%' : `~${row.share.toFixed(1)}%`}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                <p className="mt-3 border-t border-[#efe4d1] pt-3 text-xs text-[#6b6255]">
+                  {MIGRATION_COMPONENTS_2025.source} Key trend: immigration dominant; interprovincial contribution materially lower than prior years.
+                </p>
               </article>
             </div>
           </TabsContent>
