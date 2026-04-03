@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 
@@ -41,7 +41,7 @@ const toolGroups: ToolGroup[] = [
   },
   {
     key: 'monitoring',
-    title: "Watch what\'s coming",
+    title: "Watch what's coming",
     description: 'Forward-looking diagnostics for emerging claims and funding-ratio shifts.',
     borderClass: 'border-l-[#9A6A28]',
   },
@@ -111,6 +111,18 @@ const tools: ToolEntry[] = [
 
   {
     group: 'monitoring',
+    name: 'Municipal Growth Models',
+    href: '/tools/municipal-models',
+    status: 'Live',
+    description: 'City-level scenario modeling for population, housing, employment, and land demand.',
+    headlineOutput: 'Select a city and run low/medium/high growth pathways with 5-to-25 year horizon controls.',
+    free: ['City selector', 'Scenario controls', 'Population/housing/employment tabs', '5-year projection table'],
+    pro: ['Custom city calibration', 'Policy sensitivity toggles', 'Data-room export', 'Advisor interpretation'],
+  },
+
+
+  {
+    group: 'monitoring',
     name: 'BC Decarbonization Model',
     href: '/tools/bc-decarbonization-model',
     status: 'Live',
@@ -133,18 +145,16 @@ const tools: ToolEntry[] = [
 
 function DiagnosticsPage() {
   const location = useLocation();
-  const [runTools, setRunTools] = useState<string[]>([]);
-
-  useEffect(() => {
+  const [runTools, setRunTools] = useState<string[]>(() => {
     try {
       const raw = localStorage.getItem(RUN_TRACKING_KEY);
-      if (!raw) return;
+      if (!raw) return [];
       const parsed = JSON.parse(raw) as string[];
-      if (Array.isArray(parsed)) setRunTools(parsed);
+      return Array.isArray(parsed) ? parsed : [];
     } catch {
-      setRunTools([]);
+      return [];
     }
-  }, []);
+  });
 
   const totalTools = tools.length;
   const completedCount = runTools.length;
@@ -172,11 +182,11 @@ function DiagnosticsPage() {
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">Diagnostic tools</p>
         <h1 className="font-heading text-4xl lg:text-5xl mt-3 text-[#131313]">Self-serve exposure tools for BC employers</h1>
         <p className="mt-4 text-lg text-[#2b2b2b] max-w-4xl">
-          Eight tools covering WCB repricing risk, PST burden, experience rating variance, claims suppression patterns, mental health claims trajectory, and BC decarbonization scenario modelling. Free tier available. Pro unlocks full modeling.
+          Nine tools covering WCB repricing risk, PST burden, experience rating variance, claims suppression patterns, municipal growth planning, mental health claims trajectory, and BC decarbonization scenario modelling. Free tier available. Pro unlocks full modeling.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-2">
-          <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">8 diagnostic tools</span>
+          <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">{totalTools} diagnostic tools</span>
           <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">5 provinces covered</span>
           <span className="font-mono text-xs uppercase tracking-[0.1em] px-3 py-1 rounded border border-[#cfc2ab]">Parameters updated March 2026</span>
         </div>
