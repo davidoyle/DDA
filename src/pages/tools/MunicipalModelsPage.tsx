@@ -78,6 +78,12 @@ type ZoneCode = 'G1' | 'G2' | 'G3';
 type Model1TabKey = 'population' | 'housing' | 'employment' | 'land' | 'summary' | 'lexicon';
 
 const START_YEAR = 2025;
+const CSD_FROM_CMA_RATIO = 0.547;
+const CSD_POP_2041 = {
+  low: Math.round(142_900 * CSD_FROM_CMA_RATIO),
+  med: Math.round(147_800 * CSD_FROM_CMA_RATIO),
+  high: Math.round(165_400 * CSD_FROM_CMA_RATIO),
+};
 
 const CITY_MODELS: CityModel[] = [
   {
@@ -96,35 +102,35 @@ const CITY_MODELS: CityModel[] = [
       { label: 'Avg 2-bed rent', value: '~$1,148' },
       { label: 'Record permit value', value: '$389.9M' },
     ],
-    base: { pop2025: 132_800, hhSize: 2.1, jobs2021: 54_140, econBase2021: 11_170, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 40, indDensity: 15, svcDensity: 80, indShare: 0.36 },
+    base: { pop2025: 79_090, hhSize: 2.1, jobs2021: 54_140, econBase2021: 11_170, vacancyTarget: 0.03, replacementRate: 0.004, pdaDensity: 40, indDensity: 15, svcDensity: 80, indShare: 0.36 },
     scenarios: {
-      low: { pop2041: 142_900, jobs2041: 64_840, base2041: 12_900, label: 'Low', color: '#378ADD' },
-      med: { pop2041: 147_800, jobs2041: 77_100, base2041: 14_800, label: 'Medium', color: '#639922' },
-      high: { pop2041: 165_400, jobs2041: 96_600, base2041: 16_600, label: 'High', color: '#BA7517' },
+      low: { pop2041: CSD_POP_2041.low, jobs2041: 64_840, base2041: 12_900, label: 'Low', color: '#378ADD' },
+      med: { pop2041: CSD_POP_2041.med, jobs2041: 77_100, base2041: 14_800, label: 'Medium', color: '#639922' },
+      high: { pop2041: CSD_POP_2041.high, jobs2041: 96_600, base2041: 16_600, label: 'High', color: '#BA7517' },
     },
   },
 ];
 
 const DATA_LEXICON_ROWS: LexiconRow[] = [
-  { id: '1', variable: 'Base population 2025 (CMA)', value: '132,800', unit: 'persons', source: 'Envision Saint John Regional Growth Dashboard', released: 'Mar 17, 2026', status: 'ACTUAL', notes: 'CMA working base used across scenarios.' },
-  { id: '2', variable: 'City of Saint John CSD population (Jul 1, 2024)', value: '78,165', unit: 'persons', source: 'City of Saint John citing StatCan', released: 'Jan 16, 2025', status: 'ACTUAL', notes: 'CSD-only context; model uses CMA base.' },
-  { id: '3', variable: 'Population growth rate 2025 (CMA)', value: '+1.1%', unit: '% YoY', source: 'Envision Dashboard', released: 'Mar 17, 2026', status: 'ACTUAL', notes: 'Immigration-led growth signal.' },
-  { id: '4', variable: 'Median age (CMA, 2025)', value: '43.2', unit: 'years', source: 'Envision Dashboard', released: 'Mar 17, 2026', status: 'ACTUAL', notes: 'Used as demographic context.' },
+  { id: '1', variable: 'Base population 2025 (Saint John CSD)', value: '79,090', unit: 'persons', source: 'CSD proxy from 2024 StatCan level +1.2%', released: 'Apr 3, 2026', status: 'PROXY', notes: 'Primary working base for CSD-anchored model.' },
+  { id: '2', variable: 'City of Saint John CSD population (Jul 1, 2024)', value: '78,165', unit: 'persons', source: 'StatCan Table 17-10-0155-01', released: 'Jan 14, 2026', status: 'ACTUAL', notes: 'Primary observed CSD anchor.' },
+  { id: '3', variable: 'Population growth rate 2025 (CSD proxy)', value: '+1.2%', unit: '% YoY', source: 'Derived from CSD 2024→2025 proxy method', released: 'Apr 3, 2026', status: 'PROXY', notes: 'Used to estimate 2025 CSD base.' },
+  { id: '4', variable: 'Median age (CMA, 2025)', value: '43.2', unit: 'years', source: 'Envision Dashboard', released: 'Mar 17, 2026', status: 'ACTUAL', notes: 'CMA context only; not primary geography.' },
   { id: '5', variable: '60–64 age cohort share', value: '7.5%', unit: '% of pop', source: 'Envision Dashboard', released: 'Mar 17, 2026', status: 'ACTUAL', notes: 'Largest 5-year cohort in cited dashboard.' },
-  { id: '6', variable: 'Population endpoint — Low scenario (2041)', value: '142,900', unit: 'persons', source: 'Envision SJ / metroeconomics study', released: 'Nov 2024', status: 'ACTUAL', notes: '+10,100 from base.' },
-  { id: '7', variable: 'Population endpoint — Medium scenario (2041)', value: '147,800', unit: 'persons', source: 'Envision SJ / metroeconomics study', released: 'Nov 2024', status: 'ACTUAL', notes: '+15,000 from base.' },
-  { id: '8', variable: 'Population endpoint — High scenario (2041)', value: '165,400', unit: 'persons', source: 'Envision SJ / metroeconomics study', released: 'Nov 2024', status: 'ACTUAL', notes: '+32,600 from base.' },
+  { id: '6', variable: 'Population endpoint — Low scenario (2041, CSD-converted)', value: `${CSD_POP_2041.low.toLocaleString()}`, unit: 'persons', source: 'CMA scenario endpoint × 0.547 CSD:CMA ratio', released: 'Apr 3, 2026', status: 'PROXY', notes: 'Converted from CMA low endpoint 142,900.' },
+  { id: '7', variable: 'Population endpoint — Medium scenario (2041, CSD-converted)', value: `${CSD_POP_2041.med.toLocaleString()}`, unit: 'persons', source: 'CMA scenario endpoint × 0.547 CSD:CMA ratio', released: 'Apr 3, 2026', status: 'PROXY', notes: 'Converted from CMA medium endpoint 147,800.' },
+  { id: '8', variable: 'Population endpoint — High scenario (2041, CSD-converted)', value: `${CSD_POP_2041.high.toLocaleString()}`, unit: 'persons', source: 'CMA scenario endpoint × 0.547 CSD:CMA ratio', released: 'Apr 3, 2026', status: 'PROXY', notes: 'Converted from CMA high endpoint 165,400.' },
   { id: '9', variable: 'Average household size', value: '2.1', unit: 'persons/hh', source: 'StatCan 2021 Census Profile (Saint John CSD)', released: 'Feb 9, 2022', status: 'ACTUAL', notes: 'Primary divisor for households.' },
-  { id: '10', variable: 'Estimated households 2024', value: '~37,221', unit: 'hh', source: 'Derived proxy', released: 'Derived', status: 'PROXY', notes: '78,165 ÷ 2.1 (CSD context only).' },
+  { id: '10', variable: 'Estimated households 2025', value: '~37,662', unit: 'hh', source: 'Derived proxy', released: 'Apr 3, 2026', status: 'PROXY', notes: '79,090 ÷ 2.1 (CSD primary base).' },
   { id: '11', variable: 'Vacancy buffer rate (structural)', value: '3%', unit: '% of new hh', source: 'Planning convention', released: 'N/A', status: 'PROXY', notes: 'Healthy vacancy planning threshold.' },
   { id: '12', variable: 'Annual replacement / obsolescence rate', value: '0.4%', unit: '% of stock/yr', source: 'Planning convention', released: 'N/A', status: 'PROXY', notes: 'Applied to annual household stock.' },
   { id: '13', variable: 'Net new housing units created (2025)', value: '606', unit: 'units', source: 'City construction permit release', released: 'Feb 4, 2026', status: 'ACTUAL', notes: 'City-reported net units.' },
   { id: '14', variable: 'Approved pipeline (projects)', value: '>750', unit: 'units', source: 'City construction permit release', released: 'Feb 4, 2026', status: 'ACTUAL', notes: '11 approved projects.' },
   { id: '15', variable: 'Total construction permit value 2025', value: '$389.9M', unit: 'CAD', source: 'City construction permit release', released: 'Feb 4, 2026', status: 'ACTUAL', notes: 'Record annual value.' },
   { id: '16', variable: 'Development permits issued 2025', value: '697', unit: 'permits', source: 'City construction permit release', released: 'Feb 4, 2026', status: 'ACTUAL', notes: 'Slightly below 2024 count.' },
-  { id: '17', variable: 'Rental vacancy rate (CMA, 2025)', value: '4.0%', unit: '%', source: 'CMHC Rental Market Report', released: 'Dec 11, 2025', status: 'ACTUAL', notes: 'Oct 2025 survey snapshot.' },
-  { id: '18', variable: 'Vacancy rate change YoY', value: '+1.7 pp', unit: 'pp', source: 'CMHC Rental Market Report', released: 'Dec 11, 2025', status: 'ACTUAL', notes: 'Temporary absorption lag signal.' },
-  { id: '19', variable: 'Average 2-bedroom rent', value: '~$1,148', unit: 'CAD/mo', source: 'CMHC Rental Market Report', released: 'Dec 2024', status: 'ACTUAL', notes: 'Most recent extracted unit-type figure.' },
+  { id: '17', variable: 'Rental vacancy rate (CMA, 2025)', value: '2.1%', unit: '%', source: 'CMHC Rental Market Report', released: 'Dec 11, 2025', status: 'ACTUAL', notes: 'CMA context: tightening market.' },
+  { id: '18', variable: 'Vacancy rate change YoY', value: '-1.8 pp', unit: 'pp', source: 'CMHC Rental Market Report', released: 'Dec 11, 2025', status: 'ACTUAL', notes: 'From 3.9% to 2.1%.' },
+  { id: '19', variable: 'Average 2-bedroom rent (2025)', value: '$1,199', unit: 'CAD/mo', source: 'CMHC Rental Market Report', released: 'Dec 11, 2025', status: 'ACTUAL', notes: '+5.5% YoY.' },
   { id: '20', variable: 'Renter household share (proxy)', value: '~40–45%', unit: '% of hh', source: 'Derived (CMHC + T1FF context)', released: 'Derived', status: 'PROXY', notes: 'No direct extracted split used.' },
   { id: '21', variable: 'Model tenure split used', value: '58% own / 42% rent', unit: '%', source: 'Derived proxy', released: 'Derived', status: 'PROXY', notes: 'Used in tenure chart only.' },
   { id: '22', variable: 'Total CMA employment (2021 baseline)', value: '54,140', unit: 'jobs', source: 'Envision SJ / metroeconomics study', released: 'Nov 2024', status: 'ACTUAL', notes: 'Place-of-work employment baseline.' },
