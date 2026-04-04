@@ -1,6 +1,5 @@
 import { useDeferredValue, useMemo, useState } from 'react';
 import {
-  Area,
   Bar,
   BarChart,
   CartesianGrid,
@@ -390,7 +389,7 @@ export default function MunicipalModelsPage() {
           medPop: medPoint,
           highPop: highPoint,
           bandLow: null,
-          bandRange: null,
+          bandHigh: null,
         };
       }
 
@@ -403,7 +402,7 @@ export default function MunicipalModelsPage() {
         medPop: null,
         highPop: null,
         bandLow: lowExt,
-        bandRange: Math.max(0, highExt - lowExt),
+        bandHigh: highExt,
       };
     });
   }, [city, controls, horizon]);
@@ -715,8 +714,8 @@ export default function MunicipalModelsPage() {
                     <Line dataKey="lowPop" name="Low" stroke="#378ADD" strokeWidth={2} dot={false} />
                     <Line dataKey="medPop" name="Medium" stroke="#639922" strokeWidth={2} dot={false} />
                     <Line dataKey="highPop" name="High" stroke="#BA7517" strokeWidth={2} dot={false} />
-                    <Area dataKey="bandLow" fill="#378ADD" fillOpacity={0.12} stroke="none" />
-                    <Area dataKey="bandRange" fill="#639922" fillOpacity={0.15} stroke="none" stackId="post2041-band" />
+                    <Line dataKey="bandLow" name="Low (CAGR extension)" stroke="#378ADD" strokeWidth={2} dot={false} strokeDasharray="6 6" />
+                    <Line dataKey="bandHigh" name="High (CAGR extension)" stroke="#BA7517" strokeWidth={2} dot={false} strokeDasharray="6 6" />
                   </ComposedChart>
                 </ResponsiveContainer>
               </div>
