@@ -13,10 +13,33 @@ type Props = {
 export function Model2EnginePanel({ cityLabel, horizonYear, snapshots, zones }: Props) {
   const deferredSnapshots = useDeferredValue(snapshots);
   const results = useMemo(() => runModel2Engine(deferredSnapshots, zones), [deferredSnapshots, zones]);
+  const baselineSnapshot = deferredSnapshots.find((s) => s.model1Scenario === 'med') ?? deferredSnapshots[0];
+  const baselineResults = useMemo(
+    () => results.filter((r) => r.model1Scenario === (baselineSnapshot?.model1Scenario ?? 'med')),
+    [results, baselineSnapshot],
+  );
   const hasCapacityFail = useMemo(
     () => results.some((r) => r.utilizations.residential > 1 || r.utilizations.employment > 1 || r.utilizations.serviced > 1),
     [results],
   );
+  const areaLabel: Record<'G1' | 'G2' | 'G3', string> = {
+    G1: 'Central Peninsula (Core)',
+    G2: 'North End / Infill',
+    G3: 'Other PDA / Expansion',
+  };
+  const planName: Record<ScenarioPlanCode, string> = { A: 'Uptown Concentration', B: 'Distributed Growth', C: 'Greenfield / Emerging' };
+  const minLand = Math.min(...baselineResults.map((r) => r.totalLand));
+  const maxLand = Math.max(...baselineResults.map((r) => r.totalLand));
+  const minCost = Math.min(...baselineResults.map((r) => r.infraCost));
+  const maxCost = Math.max(...baselineResults.map((r) => r.infraCost));
+  const minPressure = Math.min(...baselineResults.map((r) => r.housingPressure));
+  const maxPressure = Math.max(...baselineResults.map((r) => r.housingPressure));
+
+  const relativeBand = (value: number, low: number, high: number): 'Low' | 'Medium' | 'High' => {
+    if (Math.abs(value - low) < 1e-9) return 'Low';
+    if (Math.abs(value - high) < 1e-9) return 'High';
+    return 'Medium';
+  };
 
   const handleExportModel2Csv = () => {
     const header = ['model1Scenario','plan','planLabel','totalLand','infraCost','housingPressure','efficiency','status','residentialCapacity','employmentCapacity','servicedCapacity','jobsHousingBalance'];
@@ -71,6 +94,87 @@ export function Model2EnginePanel({ cityLabel, horizonYear, snapshots, zones }: 
           <p id="model2-htotal"><strong>H_total:</strong> total households from Model 1.</p>
           <p id="model2-lambda"><strong>λ (lambda):</strong> workers per household used in jobs-housing balancing.</p>
         </div>
+      </article>
+
+      <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+        <p className="mb-2 text-sm font-medium text-[#4a453d]">1) Executive summary</p>
+        <p className="text-sm text-[#5e574a]">
+          Three scenarios allocate the same Model 1 totals with different spatial distributions. At the {baselineSnapshot?.model1Scenario.toUpperCase()} baseline,
+          Scenario A is typically lowest land/high pressure, B is balanced, and C is highest land/high infrastructure burden.
+        </p>
+      </article>
+
+      <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+        <p className="mb-2 text-sm font-medium text-[#4a453d]">2) Inputs (locked from Model 1)</p>
+        <table className="w-full text-sm">
+          <tbody>
+            <tr className="border-b border-[#efe4d1]"><td className="py-2">Total households</td><td className="py-2 text-right">{baselineSnapshot?.households.toLocaleString() ?? '—'}</td></tr>
+            <tr className="border-b border-[#efe4d1]"><td className="py-2">Total units required</td><td className="py-2 text-right">{baselineSnapshot?.unitsRequired.toLocaleString() ?? '—'}</td></tr>
+            <tr><td className="py-2">Total jobs</td><td className="py-2 text-right">{baselineSnapshot?.jobs.toLocaleString() ?? '—'}</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
+        <p className="mb-2 text-sm font-medium text-[#4a453d]">3) Scenario definitions</p>
+        <ul className="list-disc space-y-1 pl-5 text-sm text-[#5e574a]">
+          <li><strong>A — Uptown Concentration:</strong> 70–85% core-oriented allocation, high density, minimal greenfield.</li>
+          <li><strong>B — Distributed Growth:</strong> mixed core/infill distribution at moderate density.</li>
+          <li><strong>C — Greenfield / Emerging:</strong> larger outer-area share, lower density, highest land consumption risk.</li>
+        </ul>
+      </article>
+
+      <article className="rounded-xl border border-[#d8cdb9] bg-white p-4 overflow-x-auto">
+        <p className="mb-2 text-sm font-medium text-[#4a453d]">4.1) Residential allocation table</p>
+        <table className="w-full min-w-[980px] text-sm">
+          <thead>
+            <tr className="border-b border-[#e9dcc6] text-left text-xs text-[#6b6255]">
+              <th className="px-2 py-2">Scenario</th><th className="px-2 py-2">Area</th><th className="px-2 py-2">% Allocation</th><th className="px-2 py-2">Units</th><th className="px-2 py-2">Density (u/ha)</th><th className="px-2 py-2">Land (ha)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(['A', 'B', 'C'] as ScenarioPlanCode[]).flatMap((plan) => {
+              const row = baselineResults.find((r) => r.plan === plan);
+              if (!row) return [];
+              return (['G1', 'G2', 'G3'] as const).map((zone) => (
+                <tr key={`${plan}-${zone}`} className="border-b border-[#efe4d1] last:border-b-0">
+                  <td className="px-2 py-2">{planName[plan]}</td>
+                  <td className="px-2 py-2">{areaLabel[zone]}</td>
+                  <td className="px-2 py-2">{(ALLOCATION_PLANS[plan].residential[zone] * 100).toFixed(0)}%</td>
+                  <td className="px-2 py-2">{Math.round(row.unitsByZone[zone]).toLocaleString()}</td>
+                  <td className="px-2 py-2">{zones[zone].minDensity}–{zones[zone].maxDensity}</td>
+                  <td className="px-2 py-2">{row.residentialLandByZone[zone].toFixed(1)}</td>
+                </tr>
+              ));
+            })}
+          </tbody>
+        </table>
+      </article>
+
+      <article className="rounded-xl border border-[#d8cdb9] bg-white p-4 overflow-x-auto">
+        <p className="mb-2 text-sm font-medium text-[#4a453d]">4.2) Employment allocation table</p>
+        <table className="w-full min-w-[880px] text-sm">
+          <thead>
+            <tr className="border-b border-[#e9dcc6] text-left text-xs text-[#6b6255]">
+              <th className="px-2 py-2">Scenario</th><th className="px-2 py-2">Area</th><th className="px-2 py-2">Jobs</th><th className="px-2 py-2">Land (ha)</th><th className="px-2 py-2">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(['A', 'B', 'C'] as ScenarioPlanCode[]).flatMap((plan) => {
+              const row = baselineResults.find((r) => r.plan === plan);
+              if (!row) return [];
+              return (['G1', 'G2', 'G3'] as const).map((zone) => (
+                <tr key={`${plan}-jobs-${zone}`} className="border-b border-[#efe4d1] last:border-b-0">
+                  <td className="px-2 py-2">{planName[plan]}</td>
+                  <td className="px-2 py-2">{areaLabel[zone]}</td>
+                  <td className="px-2 py-2">{Math.round(row.jobsByZone[zone]).toLocaleString()}</td>
+                  <td className="px-2 py-2">{row.employmentLandByZone[zone].toFixed(1)}</td>
+                  <td className="px-2 py-2">{zone === 'G1' ? 'Office / services' : zone === 'G2' ? 'Mixed employment' : 'Industrial / expansion'}</td>
+                </tr>
+              ));
+            })}
+          </tbody>
+        </table>
       </article>
 
       <article className="rounded-xl border border-[#d8cdb9] bg-white p-4">
@@ -169,6 +273,33 @@ export function Model2EnginePanel({ cityLabel, horizonYear, snapshots, zones }: 
           </article>
         );
       })}
+
+      <article className="rounded-xl border border-[#d8cdb9] bg-white p-4 overflow-x-auto">
+        <p className="mb-2 text-sm font-medium text-[#4a453d]">10) Comparative summary table (decision)</p>
+        <table className="w-full min-w-[860px] text-sm">
+          <thead>
+            <tr className="border-b border-[#e9dcc6] text-left text-xs text-[#6b6255]">
+              <th className="px-2 py-2">Metric</th><th className="px-2 py-2">Scenario A</th><th className="px-2 py-2">Scenario B</th><th className="px-2 py-2">Scenario C</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-[#efe4d1]"><td className="px-2 py-2">Units delivered</td><td className="px-2 py-2">=</td><td className="px-2 py-2">=</td><td className="px-2 py-2">=</td></tr>
+            <tr className="border-b border-[#efe4d1]"><td className="px-2 py-2">Land consumed</td>{(['A','B','C'] as ScenarioPlanCode[]).map((plan) => {
+              const r = baselineResults.find((x) => x.plan === plan); return <td key={plan} className="px-2 py-2">{r ? relativeBand(r.totalLand, minLand, maxLand) : '—'}</td>;
+            })}</tr>
+            <tr className="border-b border-[#efe4d1]"><td className="px-2 py-2">Infrastructure cost</td>{(['A','B','C'] as ScenarioPlanCode[]).map((plan) => {
+              const r = baselineResults.find((x) => x.plan === plan); return <td key={plan} className="px-2 py-2">{r ? relativeBand(r.infraCost, minCost, maxCost) : '—'}</td>;
+            })}</tr>
+            <tr className="border-b border-[#efe4d1]"><td className="px-2 py-2">Housing pressure</td>{(['A','B','C'] as ScenarioPlanCode[]).map((plan) => {
+              const r = baselineResults.find((x) => x.plan === plan); return <td key={plan} className="px-2 py-2">{r ? relativeBand(r.housingPressure, minPressure, maxPressure) : '—'}</td>;
+            })}</tr>
+            <tr className="border-b border-[#efe4d1]"><td className="px-2 py-2">Feasibility</td>{(['A','B','C'] as ScenarioPlanCode[]).map((plan) => {
+              const r = baselineResults.find((x) => x.plan === plan); return <td key={plan} className="px-2 py-2">{r?.status ?? '—'}</td>;
+            })}</tr>
+            <tr><td className="px-2 py-2">Risk type</td><td className="px-2 py-2">Market</td><td className="px-2 py-2">Coordination</td><td className="px-2 py-2">Fiscal</td></tr>
+          </tbody>
+        </table>
+      </article>
     </div>
   );
 }
