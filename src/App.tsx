@@ -7,6 +7,7 @@ const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const WorkPage = lazy(() => import('./pages/WorkPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+const PublicSectorPage = lazy(() => import('./pages/PublicSectorPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const BookingConfirmationPage = lazy(() => import('./pages/BookingConfirmationPage'));
@@ -58,6 +59,7 @@ function App() {
             <Route path="work" element={<WorkPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="contact" element={<ContactPage />} />
+            <Route path="public-sector" element={<PublicSectorPage />} />
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="terms" element={<TermsPage />} />
             <Route path="diagnostics" element={<DiagnosticsPage />} />

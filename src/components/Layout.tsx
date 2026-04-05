@@ -21,6 +21,7 @@ const Layout = () => {
     { label: 'Home', href: '/' },
     { label: 'Analysis', href: '/work' },
     { label: 'Research', href: '/services' },
+    { label: 'Public Sector', href: '/public-sector' },
     { label: 'About', href: '/about' },
   ];
 

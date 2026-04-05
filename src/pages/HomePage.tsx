@@ -63,6 +63,24 @@ const HomePage = () => {
         ))}
       </section>
 
+
+      <section className="card space-y-4 max-w-5xl border border-[#D4A03A]/40 bg-[#103d42]">
+        <p className="eyebrow text-[#D4A03A]">RFP & Custom Engagements</p>
+        <p className="text-[#F3EFE6]/85">
+          <span className="font-semibold">Note on Scope:</span> DDA&apos;s standard service tiers (Quick Assessment,
+          Comprehensive Analysis) are remote, evidence-only products delivered without ongoing advisory relationships.
+        </p>
+        <p className="text-[#F3EFE6]/85">
+          <span className="font-semibold">Custom Public Sector Engagements:</span> For complex municipal strategies
+          (e.g., Urban Growth Strategies, Official Plan Reviews), DDA accepts full-scope contracts that include public
+          consultation facilitation, in-person stakeholder engagement, and evidence-based scenario recommendations.
+          These bespoke engagements operate under a different scope of work than our standard tiers.
+        </p>
+        <Link to="/public-sector#open-rfps" className="btn-secondary inline-flex w-fit">
+          View Current Open RFPs
+        </Link>
+      </section>
+
       <section className="card space-y-4 max-w-5xl">
         <p className="eyebrow">What DDA does</p>
         <h2 className="headline-md">Public evidence systems analysis for accountability and decision support</h2>
