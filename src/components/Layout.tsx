@@ -18,11 +18,10 @@ const Layout = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Analysis', href: '/work' },
-    { label: 'Research', href: '/services' },
-    { label: 'Public Sector', href: '/public-sector' },
-    { label: 'About', href: '/about' },
+    { label: 'Analysis', href: '/analysis' },
+    { label: 'Public sector', href: '/public-sector' },
+    { label: 'Method', href: '/method' },
+    { label: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -52,7 +51,7 @@ const Layout = () => {
 
           <div className="hidden md:flex items-center">
             <Link to="/contact" className="btn-secondary text-sm">
-              Commission research
+              Describe your situation →
             </Link>
           </div>
 
@@ -80,7 +79,7 @@ const Layout = () => {
               </Link>
             ))}
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary text-sm mt-2">
-              Commission research
+              Describe your situation →
             </Link>
           </div>
         </div>
@@ -99,9 +98,11 @@ const Layout = () => {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-6 text-sm text-[#F3EFE6]/75">
-            <Link to="/privacy" className="hover:text-[#D4A03A] transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-[#D4A03A] transition-colors">Terms of Service</Link>
-            <Link to="/contact" className="hover:text-[#D4A03A] transition-colors">Contact</Link>
+            <Link to="/privacy" className="hover:text-[#D4A03A] transition-colors">Privacy</Link>
+            <Link to="/terms" className="hover:text-[#D4A03A] transition-colors">Terms</Link>
+            <a href="mailto:david.doyle@ddanalytics.ca" className="hover:text-[#D4A03A] transition-colors">
+              david.doyle@ddanalytics.ca
+            </a>
           </div>
         </div>
       </footer>

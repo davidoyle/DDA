@@ -1,102 +1,84 @@
-import DdaLogo from '../components/DdaLogo';
 import { Link } from 'react-router-dom';
 
-const frontDoors = [
+const frames = [
   {
-    eyebrow: 'Door 1',
-    title: 'Public interest analysis',
-    audience: 'For policy readers, journalists, advocates, and researchers following published investigations and briefs.',
-    body: 'Read independent, evidence-led analysis of institutional behaviour and accountability.',
-    cta: 'Read the work',
-    href: '/work',
-    style: 'border-[#D4A03A]/45',
+    title: 'You need numbers that survive scrutiny',
+    body: 'Municipal planning, public sector strategy, council presentations. Growth models, scenario analysis, fiscal impact.',
+    href: '/public-sector',
+    cta: 'Public sector',
   },
   {
-    eyebrow: 'Door 2',
-    title: 'Employer diagnostic tools',
-    audience: 'For HR, finance, risk, and operations leaders managing WorkSafeBC and compliance exposure.',
-    body: 'Use technical decision-support diagnostics in a neutral employer-facing environment.',
-    cta: 'Open diagnostics',
-    href: '/tools',
-    style: 'border-[#6D8FA6]/45',
+    title: 'You need to understand what a system is actually doing',
+    body: 'Institutional accountability, policy analysis, investigative research. Pattern identification across public records.',
+    href: '/analysis',
+    cta: 'Analysis',
   },
   {
-    eyebrow: 'Door 3',
-    title: 'Research and engagements',
-    audience: 'For procurement teams, legal counsel, and organizations scoping custom analysis.',
-    body: 'Review methods, engagement structure, and outputs before starting a commissioned project.',
-    cta: 'Explore engagements',
-    href: '/services',
-    style: 'border-[#6FA680]/45',
+    title: 'You need evidence that can go into a legal or regulatory proceeding',
+    body: 'Litigation support, structured synthesis, comparative institutional analysis.',
+    href: '/contact?context=Litigation%20or%20regulatory%20proceeding',
+    cta: 'Describe your situation',
+  },
+];
+
+const proofPoints = [
+  {
+    sentence:
+      'Public safety system analysis identified a three-month detection lag and accountability breakdown between enforcement activity and intergovernmental coordination.',
+  },
+  {
+    sentence:
+      'Education system review quantified attrition replacement pressure above $85M annually and mapped a targeted intervention path tied to measurable staffing outcomes.',
+  },
+  {
+    sentence:
+      'Procurement pathway analysis isolated repeat approval-gate bottlenecks and quantified avoidable emergency spend driven by process drift.',
   },
 ];
 
 const HomePage = () => {
   return (
-    <div className="pt-24 pb-20 px-6 lg:px-[8vw] space-y-16">
-      <section className="space-y-6 max-w-5xl">
-        <DdaLogo className="mb-2" />
-        <p className="eyebrow">Data-driven Decisions Analytics</p>
-        <h1 className="headline-lg max-w-4xl">
-          Three services. Three audiences. Choose your entry point.
-        </h1>
-        <p className="body-text body-text-secondary max-w-3xl">
-          DDA operates across public-interest investigations, employer diagnostics, and commissioned research.
-          Start in the section built for your mandate.
+    <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-14">
+      <section className="max-w-5xl space-y-6">
+        <h1 className="headline-lg max-w-4xl">When the numbers have to hold up.</h1>
+        <p className="text-xl text-[#F3EFE6]/85 max-w-4xl">
+          DDA produces evidence-led analysis for institutions, legal teams, and public agencies where the stakes of a
+          wrong answer are documented.
         </p>
+        <div className="flex flex-wrap gap-3">
+          <Link to="/analysis" className="btn-primary">
+            See the work
+          </Link>
+          <Link to="/contact" className="btn-secondary">
+            Describe your situation
+          </Link>
+        </div>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-3">
-        {frontDoors.map((door) => (
-          <article
-            key={door.title}
-            className={`card space-y-4 border-l-2 ${door.style} bg-[#0e454c]/70 backdrop-blur-sm`}
-          >
-            <p className="eyebrow text-[#D4A03A]">{door.eyebrow}</p>
-            <h2 className="headline-sm">{door.title}</h2>
-            <p className="text-[#F3EFE6]/90 text-sm">{door.audience}</p>
-            <p className="text-[#F3EFE6]/75 text-sm">{door.body}</p>
-            <Link to={door.href} className="btn-secondary inline-flex w-full justify-center">
-              {door.cta}
+        {frames.map((frame) => (
+          <article key={frame.title} className="card space-y-4 border border-[#F3EFE6]/15">
+            <h2 className="headline-sm">{frame.title}</h2>
+            <p className="text-[#F3EFE6]/82">{frame.body}</p>
+            <Link to={frame.href} className="btn-secondary inline-flex w-fit">
+              {frame.cta} →
             </Link>
           </article>
         ))}
       </section>
 
-
-      <section className="card space-y-4 max-w-5xl border border-[#D4A03A]/40 bg-[#103d42]">
-        <p className="eyebrow text-[#D4A03A]">RFP & Custom Engagements</p>
-        <p className="text-[#F3EFE6]/85">
-          <span className="font-semibold">Note on Scope:</span> DDA&apos;s standard service tiers (Quick Assessment,
-          Comprehensive Analysis) are remote, evidence-only products delivered without ongoing advisory relationships.
-        </p>
-        <p className="text-[#F3EFE6]/85">
-          <span className="font-semibold">Custom Public Sector Engagements:</span> For complex municipal strategies
-          (e.g., Urban Growth Strategies, Official Plan Reviews), DDA accepts full-scope contracts that include public
-          consultation facilitation, in-person stakeholder engagement, and evidence-based scenario recommendations.
-          These bespoke engagements operate under a different scope of work than our standard tiers.
-        </p>
-        <Link to="/public-sector#open-rfps" className="btn-secondary inline-flex w-fit">
-          View Current Open RFPs
-        </Link>
-      </section>
-
-      <section className="card space-y-4 max-w-5xl">
-        <p className="eyebrow">What DDA does</p>
-        <h2 className="headline-md">Public evidence systems analysis for accountability and decision support</h2>
-        <p className="text-[#F3EFE6]/82 max-w-4xl">
-          We synthesize published records across years, departments, and institutions to surface structural patterns.
-          The same method powers editorial investigations, employer risk diagnostics, and scoped research
-          engagements.
-        </p>
-        <div className="flex flex-wrap gap-3 pt-2">
-          <Link to="/work" className="btn-primary">
-            Latest analysis
-          </Link>
-          <Link to="/contact" className="btn-secondary">
-            Commission research
-          </Link>
-        </div>
+      <section className="card space-y-5 max-w-5xl">
+        <h2 className="headline-sm">What this work has already surfaced</h2>
+        <ul className="space-y-3">
+          {proofPoints.map((point) => (
+            <li key={point.sentence} className="text-[#F3EFE6]/82">
+              {point.sentence}{' '}
+              <Link to="/analysis" className="text-[#D4A03A] hover:text-[#e8bc66] transition-colors">
+                See full analysis
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
     </div>
   );

@@ -1,11 +1,11 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const WorkPage = lazy(() => import('./pages/WorkPage'));
-const AboutPage = lazy(() => import('./pages/AboutPage'));
+const MethodPage = lazy(() => import('./pages/MethodPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const PublicSectorPage = lazy(() => import('./pages/PublicSectorPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
@@ -55,9 +55,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
+            <Route path="analysis" element={<WorkPage />} />
+            <Route path="work" element={<Navigate to="/analysis" replace />} />
             <Route path="services" element={<ServicesPage />} />
-            <Route path="work" element={<WorkPage />} />
-            <Route path="about" element={<AboutPage />} />
+            <Route path="method" element={<MethodPage />} />
+            <Route path="about" element={<Navigate to="/method" replace />} />
             <Route path="contact" element={<ContactPage />} />
             <Route path="public-sector" element={<PublicSectorPage />} />
             <Route path="privacy" element={<PrivacyPolicyPage />} />
