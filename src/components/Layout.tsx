@@ -19,6 +19,7 @@ const Layout = () => {
 
   const navLinks = [
     { label: 'Analysis', href: '/analysis' },
+    { label: 'Diagnostics', href: '/diagnostics' },
     { label: 'Public sector', href: '/public-sector' },
     { label: 'Method', href: '/method' },
     { label: 'Contact', href: '/contact' },
@@ -100,8 +101,8 @@ const Layout = () => {
           <div className="flex flex-wrap items-center gap-6 text-sm text-[#F3EFE6]/75">
             <Link to="/privacy" className="hover:text-[#D4A03A] transition-colors">Privacy</Link>
             <Link to="/terms" className="hover:text-[#D4A03A] transition-colors">Terms</Link>
-            <a href="mailto:david.doyle@ddanalytics.ca" className="hover:text-[#D4A03A] transition-colors">
-              david.doyle@ddanalytics.ca
+            <a href="mailto:david.doyle@ddanalysis.ca" className="hover:text-[#D4A03A] transition-colors">
+              david.doyle@ddanalysis.ca
             </a>
           </div>
         </div>

@@ -67,6 +67,18 @@ const HomePage = () => {
         ))}
       </section>
 
+
+      <section className="card space-y-4 max-w-5xl">
+        <h2 className="headline-sm">Diagnostics</h2>
+        <p className="text-[#F3EFE6]/82">
+          Nine diagnostic tools for operators, HR, and risk functions. Built from the same public-evidence method.
+          Self-serve.
+        </p>
+        <Link to="/diagnostics" className="btn-secondary inline-flex w-fit">
+          Open diagnostics →
+        </Link>
+      </section>
+
       <section className="card space-y-5 max-w-5xl">
         <h2 className="headline-sm">What this work has already surfaced</h2>
         <ul className="space-y-3">

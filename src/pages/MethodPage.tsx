@@ -3,23 +3,27 @@ import { Link } from 'react-router-dom';
 const methodSections = [
   {
     title: 'Data Lexicon protocol',
-    body: 'Every number is named, sourced, and tagged as ACTUAL, PROXY, or FLAG. Every output is traceable to a primary source before it reaches a decision table.',
+    body: 'Every number entering a model or analysis carries an explicit status: ACTUAL (direct extract from named primary source), PROXY (derived from primary items with derivation shown), or FLAG (gap named where no extract exists). Entries include source, release date, and data lag. The Lexicon is delivered to the client.',
   },
   {
     title: 'Systematic synthesis',
-    body: 'Documents are read as an integrated system across years, departments, and institutional boundaries. This surfaces structural patterns that fragmented reviews miss.',
+    body: 'Documents are read as an integrated system across years, departments, and institutions — not as isolated pieces. Patterns emerge from this integration that fragmented analysis misses.',
   },
   {
     title: 'Structural vs. reported outcomes',
-    body: 'Institutions publish claims. DDA measures what the system actually produces. When those diverge, the gap is quantified and documented.',
+    body: 'Institutions make claims about outcomes. DDA measures what the system actually produces. When they diverge, the gap is quantified and assessed for what it indicates about structural behaviour.',
   },
   {
     title: 'Scenario modelling',
-    body: 'Policy changes are modelled through cost flows, institutional routing, and sector interactions to show operational consequences, not abstract theory.',
+    body: 'Policy and structural changes are modelled through cost flows, institutional routing, and sector interactions. This surfaces actual consequences rather than theoretical ones.',
   },
   {
     title: 'Uncertainty standards',
-    body: 'Findings are classified into three tiers: directly supported, strongly suggested, or unknowable given available evidence. No confidence inflation.',
+    body: 'Findings are classified into three tiers: directly supported by public evidence, strongly suggested by pattern, or unknowable given available information. No confidence inflation.',
+  },
+  {
+    title: 'Service tiers',
+    body: 'Rapid diagnostic (1–2 weeks). Comprehensive analysis (4–8 weeks). Strategic systems assessment (8–12 weeks). Fixed scope, fixed price, no retainers. Pricing is discussed after preliminary assessment because scope determines cost.',
   },
 ];
 
@@ -29,10 +33,6 @@ const MethodPage = () => {
       <section className="brand-panel space-y-4 max-w-5xl">
         <p className="eyebrow">Method</p>
         <h1 className="headline-md">How the numbers are built to hold up.</h1>
-        <p className="text-xl text-[#F3EFE6]/85 max-w-4xl">
-          This is a process page, not a biography. The work is designed for decisions that may face council review,
-          regulatory challenge, or statutory scrutiny.
-        </p>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2 max-w-6xl">
@@ -42,6 +42,13 @@ const MethodPage = () => {
             <p className="text-[#F3EFE6]/82">{section.body}</p>
           </article>
         ))}
+      </section>
+
+      <section className="card space-y-4 max-w-5xl">
+        <p className="text-[#F3EFE6]/82">
+          Note: Full-scope public sector engagements (municipal growth strategies, official plan reviews) operate under
+          a separate structure. See the Public sector page.
+        </p>
       </section>
 
       <section className="card space-y-4 max-w-5xl">

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
 const publicSectorCapabilities = [
-  'Data Lexicon protocol: every number sourced, every proxy flagged, every gap named before it becomes a liability.',
-  'CSD-anchored geography discipline (not CMA conflation).',
-  'Two-model architecture: forecast demand engine + allocation feasibility engine.',
-  'Four-phase engagement system with Council ownership built in.',
-  'Bilingual delivery as baseline, not add-on.',
+  'Data Lexicon protocol — every number sourced, every proxy flagged, every gap named before it becomes a liability in a Council chamber or statutory hearing. Delivered as a named, auditable register.',
+  'CSD-anchored geography discipline — primary model geography anchored to the Census Subdivision, not conflated with CMA-level data. The distinction is documented and defended.',
+  'Two-model architecture — Model 1 (forecast and demand: population, households, housing, employment, land) plus Model 2 (allocation and feasibility: three spatial plans tested against capacity constraints, infrastructure cost indexing, and feasibility ratings). Projections are capped at documented endpoints.',
+  'Four-phase engagement system — Council orientation before public materials are released, with scenario workshops designed so Council authors the preferred scenario instead of ratifying a pre-selected path.',
+  'Bilingual delivery — baseline, not add-on. Public-facing materials are produced in both official languages.',
 ];
 
 const PublicSectorPage = () => {
@@ -34,12 +34,15 @@ const PublicSectorPage = () => {
       </section>
 
       <section className="card space-y-4 max-w-5xl">
-        <h2 className="headline-sm">Scope note</h2>
+        <h2 className="headline-sm">A note on what DDA&apos;s models can and cannot do</h2>
         <p className="text-[#F3EFE6]/82">
-          Full-scope public sector engagements operate under a different structure than standard tiers. In-person
-          visits, stakeholder facilitation, council sessions, and statutory hearing support are included where required
-          by mandate and procurement terms.
+          Projections are capped at documented study endpoints. Proxies are labelled. Data gaps are named, not papered
+          over. The models produce defensible outputs, not certain ones. If your procurement process requires a
+          consultant who will express certainty where the data does not support it, DDA is not the right fit.
         </p>
+      </section>
+
+      <section className="max-w-5xl">
         <Link
           to="/contact?context=Public%20sector%20%E2%80%94%20RFP%20or%20municipal%20engagement"
           className="btn-primary inline-flex w-fit"

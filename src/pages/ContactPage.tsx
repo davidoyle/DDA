@@ -29,6 +29,16 @@ const ContactPage = () => {
         <p className="text-xl text-[#F3EFE6]/85">{contactHeader.body}</p>
       </section>
 
+
+      <section className="max-w-4xl card space-y-4">
+        <h2 className="font-heading text-2xl">Before you submit</h2>
+        <p className="text-[#F3EFE6]/80">
+          DDA&apos;s analysis is grounded in public evidence. Findings are stated with explicit uncertainty tiers. If
+          your situation requires conclusions beyond what the evidence supports, we will say so — and that may mean we
+          are not the right fit. If that works for you, describe your situation below.
+        </p>
+      </section>
+
       <section className="max-w-4xl space-y-8">
         <form className="card space-y-5" onSubmit={(event) => event.preventDefault()}>
           <div className="space-y-2">

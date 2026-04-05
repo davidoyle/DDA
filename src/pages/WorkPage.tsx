@@ -11,6 +11,7 @@ const analyses = [
       'Escalation protocol redesign identified with phased implementation gates and quantified oversight checkpoints.',
     ],
     enabled: 'Enabled a structured reform pathway for response governance and escalation accountability.',
+    howDone: 'Source set included incident timelines, public enforcement notices, council records, and intergovernmental disclosures across the same period. Evidence was synthesized into a single chronology and tested against declared response protocols. Uncertainty remained around non-public operational capacity and is explicitly treated as unknowable.',
   },
   {
     sector: 'Education system | provincial institution set',
@@ -22,6 +23,7 @@ const analyses = [
       'Support-staff investment corridor ($50M–$75M) mapped to measurable retention and service-delivery outcomes.',
     ],
     enabled: 'Enabled a quantified funding-accountability argument tied to retention and classroom-capacity outcomes.',
+    howDone: 'The synthesis combined public funding releases, workforce indicators, attrition disclosures, and comparative provincial data in a harmonized baseline. Structural outcomes were measured against reported policy commitments and budget claims. Missing denominator detail in some public series was retained as a flagged limitation.',
   },
   {
     sector: 'Procurement operations | multi-department service delivery',
@@ -33,6 +35,7 @@ const analyses = [
       'Administrative overhead and delay costs quantified across approval-path variants.',
     ],
     enabled: 'Enabled leadership teams to redesign approval pathways and reduce avoidable emergency spend.',
+    howDone: 'Method used procurement logs, amendment records, and cycle-time markers across linked departments to model queue behaviour and delay propagation. Comparative pathway testing isolated preventable versus externally forced emergency spend. Vendor-level private negotiation factors were excluded and marked as non-observable.',
   },
 ];
 
@@ -66,6 +69,11 @@ const WorkPage = () => {
             <div className="finding-block">
               <p className="finding-label">What the evidence enabled</p>
               <p>{analysis.enabled}</p>
+            </div>
+
+            <div className="space-y-2">
+              <p className="finding-label">How this was done</p>
+              <p className="text-[#F3EFE6]/80">{analysis.howDone}</p>
             </div>
           </article>
         ))}
