@@ -14,6 +14,7 @@ const BookingConfirmationPage = lazy(() => import('./pages/BookingConfirmationPa
 const ConsultationLandingPage = lazy(() => import('./pages/ConsultationLandingPage'));
 const WorkSafeBCDiagnosticPage = lazy(() => import('./pages/WorkSafeBCDiagnosticPage'));
 const DiagnosticsPage = lazy(() => import('./pages/DiagnosticsPage'));
+const DiagnosticsSubscribePage = lazy(() => import('./pages/DiagnosticsSubscribePage'));
 const BCPSTDiagnosticPage = lazy(() => import('./pages/BCPSTDiagnosticPage'));
 const PSTDiagnostic = lazy(() => import('./pages/PSTDiagnostic'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -65,6 +66,7 @@ function App() {
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="terms" element={<TermsPage />} />
             <Route path="diagnostics" element={<DiagnosticsPage />} />
+            <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
             <Route path="tools" element={<DiagnosticsPage />} />
             <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
             <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />

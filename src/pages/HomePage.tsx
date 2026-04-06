@@ -5,92 +5,77 @@ const frames = [
     title: 'You need numbers that survive scrutiny',
     body: 'Municipal planning, public sector strategy, council presentations. Growth models, scenario analysis, fiscal impact.',
     href: '/public-sector',
-    cta: 'Public sector',
+    label: 'Public sector',
   },
   {
     title: 'You need to understand what a system is actually doing',
     body: 'Institutional accountability, policy analysis, investigative research. Pattern identification across public records.',
     href: '/analysis',
-    cta: 'Analysis',
+    label: 'Analysis',
   },
   {
     title: 'You need evidence that can go into a legal or regulatory proceeding',
     body: 'Litigation support, structured synthesis, comparative institutional analysis.',
     href: '/contact?context=Litigation%20or%20regulatory%20proceeding',
-    cta: 'Describe your situation',
+    label: 'Contact',
   },
 ];
 
 const proofPoints = [
-  {
-    sentence:
-      'Public safety system analysis identified a three-month detection lag and accountability breakdown between enforcement activity and intergovernmental coordination.',
-  },
-  {
-    sentence:
-      'Education system review quantified attrition replacement pressure above $85M annually and mapped a targeted intervention path tied to measurable staffing outcomes.',
-  },
-  {
-    sentence:
-      'Procurement pathway analysis isolated repeat approval-gate bottlenecks and quantified avoidable emergency spend driven by process drift.',
-  },
+  'Public safety response analysis documented a three-month detection lag between surge onset and formal coordination action.',
+  'Education system synthesis quantified attrition replacement pressure above $85M annually against reported recovery-era commitments.',
+  'Procurement analysis isolated repeat approval-gate bottlenecks and measured avoidable emergency spend tied to process drift.',
 ];
 
 const HomePage = () => {
   return (
-    <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-14">
-      <section className="max-w-5xl space-y-6">
-        <h1 className="headline-lg max-w-4xl">When the numbers have to hold up.</h1>
-        <p className="text-xl text-[#F3EFE6]/85 max-w-4xl">
-          DDA produces evidence-led analysis for institutions, legal teams, and public agencies where the stakes of a
-          wrong answer are documented.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link to="/analysis" className="btn-primary">
-            See the work
-          </Link>
-          <Link to="/contact" className="btn-secondary">
-            Describe your situation
-          </Link>
+    <div className="px-6 lg:px-16">
+      <section className="min-h-[calc(100vh-56px)] flex items-center max-w-[1120px] mx-auto py-[var(--space-10)]">
+        <div>
+          <h1 className="headline-lg max-w-[720px]">When the numbers have to hold up.</h1>
+          <p className="mt-6 text-[17px] leading-[1.7] max-w-[540px]" style={{ color: 'var(--text-secondary)' }}>
+            DDA produces evidence-led analysis for institutions, legal teams, and public agencies where the stakes of a
+            wrong answer are documented.
+          </p>
+          <div className="mt-12 flex flex-wrap gap-3">
+            <Link to="/analysis" className="btn-primary">See the work →</Link>
+            <Link to="/contact" className="btn-ghost">Describe your situation →</Link>
+          </div>
         </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-3">
+      <section className="max-w-[1120px] mx-auto py-[var(--space-9)] grid gap-6 lg:grid-cols-3">
         {frames.map((frame) => (
-          <article key={frame.title} className="card space-y-4 border border-[#F3EFE6]/15">
-            <h2 className="headline-sm">{frame.title}</h2>
-            <p className="text-[#F3EFE6]/82">{frame.body}</p>
-            <Link to={frame.href} className="btn-secondary inline-flex w-fit">
-              {frame.cta} →
-            </Link>
+          <article key={frame.title} className="pl-6 border-l-2" style={{ borderColor: 'var(--border)' }}>
+            <h3 className="text-[18px] font-medium leading-[1.3]">{frame.title}</h3>
+            <p className="mt-3 text-[13px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>{frame.body}</p>
+            <Link to={frame.href} className="btn-ghost mt-3">→ {frame.label}</Link>
           </article>
         ))}
       </section>
 
-
-      <section className="card space-y-4 max-w-5xl">
-        <h2 className="headline-sm">Diagnostics</h2>
-        <p className="text-[#F3EFE6]/82">
-          Nine diagnostic tools for operators, HR, and risk functions. Built from the same public-evidence method.
-          Self-serve.
-        </p>
-        <Link to="/diagnostics" className="btn-secondary inline-flex w-fit">
-          Open diagnostics →
-        </Link>
-      </section>
-
-      <section className="card space-y-5 max-w-5xl">
-        <h2 className="headline-sm">What this work has already surfaced</h2>
-        <ul className="space-y-3">
+      <section className="max-w-[680px] mx-auto py-[var(--space-9)]">
+        <p className="eyebrow">Demonstrated outcomes</p>
+        <div className="mt-4 space-y-4">
           {proofPoints.map((point) => (
-            <li key={point.sentence} className="text-[#F3EFE6]/82">
-              {point.sentence}{' '}
-              <Link to="/analysis" className="text-[#D4A03A] hover:text-[#e8bc66] transition-colors">
+            <p key={point} className="text-[15px] leading-[1.7] border-b pb-4" style={{ borderColor: 'var(--border)' }}>
+              {point}{' '}
+              <Link to="/analysis" className="underline decoration-transparent hover:decoration-current" style={{ color: 'var(--text-primary)' }}>
                 See full analysis
               </Link>
-            </li>
+            </p>
           ))}
-        </ul>
+        </div>
+      </section>
+
+      <section className="max-w-[1120px] mx-auto py-[var(--space-8)] px-6 card grid gap-6 lg:grid-cols-[1fr_auto] items-center">
+        <div>
+          <h2 className="headline-sm">Nine diagnostic tools for operators, HR, and risk functions.</h2>
+          <p className="mt-3 text-[15px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
+            Built from the same public-evidence method. Self-serve.
+          </p>
+        </div>
+        <Link to="/diagnostics" className="btn-primary">Open diagnostics →</Link>
       </section>
     </div>
   );

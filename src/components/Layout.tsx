@@ -1,21 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import DdaLogo from './DdaLogo';
 
 const Layout = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const navLinks = [
     { label: 'Analysis', href: '/analysis' },
@@ -26,85 +14,67 @@ const Layout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B3C43]">
-      <div className="grain-overlay" />
+    <div className="min-h-screen" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
+      <nav className="fixed top-0 left-0 right-0 z-[100] h-14 border-b" style={{ background: 'var(--bg-base)', borderColor: 'var(--border)' }}>
+        <div className="h-full px-6 lg:px-16 flex items-center justify-between gap-4">
+          <Link to="/" className="text-[18px] font-semibold tracking-[-0.02em]">
+            DDA.
+          </Link>
 
-      <nav
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          isScrolled ? 'bg-[#0B3C43]/95 backdrop-blur-md py-3 border-b border-[#F3EFE6]/10' : 'bg-transparent py-5'
-        }`}
-      >
-        <div className="w-full px-6 lg:px-10 flex items-center justify-between gap-4">
-          <DdaLogo linkToHome compact className="transition-opacity hover:opacity-90" />
-
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`nav-link ${location.pathname === link.href ? 'text-[#D4A03A]' : ''}`}
+                className="nav-link"
+                style={{ color: location.pathname === link.href ? 'var(--text-primary)' : undefined, fontWeight: location.pathname === link.href ? 500 : 400 }}
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          <div className="hidden md:flex items-center">
-            <Link to="/contact" className="btn-secondary text-sm">
+          <div className="hidden md:block">
+            <Link to="/contact" className="btn-primary">
               Describe your situation →
             </Link>
           </div>
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-[#F3EFE6] hover:text-[#D4A03A] transition-colors"
+            className="md:hidden text-xl"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? '×' : '≡'}
           </button>
         </div>
       </nav>
 
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[99] bg-[#0B3C43]/98 backdrop-blur-lg md:hidden">
-          <div className="flex flex-col items-center justify-center h-full gap-6">
+        <div className="fixed inset-x-0 top-14 z-[99] border-b md:hidden" style={{ background: 'var(--bg-base)', borderColor: 'var(--border)' }}>
+          <div className="px-6 py-6 flex flex-col gap-5">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`font-heading text-2xl font-bold text-[#F3EFE6] hover:text-[#D4A03A] transition-colors ${location.pathname === link.href ? 'text-[#D4A03A]' : ''}`}
-              >
+              <Link key={link.href} to={link.href} onClick={() => setIsMobileMenuOpen(false)} className="nav-link">
                 {link.label}
               </Link>
             ))}
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary text-sm mt-2">
+            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-primary w-full">
               Describe your situation →
             </Link>
           </div>
         </div>
       )}
 
-      <main className="relative">
+      <main className="pt-14">
         <Outlet />
       </main>
 
-      <footer className="border-t border-[#F3EFE6]/10 px-6 lg:px-[8vw] py-8 bg-[#0B3C43]">
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-3">
-            <DdaLogo linkToHome className="max-w-full" />
-            <p className="max-w-xl text-sm text-[#F3EFE6]/60">
-              Systematic analysis of public evidence for institutions, operators, legal teams, and oversight bodies.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-6 text-sm text-[#F3EFE6]/75">
-            <Link to="/privacy" className="hover:text-[#D4A03A] transition-colors">Privacy</Link>
-            <Link to="/terms" className="hover:text-[#D4A03A] transition-colors">Terms</Link>
-            <a href="mailto:david.doyle@ddanalysis.ca" className="hover:text-[#D4A03A] transition-colors">
-              david.doyle@ddanalysis.ca
-            </a>
-          </div>
+      <footer className="border-t px-6 lg:px-16 py-8" style={{ borderColor: 'var(--border)' }}>
+        <div className="max-w-[1120px] mx-auto flex flex-wrap items-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <Link to="/privacy" className="hover:underline">Privacy</Link>
+          <Link to="/terms" className="hover:underline">Terms</Link>
+          <a href="mailto:david.doyle@ddanalysis.ca" className="hover:underline">david.doyle@ddanalysis.ca</a>
         </div>
       </footer>
     </div>
