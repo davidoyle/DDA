@@ -1,18 +1,20 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const WorkPage = lazy(() => import('./pages/WorkPage'));
-const AboutPage = lazy(() => import('./pages/AboutPage'));
+const MethodPage = lazy(() => import('./pages/MethodPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+const PublicSectorPage = lazy(() => import('./pages/PublicSectorPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const BookingConfirmationPage = lazy(() => import('./pages/BookingConfirmationPage'));
 const ConsultationLandingPage = lazy(() => import('./pages/ConsultationLandingPage'));
 const WorkSafeBCDiagnosticPage = lazy(() => import('./pages/WorkSafeBCDiagnosticPage'));
 const DiagnosticsPage = lazy(() => import('./pages/DiagnosticsPage'));
+const DiagnosticsSubscribePage = lazy(() => import('./pages/DiagnosticsSubscribePage'));
 const BCPSTDiagnosticPage = lazy(() => import('./pages/BCPSTDiagnosticPage'));
 const PSTDiagnostic = lazy(() => import('./pages/PSTDiagnostic'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -54,13 +56,17 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
+            <Route path="analysis" element={<WorkPage />} />
+            <Route path="work" element={<Navigate to="/analysis" replace />} />
             <Route path="services" element={<ServicesPage />} />
-            <Route path="work" element={<WorkPage />} />
-            <Route path="about" element={<AboutPage />} />
+            <Route path="method" element={<MethodPage />} />
+            <Route path="about" element={<Navigate to="/method" replace />} />
             <Route path="contact" element={<ContactPage />} />
+            <Route path="public-sector" element={<PublicSectorPage />} />
             <Route path="privacy" element={<PrivacyPolicyPage />} />
             <Route path="terms" element={<TermsPage />} />
             <Route path="diagnostics" element={<DiagnosticsPage />} />
+            <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
             <Route path="tools" element={<DiagnosticsPage />} />
             <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
             <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />

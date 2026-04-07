@@ -38,10 +38,10 @@ const included = [
 ];
 
 const notIncluded = [
-  'Consulting retainers or advisory relationships',
+  'Consulting retainers',
   'Meeting-based engagements',
-  'Regulatory or legal opinions',
-  'Recommendations about what to do',
+  'Regulatory opinions',
+  'Subjective recommendations',
 ];
 
 const ServicesPage = () => {
@@ -103,7 +103,7 @@ const ServicesPage = () => {
           </article>
 
           <article className="card space-y-3">
-            <p className="font-semibold">Not included</p>
+            <p className="font-semibold">Not included (Standard Tiers)</p>
             <ul className="space-y-2 text-[#F3EFE6]/75 list-disc list-inside">
               {notIncluded.map((item) => (
                 <li key={item}>{item}</li>
@@ -111,7 +111,16 @@ const ServicesPage = () => {
             </ul>
           </article>
         </div>
-        <p className="text-sm text-[#F3EFE6]/70">The analysis is delivered. The client uses it. Done.</p>
+        <p className="text-sm text-[#F3EFE6]/70">
+          Exception for Municipal & Public Sector Contracts: When engaged for comprehensive strategic planning
+          (e.g., Urban Growth Strategies), DDA explicitly includes public participation programs, facilitated
+          workshops, council presentations, and data-driven scenario recommendations as defined by the specific
+          Request for Proposal (RFP). See our{' '}
+          <Link to="/public-sector" className="text-[#D4A03A] hover:text-[#e8bc66] transition-colors">
+            Public Sector Engagements
+          </Link>{' '}
+          page for details.
+        </p>
 
         <div className="flex flex-wrap gap-3">
           <Link to="/contact" className="btn-primary">
