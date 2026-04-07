@@ -6,11 +6,12 @@ const Layout = () => {
   const location = useLocation();
 
   const navLinks = [
-    { label: 'Analysis', href: '/analysis' },
-    { label: 'Diagnostics', href: '/diagnostics' },
-    { label: 'Public sector', href: '/public-sector' },
-    { label: 'Method', href: '/method' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Home', href: '/' },
+    { label: 'Analysis', href: '/work' },
+    { label: 'Research', href: '/services' },
+    { label: 'Public Sector', href: '/public-sector' },
+    { label: 'Municipal Models', href: '/tools/municipal-models' },
+    { label: 'About', href: '/about' },
   ];
 
   return (

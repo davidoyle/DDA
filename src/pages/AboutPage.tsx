@@ -56,6 +56,13 @@ const AboutPage = () => {
         <p className="text-[#F3EFE6]/80">Every institution publishes extensive information about itself. Annual reports. Budgets. Policy manuals. Tribunal decisions. Enforcement records. Sector data.</p>
         <p className="text-[#F3EFE6]/80">This information is usually read as disconnected pieces. We read it as an integrated system.</p>
         <p className="text-[#F3EFE6]/80">Patterns become visible. Structural gaps become measurable. Decision implications become explicit.</p>
+        <p className="text-[#F3EFE6]/80">
+          <strong>Our Stance on Recommendations:</strong> DDA does not provide subjective &quot;advice.&quot; However, in comprehensive
+          planning engagements, we provide defensible, evidence-based scenario selections. By quantifying trade-offs across fiscal
+          impact, infrastructure capacity, and housing affordability, our models identify structurally optimal pathways. We present
+          these findings as clear recommendations for decision-makers, while distinguishing factual analysis from policy choices
+          reserved for Council.
+        </p>
       </section>
 
       <section className="space-y-6">
@@ -106,6 +113,23 @@ const AboutPage = () => {
               <p className="text-[#F3EFE6]/80">{item.body}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="space-y-4 max-w-5xl">
+        <h2 className="headline-md">Engagement structure</h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          <article className="card space-y-2">
+            <p className="font-semibold">David Doyle — Lead Analyst &amp; Modeling Engine</p>
+            <p className="text-sm text-[#F3EFE6]/75">Leads evidence synthesis, diagnostics, and scenario modeling.</p>
+          </article>
+          <article className="card space-y-2">
+            <p className="font-semibold">Local Facilitation Partner</p>
+            <p className="text-sm text-[#F3EFE6]/75">
+              For public engagement and in-person workshops, DDA collaborates with accredited Atlantic Canada planning firms to
+              ensure robust community participation.
+            </p>
+          </article>
         </div>
       </section>
 

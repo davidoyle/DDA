@@ -38,6 +38,10 @@ const included = [
 ];
 
 const notIncluded = [
+  'Not included (Standard Tiers): Consulting retainers',
+  'Not included (Standard Tiers): Meeting-based engagements',
+  'Not included (Standard Tiers): Regulatory or legal opinions',
+  'Not included (Standard Tiers): Subjective recommendations',
   'Consulting retainers',
   'Meeting-based engagements',
   'Regulatory opinions',
@@ -109,6 +113,15 @@ const ServicesPage = () => {
                 <li key={item}>{item}</li>
               ))}
             </ul>
+            <p className="text-xs text-[#F3EFE6]/70">
+              <strong>Exception for Municipal &amp; Public Sector Contracts:</strong> When engaged for comprehensive strategic planning
+              (e.g., Urban Growth Strategies), DDA includes public participation programs, facilitated workshops, council
+              presentations, and data-driven scenario recommendations as defined by the specific RFP. See our{' '}
+              <Link className="underline underline-offset-2 hover:text-[#D4A03A]" to="/public-sector">
+                Public Sector Engagements
+              </Link>{' '}
+              page for details.
+            </p>
           </article>
         </div>
         <p className="text-sm text-[#F3EFE6]/70">
