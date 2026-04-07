@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FeatureLock } from '@/components/shared/FeatureLock';
 import { MoneyInput } from '@/components/shared/NumberInputs';
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
@@ -11,6 +12,8 @@ import { useLicense } from '@/hooks/useLicense';
 import { fundedRatioHistory, scenarios, thresholds } from '@/lib/tools/surplus-alert-config';
 
 export default function SurplusAlertPage() {
+  const [searchParams] = useSearchParams();
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active';
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [payroll, setPayroll] = useState(0);
@@ -32,7 +35,11 @@ export default function SurplusAlertPage() {
       <h1 className="headline-md">Surplus Run-Down Early-Warning Alert Service</h1>
       <Card><CardHeader><CardTitle>Current status</CardTitle></CardHeader><CardContent>Published funded ratio: {fundedRatioHistory[fundedRatioHistory.length - 1].ratio}%. Thresholds: {thresholds.join('% / ')}%.</CardContent></Card>
       <Card><CardHeader><CardTitle>Threshold alert</CardTitle></CardHeader><CardContent>{breach ? `Amber alert: base-case projects a 135% breach in ~${breach.year} year(s).` : 'No alert — both thresholds unbreached in base case.'}</CardContent></Card>
-      <Card><CardHeader><CardTitle>Industry impact estimate (optional)</CardTitle></CardHeader><CardContent className="space-y-2"><Label>Assessable payroll</Label><MoneyInput value={payroll} min={0} onValueChange={setPayroll} className="max-w-xs" /><p>Estimated dollar impact at 135%: ${impact135.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p><p>Estimated dollar impact at 130%: ${impact130.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p></CardContent></Card>
+      {previewMode ? (
+        <FeatureLock title="Subscriber feature: industry impact estimate" message="Subscribe to unlock payroll-adjusted 135% and 130% threshold impact estimates." onUpgrade={() => setUpgradeOpen(true)} />
+      ) : (
+        <Card><CardHeader><CardTitle>Industry impact estimate (optional)</CardTitle></CardHeader><CardContent className="space-y-2"><Label>Assessable payroll</Label><MoneyInput value={payroll} min={0} onValueChange={setPayroll} className="max-w-xs" /><p>Estimated dollar impact at 135%: ${impact135.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p><p>Estimated dollar impact at 130%: ${impact130.toLocaleString(undefined, { maximumFractionDigits: 0 })}</p></CardContent></Card>
+      )}
       {entitlements.canExportExecutiveReport ? (
         <Card><CardHeader><CardTitle>Premium alert center</CardTitle></CardHeader><CardContent className="space-y-3"><div className="flex items-center gap-2"><Switch checked={t135} onCheckedChange={setT135} /><Label>Alert me at 135%</Label></div><div className="flex items-center gap-2"><Switch checked={t130} onCheckedChange={setT130} /><Label>Alert me at 130%</Label></div><Input placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} className="max-w-sm" /><button className="btn-primary" onClick={() => { if (email) localStorage.setItem('surplus-alert-email', email); }}>Join waitlist</button></CardContent></Card>
       ) : (
@@ -42,6 +49,7 @@ export default function SurplusAlertPage() {
         updatePlan(tier);
         setUpgradeOpen(false);
       }} />
+      {previewMode ? <Link to="/diagnostics/subscribe" className="btn-secondary inline-flex">Subscribe to unlock full alert center</Link> : null}
       <ToolDisclaimer toolName="Surplus Early-Warning Dashboard" paramDate="2025-12" text="Projection uses public funded-ratio history and modeled proxies; threshold timing is not guaranteed." />
     </div>
   );

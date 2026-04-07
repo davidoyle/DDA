@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { EvidenceTier } from '@/components/shared/EvidenceTier';
 import { FeatureLock } from '@/components/shared/FeatureLock';
 import { ValidatedNumberInput } from '@/components/shared/NumberInputs';
@@ -17,6 +18,8 @@ import { healthcareSubSectors, mitigationItems, pickeringMultipliers, rampByYear
 const sectors = Object.keys(sectorRates);
 
 export default function MentalHealthForecasterPage() {
+  const [searchParams] = useSearchParams();
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active';
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [sector, setSector] = useState<keyof typeof sectorRates>('Healthcare & Social Assistance');
@@ -67,7 +70,11 @@ export default function MentalHealthForecasterPage() {
       <section className="grid md:grid-cols-3 gap-4">
         <Card><CardHeader><CardTitle>Expected claims ({years}y)</CardTitle></CardHeader><CardContent>{projection.claimsTotal.toFixed(1)}<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
         <Card><CardHeader><CardTitle>Expected cost impact</CardTitle></CardHeader><CardContent>{fmtMoney(projection.costTotal)}<div className="mt-2"><EvidenceTier tier="VERIFIED" /></div></CardContent></Card>
-        <Card><CardHeader><CardTitle>Experience rating impact</CardTitle></CardHeader><CardContent>{experience.projectedRateChangePercent.toFixed(1)}%<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
+        {previewMode ? (
+          <Card><CardHeader><CardTitle>Experience rating impact</CardTitle></CardHeader><CardContent>Subscriber only<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
+        ) : (
+          <Card><CardHeader><CardTitle>Experience rating impact</CardTitle></CardHeader><CardContent>{experience.projectedRateChangePercent.toFixed(1)}%<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
+        )}
       </section>
 
       {entitlements.canViewActionPlan ? (
@@ -84,6 +91,7 @@ export default function MentalHealthForecasterPage() {
         })} disabled={!entitlements.canSaveAndCompare}>Save snapshot</button>
         {!entitlements.canSaveAndCompare && <span className="text-xs text-[#5b5347]">Pro required for save/compare.</span>}
       </div>
+      {previewMode && <Link to="/diagnostics/subscribe" className="btn-secondary inline-flex">Subscribe for full forecast outputs</Link>}
 
       <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {
         updatePlan(tier);

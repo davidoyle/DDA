@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { FeatureLock } from '@/components/shared/FeatureLock';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
 import { BaselineDashboard } from '@/components/bc-model/BaselineDashboard';
@@ -11,6 +13,8 @@ import { createScenarioRun } from '@/lib/bc-model/model';
 import type { PhiWeights, PolicyControls, ScenarioRun } from '@/lib/bc-model/types';
 
 export default function BCDecarbonizationModelPage() {
+  const [searchParams] = useSearchParams();
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active';
   const [controls, setControls] = useState<PolicyControls>({ ...PRESETS.baseline.controls });
   const [phiWeights, setPhiWeights] = useState<PhiWeights>(DEFAULT_PHI_WEIGHTS);
   const [savedScenarios, setSavedScenarios] = useState<ScenarioRun[]>([]);
@@ -45,15 +49,27 @@ export default function BCDecarbonizationModelPage() {
             <TabsTrigger value="scenarios">Scenarios</TabsTrigger>
           </TabsList>
           <TabsContent value="explore" className="space-y-6">
-            <ModelExplorer baseline={baseline} controls={controls} phiWeights={phiWeights} onChangeControls={setControls} onChangePhiWeights={setPhiWeights} onSaveScenario={handleSaveScenario} />
+            <ModelExplorer baseline={baseline} controls={controls} phiWeights={phiWeights} onChangeControls={setControls} onChangePhiWeights={setPhiWeights} onSaveScenario={previewMode ? () => undefined : handleSaveScenario} />
+            {previewMode ? (
+              <FeatureLock title="Subscriber feature: scenario save & compare" message="Subscribe to save custom scenarios and run multi-scenario comparisons." />
+            ) : null}
           </TabsContent>
           <TabsContent value="dashboard" className="space-y-6">
-            <BaselineDashboard baseline={baseline} />
+            {previewMode ? (
+              <FeatureLock title="Subscriber feature: baseline dashboard" message="Subscribe to unlock dashboard-level benchmark and pathway diagnostics." />
+            ) : (
+              <BaselineDashboard baseline={baseline} />
+            )}
           </TabsContent>
           <TabsContent value="scenarios" className="space-y-6">
-            <ScenarioComparison scenarios={scenarioRuns} selectedIds={selectedScenarioIds} onToggle={toggleScenario} />
+            {previewMode ? (
+              <FeatureLock title="Subscriber feature: scenario comparison lab" message="Subscribe to unlock side-by-side scenario stress-testing." />
+            ) : (
+              <ScenarioComparison scenarios={scenarioRuns} selectedIds={selectedScenarioIds} onToggle={toggleScenario} />
+            )}
           </TabsContent>
         </Tabs>
+        {previewMode ? <Link to="/diagnostics/subscribe" className="btn-secondary inline-flex">Subscribe to unlock full model</Link> : null}
 
         <ModelInfo />
         <ToolDisclaimer toolName="BC Decarbonization Model" paramDate="2026-03" text="Outputs are scenario estimates derived from official anchors and interpolated constraints; they are not a substitute for official inventory accounting or legal advice." />
