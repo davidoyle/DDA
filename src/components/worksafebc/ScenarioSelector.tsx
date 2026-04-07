@@ -7,12 +7,24 @@ interface ScenarioSelectorProps {
   setActiveScenario: (id: ScenarioId) => void;
   scenario: Scenario;
   scenarioChartData: ScenarioChartPoint[];
+  disabledScenarioIds?: ScenarioId[];
 }
 
-const ScenarioSelector = ({ scenarios, activeScenario, setActiveScenario, scenario, scenarioChartData }: ScenarioSelectorProps) => (
+const ScenarioSelector = ({ scenarios, activeScenario, setActiveScenario, scenario, scenarioChartData, disabledScenarioIds = [] }: ScenarioSelectorProps) => (
   <>
     <div className="grid md:grid-cols-4 gap-2">
       {(Object.keys(scenarios) as ScenarioId[]).map((id) => (
+        disabledScenarioIds.includes(id) ? (
+          <button
+            key={id}
+            className="rounded-xl p-4 text-left border transition-colors bg-[#f3f0e8] text-[#6f6658] border-[#d8cdb9] cursor-not-allowed"
+            aria-disabled="true"
+          >
+            <p className="font-heading text-xl">{id}</p>
+            <p className="font-mono text-xs uppercase tracking-[0.1em]">{scenarios[id].title}</p>
+            <p className="text-[11px] mt-2">Subscriber only</p>
+          </button>
+        ) : (
         <button
           key={id}
           onClick={() => setActiveScenario(id)}
@@ -25,6 +37,7 @@ const ScenarioSelector = ({ scenarios, activeScenario, setActiveScenario, scenar
           <p className="font-heading text-xl">{id}</p>
           <p className="font-mono text-xs uppercase tracking-[0.1em]">{scenarios[id].title}</p>
         </button>
+        )
       ))}
     </div>
 

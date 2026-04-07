@@ -17,11 +17,12 @@ import CTAPanel from '@/components/CTAPanel'
 interface Props {
   results: PSTResultsType
   segment: SegmentKey
+  previewMode?: boolean
   onEvent: (name: AnalyticsEventName, params?: AnalyticsEventParams) => void
   onBehaviorSignal: (signal: { viewedRiskFlags?: boolean; riskFlagsDwellS?: number; viewedAdvocacy?: boolean; clickedConsultation?: boolean }) => void
 }
 
-export default function PSTResults({ results, segment, onEvent, onBehaviorSignal }: Props) {
+export default function PSTResults({ results, segment, previewMode = false, onEvent, onBehaviorSignal }: Props) {
   const riskRef = useRef<HTMLElement>(null)
   const advocacyRef = useRef<HTMLElement>(null)
 
@@ -116,24 +117,40 @@ export default function PSTResults({ results, segment, onEvent, onBehaviorSignal
         <PSTAdvocacy results={results} onCtaClick={(ctaId) => onEvent('advocacy_cta_click', { cta_id: ctaId })} />
       </article>
 
-      <article className="card print:hidden">
-        <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
-        <p className="text-[#5b5347] mb-4">Combine your latest WCB and PST snapshots in one view.</p>
-        <Link
-          to="/dashboard"
-          className="btn-primary"
-          onClick={() => onEvent('dashboard_prompt_accepted')}
-        >
-          Open dashboard
-        </Link>
-      </article>
+      {previewMode ? (
+        <article className="card print:hidden border border-[#D4A03A]/40 bg-[#D4A03A]/5">
+          <h3 className="font-heading text-2xl mb-3">Subscriber feature: combined dashboard</h3>
+          <p className="text-[#4a453d] mb-4">Free preview includes core PST outputs. Subscribe to combine PST and WCB snapshots.</p>
+          <Link to="/diagnostics/subscribe" className="btn-secondary">Subscribe to unlock dashboard</Link>
+        </article>
+      ) : (
+        <article className="card print:hidden">
+          <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
+          <p className="text-[#5b5347] mb-4">Combine your latest WCB and PST snapshots in one view.</p>
+          <Link
+            to="/dashboard"
+            className="btn-primary"
+            onClick={() => onEvent('dashboard_prompt_accepted')}
+          >
+            Open dashboard
+          </Link>
+        </article>
+      )}
 
       <CTAPanel segment={segment} onConsultationClick={() => { onBehaviorSignal({ clickedConsultation: true }); onEvent('consultation_click', { source_panel: 'pst_segment_cta' }) }} />
 
-      <article className="card print:hidden">
-        <h3 className="font-heading text-2xl mb-4">Export</h3>
-        <button className="btn-primary" onClick={() => window.print()}>Download summary</button>
-      </article>
+      {previewMode ? (
+        <article className="card print:hidden border border-[#D4A03A]/40 bg-[#D4A03A]/5">
+          <h3 className="font-heading text-2xl mb-4">Subscriber feature: export summary</h3>
+          <p className="text-[#4a453d] mb-4">Downloadable print/export summaries are included with subscription plans.</p>
+          <Link to="/diagnostics/subscribe" className="btn-secondary">Subscribe to export</Link>
+        </article>
+      ) : (
+        <article className="card print:hidden">
+          <h3 className="font-heading text-2xl mb-4">Export</h3>
+          <button className="btn-primary" onClick={() => window.print()}>Download summary</button>
+        </article>
+      )}
 
       <article className="card print:hidden">
         <h3 className="font-heading text-2xl mb-3">Next step</h3>

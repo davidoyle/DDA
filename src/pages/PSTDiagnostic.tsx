@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import IntentPrompt, { type IntentValue } from '@/components/IntentPrompt'
 import PSTForm from '@/components/pst/PSTForm'
 import PSTResults from '@/components/pst/PSTResults'
@@ -21,7 +21,9 @@ export default function PSTDiagnostic() {
   const startedAtRef = useRef<number | null>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
+  const [searchParams] = useSearchParams()
   const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('pst')
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active'
 
   useEffect(() => {
     if (!intentReady) return
@@ -87,6 +89,7 @@ export default function PSTDiagnostic() {
           <PSTResults
             results={results}
             segment={segment}
+            previewMode={previewMode}
             onEvent={fireEvent}
             onBehaviorSignal={(patch) =>
               setSignals((prev) => ({

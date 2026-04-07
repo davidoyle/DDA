@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import IntentPrompt, { type IntentValue } from '@/components/IntentPrompt';
 import CTAPanel from '@/components/CTAPanel';
 import HeroStats from '@/components/worksafebc/HeroStats';
@@ -36,6 +36,7 @@ const WorkSafeBCDiagnosticPage = () => {
   });
 
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('wcb');
   const startTimeRef = useRef<number | null>(null);
   const toggleTimers = useRef<Record<string, number>>({});
@@ -59,6 +60,7 @@ const WorkSafeBCDiagnosticPage = () => {
     [selectedIndustryName],
   );
 
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active';
   const scenario = scenarios[activeScenario];
 
   const scenarioChartData = useMemo(() => getScenarioChartData(scenario), [scenario]);
@@ -286,7 +288,15 @@ const WorkSafeBCDiagnosticPage = () => {
               setActiveScenario={setActiveScenario}
               scenario={scenario}
               scenarioChartData={scenarioChartData}
+              disabledScenarioIds={previewMode ? ['A', 'B', 'D'] : []}
             />
+            {previewMode ? (
+              <article className="card border border-[#D4A03A]/40 bg-[#D4A03A]/5">
+                <h3 className="font-heading text-xl">Subscriber feature: full scenario library</h3>
+                <p className="text-sm text-[#F3EFE6]/80 mt-2">Free preview includes the baseline scenario. Subscribe to unlock all four normalization pathways.</p>
+                <Link to="/diagnostics/subscribe" className="btn-secondary mt-4 inline-flex">Subscribe to unlock all scenarios</Link>
+              </article>
+            ) : null}
           </section>
 
           <section className="px-6 lg:px-[8vw] py-14 space-y-8 border-b border-[#d8cdb9]">
@@ -325,7 +335,15 @@ const WorkSafeBCDiagnosticPage = () => {
               scenarioTimeline={scenarioTimeline}
               driftLine={driftLine}
             />
-            <button className="btn-primary" onClick={handleRunComplete}>Save this scenario</button>
+            {previewMode ? (
+              <article className="card border border-[#D4A03A]/40 bg-[#D4A03A]/5">
+                <h3 className="font-heading text-xl">Subscriber feature: save snapshots</h3>
+                <p className="text-sm text-[#F3EFE6]/80 mt-2">Save and compare scenario history across runs with a subscription.</p>
+                <Link to="/diagnostics/subscribe" className="btn-secondary mt-4 inline-flex">Subscribe to save scenarios</Link>
+              </article>
+            ) : (
+              <button className="btn-primary" onClick={handleRunComplete}>Save this scenario</button>
+            )}
           </section>
 
           <section ref={riskRef} className="px-6 lg:px-[8vw] py-14">
@@ -371,17 +389,25 @@ const WorkSafeBCDiagnosticPage = () => {
               </Link>
             </section>
 
-            <article className="card print:hidden mt-8">
-              <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
-              <p className="text-[#5b5347] mb-4">Combine your latest WCB and PST snapshots in one view.</p>
-              <Link
-                to="/dashboard"
-                className="btn-primary"
-                onClick={() => fireEvent('dashboard_prompt_accepted')}
-              >
-                Open dashboard
-              </Link>
-            </article>
+            {previewMode ? (
+              <article className="card print:hidden mt-8 border border-[#D4A03A]/40 bg-[#D4A03A]/5">
+                <h3 className="font-heading text-2xl mb-3">Subscriber feature: combined dashboard</h3>
+                <p className="text-[#F3EFE6]/80 mb-4">Combine WCB and PST snapshots in one executive view with a subscription.</p>
+                <Link to="/diagnostics/subscribe" className="btn-secondary">Subscribe to unlock dashboard</Link>
+              </article>
+            ) : (
+              <article className="card print:hidden mt-8">
+                <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
+                <p className="text-[#5b5347] mb-4">Combine your latest WCB and PST snapshots in one view.</p>
+                <Link
+                  to="/dashboard"
+                  className="btn-primary"
+                  onClick={() => fireEvent('dashboard_prompt_accepted')}
+                >
+                  Open dashboard
+                </Link>
+              </article>
+            )}
 
             <div className="mt-8">
               <CTAPanel
