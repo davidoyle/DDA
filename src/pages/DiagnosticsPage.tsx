@@ -3,22 +3,25 @@ import { Link, useSearchParams } from 'react-router-dom';
 type DiagnosticTool = {
   name: string;
   href: string;
+  freeHref?: string;
   diagnosis: string;
   input: string;
   output: string;
   source: string;
+  freeAccess: string;
+  subscriberAccess: string;
 };
 
 const tools: DiagnosticTool[] = [
-  { name: 'WorkSafeBC Repricing Risk Diagnostic', href: '/worksafebc-repricing-risk-diagnostic', diagnosis: 'Models repricing exposure versus sector and system benchmarks.', input: 'Industry profile and payroll assumptions.', output: 'Three-year repricing trajectory and risk flags.', source: 'WorkSafeBC rate tables and published sector benchmarks.' },
-  { name: 'PST Diagnostic Tool', href: '/tools/pst-diagnostic', diagnosis: 'Estimates operational PST burden under BC rules.', input: 'Operational spend categories and cost assumptions.', output: 'Estimated annual PST burden and cost distribution.', source: 'Provincial tax schedules and public expenditure classifications.' },
-  { name: 'Multi-Province Surplus & Rate Comparator', href: '/tools/province-comparator', diagnosis: 'Compares jurisdiction-level rate pressure and surplus conditions.', input: 'Province selection and payroll scenario.', output: 'Rate differential and surplus pressure comparisons.', source: 'Public jurisdiction rate filings and funding ratio disclosures.' },
-  { name: 'Experience Rating Optimizer', href: '/tools/experience-rating-optimizer', diagnosis: 'Tests assessed rate versus risk-adjusted expectations.', input: 'Claims profile and payroll history.', output: 'Rate variance estimate and exposure hotspots.', source: 'Public experience-rating logic and published claims weighting factors.' },
-  { name: 'Claims Suppression Self-Audit', href: '/tools/suppression-audit', diagnosis: 'Assesses reporting culture and suppression-risk indicators.', input: 'Structured reporting responses.', output: 'Suppression-risk profile and remediation priorities.', source: 'Public enforcement frameworks and published suppression indicators.' },
-  { name: 'Mental Health Claims Surge Forecaster', href: '/tools/mental-health-forecaster', diagnosis: 'Forecasts mental-disorder claim incidence by sector and scale.', input: 'Sector and headcount assumptions.', output: 'Projected claim counts and exposure direction.', source: 'Public claims trend data and sector baseline rates.' },
-  { name: 'BC Decarbonization Model', href: '/tools/bc-decarbonization-model', diagnosis: 'Stress-tests emissions pathways against legal targets.', input: 'Policy and sector pathway selections.', output: 'Scenario-level emissions trajectory and feasibility view.', source: 'Public emissions inventories and policy reference targets.' },
-  { name: 'Surplus Run-Down Early-Warning Alert Service', href: '/tools/surplus-alert', diagnosis: 'Tracks funding-ratio threshold pressure and repricing timing risk.', input: 'Funding ratio and contribution assumptions.', output: 'Threshold pressure timeline and early-warning signal.', source: 'Public surplus disclosures and repricing threshold mechanics.' },
-  { name: 'Executive Risk Brief Generator', href: '/tools/executive-risk-brief', diagnosis: 'Converts diagnostic outputs into a leadership briefing structure.', input: 'Selected tool outputs and scenario notes.', output: 'Structured risk brief with decision-ready framing.', source: 'Public benchmark context and cross-tool synthesis logic.' },
+  { name: 'WorkSafeBC Repricing Risk Diagnostic', href: '/worksafebc-repricing-risk-diagnostic', freeHref: '/worksafebc-repricing-risk-diagnostic?preview=1', diagnosis: 'Models repricing exposure versus sector and system benchmarks.', input: 'Industry profile and payroll assumptions.', output: 'Three-year repricing trajectory and risk flags.', source: 'WorkSafeBC rate tables and published sector benchmarks.', freeAccess: 'One baseline scenario with headline risk flags.', subscriberAccess: 'Unlimited scenarios, year-over-year comparisons, and full export-ready outputs.' },
+  { name: 'PST Diagnostic Tool', href: '/tools/pst-diagnostic', freeHref: '/tools/pst-diagnostic?preview=1', diagnosis: 'Estimates operational PST burden under BC rules.', input: 'Operational spend categories and cost assumptions.', output: 'Estimated annual PST burden and cost distribution.', source: 'Provincial tax schedules and public expenditure classifications.', freeAccess: 'Single-pass estimate with core category totals.', subscriberAccess: 'Detailed category drill-down, scenario testing, and report-ready summaries.' },
+  { name: 'Multi-Province Surplus & Rate Comparator', href: '/tools/province-comparator', freeHref: '/tools/province-comparator?preview=1', diagnosis: 'Compares jurisdiction-level rate pressure and surplus conditions.', input: 'Province selection and payroll scenario.', output: 'Rate differential and surplus pressure comparisons.', source: 'Public jurisdiction rate filings and funding ratio disclosures.', freeAccess: 'Two-province comparison with top-line variance.', subscriberAccess: 'Cross-province benchmarking matrix and full risk-driver breakdown.' },
+  { name: 'Experience Rating Optimizer', href: '/tools/experience-rating-optimizer', freeHref: '/tools/experience-rating-optimizer?preview=1', diagnosis: 'Tests assessed rate versus risk-adjusted expectations.', input: 'Claims profile and payroll history.', output: 'Rate variance estimate and exposure hotspots.', source: 'Public experience-rating logic and published claims weighting factors.', freeAccess: 'Current-period variance estimate and key hotspot callouts.', subscriberAccess: 'Multi-scenario optimization and appeal-timing guidance.' },
+  { name: 'Claims Suppression Self-Audit', href: '/tools/suppression-audit', freeHref: '/tools/suppression-audit?preview=1', diagnosis: 'Assesses reporting culture and suppression-risk indicators.', input: 'Structured reporting responses.', output: 'Suppression-risk profile and remediation priorities.', source: 'Public enforcement frameworks and published suppression indicators.', freeAccess: 'Rapid risk score with high-level concern areas.', subscriberAccess: 'Response-mapped remediation plan and full legal-risk playbook.' },
+  { name: 'Mental Health Claims Surge Forecaster', href: '/tools/mental-health-forecaster', freeHref: '/tools/mental-health-forecaster?preview=1', diagnosis: 'Forecasts mental-disorder claim incidence by sector and scale.', input: 'Sector and headcount assumptions.', output: 'Projected claim counts and exposure direction.', source: 'Public claims trend data and sector baseline rates.', freeAccess: 'One forecast trajectory with baseline trend signal.', subscriberAccess: 'Intervention sensitivity testing and mitigation action plan outputs.' },
+  { name: 'BC Decarbonization Model', href: '/tools/bc-decarbonization-model', freeHref: '/tools/bc-decarbonization-model?preview=1', diagnosis: 'Stress-tests emissions pathways against legal targets.', input: 'Policy and sector pathway selections.', output: 'Scenario-level emissions trajectory and feasibility view.', source: 'Public emissions inventories and policy reference targets.', freeAccess: 'Starter pathway run with headline target-gap view.', subscriberAccess: 'Full scenario lab, policy stress-tests, and model comparison views.' },
+  { name: 'Surplus Run-Down Early-Warning Alert Service', href: '/tools/surplus-alert', freeHref: '/tools/surplus-alert?preview=1', diagnosis: 'Tracks funding-ratio threshold pressure and repricing timing risk.', input: 'Funding ratio and contribution assumptions.', output: 'Threshold pressure timeline and early-warning signal.', source: 'Public surplus disclosures and repricing threshold mechanics.', freeAccess: 'Current threshold health check and near-term warning signal.', subscriberAccess: 'Custom threshold tracking, alert tuning, and monthly briefing outputs.' },
+  { name: 'Executive Risk Brief Generator', href: '/tools/executive-risk-brief', freeHref: '/tools/executive-risk-brief?preview=1', diagnosis: 'Converts diagnostic outputs into a leadership briefing structure.', input: 'Selected tool outputs and scenario notes.', output: 'Structured risk brief with decision-ready framing.', source: 'Public benchmark context and cross-tool synthesis logic.', freeAccess: 'One-page briefing outline with core headline risks.', subscriberAccess: 'Full executive brief builder with structured recommendations and export support.' },
 ];
 
 const statusFromQuery = (value: string | null) => {
@@ -37,7 +40,7 @@ function DiagnosticsPage() {
     active: 'Active subscription',
     expired: 'Subscription expired — renew',
     failed: 'Payment failed',
-    none: 'Subscription required',
+    none: 'Free preview access available',
   }[subscriptionState];
 
   const statusColor = {
@@ -69,11 +72,16 @@ function DiagnosticsPage() {
               <p><strong>Input:</strong> {tool.input}</p>
               <p><strong>Output:</strong> {tool.output}</p>
               <p><strong>Source:</strong> {tool.source}</p>
+              <p><strong>Free:</strong> {tool.freeAccess}</p>
+              <p><strong>Subscriber:</strong> {tool.subscriberAccess}</p>
             </div>
             {unlocked ? (
               <Link to={tool.href} className="btn-primary mt-4 tool-action">Run →</Link>
             ) : (
-              <Link to="/diagnostics/subscribe" className="btn-ghost mt-4 tool-action">Subscribe to access</Link>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {tool.freeHref ? <Link to={tool.freeHref} className="btn-ghost tool-action">Try free preview</Link> : null}
+                <Link to="/diagnostics/subscribe" className="btn-secondary tool-action">Subscribe for full access</Link>
+              </div>
             )}
           </article>
         ))}
