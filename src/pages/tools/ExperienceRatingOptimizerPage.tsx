@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FeatureLock } from '@/components/shared/FeatureLock';
 import { MoneyInput, RateInput } from '@/components/shared/NumberInputs';
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
@@ -10,6 +11,8 @@ import { appealThresholdPercent } from '@/lib/tools/experience-rating-config';
 import { saveSnapshot } from '@/lib/tools/snapshot-store';
 
 export default function ExperienceRatingOptimizerPage() {
+  const [searchParams] = useSearchParams();
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active';
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [claimsCost, setClaimsCost] = useState([140000, 130000, 125000]);
@@ -63,17 +66,27 @@ export default function ExperienceRatingOptimizerPage() {
         <FeatureLock title="Scenario comparison locked" message="Unlock multi-scenario forward projections and appeal timing guidance." onUpgrade={() => setUpgradeOpen(true)} />
       )}
 
-      <button
-        className="btn-secondary"
-        onClick={() => saveSnapshot('experience-rating-optimizer', {
-          inputs: { claimsCost, payroll, currentRate },
-          results: { model },
-          meta: { version: 'v1' },
-        })}
-        disabled={!entitlements.canSaveAndCompare}
-      >
-        Save scenario snapshot
-      </button>
+      {previewMode ? (
+        <Card>
+          <CardHeader><CardTitle>Subscriber feature: save & compare</CardTitle></CardHeader>
+          <CardContent>
+            <p className="text-sm text-[#4a453d]">Free preview runs one-off calculations. Subscribe to save scenarios and compare over time.</p>
+            <Link to="/diagnostics/subscribe" className="btn-secondary mt-4 inline-flex">Subscribe to save snapshots</Link>
+          </CardContent>
+        </Card>
+      ) : (
+        <button
+          className="btn-secondary"
+          onClick={() => saveSnapshot('experience-rating-optimizer', {
+            inputs: { claimsCost, payroll, currentRate },
+            results: { model },
+            meta: { version: 'v1' },
+          })}
+          disabled={!entitlements.canSaveAndCompare}
+        >
+          Save scenario snapshot
+        </button>
+      )}
 
       <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {
         updatePlan(tier);

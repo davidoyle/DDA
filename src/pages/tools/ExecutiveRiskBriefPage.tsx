@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FeatureLock } from '@/components/shared/FeatureLock';
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
@@ -35,6 +36,8 @@ const sampleSignals: ToolSignal[] = [
 ];
 
 export default function ExecutiveRiskBriefPage() {
+  const [searchParams] = useSearchParams();
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active';
   const { entitlements, updatePlan, plan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const brief = buildExecutiveBrief(sampleSignals);
@@ -43,6 +46,15 @@ export default function ExecutiveRiskBriefPage() {
     <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Executive Risk Brief</h1>
       <p className="text-[#4a453d]">Current plan: {plan.toUpperCase()}</p>
+      {previewMode ? (
+        <Card>
+          <CardHeader><CardTitle>Free preview snapshot</CardTitle></CardHeader>
+          <CardContent>
+            <p>Base 3-year downside (preview): ${brief.threeYearDownsideBase.toLocaleString()}</p>
+            <p className="text-sm text-[#5b5347] mt-2">Subscribe to unlock full downside range, driver hierarchy, and action-ready board brief.</p>
+          </CardContent>
+        </Card>
+      ) : null}
       {entitlements.canViewPortfolioBrief ? (
         <>
           <Card>
@@ -73,6 +85,7 @@ export default function ExecutiveRiskBriefPage() {
         updatePlan(tier);
         setUpgradeOpen(false);
       }} />
+      {previewMode ? <Link to="/diagnostics/subscribe" className="btn-secondary inline-flex">Subscribe to unlock full executive brief</Link> : null}
       <ToolDisclaimer toolName="Executive Risk Brief" paramDate="2026-01" text="Rollup combines tool outputs and is intended for strategic planning support." />
     </div>
   );

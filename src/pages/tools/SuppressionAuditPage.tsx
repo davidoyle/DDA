@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { EvidenceTier } from '@/components/shared/EvidenceTier';
 import { FeatureLock } from '@/components/shared/FeatureLock';
 import { ToolDisclaimer } from '@/components/shared/ToolDisclaimer';
@@ -11,6 +12,8 @@ import { useLicense } from '@/hooks/useLicense';
 import { questions, scoreBands } from '@/lib/tools/suppression-audit-config';
 
 export default function SuppressionAuditPage() {
+  const [searchParams] = useSearchParams();
+  const previewMode = searchParams.get('preview') === '1' && searchParams.get('sub') !== 'active';
   const { entitlements, updatePlan } = useLicense();
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [step, setStep] = useState(0);
@@ -45,8 +48,15 @@ export default function SuppressionAuditPage() {
     <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Suppression risk score: {score} ({band})</h1>
       {redFlag && <Alert className="border-rose-500/60"><AlertTitle>High-severity enforcement alert</AlertTitle><AlertDescription>One or more responses indicates a practice directly referenced in WCB enforcement findings. Review with legal counsel before your next WCB audit.</AlertDescription></Alert>}
-      <Card><CardHeader><CardTitle>Section 73 fine exposure estimate</CardTitle></CardHeader><CardContent>${(1500 + score * 70).toLocaleString()} – ${(7000 + score * 240).toLocaleString()} per finding<div className="mt-2"><EvidenceTier tier="SPECULATIVE" /></div></CardContent></Card>
-      <Card><CardHeader><CardTitle>Tucker/IWH benchmark</CardTitle></CardHeader><CardContent>Your score is approximately at the {Math.min(99, Math.max(1, score))}th percentile of the benchmark range.<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
+      {previewMode ? (
+        <FeatureLock title="Subscriber feature: enforcement benchmark package" message="Subscribe to unlock Section 73 exposure estimates and benchmark percentile details." onUpgrade={() => setUpgradeOpen(true)} />
+      ) : (
+        <>
+          <Card><CardHeader><CardTitle>Section 73 fine exposure estimate</CardTitle></CardHeader><CardContent>${(1500 + score * 70).toLocaleString()} – ${(7000 + score * 240).toLocaleString()} per finding<div className="mt-2"><EvidenceTier tier="SPECULATIVE" /></div></CardContent></Card>
+          <Card><CardHeader><CardTitle>Tucker/IWH benchmark</CardTitle></CardHeader><CardContent>Your score is approximately at the {Math.min(99, Math.max(1, score))}th percentile of the benchmark range.<div className="mt-2"><EvidenceTier tier="MODELLED" /></div></CardContent></Card>
+        </>
+      )}
+      {previewMode && <Link to="/diagnostics/subscribe" className="btn-secondary inline-flex">Subscribe to unlock full suppression analysis</Link>}
       {entitlements.canViewActionPlan ? (
         <Card><CardHeader><CardTitle>Remediation priority list</CardTitle></CardHeader><CardContent><p>• Formal zero-pressure reporting policy rollout</p><p>• Supervisor claim-handling training refresh</p><p>• Legal review of incentive structures</p></CardContent></Card>
       ) : (
