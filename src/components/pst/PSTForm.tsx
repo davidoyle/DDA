@@ -4,6 +4,7 @@ import { type SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { useEffect, useRef } from 'react'
 import { z } from 'zod'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { useAccess } from '@/contexts/AccessContext'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type { PSTFormValues } from '@/lib/pst-types'
 
@@ -39,16 +40,17 @@ const tooltipMap: Record<string, string> = {
 }
 
 export default function PSTForm({ onSubmit, onToggleUsed }: PSTFormProps) {
+  const { isDemoMode } = useAccess()
   const form = useForm<PSTFormInput>({
     resolver: zodResolver(PSTFormSchema),
     defaultValues: {
       sector: 'construction',
-      firmSize: 'small',
+      firmSize: isDemoMode ? 'mid' : 'small',
       employeeCount: undefined,
-      spendAccounting: 0,
-      spendAEG: 0,
-      spendRealEstate: 0,
-      spendSecurity: 0,
+      spendAccounting: isDemoMode ? 50000 : 0,
+      spendAEG: isDemoMode ? 200000 : 0,
+      spendRealEstate: isDemoMode ? 25000 : 0,
+      spendSecurity: isDemoMode ? 10000 : 0,
       bundlingScenario: 'base',
       responseScenario: 'medium',
       passthroughOverride: undefined,
@@ -109,13 +111,13 @@ export default function PSTForm({ onSubmit, onToggleUsed }: PSTFormProps) {
           <div className="grid md:grid-cols-2 gap-4">
             <label className="space-y-2">
               <span>Sector</span>
-              <select className="w-full rounded-md border bg-transparent px-3 py-2" {...form.register('sector')}>
+              <select className="w-full rounded-md border bg-transparent px-3 py-2" {...form.register('sector')} disabled={isDemoMode}>
                 <option value="construction">Construction</option><option value="mining">Mining</option><option value="tech">Tech</option><option value="retail">Retail</option><option value="manufacturing">Manufacturing</option><option value="finance">Finance</option><option value="other">Other</option>
               </select>
             </label>
             <label className="space-y-2">
               <span>Firm size</span>
-              <select className="w-full rounded-md border bg-transparent px-3 py-2" {...form.register('firmSize')}>
+              <select className="w-full rounded-md border bg-transparent px-3 py-2" {...form.register('firmSize')} disabled={isDemoMode}>
                 <option value="small">Small</option><option value="mid">Mid</option><option value="large">Large</option>
               </select>
             </label>
@@ -139,7 +141,7 @@ export default function PSTForm({ onSubmit, onToggleUsed }: PSTFormProps) {
                 </span>
                 <div className="relative">
                   <span className="absolute left-3 top-2.5">$</span>
-                  <input type="number" min={0} className="w-full rounded-md border bg-transparent pl-8 pr-3 py-2" {...form.register(field.name, { valueAsNumber: true })} />
+                  <input type="number" min={field.name === 'spendSecurity' ? 0 : field.name === 'spendRealEstate' ? 5000 : field.name === 'spendAccounting' ? 10000 : 50000} max={field.name === 'spendSecurity' ? 25000 : field.name === 'spendRealEstate' ? 50000 : field.name === 'spendAccounting' ? 100000 : 500000} className="w-full rounded-md border bg-transparent pl-8 pr-3 py-2" {...form.register(field.name, { valueAsNumber: true })} />
                 </div>
               </label>
             ))}
@@ -177,6 +179,7 @@ export default function PSTForm({ onSubmit, onToggleUsed }: PSTFormProps) {
 
         {form.formState.errors.root?.message && <p className="text-red-300">{form.formState.errors.root.message}</p>}
         <button type="submit" disabled={!hasSpend} className="btn-primary disabled:opacity-50">Run diagnostic</button>
+        {isDemoMode ? <p className="text-sm text-[#6b6255]">Demo restrictions active: sector and firm size are locked to demo defaults.</p> : null}
       </form>
     </section>
   )

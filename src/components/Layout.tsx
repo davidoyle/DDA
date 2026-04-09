@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { useAccess } from '@/contexts/AccessContext';
+import { DemoModeBanner, DemoWatermark } from '@/components/shared/DemoModeChrome';
 
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { hasAdminAccess, isAdminModeActive, setAdminModeActive, accessMode } = useAccess();
 
   const navLinks = [
     { label: 'Analysis', href: '/analysis' },
@@ -12,6 +15,8 @@ const Layout = () => {
     { label: 'Method', href: '/method' },
     { label: 'Contact', href: '/contact' },
   ];
+
+  const showDemoChrome = accessMode === 'demo';
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
@@ -35,7 +40,20 @@ const Layout = () => {
             ))}
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-2">
+            {hasAdminAccess ? (
+              <button
+                className="px-3 py-1 rounded-full text-xs"
+                title="Admin access active - all features unlocked"
+                style={{ background: isAdminModeActive ? '#198754' : '#6c757d', color: '#fff' }}
+                onClick={() => setAdminModeActive(!isAdminModeActive)}
+              >
+                🔧 Admin Mode: {isAdminModeActive ? 'ON' : 'OFF'}
+              </button>
+            ) : null}
+            {showDemoChrome ? (
+              <span className="px-3 py-1 rounded-full text-xs" style={{ background: '#f59f00', color: '#111' }}>🎮 Demo Mode</span>
+            ) : null}
             <Link to="/contact" className="btn-primary">
               Describe your situation →
             </Link>
@@ -67,8 +85,11 @@ const Layout = () => {
       )}
 
       <main className="pt-14">
+        {showDemoChrome ? <DemoModeBanner /> : null}
         <Outlet />
       </main>
+
+      {showDemoChrome ? <DemoWatermark /> : null}
 
       <footer className="border-t px-6 lg:px-16 py-8" style={{ borderColor: 'var(--border)' }}>
         <div className="max-w-[1120px] mx-auto flex flex-wrap items-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
