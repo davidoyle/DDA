@@ -10,6 +10,8 @@ export type AnalyticsEventName =
   | 'return_user_run'
   | 'dashboard_prompt_shown'
   | 'dashboard_prompt_accepted'
+  | 'checkout_initiated'
+  | 'checkout_error'
 
 export type AnalyticsEventParams = Record<string, string | number | boolean | null | undefined>
 
@@ -23,3 +25,5 @@ export function dispatchAnalyticsEvent(name: AnalyticsEventName, params: Analyti
   if (!window.gtag) return
   window.gtag('event', name, params)
 }
+
+export const trackEvent = dispatchAnalyticsEvent

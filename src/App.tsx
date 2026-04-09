@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
+import { AccessProvider } from '@/contexts/AccessContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
@@ -25,6 +26,7 @@ const ExperienceRatingOptimizerPage = lazy(() => import('./pages/tools/Experienc
 const SurplusAlertPage = lazy(() => import('./pages/tools/SurplusAlertPage'));
 const ExecutiveRiskBriefPage = lazy(() => import('./pages/tools/ExecutiveRiskBriefPage'));
 const BCDecarbonizationModelPage = lazy(() => import('./pages/tools/BCDecarbonizationModelPage'));
+const VerifyAccessPage = lazy(() => import('./pages/VerifyAccessPage'));
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -51,55 +53,59 @@ function AnalyticsTracker() {
 function App() {
   return (
     <Router>
-      <AnalyticsTracker />
-      <Suspense fallback={<div className="min-h-screen bg-white" />}>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="analysis" element={<WorkPage />} />
-            <Route path="work" element={<Navigate to="/analysis" replace />} />
-            <Route path="services" element={<ServicesPage />} />
-            <Route path="method" element={<MethodPage />} />
-            <Route path="about" element={<Navigate to="/method" replace />} />
-            <Route path="contact" element={<ContactPage />} />
-            <Route path="public-sector" element={<PublicSectorPage />} />
-            <Route path="privacy" element={<PrivacyPolicyPage />} />
-            <Route path="terms" element={<TermsPage />} />
-            <Route path="diagnostics" element={<DiagnosticsPage />} />
-            <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
-            <Route path="tools" element={<DiagnosticsPage />} />
-            <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
-            <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
-            <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
-            <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
-            <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />
-            <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
-            <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
-            <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
-            <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
-            <Route path="tools/bc-decarbonization-model" element={<BCDecarbonizationModelPage />} />
-            <Route path="dashboard" element={<Dashboard />} />
+      <AccessProvider>
+        <AnalyticsTracker />
+        <Suspense fallback={<div className="min-h-screen bg-white" />}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="analysis" element={<WorkPage />} />
+              <Route path="work" element={<Navigate to="/analysis" replace />} />
+              <Route path="services" element={<ServicesPage />} />
+              <Route path="method" element={<MethodPage />} />
+              <Route path="about" element={<Navigate to="/method" replace />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="public-sector" element={<PublicSectorPage />} />
+              <Route path="privacy" element={<PrivacyPolicyPage />} />
+              <Route path="terms" element={<TermsPage />} />
+              <Route path="diagnostics" element={<DiagnosticsPage />} />
+              <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
+              <Route path="tools" element={<DiagnosticsPage />} />
+              <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
+              <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
+              <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
+              <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
+              <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />
+              <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
+              <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
+              <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
+              <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
+              <Route path="tools/bc-decarbonization-model" element={<BCDecarbonizationModelPage />} />
+              <Route path="dashboard" element={<Dashboard />} />
 
-            <Route path="consultation" element={<ConsultationLandingPage />} />
-            <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />
-            <Route path="consultation/union" element={<ConsultationLandingPage sector="union" />} />
-            <Route path="consultation/contractor" element={<ConsultationLandingPage sector="contractor" />} />
-            <Route path="consultation/law-firm" element={<ConsultationLandingPage sector="law-firm" />} />
-            <Route path="consultation/association" element={<ConsultationLandingPage sector="association" />} />
-            <Route path="consultation/journalist" element={<ConsultationLandingPage sector="journalist" />} />
-            <Route path="consultation/small-business" element={<ConsultationLandingPage sector="small-business" />} />
+              <Route path="consultation" element={<ConsultationLandingPage />} />
+              <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />
+              <Route path="consultation/union" element={<ConsultationLandingPage sector="union" />} />
+              <Route path="consultation/contractor" element={<ConsultationLandingPage sector="contractor" />} />
+              <Route path="consultation/law-firm" element={<ConsultationLandingPage sector="law-firm" />} />
+              <Route path="consultation/association" element={<ConsultationLandingPage sector="association" />} />
+              <Route path="consultation/journalist" element={<ConsultationLandingPage sector="journalist" />} />
+              <Route path="consultation/small-business" element={<ConsultationLandingPage sector="small-business" />} />
 
-            <Route path="booking-confirmation" element={<BookingConfirmationPage />} />
-            <Route path="booking-confirmation/municipality" element={<BookingConfirmationPage sector="municipality" />} />
-            <Route path="booking-confirmation/union" element={<BookingConfirmationPage sector="union" />} />
-            <Route path="booking-confirmation/contractor" element={<BookingConfirmationPage sector="contractor" />} />
-            <Route path="booking-confirmation/law-firm" element={<BookingConfirmationPage sector="law-firm" />} />
-            <Route path="booking-confirmation/association" element={<BookingConfirmationPage sector="association" />} />
-            <Route path="booking-confirmation/journalist" element={<BookingConfirmationPage sector="journalist" />} />
-            <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
-          </Route>
-        </Routes>
-      </Suspense>
+              <Route path="booking-confirmation" element={<BookingConfirmationPage />} />
+              <Route path="booking-confirmation/municipality" element={<BookingConfirmationPage sector="municipality" />} />
+              <Route path="booking-confirmation/union" element={<BookingConfirmationPage sector="union" />} />
+              <Route path="booking-confirmation/contractor" element={<BookingConfirmationPage sector="contractor" />} />
+              <Route path="booking-confirmation/law-firm" element={<BookingConfirmationPage sector="law-firm" />} />
+              <Route path="booking-confirmation/association" element={<BookingConfirmationPage sector="association" />} />
+              <Route path="booking-confirmation/journalist" element={<BookingConfirmationPage sector="journalist" />} />
+              <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
+
+              <Route path="verify-access" element={<VerifyAccessPage />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </AccessProvider>
     </Router>
   );
 }
