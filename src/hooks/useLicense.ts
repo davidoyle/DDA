@@ -1,15 +1,14 @@
-import { useMemo, useState } from 'react';
-import { getEntitlements, getPlanTier, setPlanTier, type PlanTier } from '@/lib/licensing';
+import { useMemo } from 'react';
+import { useAccess } from '@/contexts/AccessContext';
+import { getEntitlements, type PlanTier } from '@/lib/licensing';
 
 export function useLicense() {
-  const [plan, setPlan] = useState<PlanTier>(() => getPlanTier());
-
-  const entitlements = useMemo(() => getEntitlements(plan), [plan]);
+  const { planTier, setPlanTier } = useAccess();
+  const entitlements = useMemo(() => getEntitlements(planTier as PlanTier), [planTier]);
 
   const updatePlan = (nextPlan: PlanTier) => {
     setPlanTier(nextPlan);
-    setPlan(nextPlan);
   };
 
-  return { plan, entitlements, updatePlan };
+  return { plan: planTier as PlanTier, entitlements, updatePlan };
 }

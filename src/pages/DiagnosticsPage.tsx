@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom';
+import { useAccess } from '@/contexts/AccessContext';
 
 type DiagnosticTool = {
   name: string;
@@ -21,31 +22,26 @@ const tools: DiagnosticTool[] = [
   { name: 'Executive Risk Brief Generator', href: '/tools/executive-risk-brief', diagnosis: 'Converts diagnostic outputs into a leadership briefing structure.', input: 'Selected tool outputs and scenario notes.', output: 'Structured risk brief with decision-ready framing.', source: 'Public benchmark context and cross-tool synthesis logic.' },
 ];
 
-const statusFromQuery = (value: string | null) => {
-  if (value === 'active') return 'active';
-  if (value === 'expired') return 'expired';
-  if (value === 'failed') return 'failed';
-  return 'none';
-};
-
 function DiagnosticsPage() {
   const [params] = useSearchParams();
-  const subscriptionState = statusFromQuery(params.get('sub'));
-  const unlocked = subscriptionState === 'active';
+  const { canAccessDiagnostics, planTier } = useAccess();
 
-  const statusText = {
-    active: 'Active subscription',
-    expired: 'Subscription expired — renew',
-    failed: 'Payment failed',
-    none: 'Subscription required',
-  }[subscriptionState];
+  const subscriptionState = params.get('sub');
+  const statusText = subscriptionState === 'expired'
+    ? 'Subscription expired — renew'
+    : subscriptionState === 'failed'
+      ? 'Payment failed'
+      : canAccessDiagnostics
+        ? `Active access (${planTier})`
+        : 'Subscription required';
 
-  const statusColor = {
-    active: 'var(--status-ok)',
-    expired: 'var(--status-warn)',
-    failed: 'var(--status-error)',
-    none: 'var(--text-tertiary)',
-  }[subscriptionState];
+  const statusColor = subscriptionState === 'expired'
+    ? 'var(--status-warn)'
+    : subscriptionState === 'failed'
+      ? 'var(--status-error)'
+      : canAccessDiagnostics
+        ? 'var(--status-ok)'
+        : 'var(--text-tertiary)';
 
   return (
     <div className="px-6 lg:px-16 py-[var(--space-10)]">
@@ -59,10 +55,10 @@ function DiagnosticsPage() {
 
       <section className="max-w-[1120px] mx-auto mt-[var(--space-7)] grid gap-[var(--space-5)] sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => (
-          <article key={tool.name} className={`card tool-card ${unlocked ? '' : 'locked'}`}>
+          <article key={tool.name} className={`card tool-card ${canAccessDiagnostics ? '' : 'locked'}`}>
             <div className="flex items-start justify-between gap-3">
               <h2 className="text-[18px] font-medium leading-[1.3]">{tool.name}</h2>
-              {!unlocked ? <span className="lock-icon" aria-hidden="true" /> : null}
+              {!canAccessDiagnostics ? <span className="lock-icon" aria-hidden="true" /> : null}
             </div>
             <p className="text-[13px] leading-[1.7] mt-3" style={{ color: 'var(--text-secondary)' }}>{tool.diagnosis}</p>
             <div className="border-t mt-4 pt-4 space-y-2 text-[13px]" style={{ borderColor: 'var(--border)' }}>
@@ -70,7 +66,7 @@ function DiagnosticsPage() {
               <p><strong>Output:</strong> {tool.output}</p>
               <p><strong>Source:</strong> {tool.source}</p>
             </div>
-            {unlocked ? (
+            {canAccessDiagnostics ? (
               <Link to={tool.href} className="btn-primary mt-4 tool-action">Run →</Link>
             ) : (
               <Link to="/diagnostics/subscribe" className="btn-ghost mt-4 tool-action">Subscribe to access</Link>
@@ -79,7 +75,7 @@ function DiagnosticsPage() {
         ))}
       </section>
 
-      {!unlocked ? (
+      {!canAccessDiagnostics ? (
         <section className="max-w-[1120px] mx-auto mt-[var(--space-7)] p-6 rounded-[4px]" style={{ background: 'var(--bg-inset)' }}>
           <p className="text-[15px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
             A diagnostic surfaced something that needs deeper investigation?

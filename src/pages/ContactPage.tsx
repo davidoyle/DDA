@@ -1,84 +1,160 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-const contextPlaceholders: Record<string, string> = {
-  'Public sector — RFP or municipal engagement': 'Public sector — RFP or municipal engagement',
-  'Interested in similar analysis': 'Interested in similar analysis',
-  'Litigation or regulatory proceeding': 'Litigation or regulatory proceeding',
-};
+interface FormState {
+  name: string;
+  email: string;
+  reason: string;
+  message: string;
+  isSubmitting: boolean;
+  submitStatus: 'idle' | 'success' | 'error';
+  errorMessage: string;
+}
 
-const ContactPage = () => {
+function getReasonFromSegment(segment: string | null): string {
+  switch (segment) {
+    case 'cost_reducer':
+      return 'Cost optimization inquiry';
+    case 'risk_avoider':
+      return 'Risk assessment inquiry';
+    case 'policy_actor':
+      return 'Policy analysis inquiry';
+    default:
+      return '';
+  }
+}
+
+export default function ContactPage() {
   const [searchParams] = useSearchParams();
-  const context = searchParams.get('context') || '';
-  const needsPlaceholder = useMemo(
-    () => contextPlaceholders[context] || 'Describe the system, the question, or the situation.',
-    [context],
-  );
+  const segment = searchParams.get('segment');
+  const context = searchParams.get('context');
+  const source = searchParams.get('source') || 'direct';
+
+  const [form, setForm] = useState<FormState>({
+    name: '',
+    email: '',
+    reason: getReasonFromSegment(segment),
+    message: context || '',
+    isSubmitting: false,
+    submitStatus: 'idle',
+    errorMessage: '',
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setForm((prev) => ({ ...prev, isSubmitting: true, submitStatus: 'idle' }));
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          reason: form.reason,
+          message: form.message,
+          segment,
+          context,
+          source,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Submission failed');
+
+      setForm((prev) => ({
+        ...prev,
+        submitStatus: 'success',
+        isSubmitting: false,
+        name: '',
+        email: '',
+        message: '',
+      }));
+    } catch {
+      setForm((prev) => ({
+        ...prev,
+        submitStatus: 'error',
+        isSubmitting: false,
+        errorMessage: 'Failed to send message. Please email us directly at hello@dda.ca',
+      }));
+    }
+  };
+
+  if (form.submitStatus === 'success') {
+    return (
+      <div className="px-6 py-20 max-w-[700px] mx-auto space-y-4">
+        <h1 className="headline-md">Thank You</h1>
+        <p>We&apos;ve received your inquiry and will respond within 24 hours.</p>
+        <a className="btn-primary" href="/diagnostics">Explore Diagnostics</a>
+      </div>
+    );
+  }
 
   return (
-    <div className="px-6 py-[var(--space-10)]">
-      <section className="max-w-[560px] mx-auto">
-        <h1 className="headline-md">Contact</h1>
-      </section>
+    <div className="px-6 py-20 max-w-[700px] mx-auto">
+      <h1 className="headline-md mb-6">Contact</h1>
+      <form className="space-y-5" onSubmit={handleSubmit}>
+        <input type="hidden" name="segment" value={segment || ''} />
+        <input type="hidden" name="context" value={context || ''} />
 
-      <section className="max-w-[560px] mx-auto mt-[var(--space-7)] constraint-block">
-        Before you submit: DDA&apos;s analysis is grounded in public evidence. Findings are stated with explicit uncertainty tiers. If your situation requires conclusions beyond what the evidence supports, we will say so — and that may mean we are not the right fit. If that works for you, describe your situation below.
-      </section>
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            value={form.name}
+            onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
+            required
+          />
+        </div>
 
-      <section className="max-w-[560px] mx-auto mt-[var(--space-7)]">
-        <form className="space-y-5" onSubmit={(event) => event.preventDefault()} method="post">
-          <div>
-            <label htmlFor="organization">Organization</label>
-            <input id="organization" name="organization" type="text" placeholder="Organization" />
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="reason">Reason for Contact</label>
+          <select
+            id="reason"
+            value={form.reason}
+            onChange={(e) => setForm((prev) => ({ ...prev, reason: e.target.value }))}
+          >
+            <option value="">Select a reason</option>
+            <option value="Cost optimization inquiry">Cost optimization</option>
+            <option value="Risk assessment inquiry">Risk assessment</option>
+            <option value="Policy analysis inquiry">Policy analysis</option>
+            <option value="General inquiry">General inquiry</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="message">Message</label>
+          <textarea
+            id="message"
+            value={form.message}
+            onChange={(e) => setForm((prev) => ({ ...prev, message: e.target.value }))}
+            rows={5}
+            required
+          />
+        </div>
+
+        {form.submitStatus === 'error' && (
+          <div className="constraint-block">
+            {form.errorMessage}
+            <br />
+            <a href="mailto:hello@dda.ca?subject=Contact%20Form%20Fallback">Email us directly</a>
           </div>
+        )}
 
-          <div>
-            <label htmlFor="role">Your role</label>
-            <input id="role" name="role" type="text" placeholder="Your role" />
-          </div>
-
-          <div>
-            <label htmlFor="problem">What needs to be understood</label>
-            <textarea id="problem" name="problem" placeholder={needsPlaceholder} defaultValue={context ? `${context}\n\n` : undefined} />
-          </div>
-
-          <div>
-            <label htmlFor="timeline">Timeline</label>
-            <select id="timeline" name="timeline" defaultValue="Immediate">
-              <option>Immediate</option>
-              <option>Within 3 months</option>
-              <option>Within 6 months</option>
-              <option>No fixed deadline</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="budget">Budget range (optional)</label>
-            <select id="budget" name="budget" defaultValue="Unknown">
-              <option>Under $25K</option>
-              <option>$25–75K</option>
-              <option>$75–150K</option>
-              <option>$150K+</option>
-              <option>Unknown</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="source">How did you find DDA (optional)</label>
-            <input id="source" name="source" type="text" placeholder="Referral, search, publication, etc." />
-          </div>
-
-          <button type="submit" className="btn-primary w-full">Submit</button>
-        </form>
-      </section>
-
-      <section className="max-w-[560px] mx-auto mt-[var(--space-7)] pt-[var(--space-5)] border-t text-[13px] leading-[1.7]" style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
-        We read your submission. We assess what we&apos;re looking at. We respond within 48 hours with a preliminary read on the system, whether there&apos;s a fit, and next steps if there is.
-        <br />
-        No sales call. No pitch deck. No discovery session.
-      </section>
+        <button className="btn-primary" type="submit" disabled={form.isSubmitting}>
+          {form.isSubmitting ? 'Sending...' : 'Send Message'}
+        </button>
+      </form>
     </div>
   );
-};
-
-export default ContactPage;
+}
