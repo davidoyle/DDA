@@ -8,6 +8,7 @@ import { appendSnapshot, bucketSpend } from '@/lib/session'
 import type { PSTFormValues, PSTResults as PSTResultsType } from '@/lib/pst-types'
 import { useDiagnosticSession } from '@/hooks/useDiagnosticSession'
 import { deriveSegment, type SegmentSignals } from '@/lib/segment'
+import { useAccess } from '@/contexts/AccessContext'
 
 export default function PSTDiagnostic() {
   const [results, setResults] = useState<PSTResultsType | null>(null)
@@ -21,9 +22,13 @@ export default function PSTDiagnostic() {
   const startedAtRef = useRef<number | null>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
+  const { isDemoMode } = useAccess()
   const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('pst')
 
   useEffect(() => {
+    if (isDemoMode) {
+      fireEvent('demo_tool_opened', { toolName: 'pst-diagnostic', source: 'demo-route' })
+    }
     if (!intentReady) return
     const sourceRoute = location.state && typeof location.state === 'object' && 'from' in location.state
       ? String((location.state as { from?: string }).from ?? 'direct')
@@ -37,6 +42,9 @@ export default function PSTDiagnostic() {
   const segment = useMemo(() => deriveSegment(intent, signals), [intent, signals])
 
   function handleSubmit(values: PSTFormValues) {
+    if (isDemoMode) {
+      fireEvent('demo_calculation_run', { toolName: 'pst-diagnostic', fieldsChanged: scenarioCount })
+    }
     const r = calculatePST(values)
     setResults(r)
     const completion = startedAtRef.current ? Math.max(1, Math.round((Date.now() - startedAtRef.current) / 1000)) : 0

@@ -12,6 +12,7 @@ import type { Mode, ScenarioId } from '@/lib/worksafebc/types';
 import { useDiagnosticSession } from '@/hooks/useDiagnosticSession';
 import { appendSnapshot, bucketSpend } from '@/lib/session';
 import { deriveSegment, type SegmentSignals } from '@/lib/segment';
+import { useAccess } from '@/contexts/AccessContext';
 
 const WorkSafeBCDiagnosticPage = () => {
   const [activeScenario, setActiveScenario] = useState<ScenarioId>('C');
@@ -36,6 +37,7 @@ const WorkSafeBCDiagnosticPage = () => {
   });
 
   const location = useLocation();
+  const { isDemoMode } = useAccess();
   const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('wcb');
   const startTimeRef = useRef<number | null>(null);
   const toggleTimers = useRef<Record<string, number>>({});
@@ -45,6 +47,9 @@ const WorkSafeBCDiagnosticPage = () => {
   const toggleCountRef = useRef(0);
 
   useEffect(() => {
+    if (isDemoMode) {
+      fireEvent('demo_tool_opened', { toolName: 'worksafe-repricing', source: 'demo-route' });
+    }
     if (!intentReady) return;
     const sourceRoute = location.state && typeof location.state === 'object' && 'from' in location.state
       ? String((location.state as { from?: string }).from ?? 'direct')
@@ -213,6 +218,10 @@ const WorkSafeBCDiagnosticPage = () => {
   }, [fireEvent, intentReady]);
 
   function handleRunComplete() {
+    if (isDemoMode) {
+      fireEvent('demo_calculation_run', { toolName: 'worksafe-repricing', fieldsChanged: toggleCountRef.current });
+      return;
+    }
     const completionTime = startTimeRef.current ? Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000)) : 0;
     const spendBucket = bucketSpend(completionCost);
     fireEvent('diag_complete', {
@@ -301,6 +310,7 @@ const WorkSafeBCDiagnosticPage = () => {
             <h2 className="headline-md">Two-Mode Repricing Exposure Tool</h2>
 
             <TwoModeCalculator
+              demoMode={isDemoMode}
               mode={mode}
               setMode={setMode}
               industryRows={industryRows}
@@ -325,7 +335,7 @@ const WorkSafeBCDiagnosticPage = () => {
               scenarioTimeline={scenarioTimeline}
               driftLine={driftLine}
             />
-            <button className="btn-primary" onClick={handleRunComplete}>Save this scenario</button>
+            <button className="btn-primary" onClick={handleRunComplete}>{isDemoMode ? 'Run demo calculation' : 'Save this scenario'}</button>
           </section>
 
           <section ref={riskRef} className="px-6 lg:px-[8vw] py-14">

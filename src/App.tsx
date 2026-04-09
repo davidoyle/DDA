@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
-import { AccessProvider } from '@/contexts/AccessContext';
+import { AccessProvider, useAccess } from '@/contexts/AccessContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
@@ -27,6 +27,9 @@ const SurplusAlertPage = lazy(() => import('./pages/tools/SurplusAlertPage'));
 const ExecutiveRiskBriefPage = lazy(() => import('./pages/tools/ExecutiveRiskBriefPage'));
 const BCDecarbonizationModelPage = lazy(() => import('./pages/tools/BCDecarbonizationModelPage'));
 const VerifyAccessPage = lazy(() => import('./pages/VerifyAccessPage'));
+const AdminAccessPage = lazy(() => import('./pages/AdminAccessPage'));
+const DemoDiagnosticsLandingPage = lazy(() => import('./pages/DemoDiagnosticsLandingPage'));
+const DemoVsFullPage = lazy(() => import('./pages/DemoVsFullPage'));
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -50,6 +53,16 @@ function AnalyticsTracker() {
   return null;
 }
 
+function RequireFullAccess({ children }: { children: JSX.Element }) {
+  const { canAccessDiagnostics } = useAccess();
+  return canAccessDiagnostics ? children : <Navigate to="/login" replace />;
+}
+
+function DemoGuard({ children, fullPath }: { children: JSX.Element; fullPath: string }) {
+  const { canAccessDiagnostics } = useAccess();
+  return canAccessDiagnostics ? <Navigate to={fullPath} replace /> : children;
+}
+
 function App() {
   return (
     <Router>
@@ -68,20 +81,47 @@ function App() {
               <Route path="public-sector" element={<PublicSectorPage />} />
               <Route path="privacy" element={<PrivacyPolicyPage />} />
               <Route path="terms" element={<TermsPage />} />
-              <Route path="diagnostics" element={<DiagnosticsPage />} />
+              <Route path="diagnostics" element={<RequireFullAccess><DiagnosticsPage /></RequireFullAccess>} />
               <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
-              <Route path="tools" element={<DiagnosticsPage />} />
-              <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
-              <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
-              <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
-              <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
-              <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />
-              <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
-              <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
-              <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
-              <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
-              <Route path="tools/bc-decarbonization-model" element={<BCDecarbonizationModelPage />} />
-              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="login" element={<DiagnosticsSubscribePage />} />
+              <Route path="tools" element={<RequireFullAccess><DiagnosticsPage /></RequireFullAccess>} />
+
+              <Route path="admin-access" element={<AdminAccessPage />} />
+              <Route path="demo-vs-full" element={<DemoVsFullPage />} />
+              <Route path="diagnostics/demo" element={<DemoDiagnosticsLandingPage />} />
+
+              <Route path="diagnostics/demo/pst-diagnostic" element={<DemoGuard fullPath="/diagnostics/pst-diagnostic"><PSTDiagnostic /></DemoGuard>} />
+              <Route path="diagnostics/demo/worksafe-repricing" element={<DemoGuard fullPath="/diagnostics/worksafe-repricing"><WorkSafeBCDiagnosticPage /></DemoGuard>} />
+              <Route path="diagnostics/demo/province-comparator" element={<DemoGuard fullPath="/diagnostics/province-comparator"><ProvinceComparatorPage /></DemoGuard>} />
+              <Route path="diagnostics/demo/experience-rating" element={<DemoGuard fullPath="/diagnostics/experience-rating"><ExperienceRatingOptimizerPage /></DemoGuard>} />
+              <Route path="diagnostics/demo/suppression-audit" element={<DemoGuard fullPath="/diagnostics/suppression-audit"><SuppressionAuditPage /></DemoGuard>} />
+              <Route path="diagnostics/demo/mental-health-forecaster" element={<DemoGuard fullPath="/diagnostics/mental-health-forecaster"><MentalHealthForecasterPage /></DemoGuard>} />
+              <Route path="diagnostics/demo/surplus-alert" element={<DemoGuard fullPath="/diagnostics/surplus-alert"><SurplusAlertPage /></DemoGuard>} />
+              <Route path="diagnostics/demo/bc-decarbonization-model" element={<DemoGuard fullPath="/diagnostics/bc-decarbonization-model"><BCDecarbonizationModelPage /></DemoGuard>} />
+              <Route path="diagnostics/demo/executive-risk-brief" element={<DemoGuard fullPath="/diagnostics/executive-risk-brief"><ExecutiveRiskBriefPage /></DemoGuard>} />
+
+              <Route path="worksafebc-repricing-risk-diagnostic" element={<RequireFullAccess><WorkSafeBCDiagnosticPage /></RequireFullAccess>} />
+              <Route path="bc-pst-impact-diagnostic" element={<RequireFullAccess><BCPSTDiagnosticPage /></RequireFullAccess>} />
+              <Route path="tools/pst-diagnostic" element={<RequireFullAccess><PSTDiagnostic /></RequireFullAccess>} />
+              <Route path="tools/mental-health-forecaster" element={<RequireFullAccess><MentalHealthForecasterPage /></RequireFullAccess>} />
+              <Route path="tools/province-comparator" element={<RequireFullAccess><ProvinceComparatorPage /></RequireFullAccess>} />
+              <Route path="tools/suppression-audit" element={<RequireFullAccess><SuppressionAuditPage /></RequireFullAccess>} />
+              <Route path="tools/experience-rating-optimizer" element={<RequireFullAccess><ExperienceRatingOptimizerPage /></RequireFullAccess>} />
+              <Route path="tools/surplus-alert" element={<RequireFullAccess><SurplusAlertPage /></RequireFullAccess>} />
+              <Route path="tools/executive-risk-brief" element={<RequireFullAccess><ExecutiveRiskBriefPage /></RequireFullAccess>} />
+              <Route path="tools/bc-decarbonization-model" element={<RequireFullAccess><BCDecarbonizationModelPage /></RequireFullAccess>} />
+
+              <Route path="diagnostics/pst-diagnostic" element={<RequireFullAccess><PSTDiagnostic /></RequireFullAccess>} />
+              <Route path="diagnostics/worksafe-repricing" element={<RequireFullAccess><WorkSafeBCDiagnosticPage /></RequireFullAccess>} />
+              <Route path="diagnostics/province-comparator" element={<RequireFullAccess><ProvinceComparatorPage /></RequireFullAccess>} />
+              <Route path="diagnostics/suppression-audit" element={<RequireFullAccess><SuppressionAuditPage /></RequireFullAccess>} />
+              <Route path="diagnostics/experience-rating" element={<RequireFullAccess><ExperienceRatingOptimizerPage /></RequireFullAccess>} />
+              <Route path="diagnostics/mental-health-forecaster" element={<RequireFullAccess><MentalHealthForecasterPage /></RequireFullAccess>} />
+              <Route path="diagnostics/surplus-alert" element={<RequireFullAccess><SurplusAlertPage /></RequireFullAccess>} />
+              <Route path="diagnostics/executive-risk-brief" element={<RequireFullAccess><ExecutiveRiskBriefPage /></RequireFullAccess>} />
+              <Route path="diagnostics/bc-decarbonization-model" element={<RequireFullAccess><BCDecarbonizationModelPage /></RequireFullAccess>} />
+
+              <Route path="dashboard" element={<RequireFullAccess><Dashboard /></RequireFullAccess>} />
 
               <Route path="consultation" element={<ConsultationLandingPage />} />
               <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />

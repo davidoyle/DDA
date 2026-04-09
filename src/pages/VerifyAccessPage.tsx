@@ -35,6 +35,13 @@ export default function VerifyAccessPage() {
     setPlanTier(parsed.plan);
     localStorage.setItem('dda_access_email', parsed.email);
     localStorage.setItem('dda_access_granted', Date.now().toString());
+    localStorage.setItem('dda_session', JSON.stringify({
+      sessionToken: crypto.randomUUID(),
+      email: parsed.email,
+      orgId: parsed.email.split('@')[1] || 'default-org',
+      plan: parsed.plan,
+      updatedAt: Date.now(),
+    }));
     navigate('/diagnostics?access=granted');
   }, [parsed, setPlanTier, navigate]);
 
