@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export type PlanTier = 'free' | 'pro' | 'enterprise';
+export type AccessMode = 'admin' | 'paid' | 'demo' | 'none';
 
 interface AccessState {
   planTier: PlanTier;
@@ -14,63 +15,88 @@ interface AccessState {
   canAccessAdvancedFeatures: boolean;
   upgradeToPro: () => void;
   upgradeToEnterprise: () => void;
+  accessMode: AccessMode;
+  isAdminModeActive: boolean;
+  setAdminModeActive: (active: boolean) => void;
+  hasAdminAccess: boolean;
+  isDemoMode: boolean;
+  refreshAccess: () => Promise<void>;
 }
 
 const AccessContext = createContext<AccessState | undefined>(undefined);
-const STORAGE_KEY = 'dda_access_state';
+const ADMIN_TOGGLE_KEY = 'dda_admin_mode_active';
 
 export function AccessProvider({ children }: { children: React.ReactNode }) {
-  const [searchParams] = useSearchParams();
-  const [planTier, setPlanTierState] = useState<PlanTier>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as { planTier?: PlanTier };
-        return parsed.planTier || 'free';
-      } catch {
-        return 'free';
-      }
-    }
-    return 'free';
-  });
+  const location = useLocation();
+  const [planTier, setPlanTierState] = useState<PlanTier>('free');
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasAdminAccess, setHasAdminAccess] = useState(false);
+  const [isAdminModeActive, setIsAdminModeActive] = useState<boolean>(() => localStorage.getItem(ADMIN_TOGGLE_KEY) !== 'false');
 
-  const [userEmail] = useState<string | null>(() => localStorage.getItem('dda_access_email'));
+  async function refreshAccess() {
+    try {
+      const res = await fetch('/api/me', { credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to fetch session');
+      const data = await res.json() as { authenticated: boolean; email?: string; plan?: PlanTier; isAdmin?: boolean };
+      setIsAuthenticated(Boolean(data.authenticated));
+      setUserEmail(data.email ?? null);
+      setPlanTierState(data.plan ?? 'free');
+      setHasAdminAccess(Boolean(data.isAdmin));
+    } catch {
+      setIsAuthenticated(false);
+      setUserEmail(null);
+      setPlanTierState('free');
+      setHasAdminAccess(false);
+    }
+  }
 
   useEffect(() => {
-    const accessGranted = searchParams.get('access') === 'granted';
-    const sub = searchParams.get('sub');
+    void refreshAccess();
+  }, []);
 
-    if (accessGranted) {
-      console.log('Access granted via magic link');
-    } else if (sub === 'active') {
-      queueMicrotask(() => {
-        setPlanTierState('pro');
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ planTier: 'pro', grantedAt: Date.now() }));
-      });
-    }
-
-    if (accessGranted || sub === 'active') {
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-  }, [searchParams]);
+  useEffect(() => {
+    if (!location.pathname.startsWith('/diagnostics')) return;
+    void refreshAccess();
+  }, [location.pathname]);
 
   const setPlanTier = (tier: PlanTier) => {
     setPlanTierState(tier);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ planTier: tier, updatedAt: new Date().toISOString() }));
   };
+
+  const setAdminModeActive = (active: boolean) => {
+    setIsAdminModeActive(active);
+    localStorage.setItem(ADMIN_TOGGLE_KEY, String(active));
+  };
+
+  const isDemoPath = location.pathname.startsWith('/diagnostics/demo');
+  const activeAdmin = hasAdminAccess && isAdminModeActive;
+  const accessMode: AccessMode = activeAdmin
+    ? 'admin'
+    : isAuthenticated
+      ? 'paid'
+      : isDemoPath
+        ? 'demo'
+        : 'none';
 
   const value = useMemo<AccessState>(() => ({
     planTier,
     setPlanTier,
-    isAuthenticated: planTier !== 'free' || !!userEmail,
+    isAuthenticated,
     userEmail,
-    canAccessDiagnostics: planTier !== 'free',
-    canExportData: planTier === 'pro' || planTier === 'enterprise',
-    canSaveScenarios: planTier === 'pro' || planTier === 'enterprise',
-    canAccessAdvancedFeatures: planTier === 'enterprise',
+    canAccessDiagnostics: accessMode === 'admin' || accessMode === 'paid',
+    canExportData: accessMode === 'admin' || accessMode === 'paid',
+    canSaveScenarios: accessMode === 'admin' || accessMode === 'paid',
+    canAccessAdvancedFeatures: accessMode === 'admin' || (accessMode === 'paid' && planTier === 'enterprise'),
     upgradeToPro: () => { window.location.href = '/diagnostics/subscribe?plan=pro'; },
     upgradeToEnterprise: () => { window.location.href = '/diagnostics/subscribe?plan=enterprise'; },
-  }), [planTier, userEmail]);
+    accessMode,
+    isAdminModeActive,
+    setAdminModeActive,
+    hasAdminAccess,
+    isDemoMode: accessMode === 'demo',
+    refreshAccess,
+  }), [planTier, isAuthenticated, userEmail, accessMode, isAdminModeActive, hasAdminAccess]);
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }

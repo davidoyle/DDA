@@ -11,15 +11,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { priceId, successUrl, cancelUrl, customerEmail, metadata } = req.body;
+    const { priceId, customerEmail, metadata, returnTo } = req.body;
 
-    if (!priceId || !successUrl || !cancelUrl) {
+    if (!priceId) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     if (!String(priceId).startsWith('price_') && !String(priceId).includes('placeholder')) {
       return res.status(400).json({ error: 'Invalid price ID format' });
     }
+
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || req.headers.origin || 'http://localhost:5173';
+    const returnTarget = returnTo === 'dashboard' ? '/dashboard' : '/diagnostics';
+    const successUrl = `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&returnTo=${encodeURIComponent(returnTarget)}`;
+    const cancelUrl = `${baseUrl}/diagnostics/subscribe?checkout=cancelled`;
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',

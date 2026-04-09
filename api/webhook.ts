@@ -5,8 +5,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
 });
 
-const accessStore = new Map<string, { plan: string; expiresAt: number; grantedAt: number }>();
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -38,13 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const plan = metadata.plan || 'pro';
 
       if (customerEmail) {
-        accessStore.set(customerEmail, {
-          plan,
-          expiresAt: Date.now() + 365 * 24 * 60 * 60 * 1000,
-          grantedAt: Date.now(),
-        });
-
-        console.log(`Access granted for ${customerEmail}: ${plan} plan`);
+        console.log(`Checkout completed for ${customerEmail}: ${plan} plan`);
       }
       break;
     }
@@ -55,8 +47,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const customerEmail = typeof customer !== 'string' ? customer.email : null;
 
       if (customerEmail) {
-        accessStore.delete(customerEmail);
-        console.log(`Access revoked for ${customerEmail}`);
+        console.log(`Subscription deleted for ${customerEmail}`);
       }
       break;
     }
@@ -66,14 +57,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   return res.json({ received: true });
-}
-
-export async function checkAccess(email: string): Promise<boolean> {
-  const grant = accessStore.get(email);
-  if (!grant) return false;
-  if (grant.expiresAt < Date.now()) {
-    accessStore.delete(email);
-    return false;
-  }
-  return true;
 }

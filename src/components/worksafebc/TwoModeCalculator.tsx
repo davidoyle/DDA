@@ -18,6 +18,7 @@ interface TwoModeCalculatorProps {
   setActiveScenario: (scenario: ScenarioId) => void;
   scenarioTimeline: ScenarioTimelineRow[];
   driftLine: DriftLinePoint[];
+  demoMode?: boolean;
 }
 
 const TwoModeCalculator = ({
@@ -36,6 +37,7 @@ const TwoModeCalculator = ({
   setActiveScenario,
   scenarioTimeline,
   driftLine,
+  demoMode = false,
 }: TwoModeCalculatorProps) => (
   <div className="card space-y-6">
     <div className="grid grid-cols-2 md:w-[420px] gap-2">
@@ -47,6 +49,7 @@ const TwoModeCalculator = ({
           key={option.id}
           type="button"
           onClick={() => setMode(option.id)}
+          disabled={demoMode}
           className={`rounded-lg px-4 py-2 text-sm border transition-colors ${
             mode === option.id ? 'bg-[#1f3a5f] text-white border-[#1f3a5f]' : 'bg-white text-[#1f1f1f] border-[#d8cdb9]'
           }`}
@@ -60,7 +63,7 @@ const TwoModeCalculator = ({
       <div className="grid md:grid-cols-3 gap-5">
         <label className="space-y-2">
           <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#5b5347]">Industry selector</span>
-          <select className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={selectedIndustryName} onChange={(event) => setSelectedIndustryName(event.target.value)}>
+          <select className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={selectedIndustryName} onChange={(event) => setSelectedIndustryName(event.target.value)} disabled={demoMode}>
             {industryRows.filter((row) => row.name !== 'Other Sectors (aggregate)').map((industry) => (
               <option key={industry.name} value={industry.name} className="text-[#0B3C43]">{industry.name}</option>
             ))}
@@ -68,11 +71,11 @@ const TwoModeCalculator = ({
         </label>
         <label className="space-y-2">
           <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#5b5347]">Annual assessable payroll ($)</span>
-          <input type="number" className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={proxyPayroll} min={0} onChange={(event) => setProxyPayroll(Number(event.target.value) || 0)} />
+          <input type="number" className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={proxyPayroll} min={0} max={demoMode ? 50 : undefined} onChange={(event) => setProxyPayroll(Number(event.target.value) || 0)} />
         </label>
         <label className="space-y-2">
           <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#5b5347]">Cost-rate sensitivity: {costSensitivity > 0 ? '+' : ''}{costSensitivity}%</span>
-          <input type="range" min={-10} max={10} step={10} value={costSensitivity} onChange={(event) => setCostSensitivity(Number(event.target.value))} className="w-full" />
+          <input type="range" min={-10} max={10} step={10} value={costSensitivity} onChange={(event) => setCostSensitivity(Number(event.target.value))} className="w-full" disabled={demoMode} />
         </label>
       </div>
     ) : (
@@ -80,7 +83,7 @@ const TwoModeCalculator = ({
         {ownInputs.map(({ label, value, setter }) => (
           <label className="space-y-2" key={label}>
             <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#5b5347]">{label}</span>
-            <input type="number" className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={value} min={0} onChange={(event) => setter(Number(event.target.value) || 0)} />
+            <input type="number" className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={value} min={0} onChange={(event) => setter(Number(event.target.value) || 0)} disabled={demoMode} />
           </label>
         ))}
       </div>
@@ -104,7 +107,7 @@ const TwoModeCalculator = ({
 
     <label className="space-y-2 block max-w-sm">
       <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#5b5347]">Scenario selector</span>
-      <select className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={activeScenario} onChange={(event) => setActiveScenario(event.target.value as ScenarioId)}>
+      <select className="w-full rounded-lg bg-white border border-[#d8cdb9] px-4 py-3" value={activeScenario} onChange={(event) => setActiveScenario(event.target.value as ScenarioId)} disabled={demoMode}>
         <option value="A">Scenario A</option>
         <option value="B">Scenario B</option>
         <option value="C">Scenario C</option>
@@ -167,6 +170,7 @@ const TwoModeCalculator = ({
       </article>
     ) : null}
 
+    {demoMode ? <p className="text-sm text-[#6b6255]">Demo restrictions active: rate group and advanced assumptions are locked.</p> : null}
     <article className="rounded-xl border border-[#d8cdb9] bg-[#f9f4ea] p-5 space-y-3">
       <p className="font-mono text-xs uppercase tracking-[0.12em] text-[#9A6A28]">Assumptions panel (always visible)</p>
       <ul className="list-disc list-inside space-y-1 text-[#4a453d] text-sm">

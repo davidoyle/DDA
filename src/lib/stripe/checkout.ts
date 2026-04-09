@@ -51,8 +51,7 @@ async function loadStripeClient(): Promise<StripeClient | null> {
 export interface CheckoutOptions {
   plan: 'pro' | 'enterprise';
   interval: 'monthly' | 'annual';
-  successUrl?: string;
-  cancelUrl?: string;
+  returnTo?: 'diagnostics' | 'dashboard';
   customerEmail?: string;
   metadata?: Record<string, string>;
 }
@@ -61,8 +60,7 @@ export async function redirectToCheckout(options: CheckoutOptions) {
   const {
     plan,
     interval,
-    successUrl = `${window.location.origin}/payment-success?plan=${plan}&interval=${interval}`,
-    cancelUrl = `${window.location.origin}/diagnostics/subscribe?checkout=cancelled&plan=${plan}`,
+    returnTo = 'diagnostics',
     customerEmail,
     metadata = {},
   } = options;
@@ -99,8 +97,7 @@ export async function redirectToCheckout(options: CheckoutOptions) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         priceId,
-        successUrl,
-        cancelUrl,
+        returnTo,
         customerEmail,
         metadata: { plan, interval, ...metadata },
       }),
