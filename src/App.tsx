@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, type ReactElement } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import { AccessProvider, useAccess } from '@/contexts/AccessContext';
@@ -53,12 +53,12 @@ function AnalyticsTracker() {
   return null;
 }
 
-function RequireFullAccess({ children }: { children: JSX.Element }) {
+function RequireFullAccess({ children }: { children: ReactElement }) {
   const { canAccessDiagnostics } = useAccess();
   return canAccessDiagnostics ? children : <Navigate to="/login" replace />;
 }
 
-function DemoGuard({ children, fullPath }: { children: JSX.Element; fullPath: string }) {
+function DemoGuard({ children, fullPath }: { children: ReactElement; fullPath: string }) {
   const { canAccessDiagnostics } = useAccess();
   return canAccessDiagnostics ? <Navigate to={fullPath} replace /> : children;
 }
