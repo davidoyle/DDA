@@ -28,6 +28,7 @@ const ExecutiveRiskBriefPage = lazy(() => import('./pages/tools/ExecutiveRiskBri
 const BCDecarbonizationModelPage = lazy(() => import('./pages/tools/BCDecarbonizationModelPage'));
 const VerifyAccessPage = lazy(() => import('./pages/VerifyAccessPage'));
 const AdminAccessPage = lazy(() => import('./pages/AdminAccessPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
 const DemoDiagnosticsLandingPage = lazy(() => import('./pages/DemoDiagnosticsLandingPage'));
 const DemoVsFullPage = lazy(() => import('./pages/DemoVsFullPage'));
 
@@ -83,7 +84,7 @@ function App() {
               <Route path="terms" element={<TermsPage />} />
               <Route path="diagnostics" element={<RequireFullAccess><DiagnosticsPage /></RequireFullAccess>} />
               <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
-              <Route path="login" element={<DiagnosticsSubscribePage />} />
+              <Route path="login" element={<LoginPage />} />
               <Route path="tools" element={<RequireFullAccess><DiagnosticsPage /></RequireFullAccess>} />
 
               <Route path="admin-access" element={<AdminAccessPage />} />

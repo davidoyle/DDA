@@ -6,7 +6,7 @@ import { DemoModeBanner, DemoWatermark } from '@/components/shared/DemoModeChrom
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const { hasAdminAccess, isAdminModeActive, setAdminModeActive, accessMode } = useAccess();
+  const { accessMode } = useAccess();
 
   const navLinks = [
     { label: 'Analysis', href: '/analysis' },
@@ -41,16 +41,6 @@ const Layout = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-2">
-            {hasAdminAccess ? (
-              <button
-                className="px-3 py-1 rounded-full text-xs"
-                title="Admin access active - all features unlocked"
-                style={{ background: isAdminModeActive ? '#198754' : '#6c757d', color: '#fff' }}
-                onClick={() => setAdminModeActive(!isAdminModeActive)}
-              >
-                🔧 Admin Mode: {isAdminModeActive ? 'ON' : 'OFF'}
-              </button>
-            ) : null}
             {showDemoChrome ? (
               <span className="px-3 py-1 rounded-full text-xs" style={{ background: '#f59f00', color: '#111' }}>🎮 Demo Mode</span>
             ) : null}
