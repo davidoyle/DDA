@@ -75,9 +75,9 @@ router.post('/api/auth/magic-link/create', requireAdmin, async (req, res) => {
 
   const tokenId = randomUUID();
   const expiresAt = new Date(Date.now() + Number(expiresInHours) * 60 * 60 * 1000).toISOString();
-  const payload = `${tokenId}:${user.email}:${planTier}:${expiresAt}`;
+  const payload = JSON.stringify({ tokenId, email: user.email, planTier, expiresAt });
   const signature = signMagicLink(payload);
-  const token = Buffer.from(`${payload}:${signature}`).toString('base64url');
+  const token = `${Buffer.from(payload).toString('base64url')}.${signature}`;
 
   await query(
     `INSERT INTO magic_links (id, user_id, token_id, token_signature_hash, plan_tier, expires_at)
@@ -96,11 +96,16 @@ router.post('/api/auth/magic-link/verify', async (req, res) => {
   }
 
   try {
-    const decoded = Buffer.from(token, 'base64url').toString('utf8');
-    const [tokenId, email, planTier, expiresAt, signature] = decoded.split(':');
-    const payload = `${tokenId}:${email}:${planTier}:${expiresAt}`;
+    const [encodedPayload, signature] = token.split('.', 2);
+    if (!encodedPayload || !signature) {
+      res.status(401).json({ error: 'Invalid token' });
+      return;
+    }
 
-    if (!verifyMagicLinkSignature(payload, signature)) {
+    const payload = Buffer.from(encodedPayload, 'base64url').toString('utf8');
+    const { tokenId, planTier } = JSON.parse(payload);
+
+    if (!tokenId || !verifyMagicLinkSignature(payload, signature)) {
       res.status(401).json({ error: 'Invalid signature' });
       return;
     }
