@@ -1,57 +1,60 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAccess } from '@/contexts/AccessContext';
 
-type ParsedToken =
-  | { state: 'ok'; email: string; plan: 'free' | 'pro' | 'enterprise' }
-  | { state: 'missing' | 'invalid' | 'expired' };
-
-function parseToken(token: string | null): ParsedToken {
-  if (!token) return { state: 'missing' };
-
-  try {
-    const decoded = atob(token);
-    const [email, plan, expiresAt] = decoded.split(':');
-
-    if (!expiresAt || Date.now() > Number.parseInt(expiresAt, 10)) {
-      return { state: 'expired' };
-    }
-
-    const normalizedPlan = (plan === 'enterprise' ? 'enterprise' : plan === 'pro' ? 'pro' : 'free');
-    return { state: 'ok', email: email || '', plan: normalizedPlan };
-  } catch {
-    return { state: 'invalid' };
-  }
-}
+type VerifyState = 'loading' | 'invalid' | 'expired' | 'error';
 
 export default function VerifyAccessPage() {
   const [searchParams] = useSearchParams();
-  const parsed = useMemo(() => parseToken(searchParams.get('token')), [searchParams]);
-  const { setPlanTier } = useAccess();
+  const [state, setState] = useState<VerifyState>('loading');
   const navigate = useNavigate();
+  const { refreshSession } = useAccess();
 
   useEffect(() => {
-    if (parsed.state !== 'ok') return;
-    setPlanTier(parsed.plan);
-    localStorage.setItem('dda_access_email', parsed.email);
-    localStorage.setItem('dda_access_granted', Date.now().toString());
-    localStorage.setItem('dda_session', JSON.stringify({
-      sessionToken: crypto.randomUUID(),
-      email: parsed.email,
-      orgId: parsed.email.split('@')[1] || 'default-org',
-      plan: parsed.plan,
-      updatedAt: Date.now(),
-    }));
-    navigate('/diagnostics?access=granted');
-  }, [parsed, setPlanTier, navigate]);
+    const token = searchParams.get('token');
+    if (!token) {
+      setState('invalid');
+      return;
+    }
 
-  if (parsed.state === 'ok') {
+    const verify = async () => {
+      try {
+        const response = await fetch('/api/auth/magic-link/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ token }),
+        });
+
+        if (response.ok) {
+          await refreshSession();
+          navigate('/diagnostics', { replace: true });
+          return;
+        }
+
+        if (response.status === 410) {
+          setState('expired');
+          return;
+        }
+
+        setState('invalid');
+      } catch {
+        setState('error');
+      }
+    };
+
+    void verify();
+  }, [navigate, refreshSession, searchParams]);
+
+  if (state === 'loading') {
     return <div className="px-6 py-16">Verifying your access...</div>;
   }
 
-  const message = parsed.state === 'expired'
+  const message = state === 'expired'
     ? 'Access link has expired. Please contact support.'
-    : 'Invalid access link';
+    : state === 'error'
+      ? 'Unable to verify access right now. Please try again.'
+      : 'Invalid access link';
 
   return (
     <div className="px-6 py-16 space-y-3">

@@ -14,7 +14,7 @@ const tools = [
 ];
 
 export default function AdminAccessPage() {
-  const { hasAdminAccess, isAdminModeActive } = useAccess();
+  const { hasAdminAccess } = useAccess();
 
   if (!hasAdminAccess) {
     return <Navigate to="/" replace />;
@@ -24,7 +24,7 @@ export default function AdminAccessPage() {
     <div className="px-6 lg:px-16 py-12 space-y-6">
       <h1 className="headline-md">DDA Admin Tool Access</h1>
       <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-        Admin mode is currently <strong>{isAdminModeActive ? 'ON' : 'OFF'}</strong>. Switch it in the header toggle if needed.
+        This page is only available to authenticated admin sessions validated server-side.
       </p>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {tools.map((tool) => (

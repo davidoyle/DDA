@@ -1,27 +1,20 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { dispatchAnalyticsEvent } from '@/lib/analytics';
+import { useLocation } from 'react-router-dom';
 
 export type PlanTier = 'free' | 'pro' | 'enterprise';
 export type AccessMode = 'admin' | 'paid' | 'demo' | 'none';
+export type UserRole = 'admin' | 'pro' | 'free' | 'demo';
 
-type AdminSession = {
-  adminKey: string;
-  activatedAt: number;
-  expiresAt: number;
-};
-
-type PaidSession = {
-  sessionToken: string;
-  email: string;
-  orgId: string;
-  plan: PlanTier;
-  updatedAt: number;
+type SessionResponse = {
+  authenticated: boolean;
+  role: UserRole;
+  planTier: PlanTier;
+  email: string | null;
 };
 
 interface AccessState {
   planTier: PlanTier;
-  setPlanTier: (tier: PlanTier) => void;
+  setPlanTier: (_tier: PlanTier) => void;
   isAuthenticated: boolean;
   userEmail: string | null;
   canAccessDiagnostics: boolean;
@@ -32,186 +25,85 @@ interface AccessState {
   upgradeToEnterprise: () => void;
   accessMode: AccessMode;
   isAdminModeActive: boolean;
-  setAdminModeActive: (active: boolean) => void;
+  setAdminModeActive: (_active: boolean) => void;
   hasAdminAccess: boolean;
   isDemoMode: boolean;
+  refreshSession: () => Promise<void>;
 }
 
 const AccessContext = createContext<AccessState | undefined>(undefined);
-const LEGACY_STORAGE_KEY = 'dda_access_state';
-const ADMIN_SESSION_KEY = 'dda_admin_session';
-const ADMIN_TOGGLE_KEY = 'dda_admin_mode_active';
-const PAID_SESSION_KEY = 'dda_session';
-const ADMIN_SESSION_TTL_MS = 24 * 60 * 60 * 1000;
-const PAID_SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 
-function readAdminSession(): AdminSession | null {
-  const raw = localStorage.getItem(ADMIN_SESSION_KEY);
-  if (!raw) return null;
+const FALLBACK_SESSION: SessionResponse = {
+  authenticated: false,
+  role: 'free',
+  planTier: 'free',
+  email: null,
+};
 
-  try {
-    const parsed = JSON.parse(raw) as AdminSession;
-    if (Date.now() > parsed.expiresAt) {
-      localStorage.removeItem(ADMIN_SESSION_KEY);
-      return null;
-    }
-    return parsed;
-  } catch {
-    localStorage.removeItem(ADMIN_SESSION_KEY);
-    return null;
-  }
-}
-
-function readPaidSession(): PaidSession | null {
-  const raw = localStorage.getItem(PAID_SESSION_KEY);
-  if (!raw) return null;
-
-  try {
-    const parsed = JSON.parse(raw) as PaidSession;
-    if (!parsed.updatedAt || Date.now() - parsed.updatedAt > PAID_SESSION_TTL_MS) {
-      localStorage.removeItem(PAID_SESSION_KEY);
-      return null;
-    }
-    return parsed;
-  } catch {
-    localStorage.removeItem(PAID_SESSION_KEY);
-    return null;
-  }
+function toAccessMode(role: UserRole, isDemoPath: boolean): AccessMode {
+  if (role === 'admin') return 'admin';
+  if (role === 'pro') return 'paid';
+  if (role === 'demo' || isDemoPath) return 'demo';
+  return 'none';
 }
 
 export function AccessProvider({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const [searchParams] = useSearchParams();
+  const [session, setSession] = useState<SessionResponse>(FALLBACK_SESSION);
 
-  const [planTier, setPlanTierState] = useState<PlanTier>(() => {
-    const paid = readPaidSession();
-    if (paid?.plan) return paid.plan;
-
-    const stored = localStorage.getItem(LEGACY_STORAGE_KEY);
-    if (!stored) return 'free';
-
+  const refreshSession = useCallback(async () => {
     try {
-      const parsed = JSON.parse(stored) as { planTier?: PlanTier };
-      return parsed.planTier || 'free';
+      const response = await fetch('/api/session', {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        setSession(FALLBACK_SESSION);
+        return;
+      }
+
+      const payload = (await response.json()) as SessionResponse;
+      setSession(payload);
     } catch {
-      return 'free';
+      setSession(FALLBACK_SESSION);
     }
-  });
-
-  const [userEmail, setUserEmail] = useState<string | null>(() => {
-    const paid = readPaidSession();
-    return paid?.email ?? localStorage.getItem('dda_access_email');
-  });
-
-  const [adminSession, setAdminSession] = useState<AdminSession | null>(() => readAdminSession());
-  const [isAdminModeActive, setIsAdminModeActive] = useState<boolean>(() => localStorage.getItem(ADMIN_TOGGLE_KEY) !== 'false');
-
-  useEffect(() => {
-    const adminKey = searchParams.get('admin_key');
-    const expectedKey = import.meta.env.VITE_ADMIN_OVERRIDE_KEY || import.meta.env.ADMIN_OVERRIDE_KEY;
-    if (!adminKey || !expectedKey) return;
-
-    if (adminKey === expectedKey) {
-      const nextSession: AdminSession = {
-        adminKey,
-        activatedAt: Date.now(),
-        expiresAt: Date.now() + ADMIN_SESSION_TTL_MS,
-      };
-      localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(nextSession));
-      localStorage.setItem(ADMIN_TOGGLE_KEY, 'true');
-      setAdminSession(nextSession);
-      setIsAdminModeActive(true);
-      dispatchAnalyticsEvent('admin_key_used', { route: location.pathname });
-      window.history.replaceState({}, '', location.pathname);
-      return;
-    }
-
-    dispatchAnalyticsEvent('admin_key_invalid', { route: location.pathname });
-  }, [location.pathname, searchParams]);
-
-  useEffect(() => {
-    if (!adminSession) return;
-    const next = { ...adminSession, expiresAt: Date.now() + ADMIN_SESSION_TTL_MS };
-    localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(next));
-    setAdminSession(next);
-    // only on route changes while admin exists
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const accessGranted = searchParams.get('access') === 'granted';
-    const sub = searchParams.get('sub');
-
-    if (!accessGranted && sub !== 'active') return;
-
-    const nextPlan: PlanTier = 'pro';
-    setPlanTierState(nextPlan);
-
-    const existing = readPaidSession();
-    const nextSession: PaidSession = {
-      sessionToken: existing?.sessionToken ?? crypto.randomUUID(),
-      email: existing?.email ?? localStorage.getItem('dda_access_email') ?? '',
-      orgId: existing?.orgId ?? 'default-org',
-      plan: nextPlan,
-      updatedAt: Date.now(),
-    };
-    localStorage.setItem(PAID_SESSION_KEY, JSON.stringify(nextSession));
-
-    localStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify({ planTier: nextPlan, grantedAt: Date.now() }));
-    window.history.replaceState({}, '', location.pathname);
-  }, [location.pathname, searchParams]);
-
-  const setPlanTier = useCallback((tier: PlanTier) => {
-    setPlanTierState(tier);
-    const existing = readPaidSession();
-    const nextSession: PaidSession = {
-      sessionToken: existing?.sessionToken ?? crypto.randomUUID(),
-      email: existing?.email ?? localStorage.getItem('dda_access_email') ?? '',
-      orgId: existing?.orgId ?? 'default-org',
-      plan: tier,
-      updatedAt: Date.now(),
-    };
-
-    localStorage.setItem(PAID_SESSION_KEY, JSON.stringify(nextSession));
-    localStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify({ planTier: tier, updatedAt: new Date().toISOString() }));
-    setUserEmail(nextSession.email);
   }, []);
 
-  const setAdminModeActive = useCallback((active: boolean) => {
-    setIsAdminModeActive(active);
-    localStorage.setItem(ADMIN_TOGGLE_KEY, String(active));
+  useEffect(() => {
+    void refreshSession();
+  }, [refreshSession, location.pathname]);
+
+  const setPlanTier = useCallback((_tier: PlanTier) => {
+    // Entitlements are only set by server-side grants now.
+  }, []);
+
+  const setAdminModeActive = useCallback((_active: boolean) => {
+    // Admin mode is server-authoritative and always on for admin sessions.
   }, []);
 
   const isDemoPath = location.pathname.startsWith('/diagnostics/demo');
-  const hasAdminAccess = !!adminSession;
-  const hasPaidAccess = !!readPaidSession() || planTier !== 'free';
-  const activeAdmin = hasAdminAccess && isAdminModeActive;
-
-  const accessMode: AccessMode = activeAdmin
-    ? 'admin'
-    : hasPaidAccess
-      ? 'paid'
-      : isDemoPath
-        ? 'demo'
-        : 'none';
+  const accessMode = toAccessMode(session.role, isDemoPath);
+  const hasAdminAccess = session.role === 'admin';
 
   const value = useMemo<AccessState>(() => ({
-    planTier,
+    planTier: session.planTier,
     setPlanTier,
-    isAuthenticated: accessMode === 'admin' || accessMode === 'paid',
-    userEmail,
+    isAuthenticated: session.authenticated,
+    userEmail: session.email,
     canAccessDiagnostics: accessMode === 'admin' || accessMode === 'paid',
     canExportData: accessMode === 'admin' || accessMode === 'paid',
     canSaveScenarios: accessMode === 'admin' || accessMode === 'paid',
-    canAccessAdvancedFeatures: accessMode === 'admin' || (accessMode === 'paid' && planTier === 'enterprise'),
+    canAccessAdvancedFeatures: accessMode === 'admin' || (accessMode === 'paid' && session.planTier === 'enterprise'),
     upgradeToPro: () => { window.location.href = '/diagnostics/subscribe?plan=pro'; },
     upgradeToEnterprise: () => { window.location.href = '/diagnostics/subscribe?plan=enterprise'; },
     accessMode,
-    isAdminModeActive,
+    isAdminModeActive: hasAdminAccess,
     setAdminModeActive,
     hasAdminAccess,
     isDemoMode: accessMode === 'demo',
-  }), [accessMode, hasAdminAccess, isAdminModeActive, planTier, setAdminModeActive, setPlanTier, userEmail]);
+    refreshSession,
+  }), [accessMode, hasAdminAccess, refreshSession, session, setAdminModeActive, setPlanTier]);
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }
