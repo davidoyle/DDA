@@ -2,53 +2,19 @@ import express from 'express';
 import Stripe from 'stripe';
 import { randomUUID } from 'crypto';
 import { config } from './config.mjs';
-import { createSession, deriveRole, revokeSession, signMagicLink, validateAdminCredentials, verifyMagicLinkSignature } from './auth.mjs';
+import { createSession, revokeSession, signMagicLink, verifyMagicLinkSignature, SESSION_AUTH_METHOD } from './auth.mjs';
 import { clearSessionCookie, requireAdmin, requireAuthenticated, setSessionCookie } from './middleware.mjs';
 import { query } from './db.mjs';
+import adminAuthRouter from './routes/admin-auth.mjs';
+import sessionRouter from './routes/session.mjs';
 
 const router = express.Router();
 const stripe = process.env.STRIPE_SECRET_KEY
   ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' })
   : null;
 
-router.get('/api/session', (req, res) => {
-  if (!req.auth) {
-    res.json({ authenticated: false, role: 'free', planTier: 'free', email: null });
-    return;
-  }
-
-  const role = deriveRole(req.auth);
-  const planTier = req.auth.plan_tier === 'enterprise' ? 'enterprise' : req.auth.plan_tier === 'pro' ? 'pro' : 'free';
-
-  res.json({
-    authenticated: true,
-    role,
-    planTier,
-    email: req.auth.email,
-  });
-});
-
-router.post('/api/auth/login', async (req, res) => {
-  const { email, password } = req.body || {};
-  if (!email || !password) {
-    res.status(400).json({ error: 'Email and password are required' });
-    return;
-  }
-
-  const user = await validateAdminCredentials(email, password);
-  if (!user) {
-    res.status(401).json({ error: 'Invalid credentials' });
-    return;
-  }
-
-  const token = await createSession(user.id, {
-    ipAddress: req.ip,
-    userAgent: req.get('user-agent') || 'unknown',
-  });
-
-  setSessionCookie(res, token);
-  res.status(204).send();
-});
+router.use(adminAuthRouter);
+router.use(sessionRouter);
 
 router.post('/api/auth/logout', requireAuthenticated, async (req, res) => {
   const token = req.cookies[config.sessionCookieName];
@@ -131,10 +97,14 @@ router.post('/api/auth/magic-link/verify', async (req, res) => {
       [randomUUID(), link.user_id, planTier === 'enterprise' ? 'enterprise' : 'pro'],
     );
 
-    const sessionToken = await createSession(link.user_id, {
-      ipAddress: req.ip,
-      userAgent: req.get('user-agent') || 'unknown',
-    });
+    const sessionToken = await createSession(
+      link.user_id,
+      {
+        ipAddress: req.ip,
+        userAgent: req.get('user-agent') || 'unknown',
+      },
+      SESSION_AUTH_METHOD.MAGIC_LINK,
+    );
     setSessionCookie(res, sessionToken);
 
     res.status(204).send();
