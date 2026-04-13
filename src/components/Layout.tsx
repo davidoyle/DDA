@@ -44,6 +44,8 @@ const Layout = () => {
             {showDemoChrome ? (
               <span className="px-3 py-1 rounded-full text-xs" style={{ background: '#f59f00', color: '#111' }}>🎮 Demo Mode</span>
             ) : null}
+            <Link to="/admin/login" className="btn-secondary">Admin Login</Link>
+            <Link to="/access" className="btn-secondary">User Access / Magic Link</Link>
             <Link to="/contact" className="btn-primary">
               Describe your situation →
             </Link>
@@ -67,6 +69,8 @@ const Layout = () => {
                 {link.label}
               </Link>
             ))}
+            <Link to="/admin/login" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary w-full">Admin Login</Link>
+            <Link to="/access" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary w-full">User Access / Magic Link</Link>
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-primary w-full">
               Describe your situation →
             </Link>
@@ -83,6 +87,8 @@ const Layout = () => {
 
       <footer className="border-t px-6 lg:px-16 py-8" style={{ borderColor: 'var(--border)' }}>
         <div className="max-w-[1120px] mx-auto flex flex-wrap items-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <Link to="/admin/login" className="hover:underline">Admin Login</Link>
+          <Link to="/access" className="hover:underline">User Access / Magic Link</Link>
           <Link to="/privacy" className="hover:underline">Privacy</Link>
           <Link to="/terms" className="hover:underline">Terms</Link>
           <a href="mailto:david.doyle@ddanalysis.ca" className="hover:underline">david.doyle@ddanalysis.ca</a>
