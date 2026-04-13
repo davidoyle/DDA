@@ -29,13 +29,13 @@ export async function hasAnyAdminAccount(client = null) {
 export async function createFirstAdmin({ email, password }) {
   const normalizedEmail = String(email || '').trim().toLowerCase();
   if (!validateEmail(normalizedEmail)) {
-    const error = new Error('Invalid email');
+    const error = new Error('Please enter a valid email address.');
     error.statusCode = 400;
     throw error;
   }
 
   if (!validatePassword(password)) {
-    const error = new Error('Password must be at least 8 characters');
+    const error = new Error('Password must be at least 8 characters long.');
     error.statusCode = 400;
     throw error;
   }
@@ -55,6 +55,10 @@ export async function createFirstAdmin({ email, password }) {
     const result = await client.query(
       `INSERT INTO users (id, email, password_hash, role)
        VALUES ($1, $2, $3, 'admin')
+       ON CONFLICT (email) DO UPDATE
+         SET role = 'admin',
+             password_hash = EXCLUDED.password_hash,
+             updated_at = NOW()
        RETURNING id, email, role`,
       [randomUUID(), normalizedEmail, passwordHash],
     );
@@ -63,6 +67,11 @@ export async function createFirstAdmin({ email, password }) {
     return result.rows[0];
   } catch (error) {
     await client.query('ROLLBACK');
+    if (error?.code === '23505') {
+      const duplicate = new Error('Admin setup already completed');
+      duplicate.statusCode = 409;
+      throw duplicate;
+    }
     throw error;
   } finally {
     client.release();

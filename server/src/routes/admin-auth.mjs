@@ -19,8 +19,18 @@ router.get('/api/auth/admin/setup-status', async (_req, res) => {
 router.post('/api/auth/admin/setup', async (req, res) => {
   const { email, password, confirmPassword } = req.body || {};
 
-  if (!validateEmail(email) || !validatePassword(password) || password !== confirmPassword) {
-    res.status(400).json({ error: 'Invalid setup payload' });
+  if (!validateEmail(email)) {
+    res.status(400).json({ error: 'Please enter a valid email address.' });
+    return;
+  }
+
+  if (!validatePassword(password)) {
+    res.status(400).json({ error: 'Password must be at least 8 characters long.' });
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    res.status(400).json({ error: 'Passwords do not match.' });
     return;
   }
 

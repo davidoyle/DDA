@@ -44,7 +44,16 @@ export default function AdminSetupPage() {
       }
 
       if (!response.ok) {
-        setError('Invalid setup details. Please verify your email and password.');
+        let message = 'Invalid setup details. Please verify your email and password.';
+        try {
+          const payload = (await response.json()) as { error?: string };
+          if (payload?.error) {
+            message = payload.error;
+          }
+        } catch {
+          // keep default message
+        }
+        setError(message);
         return;
       }
 
