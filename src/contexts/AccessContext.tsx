@@ -1,16 +1,9 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { getSession, type PlanTier, type SessionResponse } from '@/lib/api/auth';
 
-export type PlanTier = 'free' | 'pro' | 'enterprise';
 export type AccessMode = 'admin' | 'paid' | 'demo' | 'none';
-export type UserRole = 'admin' | 'pro' | 'free' | 'demo';
-
-type SessionResponse = {
-  authenticated: boolean;
-  role: UserRole;
-  planTier: PlanTier;
-  email: string | null;
-};
+export type UserRole = 'admin' | 'pro' | 'free' | 'demo' | 'enterprise';
 
 interface AccessState {
   planTier: PlanTier;
@@ -42,7 +35,7 @@ const FALLBACK_SESSION: SessionResponse = {
 
 function toAccessMode(role: UserRole, isDemoPath: boolean): AccessMode {
   if (role === 'admin') return 'admin';
-  if (role === 'pro') return 'paid';
+  if (role === 'pro' || role === 'enterprise') return 'paid';
   if (role === 'demo' || isDemoPath) return 'demo';
   return 'none';
 }
@@ -53,17 +46,7 @@ export function AccessProvider({ children }: { children: React.ReactNode }) {
 
   const refreshSession = useCallback(async () => {
     try {
-      const response = await fetch('/api/session', {
-        method: 'GET',
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        setSession(FALLBACK_SESSION);
-        return;
-      }
-
-      const payload = (await response.json()) as SessionResponse;
+      const payload = await getSession();
       setSession(payload);
     } catch {
       setSession(FALLBACK_SESSION);

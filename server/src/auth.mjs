@@ -1,8 +1,13 @@
 import crypto from 'crypto';
-import bcrypt from 'bcryptjs';
 import { randomUUID } from 'crypto';
 import { config } from './config.mjs';
 import { query } from './db.mjs';
+
+export const SESSION_AUTH_METHOD = {
+  ADMIN_PASSWORD: 'admin_password',
+  MAGIC_LINK: 'magic_link',
+  USER_PASSWORD: 'user_password',
+};
 
 export function hashSessionToken(token) {
   return crypto.createHash('sha256').update(`${token}:${config.sessionSecret}`).digest('hex');
@@ -17,23 +22,19 @@ export function verifyMagicLinkSignature(payload, signature) {
   return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
 }
 
-export async function validateAdminCredentials(email, password) {
-  const rows = await query('SELECT id, email, password_hash, role FROM users WHERE email = $1 LIMIT 1', [email.toLowerCase()]);
-  const user = rows[0];
-  if (!user || user.role !== 'admin' || !user.password_hash) return null;
-  const ok = await bcrypt.compare(password, user.password_hash);
-  return ok ? user : null;
-}
+export async function createSession(userId, reqMeta, authMethod) {
+  if (!Object.values(SESSION_AUTH_METHOD).includes(authMethod)) {
+    throw new Error('Invalid session auth method');
+  }
 
-export async function createSession(userId, reqMeta) {
   const token = randomUUID();
   const sessionId = randomUUID();
   const tokenHash = hashSessionToken(token);
 
   await query(
-    `INSERT INTO sessions (id, user_id, session_token_hash, ip_address, user_agent, expires_at)
-     VALUES ($1, $2, $3, $4, $5, NOW() + INTERVAL '7 days')`,
-    [sessionId, userId, tokenHash, reqMeta.ipAddress, reqMeta.userAgent],
+    `INSERT INTO sessions (id, user_id, session_token_hash, ip_address, user_agent, expires_at, auth_method)
+     VALUES ($1, $2, $3, $4, $5, NOW() + INTERVAL '7 days', $6)`,
+    [sessionId, userId, tokenHash, reqMeta.ipAddress, reqMeta.userAgent, authMethod],
   );
 
   return token;
@@ -42,7 +43,7 @@ export async function createSession(userId, reqMeta) {
 export async function getSessionUser(sessionToken) {
   const tokenHash = hashSessionToken(sessionToken);
   const rows = await query(
-    `SELECT u.id, u.email, u.role,
+    `SELECT u.id, u.email, u.role, s.auth_method,
       COALESCE((
         SELECT e.plan_tier
         FROM entitlements e
@@ -71,6 +72,8 @@ export async function revokeSession(sessionToken) {
 
 export function deriveRole(user) {
   if (!user) return 'free';
-  if (user.role === 'admin') return 'admin';
-  return user.plan_tier === 'free' ? 'free' : 'pro';
+  if (user.role === 'admin' && user.auth_method === SESSION_AUTH_METHOD.ADMIN_PASSWORD) return 'admin';
+  if (user.plan_tier === 'enterprise') return 'enterprise';
+  if (user.plan_tier === 'pro') return 'pro';
+  return 'free';
 }

@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, type ReactElement } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
+import AdminLayout from './components/admin/AdminLayout';
 import { AccessProvider, useAccess } from '@/contexts/AccessContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -28,7 +29,9 @@ const ExecutiveRiskBriefPage = lazy(() => import('./pages/tools/ExecutiveRiskBri
 const BCDecarbonizationModelPage = lazy(() => import('./pages/tools/BCDecarbonizationModelPage'));
 const VerifyAccessPage = lazy(() => import('./pages/VerifyAccessPage'));
 const AdminAccessPage = lazy(() => import('./pages/AdminAccessPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
+const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'));
+const AdminSetupPage = lazy(() => import('./pages/admin/AdminSetupPage'));
+const UserAccessPage = lazy(() => import('./pages/access/UserAccessPage'));
 const DemoDiagnosticsLandingPage = lazy(() => import('./pages/DemoDiagnosticsLandingPage'));
 const DemoVsFullPage = lazy(() => import('./pages/DemoVsFullPage'));
 
@@ -56,7 +59,7 @@ function AnalyticsTracker() {
 
 function RequireFullAccess({ children }: { children: ReactElement }) {
   const { canAccessDiagnostics } = useAccess();
-  return canAccessDiagnostics ? children : <Navigate to="/login" replace />;
+  return canAccessDiagnostics ? children : <Navigate to="/access" replace />;
 }
 
 function DemoGuard({ children, fullPath }: { children: ReactElement; fullPath: string }) {
@@ -84,10 +87,10 @@ function App() {
               <Route path="terms" element={<TermsPage />} />
               <Route path="diagnostics" element={<RequireFullAccess><DiagnosticsPage /></RequireFullAccess>} />
               <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
-              <Route path="login" element={<LoginPage />} />
+              <Route path="login" element={<Navigate to="/admin/login" replace />} />
               <Route path="tools" element={<RequireFullAccess><DiagnosticsPage /></RequireFullAccess>} />
 
-              <Route path="admin-access" element={<AdminAccessPage />} />
+              <Route path="access" element={<UserAccessPage />} />
               <Route path="demo-vs-full" element={<DemoVsFullPage />} />
               <Route path="diagnostics/demo" element={<DemoDiagnosticsLandingPage />} />
 
@@ -143,6 +146,12 @@ function App() {
               <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
 
               <Route path="verify-access" element={<VerifyAccessPage />} />
+            </Route>
+
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminAccessPage />} />
+              <Route path="login" element={<AdminLoginPage />} />
+              <Route path="setup" element={<AdminSetupPage />} />
             </Route>
           </Routes>
         </Suspense>

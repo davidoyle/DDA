@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS sessions (
   session_token_hash TEXT NOT NULL UNIQUE,
   ip_address TEXT,
   user_agent TEXT,
+  auth_method TEXT NOT NULL CHECK (auth_method IN ('admin_password', 'magic_link', 'user_password')),
   expires_at TIMESTAMPTZ NOT NULL,
   revoked_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -61,3 +62,8 @@ CREATE TABLE IF NOT EXISTS webhook_events (
   payload JSONB NOT NULL,
   processed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_one_admin
+  ON users ((role))
+  WHERE role = 'admin' AND password_hash IS NOT NULL;
