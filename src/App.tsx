@@ -34,6 +34,7 @@ const AdminSetupPage = lazy(() => import('./pages/admin/AdminSetupPage'));
 const UserAccessPage = lazy(() => import('./pages/access/UserAccessPage'));
 const DemoDiagnosticsLandingPage = lazy(() => import('./pages/DemoDiagnosticsLandingPage'));
 const DemoVsFullPage = lazy(() => import('./pages/DemoVsFullPage'));
+const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage'));
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -146,6 +147,7 @@ function App() {
               <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
 
               <Route path="verify-access" element={<VerifyAccessPage />} />
+              <Route path="payment-success" element={<PaymentSuccessPage />} />
             </Route>
 
             <Route path="/admin" element={<AdminLayout />}>
