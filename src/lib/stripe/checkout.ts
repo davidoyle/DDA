@@ -109,7 +109,7 @@ export async function redirectToCheckout(options: CheckoutOptions) {
     if (!response.ok) {
       const error = await response.json();
       throw new CheckoutError(
-        error.message || 'Failed to create checkout session',
+        error.error || error.message || 'Failed to create checkout session',
         'SESSION_CREATION_ERROR',
         'Unable to start checkout. Please try again or contact support.',
       );
