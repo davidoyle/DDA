@@ -8,6 +8,19 @@ const distDir = path.resolve(__dirname, '..', 'dist');
 const indexPath = path.join(distDir, 'index.html');
 
 const routes = [
+  'model',
+  'model/cashflow',
+  'model/fiscal-engine',
+  'model/scenarios',
+  'model/capital-structure',
+  'model/revenue',
+  'model/proponent',
+  'model/benchmark',
+  'model/monte-carlo',
+  'model/negotiation',
+  'model/utility',
+  'model/audit',
+  'model/training',
   'diagnostics',
   'worksafebc-repricing-risk-diagnostic',
   'bc-pst-impact-diagnostic',
@@ -18,6 +31,7 @@ const routes = [
   'tools/experience-rating-optimizer',
   'tools/surplus-alert',
   'tools/executive-risk-brief',
+  'tools/bc-decarbonization-model',
   'dashboard',
   'services',
   'about',

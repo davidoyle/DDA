@@ -1,0 +1,5 @@
+import type { Assumption } from '@/lib/model/types';
+import FlagBadge from './FlagBadge';
+export default function AssumptionCell({ assumption, onUpdate }: { assumption: Assumption; onUpdate: (id: string, value: number | string | null) => void }) {
+  return <div className="grid gap-3 border-b p-3 md:grid-cols-[1.6fr_0.8fr_0.6fr_1.4fr]"><div><p className="font-semibold">{assumption.label}</p><p className="text-xs text-slate-500">{assumption.id}</p>{assumption.classification === 'FLAG' ? <p className="mt-1 text-xs text-red-700">Default basis: {assumption.flagDefaultBasis}</p> : null}</div><input className="rounded border px-2 py-1" value={assumption.value ?? ''} placeholder={String(assumption.flagDefault)} onChange={(e) => onUpdate(assumption.id, e.target.value === '' ? null : Number.isNaN(Number(e.target.value)) ? e.target.value : Number(e.target.value))} /><div><FlagBadge classification={assumption.classification} /><p className="mt-1 text-xs">{assumption.unit}</p></div><p className="text-xs text-slate-600">{assumption.source}<br />{assumption.sourceDate}</p></div>;
+}
