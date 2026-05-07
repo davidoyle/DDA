@@ -134,7 +134,7 @@ function App() {
             </Route>
 
             <Route path="/admin/*" element={<Navigate to="/tools" replace />} />
-            <Route path="/model/*" element={<ModelApp />} />
+            <Route path="/model" element={<ModelApp />} />
           </Routes>
         </Suspense>
     </Router>

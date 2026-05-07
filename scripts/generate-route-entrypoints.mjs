@@ -9,18 +9,6 @@ const indexPath = path.join(distDir, 'index.html');
 
 const routes = [
   'model',
-  'model/cashflow',
-  'model/fiscal-engine',
-  'model/scenarios',
-  'model/capital-structure',
-  'model/revenue',
-  'model/proponent',
-  'model/benchmark',
-  'model/monte-carlo',
-  'model/negotiation',
-  'model/utility',
-  'model/audit',
-  'model/training',
   'diagnostics',
   'worksafebc-repricing-risk-diagnostic',
   'bc-pst-impact-diagnostic',
