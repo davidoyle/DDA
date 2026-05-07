@@ -90,6 +90,7 @@ function App() {
 
               <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
               <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
+              <Route path="tools/worksafe-repricing" element={<WorkSafeBCDiagnosticPage />} />
               <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
               <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
               <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />

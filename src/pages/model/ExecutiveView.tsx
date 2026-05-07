@@ -1,12 +1,71 @@
-import { CartesianGrid, ReferenceArea, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from 'recharts';
-import NarrativeBlock from '@/components/model/NarrativeBlock';
+import FiscalSpaceDiagram from '@/components/model/FiscalSpaceDiagram';
 import ScenarioCard from '@/components/model/ScenarioCard';
-import { ACTUAL_COUNT, FLAG_COUNT, PROXY_COUNT } from '@/lib/model/assumptions';
 import { SCENARIOS } from '@/lib/model/scenarios';
 import type { DualOutputRow, ReturnMetrics } from '@/lib/model/types';
 
-export default function ExecutiveView({ metrics, dualRows, narrative, wacc, selectedScenario, scenarioResults, onSelectScenario, onAudit }: { metrics: ReturnMetrics; dualRows: DualOutputRow[]; narrative: { viability: string; revenue: string; recommendation: string }; wacc: number; selectedScenario: string; scenarioResults: Record<string, { irr: number | null; revenueNPV: number }>; onSelectScenario: (id: string) => void; onAudit: () => void }) {
-  const xs = dualRows.map((row) => row.provincialRevenueNPV);
-  const maxX = Math.max(1, ...xs);
-  return <div className="space-y-8"><section className="rounded-xl border border-slate-200 bg-[#f8fafc] p-5"><div className="mb-3"><h2 className="text-xl font-bold text-[#003366]">Fiscal space diagram</h2><p className="text-sm text-slate-600">Royalty rates are viable when project IRR stays above WACC and provincial revenue NPV remains positive.</p></div><div className="h-[430px]"><ResponsiveContainer><ScatterChart margin={{ top: 20, right: 30, bottom: 24, left: 20 }}><CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="provincialRevenueNPV" name="Provincial revenue NPV" tickFormatter={(v) => `$${(Number(v) / 1000).toFixed(1)}B`} /><YAxis dataKey="projectIRR" name="Project IRR" tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`} /><Tooltip formatter={(value, name) => name === 'projectIRR' ? `${(Number(value) * 100).toFixed(1)}%` : `$${(Number(value) / 1000).toFixed(1)}B`} labelFormatter={() => ''} /><ReferenceArea x1={0} x2={maxX * 1.1} y1={wacc} y2={0.5} fill="rgba(34,197,94,0.08)" strokeOpacity={0} /><ReferenceLine y={wacc} stroke="#dc2626" strokeDasharray="4 4" label="WACC" /><Scatter name="Royalty sweep" data={dualRows.map((row) => ({ ...row, projectIRR: row.projectIRR ?? 0 }))} fill="#64748b" /><Scatter name="Current framework" data={dualRows.filter((row) => Math.abs(row.royaltyRate - 0.05) < 0.001).map((row) => ({ ...row, projectIRR: row.projectIRR ?? 0 }))} fill="#003366" /></ScatterChart></ResponsiveContainer></div></section><section><h2 className="mb-3 text-xl font-bold text-[#003366]">Narrative summary</h2><NarrativeBlock narrative={narrative} /></section><section><h2 className="mb-3 text-xl font-bold text-[#003366]">Scenario strip</h2><div className="grid gap-4 md:grid-cols-3">{SCENARIOS.filter((scenario) => ['base', 'high_price', 'low_price'].includes(scenario.id)).map((scenario) => <ScenarioCard key={scenario.id} label={scenario.label === 'Base' ? 'Base Case' : scenario.label} description={scenario.description} irr={scenarioResults[scenario.id]?.irr ?? null} revenueNPV={scenarioResults[scenario.id]?.revenueNPV ?? 0} selected={selectedScenario === scenario.id} onClick={() => onSelectScenario(scenario.id)} />)}</div></section><section className="rounded-lg border border-slate-200 bg-white p-5"><p className="text-slate-700">This analysis uses <strong>{ACTUAL_COUNT}</strong> confirmed primary sources and <strong>{PROXY_COUNT}</strong> proxy estimates. Proxy estimates are based on publicly documented methodologies. <strong>{FLAG_COUNT}</strong> inputs require Ministry data to confirm. <button type="button" onClick={onAudit} className="font-semibold text-[#003366] underline">Open Audit mode</button>.</p><p className="mt-2 text-xs text-slate-500">Current modeled government take NPV: ${(metrics.governmentTakeNPV / 1000).toFixed(1)}B.</p></section></div>;
+export default function ExecutiveView({
+  dualRows,
+  wacc,
+  currentRoyaltyRate,
+  selectedScenario,
+  scenarioResults,
+  actualCount,
+  proxyCount,
+  estimatedCount,
+  onSelectScenario,
+  onAudit,
+}: {
+  metrics: ReturnMetrics;
+  dualRows: DualOutputRow[];
+  wacc: number;
+  currentRoyaltyRate: number;
+  selectedScenario: string;
+  scenarioResults: Record<string, { irr: number | null; revenueNPV: number }>;
+  actualCount: number;
+  proxyCount: number;
+  estimatedCount: number;
+  onSelectScenario: (id: string) => void;
+  onAudit: () => void;
+}) {
+  const executiveScenarios = SCENARIOS.filter((scenario) => ['base', 'high_price', 'low_price'].includes(scenario.id));
+
+  return (
+    <div className="space-y-8">
+      <FiscalSpaceDiagram points={dualRows} waccLine={wacc} currentRoyaltyRate={currentRoyaltyRate} />
+
+      <section>
+        <div className="mb-3 flex items-end justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-bold text-[#003366]">Scenario strip</h2>
+            <p className="text-sm text-slate-600">Selecting a scenario updates the live fiscal-space chart and executive metrics.</p>
+          </div>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          {executiveScenarios.map((scenario) => (
+            <ScenarioCard
+              key={scenario.id}
+              label={scenario.label}
+              description={scenario.description}
+              irr={scenarioResults[scenario.id]?.irr ?? null}
+              revenueNPV={scenarioResults[scenario.id]?.revenueNPV ?? 0}
+              selected={selectedScenario === scenario.id}
+              onClick={() => onSelectScenario(scenario.id)}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 className="text-lg font-bold text-[#003366]">Data quality statement</h2>
+        <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-700">
+          This analysis uses {actualCount} confirmed primary sources and {proxyCount} proxy estimates.
+          Proxy estimates are based on publicly documented methodologies. {estimatedCount} inputs require
+          Ministry data to confirm.
+        </p>
+        <button type="button" onClick={onAudit} className="mt-4 text-sm font-semibold text-[#003366] underline underline-offset-4">
+          Open Audit mode to resolve flags
+        </button>
+      </section>
+    </div>
+  );
 }

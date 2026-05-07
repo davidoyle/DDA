@@ -24,7 +24,7 @@ function irr(cashflows: number[]) {
 export function buildCashFlow({ project = defaultProject, register = BASE_ASSUMPTIONS }: { project?: Project; register?: AssumptionRegister }) {
   const rows: CashFlowRow[] = [];
   const allFlagsUsed = new Set<string>(['price.jkm.base', 'price.cadUsd', 'infra.pipelineToll', 'upstream.wellOpex', 'macro.wacc', 'macro.socialDiscountRate']);
-  const capexTotal = (project.capacityMtpa ?? 14) * 1200;
+  const capexTotal = project.capexB !== undefined ? project.capexB * 1000 : (project.capacityMtpa ?? 14) * 1200;
   let cumulativeAtfcf = 0;
   for (let year = 0; year <= project.projectLifeYears; year += 1) {
     const calendarYear = project.inServiceYear + year;
@@ -35,11 +35,15 @@ export function buildCashFlow({ project = defaultProject, register = BASE_ASSUMP
     const revenue = year === 0 ? 0 : productionMmbtu * jkmCad / 1_000_000;
     const upstreamOpex = year === 0 ? 0 : productionMmbtu * Number(resolve(register, 'upstream.wellOpex')) / 1_000_000;
     const pipelineToll = year === 0 ? 0 : productionMmbtu * Number(resolve(register, 'infra.pipelineToll')) / 1_000_000;
-    const facilityOpex = year === 0 ? 0 : revenue * 0.08;
-    const electricityCost = year === 0 ? 0 : calculateElectricityCost(2000, 350, register).annualElectricityCostM;
+    const facilityOpex = year === 0 ? 0 : project.annualOpexM ?? revenue * 0.08;
+    const electricityCost = year === 0 ? 0 : calculateElectricityCost(project.electricityGWh ?? 2000, Math.max(1, (project.electricityGWh ?? 2000) / 5.7), register).annualElectricityCostM;
     const capex = year === 0 ? capexTotal : 0;
     const ebitda = revenue - upstreamOpex - pipelineToll - facilityOpex - electricityCost;
-    const royalty = calculateRoyalty({ register, spudDate: '2022-09-01', productionYear: calendarYear, capitalRecovered: year > 5, currentGasPrice: Number(resolve(register, 'price.bcPlantInlet.base')), grossRevenue: revenue, allowableCosts: upstreamOpex + pipelineToll });
+    const calculatedRoyalty = calculateRoyalty({ register, spudDate: '2022-09-01', productionYear: calendarYear, capitalRecovered: year > 5, currentGasPrice: Number(resolve(register, 'price.bcPlantInlet.base')), grossRevenue: revenue, allowableCosts: upstreamOpex + pipelineToll });
+    const netRoyaltyRevenue = Math.max(0, revenue - upstreamOpex - pipelineToll);
+    const royalty = project.overrideRoyaltyRate !== undefined && year > 0
+      ? { ...calculatedRoyalty, royaltyRate: project.overrideRoyaltyRate, royaltyAmount: netRoyaltyRevenue * project.overrideRoyaltyRate, framework: 'Analyst-selected royalty override' }
+      : calculatedRoyalty;
     royalty.flagsUsed.forEach((f) => allFlagsUsed.add(f));
     const tax = calculateTax({ register, taxableIncome: ebitda - royalty.royaltyAmount, undepreciatedCapitalCost: Math.max(0, capexTotal - year * capexTotal * 0.05), assetType: 'LNG_FACILITY', yearIndex: year, calendarYear, facilityEmissions: revenue * 500, benchmarkEmissions: revenue * 350 });
     tax.flagsUsed.forEach((f) => allFlagsUsed.add(f));
