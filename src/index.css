@@ -248,3 +248,21 @@ textarea { min-height: 160px; resize: vertical; }
   font-size: 12px;
   color: var(--text-tertiary);
 }
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  nav,
+  footer,
+  button,
+  select,
+  [aria-label="Open data quality drawer"] {
+    display: none !important;
+  }
+
+  .recharts-responsive-container {
+    break-inside: avoid;
+  }
+}
