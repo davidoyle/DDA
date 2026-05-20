@@ -1,73 +1,58 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import './EngagementCommandCenter.css';
+import { applySequence } from './operations';
+import { AUTH_KEY, EMPTY_STATE, useStore } from './store';
+import type { DBState, ModuleKey } from './types';
+import { deliverableStale, today } from './utils';
 
-type M='command'|'calendar'|'flags'|'documents'|'evidence'|'finance'|'contracts'|'stakeholders';
-const empty={engagements:[],flags:[],deliverables:[],evidence:[],events:[],finance:[],contracts:[],stakeholders:[]} as any;
-const k='dda_db'; const ak='dda_auth'; const uuid=()=>crypto.randomUUID(); const today=()=>new Date().toISOString().slice(0,10);
-const reducer=(s:any,a:any)=>a.type==='set'?a.payload:s;
-const isUUID=(v:string)=>/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
+export default function EngagementCommandCenter() {
+  const { state, dispatch } = useStore();
+  const [authed, setAuthed] = useState(localStorage.getItem(AUTH_KEY) === 'true');
+  const [module, setModule] = useState<ModuleKey>('command');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [consoleOpen, setConsoleOpen] = useState(false);
+  const [ops, setOps] = useState('[]');
+  const [consoleOut, setConsoleOut] = useState<string[]>([]);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [toast, setToast] = useState('');
 
-export default function EngagementCommandCenter(){
-const [authed,setAuthed]=useState(localStorage.getItem(ak)==='true'); const [u,setU]=useState(''); const [p,setP]=useState(''); const [err,setErr]=useState('');
-const [state,dispatch]=useReducer(reducer,empty); const [module,setModule]=useState<M>('command'); const [collapsed,setCollapsed]=useState(false); const [filterEng,setFilterEng]=useState<string|null>(null);
-const [consoleOpen,setConsoleOpen]=useState(false); const [ops,setOps]=useState('[]'); const [consoleOut,setConsoleOut]=useState<string[]>([]); const [toast,setToast]=useState(''); const [settings,setSettings]=useState(false);
-const [formOpen,setFormOpen]=useState<string|false>(false); const [form,setForm]=useState<any>({});
-useEffect(()=>{ if(!authed) return; try{ const raw=localStorage.getItem(k); if(raw){ const parsed=JSON.parse(raw); dispatch({type:'set',payload:{...empty,...parsed}}); } else { dispatch({type:'set',payload:empty}); } }catch{ dispatch({type:'set',payload:empty}); } },[authed]);
-useEffect(()=>{ if(authed) localStorage.setItem(k,JSON.stringify(state)); },[state,authed]);
-useEffect(()=>{ if(!toast) return; const t=setTimeout(()=>setToast(''),3000); return ()=>clearTimeout(t); },[toast]);
-const engagementName=(id:string)=>state.engagements.find((e:any)=>e.id===id)?.name||'Unknown';
-const daysOpen=(d:string)=>Math.max(0,Math.floor((Date.now()-new Date(d).getTime())/86400000));
-const escalated=(f:any)=>f.status==='open'&&daysOpen(f.opened_date)>30;
-const engagementStatus=(id:string)=>{ const t=new Date(); const atRisk=state.deliverables.some((d:any)=>d.engagement_id===id&&d.status!=='delivered'&&new Date(d.due_date)<t); const flagged=state.flags.some((f:any)=>f.engagement_id===id&&f.status==='open'&&f.owner==='client'&&((t.getTime()-new Date(f.last_activity_date).getTime())/86400000)>14); return atRisk?'at_risk':flagged?'flagged':'on_track'; };
-const deliverableStale=(d:any)=>d.evidence_ids?.some((eid:string)=>{const e=state.evidence.find((x:any)=>x.id===eid); return e && new Date(e.last_updated)>new Date(d.last_edited);});
-const openFlags=state.flags.filter((f:any)=>f.status==='open');
-const filteredFlags=filterEng?openFlags.filter((f:any)=>f.engagement_id===filterEng):openFlags;
-const next14=Array.from({length:14},(_,i)=>{const d=new Date(); d.setDate(d.getDate()+i); return d.toISOString().slice(0,10);});
-const filteredEvents=(filterEng?state.events.filter((e:any)=>e.engagement_id===filterEng):state.events);
-const overdueInvoices=useMemo(()=>state.finance.flatMap((f:any)=>f.invoices||[]).filter((i:any)=>!i.paid_date&&new Date(i.due_date)<new Date()).length,[state.finance]);
-const staleCount=useMemo(()=>state.deliverables.filter((d:any)=>deliverableStale(d)).length,[state.deliverables,state.evidence]);
-const weakContracts=useMemo(()=>state.contracts.filter((c:any)=>!c.clauses?.termination_for_cause||!c.clauses?.mutual_indemnity||!c.clauses?.mandatory_mediation).length,[state.contracts]);
-const byName=(target:string,id:string,source:any)=>{const map:any={engagement:['engagements','name'],flag:['flags','title'],deliverable:['deliverables','name'],stakeholder:['stakeholders','name'],evidence:['evidence','metric']}; const m=map[target]; if(!m) return {err:'Name resolution not supported'}; const hits=(source as any)[m[0]].filter((x:any)=>String(x[m[1]]||'').toLowerCase().includes(id.toLowerCase())); if(hits.length===1)return {id:hits[0].id,msg:`Resolved '${id}' → ${hits[0].id}`}; if(hits.length===0)return {err:`No match for '${id}'`}; return {err:`Ambiguous '${id}': ${hits.map((h:any)=>h[m[1]]).join(', ')}`}; };
-const applySequence=(dry:boolean)=>{ let s=JSON.parse(JSON.stringify(state)); const out:string[]=[]; const fail=(m:string)=>{out.push(`ERROR: ${m}`); throw new Error(m);};
-  const touch=(r:any)=>{if('last_updated'in r)r.last_updated=today(); if('last_edited'in r)r.last_edited=today();};
-  const seq=JSON.parse(ops);
-  for(const o of seq){ const collectionMap:Record<string,string>={engagement:'engagements',flag:'flags',deliverable:'deliverables',evidence:'evidence',event:'events',finance:'finance',contract:'contracts',stakeholder:'stakeholders'}; const arrKey=collectionMap[o.target]; let id=o.id as string|null; if(id && !isUUID(id)){const r=byName(o.target,id,s); if((r as any).err){fail((r as any).err);} id=(r as any).id; out.push((r as any).msg);} const arr=(s as any)[arrKey]; if(!arr){fail(`Unknown target ${o.target}`);}
-    if(o.op==='CREATE'){const rec={id:uuid(),...o.fields}; arr.push(rec); out.push(`${dry?'Would create':'Created'} ${o.target}: ${rec.id}`);}
-    else if(o.op==='UPDATE'){const i=arr.findIndex((x:any)=>x.id===id); if(i<0) fail(`Record not found ${o.target} ${id}`); arr[i]={...arr[i],...o.fields}; touch(arr[i]); out.push(`${dry?'Would update':'Updated'} ${o.target} ${id}`);}
-    else if(o.op==='RESOLVE_FLAG'){const i=s.flags.findIndex((x:any)=>x.id===id&&x.status==='open'); if(i<0) fail(`Open flag not found ${id}`); s.flags[i]={...s.flags[i],status:'resolved',resolved_date:today(),resolution_value:String(o.fields.resolution_value||'')}; let evCount=0,delCount=0; for(const ev of s.evidence.filter((e:any)=>e.linked_flag_id===id)){const old=ev.value; ev.value=String(o.fields.resolution_value||''); ev.classification='ACTUAL'; ev.last_updated=today(); ev.change_log=[...(ev.change_log||[]),{date:today(),old_value:String(old),new_value:String(ev.value),reason:'FLAG resolved'}]; evCount++; for(const d of s.deliverables.filter((d:any)=>d.engagement_id===ev.engagement_id&&(d.evidence_ids||[]).includes(ev.id))){d.last_edited='1970-01-01'; delCount++;}} out.push(`${dry?'Would resolve':'Resolved'} FLAG ${id}. Updated ${evCount} evidence entries. Marked ${delCount} deliverables stale.`);}
-    else if(o.op==='ADVANCE_DELIVERABLE'){const order=['not_started','in_progress','draft_complete','under_review','revised','final','delivered']; const i=s.deliverables.findIndex((x:any)=>x.id===id); if(i<0) fail(`Deliverable not found ${id}`); const cur=s.deliverables[i]; const ns=o.fields?.status||order[Math.min(order.indexOf(cur.status)+1,order.length-1)]; const v=(cur.version||0)+1; s.deliverables[i]={...cur,status:ns,version:v,last_edited:today(),versions:[...(cur.versions||[]),{version_number:v,date:today(),notes:o.fields?.notes||''}]}; out.push(`${dry?'Would advance':'Advanced'} ${cur.name} to ${ns} (v${v})`);}
-    else if(o.op==='LOG_HOURS'){const i=s.finance.findIndex((x:any)=>x.id===id); if(i<0) fail(`Finance not found ${id}`); s.finance[i].logged_hours=[...(s.finance[i].logged_hours||[]),{date:o.fields.date,hours:Number(o.fields.hours),description:o.fields.description||''}]; out.push(`${dry?'Would log':'Logged'} ${o.fields.hours}h`);}
-    else if(o.op==='ADD_INTERACTION'){const i=s.stakeholders.findIndex((x:any)=>x.id===id); if(i<0) fail(`Stakeholder not found ${id}`); s.stakeholders[i].interaction_history=[...(s.stakeholders[i].interaction_history||[]),o.fields]; const eid=String(o.fields.engagement_id||''); if(eid && !(s.stakeholders[i].engagement_ids||[]).includes(eid)) s.stakeholders[i].engagement_ids=[...(s.stakeholders[i].engagement_ids||[]),eid]; out.push(`${dry?'Would add':'Added'} interaction`);}
-    else if(o.op==='BULK_EVIDENCE'){let created=0,updated=0,stale=0; for(const e of (o.fields.entries||[])){if(e.id){const i=s.evidence.findIndex((x:any)=>x.id===e.id); if(i>=0){const old=s.evidence[i].value; s.evidence[i]={...s.evidence[i],...e,last_updated:today(),change_log:[...(s.evidence[i].change_log||[]),{date:today(),old_value:String(old),new_value:String(e.value??s.evidence[i].value),reason:String(e.reason||'Bulk update')}]}; updated++; for(const d of s.deliverables.filter((d:any)=>d.engagement_id===s.evidence[i].engagement_id&&(d.evidence_ids||[]).includes(s.evidence[i].id))){d.last_edited='1970-01-01'; stale++;}}} else {s.evidence.push({id:uuid(),change_log:[],...e,last_updated:today()}); created++;}} out.push(`${dry?'Would process':'Processed'} ${o.fields.entries?.length||0} evidence entries: ${created} created, ${updated} updated, ${stale} deliverables marked stale.`);}
-    else fail(`Unknown operation type: ${o.op}`);
-  }
-  if(!dry){dispatch({type:'set',payload:s}); setToast('Update applied'); setConsoleOpen(false);} setConsoleOut(out);
-};
-const addRecord=()=>{const base={id:uuid(),...form}; const next={...state};
-  if(formOpen==='engagement') next.engagements=[...state.engagements,{...base,completion_pct:Number(form.completion_pct||0)}];
-  if(formOpen==='flag') next.flags=[...state.flags,{...base,status:'open',opened_date:today(),last_activity_date:today()}];
-  if(formOpen==='event') next.events=[...state.events,base];
-  if(formOpen==='deliverable') next.deliverables=[...state.deliverables,{...base,version:1,versions:[],evidence_ids:[],last_edited:today()}];
-  if(formOpen==='evidence') next.evidence=[...state.evidence,{...base,last_updated:today(),change_log:[]}];
-  if(formOpen==='finance') next.finance=[...state.finance,{...base,logged_hours:[],invoices:[]}];
-  if(formOpen==='contract') next.contracts=[...state.contracts,{...base,clauses:{termination_for_cause:true,mutual_indemnity:true,mandatory_mediation:true},modified_clauses:[]}];
-  if(formOpen==='stakeholder') next.stakeholders=[...state.stakeholders,{...base,engagement_ids:[],tags:[],interaction_history:[]}];
-  dispatch({type:'set',payload:next}); setFormOpen(false); setForm({});
-};
-if(!authed) return <div className='ecc-root'><div className='ecc-login'><form onSubmit={e=>{e.preventDefault(); if(u==='DDA'&&p==='daviddoyle'){localStorage.setItem(ak,'true'); setAuthed(true); setErr('');} else setErr('Invalid credentials');}}><h1 className='ecc-title'>DDA</h1><input className='ecc-input' placeholder='Username' value={u} onChange={e=>setU(e.target.value)}/><input className='ecc-input' placeholder='Password' type='password' value={p} onChange={e=>setP(e.target.value)}/><button className='ecc-btn'>Enter</button>{err&&<div>{err}</div>}</form></div></div>;
-return <div className='ecc-root'><div className='ecc-shell'><div className='ecc-header'><strong className='ecc-title'>DDA Engagement Command Center</strong><div><button className='ecc-btn' onClick={()=>setConsoleOpen(true)}>&gt;_</button> <button className='ecc-btn' onClick={()=>setSettings(true)}>⚙</button> <button className='ecc-btn' onClick={()=>{localStorage.removeItem(ak);setAuthed(false);}}>Logout</button></div></div><div className='ecc-body'><aside className={`ecc-rail ${collapsed?'collapsed':''}`}>{(['command','calendar','flags','documents','evidence','finance','contracts','stakeholders'] as M[]).map(m=><button key={m} className={`ecc-btn ecc-nav ${module===m?'active':''}`} onClick={()=>setModule(m)}>{collapsed?m[0].toUpperCase():m}{!collapsed&&m==='flags'&&` (${openFlags.length})`}{!collapsed&&m==='documents'&&` (${staleCount})`}{!collapsed&&m==='finance'&&` (${overdueInvoices})`}{!collapsed&&m==='contracts'&&` (${weakContracts})`}</button>)}<button className='ecc-btn' onClick={()=>setCollapsed(!collapsed)}>{collapsed?'»':'«'}</button></aside><main className='ecc-main'>
-{module==='command'&&(<div>{state.engagements.length===0?<div className='ecc-empty'>No active engagements. Create your first engagement to begin.<div><button className='ecc-btn' onClick={()=>setFormOpen('engagement')}>Create Engagement</button></div></div>:<><div className='ecc-grid'>{state.engagements.map((e:any)=><div className='ecc-card' key={e.id} onClick={()=>setFilterEng(filterEng===e.id?null:e.id)}><b>{e.name}</b><div>{e.client_name}</div><div>{e.phase}</div><progress value={e.completion_pct} max={100}/><div>{e.next_milestone} {e.next_milestone_date}</div><div className='ecc-badge'>{engagementStatus(e.id)}</div></div>)}</div><div className='ecc-card'><b>Calendar Strip (14 days)</b><div className='ecc-grid'>{next14.map(d=><div key={d} className='ecc-card'><div>{d}</div>{filteredEvents.filter((e:any)=>e.start_datetime?.slice(0,10)===d).map((e:any)=><div key={e.id}>{e.title}</div>)}{filteredEvents.filter((e:any)=>e.start_datetime?.slice(0,10)===d).length===0&&<div>No events</div>}</div>)}</div></div><div className='ecc-card'>FLAG Summary {filteredFlags.slice(0,5).map((f:any)=><div key={f.id}>{f.title} | {engagementName(f.engagement_id)} | {f.priority} | {f.owner} | {daysOpen(f.opened_date)}d {escalated(f)?'ESCALATED':''}</div>)}<button className='ecc-btn' onClick={()=>setModule('flags')}>View All</button></div></>}</div>)}
-{module==='flags'&&<div className='ecc-card'><button className='ecc-btn' onClick={()=>setFormOpen('flag')}>Add FLAG</button>{state.flags.map((f:any)=><div key={f.id}>{f.title} - {f.status}</div>)}</div>}
-{module==='calendar'&&<div className='ecc-card'><button className='ecc-btn' onClick={()=>setFormOpen('event')}>Add Event</button>{state.events.map((e:any)=><div key={e.id}>{e.title} {e.start_datetime}</div>)}</div>}
-{module==='documents'&&<div className='ecc-card'><button className='ecc-btn' onClick={()=>setFormOpen('deliverable')}>Add Deliverable</button>{state.deliverables.map((d:any)=><div key={d.id}>{d.name} {d.status}</div>)}</div>}
-{module==='evidence'&&<div className='ecc-card'><button className='ecc-btn' onClick={()=>setFormOpen('evidence')}>Add Entry</button>{state.evidence.map((e:any)=><div key={e.id}>{e.metric}: {e.value}</div>)}</div>}
-{module==='finance'&&<div className='ecc-card'><button className='ecc-btn' onClick={()=>setFormOpen('finance')}>Add Finance Record</button>{state.finance.map((f:any)=><div key={f.id}>{engagementName(f.engagement_id)} budget:{f.budget_hours}</div>)}</div>}
-{module==='contracts'&&<div className='ecc-card'><button className='ecc-btn' onClick={()=>setFormOpen('contract')}>Add Contract</button>{state.contracts.map((c:any)=><div key={c.id}>{c.client_name} {c.status}</div>)}</div>}
-{module==='stakeholders'&&<div className='ecc-card'><button className='ecc-btn' onClick={()=>setFormOpen('stakeholder')}>Add Stakeholder</button>{state.stakeholders.map((s:any)=><div key={s.id}>{s.name} {s.organization}</div>)}</div>}
-</main></div></div>
-{formOpen&&<div className='ecc-modal'><div className='ecc-modal-panel'><h3>Add {formOpen}</h3><input className='ecc-input' placeholder='name/title' value={form.name||form.title||''} onChange={e=>setForm({...form,name:e.target.value,title:e.target.value})}/><input className='ecc-input' placeholder='engagement_id (optional)' value={form.engagement_id||''} onChange={e=>setForm({...form,engagement_id:e.target.value})}/><button className='ecc-btn' onClick={addRecord}>Save</button> <button className='ecc-btn' onClick={()=>setFormOpen(false)}>Cancel</button></div></div>}
-{consoleOpen&&<div className='ecc-modal'><div className='ecc-modal-panel'><h3>Update Console</h3><textarea className='ecc-textarea ecc-mono' placeholder='Paste operation sequence here…' value={ops} onChange={e=>setOps(e.target.value)}/><div><button className='ecc-btn' onClick={()=>{try{applySequence(true);}catch(e:any){setConsoleOut([`ERROR: ${e.message}`]);setToast(`Apply failed: ${e.message}`);}}}>Preview</button> <button className='ecc-btn' onClick={()=>{try{applySequence(false);}catch(e:any){setConsoleOut([`ERROR: ${e.message}`]);setToast(`Apply failed: ${e.message}`);setConsoleOpen(true);}}}>Apply</button> <button className='ecc-btn' onClick={()=>setConsoleOpen(false)}>Cancel</button></div>{consoleOut.length>0&&<div className='ecc-card ecc-mono'>{consoleOut.map((l,i)=><div key={i} style={{color:l.startsWith('ERROR')?'#c84a4a':undefined}}>{l}</div>)}</div>}</div></div>}
-{settings&&<div className='ecc-drawer'><h3>Settings</h3><button className='ecc-btn' onClick={()=>{if(confirm('Clear all data?')){localStorage.removeItem(k); dispatch({type:'set',payload:empty});}}}>Clear All Data</button><button className='ecc-btn' onClick={()=>{const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`dda_backup_${today()}.json`; a.click();}}>Export Data</button><input type='file' onChange={async e=>{const f=e.target.files?.[0]; if(!f) return; const t=await f.text(); const j=JSON.parse(t); if(confirm('Replace current data?')) dispatch({type:'set',payload:{...empty,...j}});}}/><button className='ecc-btn' onClick={()=>{localStorage.removeItem(ak);setAuthed(false);}}>Logout</button><button className='ecc-btn' onClick={()=>setSettings(false)}>Close</button></div>}
-{toast&&<div className='ecc-toast'>{toast}</div>}
-</div>;
+  useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(''), 3000); return () => clearTimeout(t); }, [toast]);
+
+  const badges = useMemo(() => ({
+    flags: state.flags.filter((f) => f.status === 'open').length,
+    documents: state.deliverables.filter((d) => deliverableStale(d, state.evidence)).length,
+    finance: state.finance.flatMap((f) => f.invoices).filter((i) => !i.paid_date && i.due_date < today()).length,
+    contracts: state.contracts.filter((c) => !c.clauses.termination_for_cause || !c.clauses.mutual_indemnity || !c.clauses.mandatory_mediation).length,
+  }), [state]);
+
+  const runSequence = (dry: boolean) => {
+    const result = applySequence(ops, state, dry);
+    setConsoleOut(result.error ? [...result.output, `ERROR: ${result.error}`] : result.output);
+    if (!dry && !result.error) {
+      dispatch({ type: 'SET', payload: result.next });
+      setConsoleOpen(false);
+      setToast('Update applied');
+    }
+  };
+
+  const importBackup = async (file: File) => {
+    try {
+      const parsed = JSON.parse(await file.text()) as Partial<DBState>;
+      if (!confirm('Replace current data?')) return;
+      dispatch({ type: 'SET', payload: { ...EMPTY_STATE, ...parsed } });
+      setToast('Backup imported');
+    } catch {
+      setToast('Invalid JSON file');
+    }
+  };
+
+  if (!authed) return <div className='ecc-root'><div className='ecc-login'><h1>DDA</h1><input className='ecc-input' value={username} onChange={(e)=>setUsername(e.target.value)} placeholder='Username'/><input className='ecc-input' type='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Password'/><button className='ecc-btn' onClick={()=>{if(username==='DDA'&&password==='daviddoyle'){localStorage.setItem(AUTH_KEY,'true');setAuthed(true);setError('');}else setError('Invalid credentials');}}>Enter</button>{error && <div>{error}</div>}</div></div>;
+
+  return <div className='ecc-root'><div className='ecc-shell'><div className='ecc-header'><strong>DDA Engagement Command Center</strong><div><button className='ecc-btn' onClick={()=>setConsoleOpen(true)}>&gt;_</button><button className='ecc-btn' onClick={()=>setSettingsOpen(true)}>⚙</button><button className='ecc-btn' onClick={()=>{localStorage.removeItem(AUTH_KEY); setAuthed(false);}}>Logout</button></div></div><div className='ecc-body'><aside className='ecc-rail'>{(['command','calendar','flags','documents','evidence','finance','contracts','stakeholders'] as ModuleKey[]).map((m)=><button key={m} className='ecc-btn ecc-nav' onClick={()=>setModule(m)}>{m}{m==='flags'?` (${badges.flags})`:''}{m==='documents'?` (${badges.documents})`:''}{m==='finance'?` (${badges.finance})`:''}{m==='contracts'?` (${badges.contracts})`:''}</button>)}</aside><main className='ecc-main'><div className='ecc-card'><h3>{module}</h3><pre className='ecc-mono'>{JSON.stringify(module==='command'?state.engagements:module==='calendar'?state.events:module==='flags'?state.flags:module==='documents'?state.deliverables:module==='evidence'?state.evidence:module==='finance'?state.finance:module==='contracts'?state.contracts:state.stakeholders, null, 2)}</pre></div></main></div></div>
+  {consoleOpen && <div className='ecc-modal'><div className='ecc-modal-panel'><h3>Update Console</h3><textarea className='ecc-textarea ecc-mono' value={ops} onChange={(e)=>setOps(e.target.value)} /><button className='ecc-btn' onClick={()=>runSequence(true)}>Preview</button><button className='ecc-btn' onClick={()=>runSequence(false)}>Apply</button><button className='ecc-btn' onClick={()=>setConsoleOpen(false)}>Cancel</button><div className='ecc-mono'>{consoleOut.map((line,i)=><div key={i}>{line}</div>)}</div></div></div>}
+  {settingsOpen && <div className='ecc-drawer'><h3>Settings</h3><button className='ecc-btn' onClick={()=>{if(confirm('Clear all data?')) dispatch({type:'SET',payload:EMPTY_STATE});}}>Clear All Data</button><button className='ecc-btn' onClick={()=>{const b = new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`dda_backup_${today()}.json`; a.click();}}>Export</button><input type='file' onChange={(e)=>{const f=e.target.files?.[0]; if(f) void importBackup(f);}}/><button className='ecc-btn' onClick={()=>setSettingsOpen(false)}>Close</button></div>}
+  {toast && <div className='ecc-toast'>{toast}</div>}
+  </div>;
 }
