@@ -58,6 +58,7 @@ const routes = [
   'diagnostics/province-comparator',
   'diagnostics/suppression-audit',
   'diagnostics/experience-rating',
+  'diagnostics/experience-rating-optimizer',
   'diagnostics/surplus-alert',
   'diagnostics/executive-risk-brief',
   'diagnostics/bc-decarbonization-model',

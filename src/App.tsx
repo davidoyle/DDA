@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
+import { AccessProvider } from './contexts/AccessContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
@@ -59,6 +60,7 @@ function App() {
   return (
     <Router>
         <AnalyticsTracker />
+        <AccessProvider>
         <Suspense fallback={<div className="min-h-screen bg-white" />}>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -109,6 +111,7 @@ function App() {
               <Route path="diagnostics/province-comparator" element={<ProvinceComparatorPage />} />
               <Route path="diagnostics/suppression-audit" element={<SuppressionAuditPage />} />
               <Route path="diagnostics/experience-rating" element={<ExperienceRatingOptimizerPage />} />
+              <Route path="diagnostics/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
               <Route path="diagnostics/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
               <Route path="diagnostics/surplus-alert" element={<SurplusAlertPage />} />
               <Route path="diagnostics/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
@@ -142,6 +145,7 @@ function App() {
             <Route path="/model" element={<ModelApp />} />
           </Routes>
         </Suspense>
+        </AccessProvider>
     </Router>
   );
 }

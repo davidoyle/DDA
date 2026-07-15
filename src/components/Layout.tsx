@@ -77,7 +77,7 @@ const Layout = () => {
           <Link to="/tools" className="hover:underline">Tools</Link>
           <Link to="/privacy" className="hover:underline">Privacy</Link>
           <Link to="/terms" className="hover:underline">Terms</Link>
-          <a href="mailto:david.doyle@ddanalysis.ca" className="hover:underline">david.doyle@ddanalysis.ca</a>
+          <a href="mailto:david.doyle@ddanalytics.ca" className="hover:underline">david.doyle@ddanalytics.ca</a>
         </div>
       </footer>
     </div>
