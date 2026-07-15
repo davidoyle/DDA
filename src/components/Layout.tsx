@@ -8,8 +8,8 @@ const Layout = () => {
 
   const navLinks = [
     { label: 'Analysis', href: '/analysis' },
-    { label: 'Tools', href: '/tools' },
-    { label: 'Public sector', href: '/public-sector' },
+    { label: 'Diagnostics', href: '/diagnostics' },
+    { label: 'Services', href: '/services' },
     { label: 'Method', href: '/method' },
     { label: 'Contact', href: '/contact' },
   ];
@@ -35,7 +35,7 @@ const Layout = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-2">
-            <Link to="/tools" className="btn-secondary">Tools</Link>
+            <Link to="/diagnostics" className="btn-secondary">Diagnostics</Link>
             <Link to="/contact" className="btn-primary">
               Describe your situation →
             </Link>
@@ -59,7 +59,7 @@ const Layout = () => {
                 {link.label}
               </Link>
             ))}
-            <Link to="/tools" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary w-full">Tools</Link>
+            <Link to="/diagnostics" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary w-full">Diagnostics</Link>
             <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-primary w-full">
               Describe your situation →
             </Link>
@@ -73,7 +73,7 @@ const Layout = () => {
 
       <footer className="border-t px-6 lg:px-16 py-8" style={{ borderColor: 'var(--border)' }}>
         <div className="max-w-[1120px] mx-auto flex flex-wrap items-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
-          <Link to="/tools" className="hover:underline">Tools</Link>
+          <Link to="/diagnostics" className="hover:underline">Diagnostics</Link>
           <Link to="/privacy" className="hover:underline">Privacy</Link>
           <Link to="/terms" className="hover:underline">Terms</Link>
           <a href="mailto:david.doyle@ddanalysis.ca" className="hover:underline">david.doyle@ddanalysis.ca</a>

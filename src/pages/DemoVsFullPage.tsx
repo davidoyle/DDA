@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const rows = [
-  ['Access all tools', '✓', '✓', '✓'],
+  ['Access all diagnostics', '✓', '✓', '✓'],
   ['Custom data entry', '✗', '✓', '✓'],
   ['Export results', '✗', '✓', '✓'],
   ['Save scenarios', '✗', '✓', '✓'],

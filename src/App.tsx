@@ -66,17 +66,18 @@ function App() {
               <Route path="analysis" element={<WorkPage />} />
               <Route path="work" element={<Navigate to="/analysis" replace />} />
               <Route path="services" element={<ServicesPage />} />
+              <Route path="services/public-sector" element={<PublicSectorPage />} />
               <Route path="services/:serviceSlug" element={<ServiceDetailPage />} />
               <Route path="public-interest" element={<PublicInterestPage />} />
               <Route path="method" element={<MethodPage />} />
               <Route path="about" element={<Navigate to="/method" replace />} />
               <Route path="contact" element={<ContactPage />} />
-              <Route path="public-sector" element={<PublicSectorPage />} />
+              <Route path="public-sector" element={<Navigate to="/services/public-sector" replace />} />
               <Route path="privacy" element={<PrivacyPolicyPage />} />
               <Route path="terms" element={<TermsPage />} />
               <Route path="diagnostics" element={<DiagnosticsPage />} />
               <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
-              <Route path="login" element={<Navigate to="/tools" replace />} />
+              <Route path="login" element={<Navigate to="/diagnostics" replace />} />
               <Route path="tools" element={<DiagnosticsPage />} />
 
               <Route path="demo-vs-full" element={<DemoVsFullPage />} />
@@ -138,7 +139,7 @@ function App() {
               <Route path="payment-success" element={<PaymentSuccessPage />} />
             </Route>
 
-            <Route path="/admin/*" element={<Navigate to="/tools" replace />} />
+            <Route path="/admin/*" element={<Navigate to="/diagnostics" replace />} />
             <Route path="/model" element={<ModelApp />} />
           </Routes>
         </Suspense>
