@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import DdaLogo from './DdaLogo';
 
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,9 +18,7 @@ const Layout = () => {
     <div className="min-h-screen" style={{ background: 'var(--bg-base)', color: 'var(--text-primary)' }}>
       <nav className="fixed top-0 left-0 right-0 z-[100] h-14 border-b" style={{ background: 'var(--bg-base)', borderColor: 'var(--border)' }}>
         <div className="h-full px-6 lg:px-16 flex items-center justify-between gap-4">
-          <Link to="/" className="text-[18px] font-semibold tracking-[-0.02em]">
-            DDA.
-          </Link>
+          <DdaLogo compact linkToHome className="text-[var(--text-primary)]" />
 
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
@@ -73,11 +72,14 @@ const Layout = () => {
       </main>
 
       <footer className="border-t px-6 lg:px-16 py-8" style={{ borderColor: 'var(--border)' }}>
-        <div className="max-w-[1120px] mx-auto flex flex-wrap items-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
-          <Link to="/tools" className="hover:underline">Tools</Link>
-          <Link to="/privacy" className="hover:underline">Privacy</Link>
-          <Link to="/terms" className="hover:underline">Terms</Link>
-          <a href="mailto:david.doyle@ddanalysis.ca" className="hover:underline">david.doyle@ddanalysis.ca</a>
+        <div className="max-w-[1120px] mx-auto flex flex-col gap-6 md:flex-row md:items-center md:justify-between text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <DdaLogo compact linkToHome className="text-[var(--text-primary)]" />
+          <div className="flex flex-wrap items-center gap-6">
+            <Link to="/tools" className="hover:underline">Tools</Link>
+            <Link to="/privacy" className="hover:underline">Privacy</Link>
+            <Link to="/terms" className="hover:underline">Terms</Link>
+            <a href="mailto:david.doyle@ddanalysis.ca" className="hover:underline">david.doyle@ddanalysis.ca</a>
+          </div>
         </div>
       </footer>
     </div>
