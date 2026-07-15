@@ -89,7 +89,7 @@ const BCPSTDiagnosticPage = () => {
   return (
     <div className="diagnostic-theme pt-20 pb-20 min-h-screen">
       <section className="px-6 lg:px-[8vw] py-10 border-b border-[#e3d7c2]">
-        <p className="eyebrow">Policy Tools</p>
+        <p className="eyebrow">Policy Diagnostics</p>
         <h1 className="headline-lg max-w-4xl">BC PST Impact Diagnostic</h1>
         <p className="text-[#4a453d] text-lg max-w-3xl mt-4">
           Quantify the cost of BC&apos;s October 2026 PST expansion on professional services.

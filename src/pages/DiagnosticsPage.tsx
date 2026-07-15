@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 type DiagnosticTool = {
   name: string;
   href: string;
-  category: 'Workers compensation' | 'Tax and fiscal' | 'Climate and energy' | 'Executive tools';
+  category: 'Workers compensation' | 'Tax and fiscal' | 'Climate and energy' | 'Executive diagnostics';
   diagnosis: string;
   input: string;
   output: string;
@@ -95,7 +95,7 @@ const tools: DiagnosticTool[] = [
   {
     name: 'Surplus Run-Down Early-Warning Alert Service',
     href: '/tools/surplus-alert',
-    category: 'Executive tools',
+    category: 'Executive diagnostics',
     diagnosis: 'Tracks funding-ratio threshold pressure and repricing timing risk.',
     input: 'Funding ratio and contribution assumptions.',
     output: 'Threshold pressure timeline and early-warning signal.',
@@ -104,7 +104,7 @@ const tools: DiagnosticTool[] = [
   {
     name: 'Executive Risk Brief Generator',
     href: '/tools/executive-risk-brief',
-    category: 'Executive tools',
+    category: 'Executive diagnostics',
     diagnosis: 'Converts diagnostic outputs into a leadership briefing structure.',
     input: 'Selected tool outputs and scenario notes.',
     output: 'Structured risk brief with decision-ready framing.',
@@ -112,18 +112,17 @@ const tools: DiagnosticTool[] = [
   },
 ];
 
-const categories: DiagnosticTool['category'][] = ['Workers compensation', 'Tax and fiscal', 'Climate and energy', 'Executive tools'];
+const categories: DiagnosticTool['category'][] = ['Workers compensation', 'Tax and fiscal', 'Climate and energy', 'Executive diagnostics'];
 
 function DiagnosticsPage() {
   return (
     <div className="px-6 py-[var(--space-10)] lg:px-16">
       <section className="mx-auto max-w-[1120px]">
-        <h1 className="headline-md">All diagnostic tools. Built from public evidence. Self-serve, no engagement required.</h1>
+        <h1 className="headline-md">Diagnostics</h1>
         <p className="mt-4 max-w-[760px] text-[17px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
           The same method that powers commissioned analysis — applied to specific, bounded questions.
-          WorkSafeBC, PST, carbon, and fiscal-model tools are all open access.
         </p>
-        <p className="mt-3 text-[13px]" style={{ color: 'var(--status-ok)' }}>All tools are currently open access.</p>
+        <p className="mt-3 text-[13px] italic" style={{ color: 'var(--text-secondary)' }}>Diagnostics are available to subscribers. Work examples are free to preview — full documents require a subscription.</p>
       </section>
 
       <section className="mx-auto mt-[var(--space-7)] max-w-[1120px] space-y-8">
@@ -131,7 +130,7 @@ function DiagnosticsPage() {
           <div key={category}>
             <div className="mb-4 flex items-center justify-between gap-4 border-b pb-2" style={{ borderColor: 'var(--border)' }}>
               <h2 className="text-[18px] font-semibold text-slate-900">{category}</h2>
-              <span className="text-xs text-slate-500">{tools.filter((tool) => tool.category === category).length} tools</span>
+              <span className="text-xs text-slate-500">{tools.filter((tool) => tool.category === category).length} diagnostics</span>
             </div>
             <div className="grid gap-[var(--space-5)] sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {tools.filter((tool) => tool.category === category).map((tool) => (

@@ -15,9 +15,9 @@ const tools = [
 export default function DemoDiagnosticsLandingPage() {
   return (
     <div className="px-6 lg:px-16 py-12 space-y-6">
-      <h1 className="headline-md">Try Our Diagnostic Tools (Demo Mode)</h1>
+      <h1 className="headline-md">Try Diagnostics (Demo Mode)</h1>
       <p className="max-w-2xl" style={{ color: 'var(--text-secondary)' }}>
-        Explore how our tools work with pre-loaded demo data. Subscribe to unlock custom inputs and full features.
+        Explore how DDA diagnostics work with pre-loaded demo data. Subscribe to unlock custom inputs and full features.
       </p>
       <div className="grid md:grid-cols-3 gap-4">
         {tools.map(([label, href]) => (

@@ -27,7 +27,7 @@ const DdaLogoMark = ({ className = '' }: { className?: string }) => (
 
 const DdaLogo = ({ className = '', compact = false, linkToHome = false }: DdaLogoProps) => {
   const content = (
-    <div className={`inline-flex items-end gap-3 text-[#F3EFE6] ${className}`}>
+    <div className={`inline-flex items-end gap-3 ${className}`}>
       <DdaLogoMark className={compact ? 'h-10 w-10 flex-none' : 'h-14 w-14 flex-none'} />
       <div className="space-y-1">
         <div className="flex items-end gap-2">
@@ -37,11 +37,11 @@ const DdaLogo = ({ className = '', compact = false, linkToHome = false }: DdaLog
         </div>
         {!compact ? (
           <>
-            <div className="h-[2px] w-full bg-[#7382B6]" />
-            <p className="text-sm leading-none text-[#A8B3D8] sm:text-base">public-evidence systems analysis</p>
+            <div className="h-[2px] w-full bg-current opacity-35" />
+            <p className="text-sm leading-none sm:text-base">Diagnostics, Dataflow, Analysis</p>
           </>
         ) : (
-          <p className="text-[10px] uppercase tracking-[0.18em] text-[#A8B3D8]">public-evidence systems analysis</p>
+          <p className="text-[10px] uppercase tracking-[0.18em]">Diagnostics, Dataflow, Analysis</p>
         )}
       </div>
     </div>

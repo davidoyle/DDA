@@ -30,7 +30,7 @@ function SubscribeContent() {
   return (
     <div className="px-6 lg:px-16 py-[var(--space-10)]">
       <section className="max-w-[900px] mx-auto space-y-6">
-        <h1 className="headline-md">Subscribe to Diagnostic Tools</h1>
+        <h1 className="headline-md">Subscribe to Diagnostics</h1>
 
         {cancelled && <div className="card">Checkout was cancelled. You can try again or contact us for assistance.</div>}
         {expired && <div className="card">Your subscription has expired. Please renew to regain access.</div>}

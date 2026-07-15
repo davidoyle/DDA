@@ -26,6 +26,12 @@ const services = [
     href: '/services/financial-policy-modelling',
     body: 'Large-scale financial and economic models for complex policy environments — royalty structures, sector scenario engines, jurisdiction benchmarks, fiscal impact frameworks. Work structured to inform decisions where the downstream consequences are significant and the inputs need to be defensible.',
   },
+
+  {
+    title: 'Public-Sector Engagements',
+    href: '/services/public-sector',
+    body: 'Dedicated municipal and public-sector engagement architecture for RFPs, council-facing planning decisions, statutory hearings, scenario workshops, and public materials where the evidentiary chain has to survive scrutiny at every stage.',
+  },
   {
     title: 'Public Interest Analysis',
     href: '/public-interest',

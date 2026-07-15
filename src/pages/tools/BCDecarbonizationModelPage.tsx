@@ -33,7 +33,7 @@ export default function BCDecarbonizationModelPage() {
     <div className="diagnostic-theme min-h-screen px-6 py-12 lg:px-[8vw]">
       <div className="mx-auto max-w-[1400px] space-y-8">
         <header className="space-y-4">
-          <p className="eyebrow">Policy tools</p>
+          <p className="eyebrow">Policy diagnostics</p>
           <h1 className="headline-md text-[#1f1f1f]">BC Decarbonization Model</h1>
           <p className="max-w-4xl text-base text-[#4a453d]">Interactive policy simulation for British Columbia&apos;s constrained emissions transition, 2026–2030. Explore policy levers, review the baseline case, and compare stress-tested scenarios against legal targets.</p>
         </header>

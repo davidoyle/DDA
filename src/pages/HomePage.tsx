@@ -47,7 +47,7 @@ const HomePage = () => (
     <section className="max-w-[900px] mx-auto space-y-4">
       <h2 className="headline-md">Who This Is For</h2>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        Municipalities and regional governments that need planning documents built to survive scrutiny. Resource sector operators whose capital projects depend on assumptions that need to be tested before commitments are made. Government bodies that need independent modelling with a clear chain of custody on every input. Legal and advisory teams that need institutional analysis sourced entirely from verifiable public records. Journalists and oversight bodies that need findings they can stand behind.
+        <Link to="/services/public-sector" className="underline underline-offset-4">Municipalities and regional governments</Link> that need planning documents built to survive scrutiny. Resource sector operators whose capital projects depend on assumptions that need to be tested before commitments are made. Government bodies that need independent modelling with a clear chain of custody on every input. Legal and advisory teams that need institutional analysis sourced entirely from verifiable public records. Journalists and oversight bodies that need findings they can stand behind.
       </p>
     </section>
 
