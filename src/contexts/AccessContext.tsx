@@ -36,7 +36,7 @@ const FALLBACK_SESSION: SessionResponse = {
 function toAccessMode(role: UserRole, isDemoPath: boolean): AccessMode {
   if (role === 'admin') return 'admin';
   if (role === 'pro' || role === 'enterprise') return 'paid';
-  if (role === 'demo' || isDemoPath) return 'demo';
+  if (role === 'free' || role === 'demo' || isDemoPath) return 'demo';
   return 'none';
 }
 
@@ -54,14 +54,19 @@ export function AccessProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    void refreshSession();
+    const timeout = window.setTimeout(() => {
+      void refreshSession();
+    }, 0);
+    return () => window.clearTimeout(timeout);
   }, [refreshSession, location.pathname]);
 
-  const setPlanTier = useCallback((_tier: PlanTier) => {
+  const setPlanTier = useCallback((tier: PlanTier) => {
+    void tier;
     // Entitlements are only set by server-side grants now.
   }, []);
 
-  const setAdminModeActive = useCallback((_active: boolean) => {
+  const setAdminModeActive = useCallback((active: boolean) => {
+    void active;
     // Admin mode is server-authoritative and always on for admin sessions.
   }, []);
 
@@ -74,9 +79,9 @@ export function AccessProvider({ children }: { children: React.ReactNode }) {
     setPlanTier,
     isAuthenticated: session.authenticated,
     userEmail: session.email,
-    canAccessDiagnostics: accessMode === 'admin' || accessMode === 'paid',
-    canExportData: accessMode === 'admin' || accessMode === 'paid',
-    canSaveScenarios: accessMode === 'admin' || accessMode === 'paid',
+    canAccessDiagnostics: accessMode === 'admin' || accessMode === 'paid' || accessMode === 'demo',
+    canExportData: accessMode === 'paid' && (session.planTier === 'pro' || session.planTier === 'enterprise'),
+    canSaveScenarios: accessMode === 'paid' && (session.planTier === 'pro' || session.planTier === 'enterprise'),
     canAccessAdvancedFeatures: accessMode === 'admin' || (accessMode === 'paid' && session.planTier === 'enterprise'),
     upgradeToPro: () => { window.location.href = '/diagnostics/subscribe?plan=pro'; },
     upgradeToEnterprise: () => { window.location.href = '/diagnostics/subscribe?plan=enterprise'; },
