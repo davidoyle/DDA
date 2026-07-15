@@ -74,7 +74,7 @@ export default function ContactPage() {
         ...prev,
         submitStatus: 'error',
         isSubmitting: false,
-        errorMessage: 'Failed to send message. Please email us directly at hello@dda.ca',
+        errorMessage: 'Failed to send message. Please email us directly at david.doyle@ddanalytics.ca',
       }));
     }
   };
@@ -83,15 +83,24 @@ export default function ContactPage() {
     return (
       <div className="px-6 py-20 max-w-[700px] mx-auto space-y-4">
         <h1 className="headline-md">Thank You</h1>
-        <p>We&apos;ve received your inquiry and will respond within 24 hours.</p>
-        <a className="btn-primary" href="/diagnostics">Explore Diagnostics</a>
+        <p>We&apos;ve received your inquiry and will respond within 48 hours.</p>
+        <a className="btn-primary" href="/analysis">Browse Analysis</a>
       </div>
     );
   }
 
   return (
     <div className="px-6 py-20 max-w-[700px] mx-auto">
-      <h1 className="headline-md mb-6">Contact</h1>
+      <section className="space-y-4 mb-8">
+        <h1 className="headline-md">Contact</h1>
+        <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Describe what&apos;s at stake and what kind of analysis you need to defend.</p>
+        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>DDA responds within 48 hours with a preliminary read on whether there&apos;s a fit and what an engagement would look like.</p>
+        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>No sales call. No pitch deck. No discovery session designed to extend the conversation. A direct response to what you&apos;ve described.</p>
+        <div className="pt-4 text-[15px] leading-[1.8]">
+          <p><strong>david.doyle@ddanalytics.ca</strong></p>
+          <p style={{ color: 'var(--text-secondary)' }}>Metro Vancouver, BC — Operating nationally</p>
+        </div>
+      </section>
       <form className="space-y-5" onSubmit={handleSubmit}>
         <input type="hidden" name="segment" value={segment || ''} />
         <input type="hidden" name="context" value={context || ''} />
@@ -118,16 +127,18 @@ export default function ContactPage() {
         </div>
 
         <div>
-          <label htmlFor="reason">Reason for Contact</label>
+          <label htmlFor="reason">Organization</label>
           <select
             id="reason"
             value={form.reason}
             onChange={(e) => setForm((prev) => ({ ...prev, reason: e.target.value }))}
           >
-            <option value="">Select a reason</option>
-            <option value="Cost optimization inquiry">Cost optimization</option>
-            <option value="Risk assessment inquiry">Risk assessment</option>
-            <option value="Policy analysis inquiry">Policy analysis</option>
+            <option value="">Select an organization type</option>
+            <option value="Municipality or regional government">Municipality or regional government</option>
+            <option value="Resource sector operator">Resource sector operator</option>
+            <option value="Government body">Government body</option>
+            <option value="Legal or advisory team">Legal or advisory team</option>
+            <option value="Journalist or oversight body">Journalist or oversight body</option>
             <option value="General inquiry">General inquiry</option>
           </select>
         </div>
@@ -147,7 +158,7 @@ export default function ContactPage() {
           <div className="constraint-block">
             {form.errorMessage}
             <br />
-            <a href="mailto:hello@dda.ca?subject=Contact%20Form%20Fallback">Email us directly</a>
+            <a href="mailto:david.doyle@ddanalytics.ca?subject=Contact%20Form%20Fallback">Email us directly</a>
           </div>
         )}
 
