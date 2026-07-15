@@ -14,10 +14,10 @@ export function getStripePublishableKey(): string {
 }
 
 export const STRIPE_PRICES = {
-  pro_monthly: import.meta.env.VITE_STRIPE_PRICE_PRO_MONTHLY || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY || 'price_pro_monthly_placeholder',
-  pro_annual: import.meta.env.VITE_STRIPE_PRICE_PRO_ANNUAL || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_ANNUAL || 'price_pro_annual_placeholder',
-  enterprise_monthly: import.meta.env.VITE_STRIPE_PRICE_ENTERPRISE_MONTHLY || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_MONTHLY || 'price_enterprise_monthly_placeholder',
-  enterprise_annual: import.meta.env.VITE_STRIPE_PRICE_ENTERPRISE_ANNUAL || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ANNUAL || 'price_enterprise_annual_placeholder',
+  pro_monthly: import.meta.env.VITE_STRIPE_PRO_MONTHLY_PRICE_ID || import.meta.env.VITE_STRIPE_PRICE_PRO_MONTHLY || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_MONTHLY || 'price_pro_monthly_placeholder',
+  pro_annual: import.meta.env.VITE_STRIPE_PRO_ANNUAL_PRICE_ID || import.meta.env.VITE_STRIPE_PRICE_PRO_ANNUAL || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_PRO_ANNUAL || 'price_pro_annual_placeholder',
+  enterprise_monthly: import.meta.env.VITE_STRIPE_ENTERPRISE_MONTHLY_PRICE_ID || import.meta.env.VITE_STRIPE_PRICE_ENTERPRISE_MONTHLY || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_MONTHLY || 'price_enterprise_monthly_placeholder',
+  enterprise_annual: import.meta.env.VITE_STRIPE_ENTERPRISE_ANNUAL_PRICE_ID || import.meta.env.VITE_STRIPE_PRICE_ENTERPRISE_ANNUAL || import.meta.env.NEXT_PUBLIC_STRIPE_PRICE_ENTERPRISE_ANNUAL || 'price_enterprise_annual_placeholder',
 } as const;
 
 export function validatePriceId(priceId: string): boolean {
@@ -34,7 +34,7 @@ export function getPriceIdOrThrow(plan: 'pro' | 'enterprise', interval: 'monthly
 
   if (priceId.includes('placeholder')) {
     throw new Error(
-      `Stripe price ID not configured for ${plan} ${interval}. Please set environment variable NEXT_PUBLIC_STRIPE_PRICE_${key.toUpperCase()}`,
+      `Stripe price ID not configured for ${plan} ${interval}. Please set environment variable VITE_STRIPE_${key.toUpperCase()}_PRICE_ID`,
     );
   }
 

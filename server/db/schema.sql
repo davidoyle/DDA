@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY,
   email TEXT UNIQUE NOT NULL,
   password_hash TEXT,
-  role TEXT NOT NULL DEFAULT 'free' CHECK (role IN ('admin', 'pro', 'free', 'demo')),
+  role TEXT NOT NULL DEFAULT 'free' CHECK (role IN ('admin', 'pro', 'free', 'demo', 'enterprise')),
+  plan_tier TEXT NOT NULL DEFAULT 'free' CHECK (plan_tier IN ('free', 'pro', 'enterprise', 'demo')),
   sso_provider TEXT,
   sso_subject TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -38,6 +39,8 @@ CREATE TABLE IF NOT EXISTS entitlements (
   status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'expired', 'revoked')),
   starts_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   ends_at TIMESTAMPTZ,
+  stripe_subscription_id TEXT,
+  stripe_customer_id TEXT,
   metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

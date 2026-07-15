@@ -1,138 +1,62 @@
-import DdaLogo from '../components/DdaLogo';
 import { Link } from 'react-router-dom';
-import { serviceTiers } from '../lib/serviceTiers';
 
-const header = {
-  eyebrow: 'Services',
-  headline: 'Three tiers. One method.',
-  body: "The scope changes. The approach doesn't. Every engagement is public-evidence synthesis — systematic, sourced, verifiable.",
-};
-
-const specializedServices = [
+const services = [
   {
-    title: 'Litigation support',
-    body: 'Structured synthesis of publicly available evidence. Comparative institutional analysis. Scenario modeling of policy impacts. For law firms and legal counsel.',
+    title: 'Economic & Regional Strategy',
+    href: '/services/economic-regional-strategy',
+    body: 'Growth frameworks, economic development strategies, labour market plans, and regional investment frameworks built from primary-source data — Statistics Canada, CMHC, provincial databases, municipal records — with a complete audit trail on every number in the document. Decision-makers receive a strategy they can defend at a council table, a board meeting, or a public hearing.',
   },
   {
-    title: 'Policy and legislative analysis',
-    body: 'Public-evidence assessment of bill or policy implications. Stakeholder incentive analysis. Comparative policy modeling. For government bodies and committees.',
+    title: 'Land Use & Planning Analysis',
+    href: '/services/land-use-planning',
+    body: "Employment lands reviews, official community plans, housing needs assessments, and urban growth frameworks. The work identifies where current policy is built on data that no longer reflects ground conditions — mismatched density assumptions, stale land inventories, supply calculations that assume capacity that doesn't exist. Clients receive a precise account of what the evidence shows, including what it does not yet support.",
   },
   {
-    title: 'Investigative research',
-    body: 'Deep multi-source synthesis on systemic issues. Pattern identification across institutional data. Publication-ready documentation. For journalists and oversight bodies.',
+    title: 'Labour Market & Workforce Risk',
+    href: '/services/labour-market-workforce-risk',
+    body: 'Workforce supply analysis for operators and project proponents making capital commitments that depend on having people available to do the work. DDA quantifies what a regional labour market can and cannot deliver — across specific trades, specific timelines, and specific cost scenarios — before commitments are made.',
   },
   {
-    title: 'Licensed analysis',
-    body: 'Sector-specific analysis delivered under your brand to your clients. For advisory firms, consultants, and law firms with employer or institutional client bases.',
+    title: 'Regulatory & Institutional Cost Analysis',
+    href: '/services/regulatory-institutional-cost',
+    body: "Structural cost modelling built from the primary data that regulators publish about themselves. What an organization is actually paying, why the number moves, and what is genuinely within management's control versus what is systemic. Built from the published record, not from industry benchmarks or internal assumptions.",
+  },
+  {
+    title: 'Financial & Policy Modelling',
+    href: '/services/financial-policy-modelling',
+    body: 'Large-scale financial and economic models for complex policy environments — royalty structures, sector scenario engines, jurisdiction benchmarks, fiscal impact frameworks. Work structured to inform decisions where the downstream consequences are significant and the inputs need to be defensible.',
+  },
+  {
+    title: 'Public Interest Analysis',
+    href: '/public-interest',
+    body: 'Independent analysis of institutional behaviour where the subject matter is a matter of public record and public consequence. Built to the same evidentiary standard as commissioned work. Used by journalists, advocates, oversight bodies, policymakers, and legal teams who need findings they can stand behind.',
   },
 ];
 
-const included = [
-  'Systematic synthesis of public evidence',
-  'Structural pattern analysis',
-  'Reported vs. observable outcome comparison',
-  'Scenario modeling of changes',
-  'Comparative benchmarking',
-  'Evidence-based decision framing',
-  'Clear statement of limitations and unknowns',
-];
+const ServicesPage = () => (
+  <div className="px-6 lg:px-16 py-[var(--space-10)]">
+    <section className="max-w-[900px] mx-auto space-y-5 pb-[var(--space-7)] border-b" style={{ borderColor: 'var(--border)' }}>
+      <h1 className="headline-md">Services</h1>
+      <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
+        DDA produces analytical work product for organizations whose decisions will be scrutinized — by a council, a board, a regulator, a court, or the public. Every engagement is built to the same standard: named primary sources, declared data gaps, assumptions labelled as verified or modelled. The analysis holds up because it was designed to.
+      </p>
+    </section>
 
-const notIncluded = [
-  'Consulting retainers',
-  'Meeting-based engagements',
-  'Regulatory opinions',
-  'Subjective recommendations',
-];
+    <section className="max-w-[900px] mx-auto mt-[var(--space-7)] space-y-8">
+      {services.map((service) => (
+        <article key={service.title} className="space-y-3 pb-8 border-b" style={{ borderColor: 'var(--border)' }}>
+          <h2 className="headline-sm">{service.title}</h2>
+          <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>{service.body}</p>
+          <Link to={service.href} className="btn-ghost">{service.title} →</Link>
+        </article>
+      ))}
+    </section>
 
-const ServicesPage = () => {
-  return (
-    <div className="pt-28 pb-20 px-6 lg:px-[8vw] space-y-14">
-      <section className="brand-panel space-y-4 max-w-5xl">
-        <DdaLogo compact className="mb-4" />
-        <p className="eyebrow">{header.eyebrow}</p>
-        <h1 className="headline-md">{header.headline}</h1>
-        <p className="text-xl text-[#F3EFE6]/85">{header.body}</p>
-      </section>
-
-      <section className="space-y-6">
-        <h2 className="headline-md">Service tiers</h2>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {serviceTiers.map((tier) => (
-            <article
-              key={tier.id}
-              className={`card space-y-4 ${tier.featured ? 'border-2 border-[#6FC3D0]' : 'border border-[#F3EFE6]/12'}`}
-            >
-              {tier.featured && tier.featuredLabel ? (
-                <span className="tier-featured-badge">{tier.featuredLabel}</span>
-              ) : null}
-              <p className="eyebrow">{tier.tier}</p>
-              <h3 className="font-heading text-2xl">{tier.name}</h3>
-              <p className="text-sm text-[#F3EFE6]/70">Timeline: {tier.timeline}</p>
-              <ul className="space-y-2 text-[#F3EFE6]/80 list-disc list-inside">
-                {tier.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="space-y-6">
-        <h2 className="headline-md">Specialized services</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          {specializedServices.map((service) => (
-            <article key={service.title} className="card space-y-3">
-              <h3 className="text-[15px] font-medium">{service.title}</h3>
-              <p className="text-[13px] text-[#F3EFE6]/72">{service.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="space-y-6 max-w-5xl">
-        <h2 className="headline-md">What&apos;s included</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          <article className="card space-y-3">
-            <p className="font-semibold">Included</p>
-            <ul className="space-y-2 text-[#F3EFE6]/85 list-disc list-inside">
-              {included.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
-
-          <article className="card space-y-3">
-            <p className="font-semibold">Not included (Standard Tiers)</p>
-            <ul className="space-y-2 text-[#F3EFE6]/75 list-disc list-inside">
-              {notIncluded.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
-        </div>
-        <p className="text-sm text-[#F3EFE6]/70">
-          Exception for Municipal & Public Sector Contracts: When engaged for comprehensive strategic planning
-          (e.g., Urban Growth Strategies), DDA explicitly includes public participation programs, facilitated
-          workshops, council presentations, and data-driven scenario recommendations as defined by the specific
-          Request for Proposal (RFP). See our{' '}
-          <Link to="/public-sector" className="text-[#D4A03A] hover:text-[#e8bc66] transition-colors">
-            Public Sector Engagements
-          </Link>{' '}
-          page for details.
-        </p>
-
-        <div className="flex flex-wrap gap-3">
-          <Link to="/contact" className="btn-primary">
-            Describe your system
-          </Link>
-          <Link to="/work" className="btn-secondary">
-            See examples of work
-          </Link>
-        </div>
-      </section>
-    </div>
-  );
-};
+    <section className="max-w-[900px] mx-auto mt-[var(--space-8)] card space-y-4">
+      <p className="text-[16px]">Describe what you need to defend.</p>
+      <Link to="/contact" className="btn-primary">Contact →</Link>
+    </section>
+  </div>
+);
 
 export default ServicesPage;

@@ -1,5 +1,4 @@
 import express from 'express';
-import Stripe from 'stripe';
 import { randomUUID } from 'crypto';
 import { config } from './config.mjs';
 import { createSession, revokeSession, signMagicLink, verifyMagicLinkSignature, SESSION_AUTH_METHOD } from './auth.mjs';
@@ -9,12 +8,65 @@ import adminAuthRouter from './routes/admin-auth.mjs';
 import sessionRouter from './routes/session.mjs';
 
 const router = express.Router();
-const stripe = process.env.STRIPE_SECRET_KEY
-  ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' })
-  : null;
+let stripeClientPromise;
+async function getStripeClient() {
+  if (!process.env.STRIPE_SECRET_KEY) return null;
+  if (!stripeClientPromise) {
+    stripeClientPromise = import('stripe').then(({ default: Stripe }) => (
+      new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' })
+    ));
+  }
+  return stripeClientPromise;
+}
 
 router.use(adminAuthRouter);
 router.use(sessionRouter);
+
+
+router.post('/api/create-checkout-session', requireAuthenticated, async (req, res) => {
+  const { priceId, successUrl, cancelUrl, customerEmail, metadata = {} } = req.body || {};
+
+  if (!priceId || !successUrl || !cancelUrl) {
+    res.status(400).json({ error: 'priceId, successUrl, and cancelUrl are required' });
+    return;
+  }
+
+  const stripe = await getStripeClient();
+  if (!stripe) {
+    res.status(500).json({ error: 'Stripe is not configured' });
+    return;
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      customer_email: customerEmail || req.auth?.email || undefined,
+      metadata,
+    });
+
+    res.json({ sessionId: session.id, url: session.url });
+  } catch (error) {
+    res.status(502).json({ error: 'Unable to create checkout session', detail: String(error?.message || error) });
+  }
+});
+
+router.post('/api/contact', (req, res) => {
+  const { name = '', email, reason = '', message, segment = '', context = '', source = 'website' } = req.body || {};
+
+  if (!email || !message) {
+    res.status(400).json({ error: 'email and message are required' });
+    return;
+  }
+
+  res.status(202).json({
+    received: true,
+    contact: { name, email, reason, message, segment, context, source },
+  });
+});
 
 router.post('/api/auth/logout', requireAuthenticated, async (req, res) => {
   const token = req.cookies[config.sessionCookieName];
@@ -114,6 +166,7 @@ router.post('/api/auth/magic-link/verify', async (req, res) => {
 });
 
 router.post('/api/webhook/stripe', express.raw({ type: 'application/json' }), async (req, res) => {
+  const stripe = await getStripeClient();
   if (!stripe || !process.env.STRIPE_WEBHOOK_SECRET) {
     res.status(500).json({ error: 'Stripe webhook not configured' });
     return;
@@ -155,6 +208,18 @@ router.post('/api/webhook/stripe', express.raw({ type: 'application/json' }), as
          VALUES ($1, $2, $3, 'stripe_webhook', 'active', NOW(), NOW() + INTERVAL '1 year', $4::jsonb)`,
         [randomUUID(), users[0].id, planTier, JSON.stringify({ checkoutSessionId: session.id })],
       );
+    }
+  }
+
+  if (process.env.STRIPE_WEBHOOK_FORWARD_URL) {
+    try {
+      await fetch(process.env.STRIPE_WEBHOOK_FORWARD_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event),
+      });
+    } catch (error) {
+      console.warn('Unable to forward Stripe webhook', error);
     }
   }
 

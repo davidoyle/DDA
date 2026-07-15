@@ -13,8 +13,8 @@ export default function VerifyAccessPage() {
   useEffect(() => {
     const token = searchParams.get('token');
     if (!token) {
-      setState('invalid');
-      return;
+      const timeout = window.setTimeout(() => setState('invalid'), 0);
+      return () => window.clearTimeout(timeout);
     }
 
     const verify = async () => {
