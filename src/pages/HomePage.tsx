@@ -13,8 +13,7 @@ const HomePage = () => (
   <div className="px-6 lg:px-16 py-[var(--space-10)] space-y-[var(--space-10)]">
     <section className="max-w-[900px] mx-auto space-y-6">
       <div className="space-y-2">
-        <h1 className="headline-lg">Analysis that holds up when it&apos;s challenged.</h1>
-        <p className="headline-sm">Built that way from the start.</p>
+        <h1 className="headline-lg">When the numbers need to hold up.</h1>
       </div>
       <p className="text-[18px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
         Every input sourced. Every assumption named. Every gap declared.
