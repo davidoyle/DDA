@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
+import { getEmailAddress, getMailtoHref } from '@/lib/email';
 
 const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -77,7 +78,7 @@ const Layout = () => {
           <Link to="/tools" className="hover:underline">Tools</Link>
           <Link to="/privacy" className="hover:underline">Privacy</Link>
           <Link to="/terms" className="hover:underline">Terms</Link>
-          <a href="mailto:david.doyle@ddanalysis.ca" className="hover:underline">david.doyle@ddanalysis.ca</a>
+          <a href={getMailtoHref('legacy')} className="hover:underline">{getEmailAddress('legacy')}</a>
         </div>
       </footer>
     </div>

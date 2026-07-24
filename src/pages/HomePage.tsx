@@ -1,3 +1,4 @@
+import { getEmailAddress } from '@/lib/email';
 import { Link } from 'react-router-dom';
 
 const services = [
@@ -60,7 +61,7 @@ const HomePage = () => (
     <footer className="max-w-[900px] mx-auto text-[13px] leading-[1.7]" style={{ color: 'var(--text-tertiary)' }}>
       <p><em>DDA — Diagnostics, Dataflow, Analysis</em></p>
       <p><em>Metro Vancouver, BC — Operating nationally</em></p>
-      <p><em>david.doyle@ddanalytics.ca</em></p>
+      <p><em>{getEmailAddress('primary')}</em></p>
     </footer>
   </div>
 );

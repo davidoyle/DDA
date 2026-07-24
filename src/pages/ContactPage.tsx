@@ -1,3 +1,4 @@
+import { getEmailAddress, getMailtoHref } from '@/lib/email';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -74,7 +75,7 @@ export default function ContactPage() {
         ...prev,
         submitStatus: 'error',
         isSubmitting: false,
-        errorMessage: 'Failed to send message. Please email us directly at david.doyle@ddanalytics.ca',
+        errorMessage: `Failed to send message. Please email us directly at ${getEmailAddress('primary')}`,
       }));
     }
   };
@@ -97,7 +98,7 @@ export default function ContactPage() {
         <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>DDA responds within 48 hours with a preliminary read on whether there&apos;s a fit and what an engagement would look like.</p>
         <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>No sales call. No pitch deck. No discovery session designed to extend the conversation. A direct response to what you&apos;ve described.</p>
         <div className="pt-4 text-[15px] leading-[1.8]">
-          <p><strong>david.doyle@ddanalytics.ca</strong></p>
+          <p><strong>{getEmailAddress('primary')}</strong></p>
           <p style={{ color: 'var(--text-secondary)' }}>Metro Vancouver, BC — Operating nationally</p>
         </div>
       </section>
@@ -158,7 +159,7 @@ export default function ContactPage() {
           <div className="constraint-block">
             {form.errorMessage}
             <br />
-            <a href="mailto:david.doyle@ddanalytics.ca?subject=Contact%20Form%20Fallback">Email us directly</a>
+            <a href={getMailtoHref('primary', 'subject=Contact%20Form%20Fallback')}>Email us directly</a>
           </div>
         )}
 

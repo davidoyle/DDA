@@ -1,3 +1,4 @@
+import { getMailtoHref } from '@/lib/email';
 export type SectorKey =
   | 'municipality'
   | 'union'
@@ -167,7 +168,7 @@ export const sectorConfig: Record<SectorKey, SectorContent> = {
     priceHeadline: 'FREE | First investigation included. Fully sourced. Ready to publish.',
     priceSubline: '',
     ctaLabel: 'CLAIM YOUR FREE INVESTIGATION',
-    ctaHref: 'mailto:david.doyle@ddanalytics.ca?subject=Claim%20my%20free%20investigation',
+    ctaHref: getMailtoHref('primary', 'subject=Claim%20my%20free%20investigation'),
     nextStepsTitle: 'What Happens Next:',
     nextSteps: [
       "Email us describing the story you're investigating.",

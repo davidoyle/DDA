@@ -33,7 +33,7 @@ export default function AdminAccessPage() {
             <p className="text-sm text-slate-300">{tool.description}</p>
             <div className="flex gap-2">
               <Link to={tool.href} className="btn-primary">Launch Tool</Link>
-              <a href={tool.href} target="_blank" rel="noreferrer" className="btn-secondary">Open in New Tab</a>
+              <a href={tool.href} target="_blank" rel="noopener noreferrer" className="btn-secondary">Open in New Tab</a>
             </div>
           </article>
         ))}

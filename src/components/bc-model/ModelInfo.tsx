@@ -27,11 +27,11 @@ export function ModelInfo() {
           <div>
             <p className="font-semibold text-[#1f1f1f]">Data sources</p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
-              <li><a href={SOURCE_LINKS.accountability} target="_blank" rel="noreferrer" className="text-[#1f3a5f] underline">BC 2025 Accountability Report</a></li>
-              <li><a href={SOURCE_LINKS.roadmap} target="_blank" rel="noreferrer" className="text-[#1f3a5f] underline">CleanBC Roadmap to 2030</a></li>
-              <li><a href={SOURCE_LINKS.irp} target="_blank" rel="noreferrer" className="text-[#1f3a5f] underline">BC Hydro 2025 IRP</a></li>
-              <li><a href={SOURCE_LINKS.servicePlan} target="_blank" rel="noreferrer" className="text-[#1f3a5f] underline">BC Hydro 2024/25 Service Plan</a></li>
-              <li><a href={SOURCE_LINKS.climateAct} target="_blank" rel="noreferrer" className="text-[#1f3a5f] underline">BC Climate Change Accountability Act</a></li>
+              <li><a href={SOURCE_LINKS.accountability} target="_blank" rel="noopener noreferrer" className="text-[#1f3a5f] underline">BC 2025 Accountability Report</a></li>
+              <li><a href={SOURCE_LINKS.roadmap} target="_blank" rel="noopener noreferrer" className="text-[#1f3a5f] underline">CleanBC Roadmap to 2030</a></li>
+              <li><a href={SOURCE_LINKS.irp} target="_blank" rel="noopener noreferrer" className="text-[#1f3a5f] underline">BC Hydro 2025 IRP</a></li>
+              <li><a href={SOURCE_LINKS.servicePlan} target="_blank" rel="noopener noreferrer" className="text-[#1f3a5f] underline">BC Hydro 2024/25 Service Plan</a></li>
+              <li><a href={SOURCE_LINKS.climateAct} target="_blank" rel="noopener noreferrer" className="text-[#1f3a5f] underline">BC Climate Change Accountability Act</a></li>
             </ul>
           </div>
           <div>

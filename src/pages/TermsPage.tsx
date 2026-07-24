@@ -1,3 +1,4 @@
+import { getEmailAddress } from '@/lib/email';
 const TermsPage = () => {
   return (
     <div className="pt-28 pb-20 px-6 lg:px-[8vw]">
@@ -335,7 +336,7 @@ const TermsPage = () => {
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">19. CONTACT INFORMATION</h2>
         <p>For questions about these Terms of Service, or to initiate a dispute resolution process:</p>
-        <p><strong>Email:</strong> david.doyle@ddanalysis.ca</p>
+        <p><strong>Email:</strong> {getEmailAddress('legacy')}</p>
 
         <p>© 2026 DDA — Diagnostics, Dataflow, Analysis. All rights reserved.</p>
       </section>
