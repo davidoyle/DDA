@@ -1,3 +1,4 @@
+import { getEmailAddress } from '@/lib/email';
 import { getStripePublishableKey, getPriceIdOrThrow, isStripeConfigured } from './config';
 import { trackEvent } from '@/lib/analytics';
 
@@ -72,7 +73,7 @@ export async function redirectToCheckout(options: CheckoutOptions) {
       throw new CheckoutError(
         'Stripe not configured',
         'CONFIG_ERROR',
-        'Payment system is being set up. Please contact us directly at hello@dda.ca',
+        `Payment system is being set up. Please contact us directly at ${getEmailAddress('support')}`,
       );
     }
 
@@ -147,7 +148,7 @@ export async function redirectToCheckout(options: CheckoutOptions) {
     throw new CheckoutError(
       String(err),
       'UNKNOWN_ERROR',
-      'An unexpected error occurred. Please contact support at hello@dda.ca',
+      `An unexpected error occurred. Please contact support at ${getEmailAddress('support')}`,
     );
   }
 }

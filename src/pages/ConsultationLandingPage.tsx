@@ -31,7 +31,7 @@ const ConsultationLandingPage = ({ sector }: ConsultationLandingPageProps) => {
         <a
           href={content.ctaHref}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-center rounded-md bg-[#D4A03A] px-6 py-3 font-semibold text-[#0B1110] hover:bg-[#e3b14f] transition-colors"
         >
           {content.ctaLabel}

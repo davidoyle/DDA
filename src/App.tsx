@@ -32,6 +32,7 @@ const DemoDiagnosticsLandingPage = lazy(() => import('./pages/DemoDiagnosticsLan
 const DemoVsFullPage = lazy(() => import('./pages/DemoVsFullPage'));
 const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage'));
 const ModelApp = lazy(() => import('./pages/model'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
 
@@ -136,10 +137,12 @@ function App() {
 
               <Route path="verify-access" element={<VerifyAccessPage />} />
               <Route path="payment-success" element={<PaymentSuccessPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
 
             <Route path="/admin/*" element={<Navigate to="/tools" replace />} />
             <Route path="/model" element={<ModelApp />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
     </Router>

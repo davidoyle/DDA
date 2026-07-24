@@ -1,3 +1,4 @@
+import { getEmailAddress } from '@/lib/email';
 const PrivacyPolicyPage = () => {
   return (
     <div className="pt-28 pb-20 px-6 lg:px-[8vw]">
@@ -179,7 +180,7 @@ const PrivacyPolicyPage = () => {
           <li>Disable cookies through your browser settings</li>
         </ul>
 
-        <p><strong>To exercise these rights, contact us at:</strong> david.doyle@ddanalysis.ca</p>
+        <p><strong>To exercise these rights, contact us at:</strong> {getEmailAddress('legacy')}</p>
         <p><strong>We will respond to requests within 30 days.</strong></p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Cookies and Tracking Technologies</h2>
@@ -223,7 +224,7 @@ const PrivacyPolicyPage = () => {
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Children's Privacy</h2>
         <p>DDA services are not directed to individuals under 18 years of age.</p>
         <p><strong>We do not knowingly collect information from children.</strong> If we discover we have collected information from a child, we will delete it immediately.</p>
-        <p>If you believe we have inadvertently collected information from a child, contact us at:david.doyle@ddanalysis.ca </p>
+        <p>If you believe we have inadvertently collected information from a child, contact us at:{getEmailAddress('legacy')} </p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">International Data Transfers</h2>
         <p>DDA is based in British Columbia, Canada. Your information may be transferred to and processed in Canada or other jurisdictions where our service providers operate.</p>
@@ -243,7 +244,7 @@ const PrivacyPolicyPage = () => {
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Contact Us</h2>
         <p>If you have questions, concerns, or requests regarding this Privacy Policy or our privacy practices:</p>
         <p>
-          <strong>Email:</strong> david.doyle@ddanalysis.ca <br />
+          <strong>Email:</strong> {getEmailAddress('legacy')} <br />
           <strong>Mail:</strong> DDA — Diagnostics, Dataflow, Analysis<br />
           V3R 5S9, Surrey BC<br />
           Canada
