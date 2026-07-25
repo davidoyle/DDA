@@ -2,7 +2,7 @@ import { getEmailAddress } from '@/lib/email';
 import { Link } from 'react-router-dom';
 
 const services = [
-  ['Economic & Regional Strategy', 'Growth frameworks, labour market plans, and economic strategies built from primary sources with a complete audit trail on every number.'],
+  ['Economic & Regional Strategy', 'Growth frameworks, labour market plans, and economic strategies built from named primary sources. The source and release date sit with each key figure.'],
   ['Land Use & Planning Analysis', "Employment lands reviews, housing needs assessments, and community plans that identify where policy assumptions diverge from what the data actually shows."],
   ['Labour Market & Workforce Risk', 'Supply analysis for operators making capital commitments that depend on people being available to do the work — by trade, by timeline, by cost scenario.'],
   ['Regulatory & Institutional Cost Analysis', 'Structural cost modelling built from what regulators publish about themselves — not industry averages, not internal estimates.'],
@@ -17,17 +17,17 @@ const HomePage = () => (
         <h1 className="headline-lg">When the numbers need to hold up.</h1>
       </div>
       <p className="text-[18px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
-        Every input sourced. Every assumption named. Every gap declared.
+        Careful analysis for decisions that depend on the numbers being right.
       </p>
     </section>
 
     <section className="max-w-[900px] mx-auto space-y-5">
       <h2 className="headline-md">What DDA Does</h2>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        Organizations make expensive decisions based on numbers they haven&apos;t verified. Strategies go to a board, a council, or a regulator — and fall apart the moment someone asks a hard question about where the figures came from.
+        Organizations make expensive decisions using figures they haven&apos;t checked. A strategy can reach a board, council, or regulator before anyone asks where a key number came from.
       </p>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        DDA produces the analytical foundation those decisions should be built on. The work is forensic: every number is traced to a named primary source, every limitation in the data is stated explicitly, and the analysis is structured to hold up when it&apos;s challenged — because it was built to be challenged.
+        DDA checks the inputs, records the source and date, and explains the assumptions behind the result. Public datasets don&apos;t always match the geography or reporting period a decision requires. When they don&apos;t, the analysis says what was estimated and how much that choice affects the result.
       </p>
       <Link to="/method" className="btn-ghost">How we work →</Link>
     </section>
@@ -48,13 +48,13 @@ const HomePage = () => (
     <section className="max-w-[900px] mx-auto space-y-4">
       <h2 className="headline-md">Who This Is For</h2>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        Municipalities and regional governments that need planning documents built to survive scrutiny. Resource sector operators whose capital projects depend on assumptions that need to be tested before commitments are made. Government bodies that need independent modelling with a clear chain of custody on every input. Legal and advisory teams that need institutional analysis sourced entirely from verifiable public records. Journalists and oversight bodies that need findings they can stand behind.
+        DDA works with municipalities, regional governments, resource sector operators, government bodies, legal and advisory teams, journalists, and oversight bodies. The common need is straightforward: you&apos;re making a decision or publishing a finding, and you need to know which figures are supported, which are estimates, and which questions the available data can&apos;t answer.
       </p>
     </section>
 
     <section className="max-w-[900px] mx-auto card space-y-4">
       <h2 className="headline-sm">Contact</h2>
-      <p style={{ color: 'var(--text-secondary)' }}>Describe what&apos;s at stake and what kind of analysis you need to defend.</p>
+      <p style={{ color: 'var(--text-secondary)' }}>Tell us about the decision and the numbers you need checked.</p>
       <Link to="/contact" className="btn-primary">Get in touch →</Link>
     </section>
 

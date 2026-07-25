@@ -4,32 +4,32 @@ const services = [
   {
     title: 'Economic & Regional Strategy',
     href: '/services/economic-regional-strategy',
-    body: 'Growth frameworks, economic development strategies, labour market plans, and regional investment frameworks built from primary-source data — Statistics Canada, CMHC, provincial databases, municipal records — with a complete audit trail on every number in the document. Decision-makers receive a strategy they can defend at a council table, a board meeting, or a public hearing.',
+    body: 'Growth frameworks, economic development strategies, labour market plans, and regional investment frameworks using Statistics Canada, CMHC, provincial databases, and municipal records. Key figures include the source and release date. Where those sources cover different periods or boundaries, the work explains the adjustment rather than treating them as directly comparable.',
   },
   {
     title: 'Land Use & Planning Analysis',
     href: '/services/land-use-planning',
-    body: "Employment lands reviews, official community plans, housing needs assessments, and urban growth frameworks. The work identifies where current policy is built on data that no longer reflects ground conditions — mismatched density assumptions, stale land inventories, supply calculations that assume capacity that doesn't exist. Clients receive a precise account of what the evidence shows, including what it does not yet support.",
+    body: "Employment lands reviews, official community plans, housing needs assessments, and urban growth frameworks. The work checks whether density assumptions, land inventories, and supply calculations still match current records. Parcel inventories can lag recent approvals, so the result identifies the inventory date and any capacity that could not be verified.",
   },
   {
     title: 'Labour Market & Workforce Risk',
     href: '/services/labour-market-workforce-risk',
-    body: 'Workforce supply analysis for operators and project proponents making capital commitments that depend on having people available to do the work. DDA quantifies what a regional labour market can and cannot deliver — across specific trades, specific timelines, and specific cost scenarios — before commitments are made.',
+    body: 'Workforce supply analysis for operators and project proponents making capital commitments that depend on having people available to do the work. DDA estimates supply by trade, timeline, and cost scenario before commitments are made. Public occupation data rarely shows whether a qualified worker is available for a particular shift or site, so that part remains an estimate.',
   },
   {
     title: 'Regulatory & Institutional Cost Analysis',
     href: '/services/regulatory-institutional-cost',
-    body: "Structural cost modelling built from the primary data that regulators publish about themselves. What an organization is actually paying, why the number moves, and what is genuinely within management's control versus what is systemic. Built from the published record, not from industry benchmarks or internal assumptions.",
+    body: "Cost modelling based on regulators' published data. It shows what an organization is paying, why the amount moves, and which inputs management can change. Published totals don't always include firm-level or rate-group detail. Where that detail is unavailable, the model labels the estimate and shows the range it creates.",
   },
   {
     title: 'Financial & Policy Modelling',
     href: '/services/financial-policy-modelling',
-    body: 'Large-scale financial and economic models for complex policy environments — royalty structures, sector scenario engines, jurisdiction benchmarks, fiscal impact frameworks. Work structured to inform decisions where the downstream consequences are significant and the inputs need to be defensible.',
+    body: 'Financial and economic models for royalty structures, sector scenarios, jurisdiction comparisons, and fiscal impacts. Inputs are linked to their sources, and modelled values are kept separate from reported figures so you can see what drives the result.',
   },
   {
     title: 'Public Interest Analysis',
     href: '/public-interest',
-    body: 'Independent analysis of institutional behaviour where the subject matter is a matter of public record and public consequence. Built to the same evidentiary standard as commissioned work. Used by journalists, advocates, oversight bodies, policymakers, and legal teams who need findings they can stand behind.',
+    body: 'Independent analysis of public records for journalists, advocates, oversight bodies, policymakers, and legal teams. The work sets out what the records show and where the available material is incomplete.',
   },
 ];
 
@@ -38,7 +38,7 @@ const ServicesPage = () => (
     <section className="max-w-[900px] mx-auto space-y-5 pb-[var(--space-7)] border-b" style={{ borderColor: 'var(--border)' }}>
       <h1 className="headline-md">Services</h1>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        DDA produces analytical work product for organizations whose decisions will be scrutinized — by a council, a board, a regulator, a court, or the public. Every engagement is built to the same standard: named primary sources, declared data gaps, assumptions labelled as verified or modelled. The analysis holds up because it was designed to.
+        DDA produces analysis for decisions going to a council, board, regulator, court, or the public. Key figures point to named primary sources. Assumptions are labelled as reported or modelled, and missing data is stated plainly.
       </p>
     </section>
 
@@ -53,7 +53,7 @@ const ServicesPage = () => (
     </section>
 
     <section className="max-w-[900px] mx-auto mt-[var(--space-8)] card space-y-4">
-      <p className="text-[16px]">Describe what you need to defend.</p>
+      <p className="text-[16px]">Tell us about the decision and the numbers you need checked.</p>
       <Link to="/contact" className="btn-primary">Contact →</Link>
     </section>
   </div>
