@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import Layout from './components/Layout';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
-const ServicesPage = lazy(() => import('./pages/ServicesPage'));
-const ServiceDetailPage = lazy(() => import('./pages/ServiceDetailPage'));
 const PublicInterestPage = lazy(() => import('./pages/PublicInterestPage'));
 const WorkPage = lazy(() => import('./pages/WorkPage'));
 const MethodPage = lazy(() => import('./pages/MethodPage'));
@@ -66,8 +64,8 @@ function App() {
               <Route index element={<HomePage />} />
               <Route path="analysis" element={<WorkPage />} />
               <Route path="work" element={<Navigate to="/analysis" replace />} />
-              <Route path="services" element={<ServicesPage />} />
-              <Route path="services/:serviceSlug" element={<ServiceDetailPage />} />
+              <Route path="services" element={<Navigate to="/" replace />} />
+              <Route path="services/:serviceSlug" element={<Navigate to="/" replace />} />
               <Route path="public-interest" element={<PublicInterestPage />} />
               <Route path="method" element={<MethodPage />} />
               <Route path="about" element={<Navigate to="/method" replace />} />

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 
 const examples = [
   ['Institutional response analysis.', 'For a typical public safety or policy review, DDA compares enforcement logs, coordination records, public communications, and budget allocations. The record may show when an agency acted and what it reported. It may not show why an individual decision was made, especially when internal records have not been released.'],
-  ['System strain analysis.', "When an institution's published data — staffing ratios, funding levels, attrition rates, outcome measures — tells a different story than its public communications, DDA quantifies the gap. What the data shows about workload, capacity, and the conditions that produce failure."],
-  ['Cost and accountability analysis.', 'When public costs are distributed across systems in ways that obscure accountability — regulatory cost structures, institutional spending patterns, fiscal transfers — DDA maps what the published record reveals about who bears the cost and what drives it.'],
+  ['System strain analysis.', "DDA compares an institution's published staffing, funding, attrition, and outcome data with its public statements. You receive findings about workload, capacity, and the conditions linked to poor results."],
+  ['Cost and accountability analysis.', 'DDA maps regulatory costs, institutional spending, and fiscal transfers. The resulting account shows who bears the cost and what the published record identifies as its main drivers.'],
 ];
 
 const PublicInterestPage = () => (
@@ -11,8 +11,8 @@ const PublicInterestPage = () => (
     <article className="max-w-[900px] mx-auto space-y-8">
       <h1 className="headline-md">Public Interest Analysis</h1>
       <section className="space-y-4 text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        <p>Some of the most important analytical work doesn&apos;t come with a client and a contract. It comes from a question that the public record can answer — if someone is willing to read it carefully enough.</p>
-        <p>DDA produces independent analysis of public records on institutional decisions, resource allocation, policy design, and public costs. The work compares what an institution reported with what its published data and records show.</p>
+        <p>You receive findings and recommendations that can inform a story, submission, review, policy decision, or legal matter.</p>
+        <p>DDA examines public records on institutional decisions, resource allocation, policy design, and public costs. The work compares what an institution reported with what its published data and records show.</p>
       </section>
       <section className="space-y-4">
         <h2 className="headline-sm">How sources are handled</h2>
