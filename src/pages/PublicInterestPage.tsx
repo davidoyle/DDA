@@ -27,10 +27,10 @@ const PublicInterestPage = () => (
       </section>
       <section className="card space-y-4">
         <h2 className="headline-sm">Access</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Public interest analyses are available for download. Title and first content page are visible to all visitors. Full documents are available to subscribers.</p>
+        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Selected public interest analyses will be displayed as PDF reports and samples when they are ready for publication.</p>
         <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Where analysis is produced in response to a specific request from a journalist, advocacy organization, or oversight body, direct access can be arranged. Contact DDA to discuss.</p>
         <div className="flex flex-wrap gap-3">
-          <Link to="/analysis" className="btn-primary">Browse available analyses →</Link>
+          <Link to="/analysis" className="btn-primary">About forthcoming samples →</Link>
           <Link to="/contact" className="btn-secondary">Contact DDA →</Link>
         </div>
       </section>

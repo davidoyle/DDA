@@ -8,7 +8,7 @@ const services = [
   },
   {
     title: 'Land-use planning',
-    body: 'An employment lands review, housing needs assessment, community plan, or growth framework that sets out the planning choices and the evidence behind them.',
+    body: 'An employment lands review, housing needs assessment, community plan, or growth strategy ready for council use. It sets out the preferred direction, planning choices, performance measures, responsibilities, and implementation sequence.',
   },
   {
     title: 'Labour market and workforce planning',
@@ -31,16 +31,16 @@ const services = [
 const HomePage = () => (
   <div className="px-6 lg:px-16 py-[var(--space-10)] space-y-[var(--space-10)]">
     <section className="max-w-[900px] mx-auto space-y-6">
-      <h1 className="headline-lg">Strategy and direction you can act on.</h1>
+      <h1 className="headline-lg">Clear strategy. Practical next steps.</h1>
       <p className="text-[18px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
-        DDA builds strategies, plans, KPI frameworks, and recommendations with clear owners and timelines. You receive practical direction for the decision in front of you, not analysis without a next step.
+        DDA turns complex planning, economic, workforce, regulatory, and financial questions into a clear course of action. You receive a strategy, plan, KPI framework, or set of recommendations with defined priorities, owners, and timelines.
       </p>
     </section>
 
     <section className="max-w-[900px] mx-auto space-y-5">
       <h2 className="headline-md">Why you can rely on it</h2>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        The advice is based on analysis that can be traced back to named sources. DDA records assumptions, calculations, dates, and gaps so you can see what the evidence supports and where judgement is still required.
+        Every recommendation is grounded in analysis that can be traced back to named sources. DDA records assumptions, calculations, dates, and gaps so you know which conclusions are firm, where judgement is required, and what could change the direction.
       </p>
       <Link to="/method" className="btn-ghost">Read about the method →</Link>
     </section>
@@ -60,7 +60,7 @@ const HomePage = () => (
     <section className="max-w-[900px] mx-auto space-y-4">
       <h2 className="headline-md">Who this is for</h2>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        DDA works with municipalities, regional governments, public bodies, resource operators, legal and advisory practices, journalists, and oversight bodies. The work starts with a decision you need to make and ends with a plan or set of recommendations you can use.
+        DDA works with municipalities, regional governments, public bodies, resource operators, legal and advisory practices, journalists, and oversight bodies. Each engagement starts with the decision you need to make. It ends with a defined direction and the steps needed to carry it forward.
       </p>
     </section>
 

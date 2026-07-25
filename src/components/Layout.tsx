@@ -9,7 +9,6 @@ const Layout = () => {
   const navLinks = [
     { label: 'Analysis', href: '/analysis' },
     { label: 'Tools', href: '/tools' },
-    { label: 'Public sector', href: '/public-sector' },
     { label: 'Method', href: '/method' },
     { label: 'Contact', href: '/contact' },
   ];
@@ -78,7 +77,7 @@ const Layout = () => {
           <Link to="/tools" className="hover:underline">Tools</Link>
           <Link to="/privacy" className="hover:underline">Privacy</Link>
           <Link to="/terms" className="hover:underline">Terms</Link>
-          <a href={getMailtoHref('legacy')} className="hover:underline">{getEmailAddress('legacy')}</a>
+          <a href={getMailtoHref('primary')} className="hover:underline">{getEmailAddress('primary')}</a>
         </div>
       </footer>
     </div>

@@ -7,7 +7,6 @@ const PublicInterestPage = lazy(() => import('./pages/PublicInterestPage'));
 const WorkPage = lazy(() => import('./pages/WorkPage'));
 const MethodPage = lazy(() => import('./pages/MethodPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
-const PublicSectorPage = lazy(() => import('./pages/PublicSectorPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const BookingConfirmationPage = lazy(() => import('./pages/BookingConfirmationPage'));
@@ -70,7 +69,7 @@ function App() {
               <Route path="method" element={<MethodPage />} />
               <Route path="about" element={<Navigate to="/method" replace />} />
               <Route path="contact" element={<ContactPage />} />
-              <Route path="public-sector" element={<PublicSectorPage />} />
+              <Route path="public-sector" element={<Navigate to="/" replace />} />
               <Route path="privacy" element={<PrivacyPolicyPage />} />
               <Route path="terms" element={<TermsPage />} />
               <Route path="diagnostics" element={<DiagnosticsPage />} />

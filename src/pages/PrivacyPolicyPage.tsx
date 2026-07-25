@@ -14,7 +14,7 @@ const PrivacyPolicyPage = () => {
         <p>
           DDA ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains
           how we collect, use, disclose, and safeguard your information when you visit our website
-          ddanalysis.ca, purchase our products, or engage our services.
+          ddanalytics.ca, purchase our products, or engage our services.
         </p>
         <p><strong>By using our website or services, you agree to the collection and use of information in accordance with this policy.</strong></p>
 
