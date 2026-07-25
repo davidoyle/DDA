@@ -1,6 +1,6 @@
 const emailParts = {
   primary: ['david.doyle', 'ddanalytics.ca'],
-  legacy: ['david.doyle', 'ddanalysis.ca'],
+  legacy: ['david.doyle', 'ddanalytics.ca'],
   support: ['hello', 'dda.ca'],
 } as const;
 

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
-Sitemap: https://ddanalysis.ca/sitemap.xml
+Sitemap: https://ddanalytics.ca/sitemap.xml

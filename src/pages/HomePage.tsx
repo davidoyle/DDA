@@ -2,65 +2,77 @@ import { getEmailAddress } from '@/lib/email';
 import { Link } from 'react-router-dom';
 
 const services = [
-  ['Economic & Regional Strategy', 'Growth frameworks, labour market plans, and economic strategies built from named primary sources. The source and release date sit with each key figure.'],
-  ['Land Use & Planning Analysis', "Employment lands reviews, housing needs assessments, and community plans that identify where policy assumptions diverge from what the data actually shows."],
-  ['Labour Market & Workforce Risk', 'Supply analysis for operators making capital commitments that depend on people being available to do the work — by trade, by timeline, by cost scenario.'],
-  ['Regulatory & Institutional Cost Analysis', 'Structural cost modelling built from what regulators publish about themselves — not industry averages, not internal estimates.'],
-  ['Financial & Policy Modelling', 'Royalty structures, fiscal impact frameworks, and sector scenario engines for decisions where the downstream consequences are significant.'],
-  ['Public Interest Analysis', 'Independent, sourced analysis of institutional behaviour for journalists, advocates, oversight bodies, and legal teams.'],
+  {
+    title: 'Economic and regional strategy',
+    body: 'An economic development strategy with priorities, a KPI framework, and sequenced implementation steps. Recommendations identify who should lead each action and when it should happen.',
+  },
+  {
+    title: 'Land-use planning',
+    body: 'An employment lands review, housing needs assessment, community plan, or growth strategy ready for council use. It sets out the preferred direction, planning choices, performance measures, responsibilities, and implementation sequence.',
+  },
+  {
+    title: 'Labour market and workforce planning',
+    body: 'A workforce plan that identifies likely shortages by occupation and timing, estimates the effect on delivery, and recommends practical responses.',
+  },
+  {
+    title: 'Regulatory and institutional costs',
+    body: 'A cost assessment that shows what is driving the amount you pay, which factors you can change, and where a policy or operational intervention is worthwhile.',
+  },
+  {
+    title: 'Financial and policy modelling',
+    body: 'A documented model, scenario results, and recommendations for decisions about fiscal impacts, royalty structures, or policy options.',
+  },
+  {
+    title: 'Public-interest analysis',
+    body: 'A clear account of what public records support, what remains uncertain, and what those findings mean for a policy, legal, or reporting decision.',
+  },
 ];
 
 const HomePage = () => (
   <div className="px-6 lg:px-16 py-[var(--space-10)] space-y-[var(--space-10)]">
     <section className="max-w-[900px] mx-auto space-y-6">
-      <div className="space-y-2">
-        <h1 className="headline-lg">When the numbers need to hold up.</h1>
-      </div>
+      <h1 className="headline-lg">Clear strategy. Practical next steps.</h1>
       <p className="text-[18px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
-        Careful analysis for decisions that depend on the numbers being right.
+        DDA turns complex planning, economic, workforce, regulatory, and financial questions into a clear course of action. You receive a strategy, plan, KPI framework, or set of recommendations with defined priorities, owners, and timelines.
       </p>
     </section>
 
     <section className="max-w-[900px] mx-auto space-y-5">
-      <h2 className="headline-md">What DDA Does</h2>
+      <h2 className="headline-md">Why you can rely on it</h2>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        Organizations make expensive decisions using figures they haven&apos;t checked. A strategy can reach a board, council, or regulator before anyone asks where a key number came from.
+        Every recommendation is grounded in analysis that can be traced back to named sources. DDA records assumptions, calculations, dates, and gaps so you know which conclusions are firm, where judgement is required, and what could change the direction.
       </p>
-      <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        DDA checks the inputs, records the source and date, and explains the assumptions behind the result. Public datasets don&apos;t always match the geography or reporting period a decision requires. When they don&apos;t, the analysis says what was estimated and how much that choice affects the result.
-      </p>
-      <Link to="/method" className="btn-ghost">How we work →</Link>
+      <Link to="/method" className="btn-ghost">Read about the method →</Link>
     </section>
 
     <section className="max-w-[900px] mx-auto space-y-6">
-      <h2 className="headline-md">Services</h2>
+      <h2 className="headline-md">What you can get</h2>
       <div className="grid gap-5 md:grid-cols-2">
-        {services.map(([title, body]) => (
+        {services.map(({ title, body }) => (
           <article key={title} className="card space-y-3">
             <h3 className="text-[18px] font-medium leading-[1.3]">{title}</h3>
             <p className="text-[14px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>{body}</p>
           </article>
         ))}
       </div>
-      <Link to="/services" className="btn-ghost">All services →</Link>
     </section>
 
     <section className="max-w-[900px] mx-auto space-y-4">
-      <h2 className="headline-md">Who This Is For</h2>
+      <h2 className="headline-md">Who this is for</h2>
       <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        DDA works with municipalities, regional governments, resource sector operators, government bodies, legal and advisory teams, journalists, and oversight bodies. The common need is straightforward: you&apos;re making a decision or publishing a finding, and you need to know which figures are supported, which are estimates, and which questions the available data can&apos;t answer.
+        DDA works with municipalities, regional governments, public bodies, resource operators, legal and advisory practices, journalists, and oversight bodies. Each engagement starts with the decision you need to make. It ends with a defined direction and the steps needed to carry it forward.
       </p>
     </section>
 
     <section className="max-w-[900px] mx-auto card space-y-4">
-      <h2 className="headline-sm">Contact</h2>
-      <p style={{ color: 'var(--text-secondary)' }}>Tell us about the decision and the numbers you need checked.</p>
+      <h2 className="headline-sm">Start a conversation</h2>
+      <p style={{ color: 'var(--text-secondary)' }}>Tell David what decision you are facing and what you need to have in hand.</p>
       <Link to="/contact" className="btn-primary">Get in touch →</Link>
     </section>
 
     <footer className="max-w-[900px] mx-auto text-[13px] leading-[1.7]" style={{ color: 'var(--text-tertiary)' }}>
-      <p><em>DDA — Diagnostics, Dataflow, Analysis</em></p>
-      <p><em>Metro Vancouver, BC — Operating nationally</em></p>
+      <p><em>DDA, Diagnostics, Dataflow, Analysis</em></p>
+      <p><em>Metro Vancouver, BC. Operating nationally.</em></p>
       <p><em>{getEmailAddress('primary')}</em></p>
     </footer>
   </div>

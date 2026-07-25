@@ -11,7 +11,7 @@ const TermsPage = () => {
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">1. AGREEMENT TO TERMS</h2>
         <p>
-          By accessing or using ddanalysis.ca (the "Website") and engaging with DDA for public-evidence systems analysis services
+          By accessing or using ddanalytics.ca (the "Website") and engaging with DDA for public-evidence systems analysis services
           (the "Services"), you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the
           Website or request Services.
         </p>
@@ -299,7 +299,7 @@ const TermsPage = () => {
         <p>Client may request deletion of personal information at any time by contacting DDA.</p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">16. WEBSITE TERMS</h2>
-        <p>Use of ddanalysis.ca is subject to these additional restrictions:</p>
+        <p>Use of ddanalytics.ca is subject to these additional restrictions:</p>
         <p><strong>Acceptable Use:</strong></p>
         <ul className="list-disc pl-6 space-y-1">
           <li>Access the Website to review services and request engagement</li>
