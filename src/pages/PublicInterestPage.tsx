@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const examples = [
-  ['Institutional response analysis.', 'When a public safety crisis, a policy failure, or a systemic breakdown generates a public record — enforcement logs, coordination records, public communications, budget allocations — DDA synthesizes that record to identify what actually happened, when, and what the structural causes were. Detection lags. Coordination failures. The gap between what was reported and what was produced.'],
+  ['Institutional response analysis.', 'For a typical public safety or policy review, DDA compares enforcement logs, coordination records, public communications, and budget allocations. The record may show when an agency acted and what it reported. It may not show why an individual decision was made, especially when internal records have not been released.'],
   ['System strain analysis.', "When an institution's published data — staffing ratios, funding levels, attrition rates, outcome measures — tells a different story than its public communications, DDA quantifies the gap. What the data shows about workload, capacity, and the conditions that produce failure."],
   ['Cost and accountability analysis.', 'When public costs are distributed across systems in ways that obscure accountability — regulatory cost structures, institutional spending patterns, fiscal transfers — DDA maps what the published record reveals about who bears the cost and what drives it.'],
 ];
@@ -12,12 +12,12 @@ const PublicInterestPage = () => (
       <h1 className="headline-md">Public Interest Analysis</h1>
       <section className="space-y-4 text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
         <p>Some of the most important analytical work doesn&apos;t come with a client and a contract. It comes from a question that the public record can answer — if someone is willing to read it carefully enough.</p>
-        <p>DDA produces independent analysis of institutional behaviour where the subject is a matter of public record and public consequence. Enforcement gaps. Resource allocation failures. Policy design failures. Cost structures that the public bears but no single body is accountable for. System responses that the data shows diverged from what institutions reported.</p>
+        <p>DDA produces independent analysis of public records on institutional decisions, resource allocation, policy design, and public costs. The work compares what an institution reported with what its published data and records show.</p>
       </section>
       <section className="space-y-4">
-        <h2 className="headline-sm">The Standard</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>This work is built to the same evidentiary standard as every DDA commissioned engagement. Every claim is sourced to a named primary document. Every limitation in the evidence is declared. The distinction between what the data shows, what it suggests, and where it is silent is maintained throughout.</p>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>The analysis is designed for use. By journalists who need findings they can publish and defend. By advocates who need an evidentiary foundation for submissions and interventions. By oversight bodies and policymakers who need a structured account of what the institutional record actually shows. By legal teams who need analysis built from verifiable public records.</p>
+        <h2 className="headline-sm">How sources are handled</h2>
+        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Claims point to named primary documents. The analysis separates what a record says from what can reasonably be inferred from it. Access-to-information responses can contain redactions, and published datasets may omit local or case-level detail. Those gaps limit the conclusions. They aren&apos;t filled with assumptions presented as facts.</p>
+        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Journalists, advocates, oversight bodies, policymakers, and legal teams can use the source record to check a finding before relying on it in a story, submission, review, or case.</p>
       </section>
       <section className="space-y-4">
         <h2 className="headline-sm">What This Work Looks Like</h2>
