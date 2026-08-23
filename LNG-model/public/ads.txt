@@ -1,0 +1,2 @@
+# DDA has no authorized digital advertising sellers.
+# Add authorized seller records here before enabling programmatic ads.
