@@ -7,8 +7,8 @@ const PrivacyPolicyPage = () => {
         <h1 className="headline-md">Privacy Policy</h1>
 
         <p><strong>DDA — Diagnostics, Dataflow, Analysis</strong><br />
-        <strong>Effective Date:</strong> February 18, 2026<br />
-        <strong>Last Updated:</strong> February 18, 2026</p>
+        <strong>Effective Date:</strong> August 23, 2026<br />
+        <strong>Last Updated:</strong> August 23, 2026</p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">Overview</h2>
         <p>
@@ -264,7 +264,7 @@ const PrivacyPolicyPage = () => {
           Phone: 250-387-5629
         </p>
 
-        <p><strong>Last Updated:</strong> February 18, 2026</p>
+        <p><strong>Last Updated:</strong> August 23, 2026</p>
         <p>© 2026 DDA — Diagnostics, Dataflow, Analysis. All rights reserved.</p>
       </section>
     </div>

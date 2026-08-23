@@ -13,7 +13,7 @@ type DiagnosticTool = {
 const tools: DiagnosticTool[] = [
   {
     name: 'WorkSafeBC Repricing Risk Diagnostic',
-    href: '/worksafebc-repricing-risk-diagnostic',
+    href: '/tools/worksafe-repricing',
     category: 'Workers compensation',
     diagnosis: 'Models repricing exposure versus sector and system benchmarks.',
     input: 'Industry profile and payroll assumptions.',
@@ -31,7 +31,7 @@ const tools: DiagnosticTool[] = [
   },
   {
     name: 'B.C. PST Impact Diagnostic',
-    href: '/bc-pst-impact-diagnostic',
+    href: '/tools/bc-pst-impact',
     category: 'Tax and fiscal',
     diagnosis: 'Provides the broader B.C. PST impact model for public-sector and organizational cost exposure.',
     input: 'Capital, operating, and supply-chain spend assumptions.',
@@ -49,7 +49,7 @@ const tools: DiagnosticTool[] = [
   },
   {
     name: 'Experience Rating Optimizer',
-    href: '/tools/experience-rating-optimizer',
+    href: '/tools/experience-rating',
     category: 'Workers compensation',
     diagnosis: 'Tests assessed rate versus risk-adjusted expectations.',
     input: 'Claims profile and payroll history.',
@@ -76,7 +76,7 @@ const tools: DiagnosticTool[] = [
   },
   {
     name: 'BC Decarbonization Model',
-    href: '/tools/bc-decarbonization-model',
+    href: '/tools/bc-decarbonization',
     category: 'Climate and energy',
     diagnosis: 'Stress-tests emissions pathways against legal targets.',
     input: 'Policy and sector pathway selections.',
@@ -95,7 +95,7 @@ const tools: DiagnosticTool[] = [
   {
     name: 'Surplus Run-Down Early-Warning Alert Service',
     href: '/tools/surplus-alert',
-    category: 'Executive tools',
+    category: 'Workers compensation',
     diagnosis: 'Tracks funding-ratio threshold pressure and repricing timing risk.',
     input: 'Funding ratio and contribution assumptions.',
     output: 'Threshold pressure timeline and early-warning signal.',
@@ -118,13 +118,13 @@ function DiagnosticsPage() {
   return (
     <div className="px-6 py-[var(--space-10)] lg:px-16">
       <section className="mx-auto max-w-[1120px]">
-        <h1 className="headline-md">All diagnostic tools. Built from public evidence. Self-serve, no engagement required.</h1>
+        <h1 className="headline-lg">Diagnostic tools</h1>
+        <p className="mt-4 text-[18px] font-medium">Built from public evidence. Open access.</p>
         <p className="mt-4 max-w-[760px] text-[17px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
-          The same method that powers commissioned analysis — applied to specific, bounded questions.
-          WorkSafeBC, PST, carbon, and fiscal-model tools are all open access.
+          These tools apply the same register methodology used in DDA&apos;s commissioned and published analytical work — sourced, classified, and documented. They address specific, bounded questions in workers&apos; compensation, tax policy, climate, and energy economics.
         </p>
-        <p className="mt-3 text-[13px]" style={{ color: 'var(--status-ok)' }}>All tools are currently open access.</p>
       </section>
+      <section className="mx-auto mt-12 max-w-[1120px] card"><h2 className="headline-sm">B.C. Energy Fiscal Decision Model</h2><p className="my-3" style={{color:'var(--text-secondary)'}}>A 48-assumption fiscal simulation platform covering four BC LNG projects. Executive, Analyst, and Audit views. Standalone application.</p><Link to="/model" className="btn-primary">Open model →</Link></section>
 
       <section className="mx-auto mt-[var(--space-7)] max-w-[1120px] space-y-8">
         {categories.map((category) => (

@@ -57,7 +57,7 @@ const WorkSafeBCDiagnosticPage = () => {
     fireEvent('diag_start', { source_route: sourceRoute });
     maybeTrackReturnRun();
     startTimeRef.current = Date.now();
-  }, [fireEvent, intentReady, location.state, maybeTrackReturnRun]);
+  }, [fireEvent, intentReady, isDemoMode, location.state, maybeTrackReturnRun]);
 
   const selectedIndustry = useMemo(
     () => getSelectedIndustry(industryRows, selectedIndustryName),

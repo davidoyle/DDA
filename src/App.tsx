@@ -1,149 +1,71 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
+import { AccessProvider } from './contexts/AccessContext';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
-const PublicInterestPage = lazy(() => import('./pages/PublicInterestPage'));
 const WorkPage = lazy(() => import('./pages/WorkPage'));
+const PublishedPage = lazy(() => import('./pages/PublicInterestPage'));
 const MethodPage = lazy(() => import('./pages/MethodPage'));
+const ToolsPage = lazy(() => import('./pages/DiagnosticsPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
-const BookingConfirmationPage = lazy(() => import('./pages/BookingConfirmationPage'));
-const ConsultationLandingPage = lazy(() => import('./pages/ConsultationLandingPage'));
-const WorkSafeBCDiagnosticPage = lazy(() => import('./pages/WorkSafeBCDiagnosticPage'));
-const DiagnosticsPage = lazy(() => import('./pages/DiagnosticsPage'));
-const DiagnosticsSubscribePage = lazy(() => import('./pages/DiagnosticsSubscribePage'));
-const BCPSTDiagnosticPage = lazy(() => import('./pages/BCPSTDiagnosticPage'));
-const PSTDiagnostic = lazy(() => import('./pages/PSTDiagnostic'));
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-const MentalHealthForecasterPage = lazy(() => import('./pages/tools/MentalHealthForecasterPage'));
-const ProvinceComparatorPage = lazy(() => import('./pages/tools/ProvinceComparatorPage'));
-const SuppressionAuditPage = lazy(() => import('./pages/tools/SuppressionAuditPage'));
-const ExperienceRatingOptimizerPage = lazy(() => import('./pages/tools/ExperienceRatingOptimizerPage'));
-const SurplusAlertPage = lazy(() => import('./pages/tools/SurplusAlertPage'));
-const ExecutiveRiskBriefPage = lazy(() => import('./pages/tools/ExecutiveRiskBriefPage'));
-const BCDecarbonizationModelPage = lazy(() => import('./pages/tools/BCDecarbonizationModelPage'));
-const VerifyAccessPage = lazy(() => import('./pages/VerifyAccessPage'));
-const DemoDiagnosticsLandingPage = lazy(() => import('./pages/DemoDiagnosticsLandingPage'));
-const DemoVsFullPage = lazy(() => import('./pages/DemoVsFullPage'));
-const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage'));
+const WorkSafeBC = lazy(() => import('./pages/WorkSafeBCDiagnosticPage'));
+const PST = lazy(() => import('./pages/PSTDiagnostic'));
+const BCPST = lazy(() => import('./pages/BCPSTDiagnosticPage'));
+const Province = lazy(() => import('./pages/tools/ProvinceComparatorPage'));
+const Experience = lazy(() => import('./pages/tools/ExperienceRatingOptimizerPage'));
+const Suppression = lazy(() => import('./pages/tools/SuppressionAuditPage'));
+const MentalHealth = lazy(() => import('./pages/tools/MentalHealthForecasterPage'));
+const Surplus = lazy(() => import('./pages/tools/SurplusAlertPage'));
+const Decarbonization = lazy(() => import('./pages/tools/BCDecarbonizationModelPage'));
+const Executive = lazy(() => import('./pages/tools/ExecutiveRiskBriefPage'));
 const ModelApp = lazy(() => import('./pages/model'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
-const GA_MEASUREMENT_ID = 'G-BYT5SR4XBR';
+const metadata: Record<string, [string, string]> = {
+  '/': ['David Doyle — DDA', 'DDA builds analytical frameworks for complex planning, policy, and resource sector problems. Finding the story in messy data.'],
+  '/work': ['Selected Work — DDA', 'A record of completed analytical work across municipal planning, resource economics, energy policy, institutional research, and diagnostic tools.'],
+  '/published': ['Published Analysis — DDA', 'Independent investigative research and institutional analysis. Named public-interest work with full source documentation.'],
+  '/method': ['Method — DDA', 'How DDA builds evidence registers, classifies data quality, and structures analysis to survive scrutiny.'],
+  '/tools': ['Diagnostic Tools — DDA', 'Open-access diagnostic tools built from public evidence. Workers compensation, tax, climate, and energy economics.'],
+  '/model': ['B.C. Energy Fiscal Decision Model — DDA', 'Fiscal simulation platform for BC LNG projects. 48-assumption register with Executive, Analyst, and Audit views.'],
+  '/contact': ['Contact — DDA', 'Describe the decision you are facing. David Doyle will respond within 48 hours.'],
+  '/privacy': ['Privacy Policy — DDA', 'How DDA collects, uses, and protects personal information.'],
+  '/terms': ['Terms of Service — DDA', 'Terms governing use of DDA services and analytical tools.'],
+};
+const toolTitles: Record<string, string> = {
+  'worksafe-repricing':'WorkSafeBC Repricing Risk Diagnostic','pst-diagnostic':'PST Diagnostic Tool','bc-pst-impact':'B.C. PST Impact Diagnostic','province-comparator':'Multi-Province Surplus & Rate Comparator','experience-rating':'Experience Rating Optimizer','suppression-audit':'Claims Suppression Self-Audit','mental-health-forecaster':'Mental Health Claims Surge Forecaster','surplus-alert':'Surplus Run-Down Early-Warning Alert','bc-decarbonization':'BC Decarbonization Model','executive-risk-brief':'Executive Risk Brief Generator'
+};
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
-function AnalyticsTracker() {
-  const location = useLocation();
-
+function HeadAndAnalytics() {
+  const { pathname, search, hash } = useLocation();
   useEffect(() => {
-    if (!window.gtag) return;
-
-    window.gtag('config', GA_MEASUREMENT_ID, {
-      page_path: `${location.pathname}${location.search}${location.hash}`,
-    });
-  }, [location]);
-
+    const slug = pathname.startsWith('/tools/') ? pathname.split('/').pop()! : '';
+    const [title, description] = metadata[pathname] ?? (toolTitles[slug] ? [`${toolTitles[slug]} — DDA`, `Open-access ${toolTitles[slug]} built from documented public evidence.`] : ['DDA', 'Diagnostics, Dataflow, Analysis.']);
+    document.title = title;
+    const set = (selector: string, attr: string, value: string) => { let el = document.head.querySelector(selector) as HTMLMetaElement | HTMLLinkElement | null; if (!el) { el = document.createElement(selector.startsWith('link') ? 'link' : 'meta'); document.head.appendChild(el); } el.setAttribute(attr, value); };
+    set('meta[name="description"]', 'content', description);
+    set('link[rel="canonical"]', 'href', `https://ddanalytics.ca${pathname}`);
+    set('meta[property="og:title"]', 'content', title); set('meta[property="og:description"]', 'content', description);
+    set('meta[property="og:url"]', 'content', `https://ddanalytics.ca${pathname}`);
+    window.gtag?.('config', 'G-BYT5SR4XBR', { page_path: `${pathname}${search}${hash}` });
+  }, [pathname, search, hash]);
   return null;
 }
 
-function App() {
-  return (
-    <Router>
-        <AnalyticsTracker />
-        <Suspense fallback={<div className="min-h-screen bg-white" />}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<HomePage />} />
-              <Route path="analysis" element={<WorkPage />} />
-              <Route path="work" element={<Navigate to="/analysis" replace />} />
-              <Route path="services" element={<Navigate to="/" replace />} />
-              <Route path="services/:serviceSlug" element={<Navigate to="/" replace />} />
-              <Route path="public-interest" element={<PublicInterestPage />} />
-              <Route path="method" element={<MethodPage />} />
-              <Route path="about" element={<Navigate to="/method" replace />} />
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="public-sector" element={<Navigate to="/" replace />} />
-              <Route path="privacy" element={<PrivacyPolicyPage />} />
-              <Route path="terms" element={<TermsPage />} />
-              <Route path="diagnostics" element={<DiagnosticsPage />} />
-              <Route path="diagnostics/subscribe" element={<DiagnosticsSubscribePage />} />
-              <Route path="login" element={<Navigate to="/tools" replace />} />
-              <Route path="tools" element={<DiagnosticsPage />} />
+const redirects: Record<string,string> = {
+  '/analysis':'/work','/public-interest':'/published','/about':'/method','/diagnostics':'/tools',
+  '/worksafebc-repricing-risk-diagnostic':'/tools/worksafe-repricing','/bc-pst-impact-diagnostic':'/tools/bc-pst-impact',
+  '/diagnostics/pst-diagnostic':'/tools/pst-diagnostic','/diagnostics/worksafe-repricing':'/tools/worksafe-repricing','/diagnostics/province-comparator':'/tools/province-comparator','/diagnostics/experience-rating':'/tools/experience-rating','/diagnostics/suppression-audit':'/tools/suppression-audit','/diagnostics/mental-health-forecaster':'/tools/mental-health-forecaster','/diagnostics/surplus-alert':'/tools/surplus-alert','/diagnostics/bc-decarbonization-model':'/tools/bc-decarbonization','/diagnostics/executive-risk-brief':'/tools/executive-risk-brief'
+};
+function LegacyRedirect() { const { pathname } = useLocation(); const demo = pathname.replace('/diagnostics/demo/', '/tools/').replace('bc-decarbonization-model','bc-decarbonization'); return <Navigate replace to={redirects[pathname] ?? (pathname.startsWith('/diagnostics/demo/') ? demo : '/tools')} />; }
 
-              <Route path="demo-vs-full" element={<DemoVsFullPage />} />
-              <Route path="diagnostics/demo" element={<DemoDiagnosticsLandingPage />} />
-
-              <Route path="diagnostics/demo/pst-diagnostic" element={<PSTDiagnostic />} />
-              <Route path="diagnostics/demo/worksafe-repricing" element={<WorkSafeBCDiagnosticPage />} />
-              <Route path="diagnostics/demo/province-comparator" element={<ProvinceComparatorPage />} />
-              <Route path="diagnostics/demo/experience-rating" element={<ExperienceRatingOptimizerPage />} />
-              <Route path="diagnostics/demo/suppression-audit" element={<SuppressionAuditPage />} />
-              <Route path="diagnostics/demo/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
-              <Route path="diagnostics/demo/surplus-alert" element={<SurplusAlertPage />} />
-              <Route path="diagnostics/demo/bc-decarbonization-model" element={<BCDecarbonizationModelPage />} />
-              <Route path="diagnostics/demo/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
-
-              <Route path="worksafebc-repricing-risk-diagnostic" element={<WorkSafeBCDiagnosticPage />} />
-              <Route path="bc-pst-impact-diagnostic" element={<BCPSTDiagnosticPage />} />
-              <Route path="tools/worksafe-repricing" element={<WorkSafeBCDiagnosticPage />} />
-              <Route path="tools/pst-diagnostic" element={<PSTDiagnostic />} />
-              <Route path="tools/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
-              <Route path="tools/province-comparator" element={<ProvinceComparatorPage />} />
-              <Route path="tools/suppression-audit" element={<SuppressionAuditPage />} />
-              <Route path="tools/experience-rating-optimizer" element={<ExperienceRatingOptimizerPage />} />
-              <Route path="tools/surplus-alert" element={<SurplusAlertPage />} />
-              <Route path="tools/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
-              <Route path="tools/bc-decarbonization-model" element={<BCDecarbonizationModelPage />} />
-
-              <Route path="diagnostics/pst-diagnostic" element={<PSTDiagnostic />} />
-              <Route path="diagnostics/worksafe-repricing" element={<WorkSafeBCDiagnosticPage />} />
-              <Route path="diagnostics/province-comparator" element={<ProvinceComparatorPage />} />
-              <Route path="diagnostics/suppression-audit" element={<SuppressionAuditPage />} />
-              <Route path="diagnostics/experience-rating" element={<ExperienceRatingOptimizerPage />} />
-              <Route path="diagnostics/mental-health-forecaster" element={<MentalHealthForecasterPage />} />
-              <Route path="diagnostics/surplus-alert" element={<SurplusAlertPage />} />
-              <Route path="diagnostics/executive-risk-brief" element={<ExecutiveRiskBriefPage />} />
-              <Route path="diagnostics/bc-decarbonization-model" element={<BCDecarbonizationModelPage />} />
-
-              <Route path="dashboard" element={<Dashboard />} />
-
-              <Route path="consultation" element={<ConsultationLandingPage />} />
-              <Route path="consultation/municipality" element={<ConsultationLandingPage sector="municipality" />} />
-              <Route path="consultation/union" element={<ConsultationLandingPage sector="union" />} />
-              <Route path="consultation/contractor" element={<ConsultationLandingPage sector="contractor" />} />
-              <Route path="consultation/law-firm" element={<ConsultationLandingPage sector="law-firm" />} />
-              <Route path="consultation/association" element={<ConsultationLandingPage sector="association" />} />
-              <Route path="consultation/journalist" element={<ConsultationLandingPage sector="journalist" />} />
-              <Route path="consultation/small-business" element={<ConsultationLandingPage sector="small-business" />} />
-
-              <Route path="booking-confirmation" element={<BookingConfirmationPage />} />
-              <Route path="booking-confirmation/municipality" element={<BookingConfirmationPage sector="municipality" />} />
-              <Route path="booking-confirmation/union" element={<BookingConfirmationPage sector="union" />} />
-              <Route path="booking-confirmation/contractor" element={<BookingConfirmationPage sector="contractor" />} />
-              <Route path="booking-confirmation/law-firm" element={<BookingConfirmationPage sector="law-firm" />} />
-              <Route path="booking-confirmation/association" element={<BookingConfirmationPage sector="association" />} />
-              <Route path="booking-confirmation/journalist" element={<BookingConfirmationPage sector="journalist" />} />
-              <Route path="booking-confirmation/small-business" element={<BookingConfirmationPage sector="small-business" />} />
-
-              <Route path="verify-access" element={<VerifyAccessPage />} />
-              <Route path="payment-success" element={<PaymentSuccessPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-
-            <Route path="/admin/*" element={<Navigate to="/tools" replace />} />
-            <Route path="/model" element={<ModelApp />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
-    </Router>
-  );
+export default function App() {
+  return <BrowserRouter><AccessProvider><HeadAndAnalytics/><Suspense fallback={<div className="min-h-screen"/>}><Routes>
+    <Route path="/" element={<Layout/>}><Route index element={<HomePage/>}/><Route path="work" element={<WorkPage/>}/><Route path="published" element={<PublishedPage/>}/><Route path="method" element={<MethodPage/>}/><Route path="tools" element={<ToolsPage/>}/><Route path="contact" element={<ContactPage/>}/><Route path="privacy" element={<PrivacyPolicyPage/>}/><Route path="terms" element={<TermsPage/>}/>
+      <Route path="tools/worksafe-repricing" element={<WorkSafeBC/>}/><Route path="tools/pst-diagnostic" element={<PST/>}/><Route path="tools/bc-pst-impact" element={<BCPST/>}/><Route path="tools/province-comparator" element={<Province/>}/><Route path="tools/experience-rating" element={<Experience/>}/><Route path="tools/suppression-audit" element={<Suppression/>}/><Route path="tools/mental-health-forecaster" element={<MentalHealth/>}/><Route path="tools/surplus-alert" element={<Surplus/>}/><Route path="tools/bc-decarbonization" element={<Decarbonization/>}/><Route path="tools/executive-risk-brief" element={<Executive/>}/>
+      <Route path="analysis" element={<LegacyRedirect/>}/><Route path="public-interest" element={<LegacyRedirect/>}/><Route path="about" element={<LegacyRedirect/>}/><Route path="diagnostics/*" element={<LegacyRedirect/>}/><Route path="worksafebc-repricing-risk-diagnostic" element={<LegacyRedirect/>}/><Route path="bc-pst-impact-diagnostic" element={<LegacyRedirect/>}/><Route path="consultation/*" element={<Navigate replace to="/contact"/>}/><Route path="booking-confirmation/*" element={<Navigate replace to="/contact"/>}/><Route path="*" element={<NotFoundPage/>}/>
+    </Route><Route path="/model" element={<ModelApp/>}/></Routes></Suspense></AccessProvider></BrowserRouter>;
 }
-
-export default App;

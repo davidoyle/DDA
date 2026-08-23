@@ -65,6 +65,18 @@ body {
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
 }
+.page-copy { max-width: 900px; margin: 0 auto; padding: var(--space-10) 24px; display: grid; gap: var(--space-8); }
+.page-copy header { display: grid; gap: var(--space-5); }
+.page-copy section { display: grid; gap: var(--space-4); }
+.page-copy h2 { font-size: clamp(1.65rem,3vw,2rem); line-height:1.2; letter-spacing:-.02em; font-weight:500; }
+.page-copy h3 { font-size:1.1rem; font-weight:600; }
+.page-copy p { font-size:1rem; line-height:1.85; color:var(--text-secondary); }
+.register-grid { display:grid; gap:12px; }
+.register-grid p { border:1px solid var(--border); background:var(--bg-surface); padding:20px; display:grid; gap:8px; }
+.register-grid b { font-family:var(--font-mono); font-size:.75rem; color:var(--text-primary); letter-spacing:.08em; }
+.work-section { padding-top:var(--space-6); border-top:1px solid var(--border); }
+.work-entry { display:grid; gap:8px; padding:16px 0; }
+.contact-panel { background:var(--bg-surface); border:1px solid var(--border); padding:var(--space-6); }
 
 .grain-overlay { display: none; }
 

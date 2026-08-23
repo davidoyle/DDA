@@ -7,9 +7,10 @@ const Layout = () => {
   const location = useLocation();
 
   const navLinks = [
-    { label: 'Analysis', href: '/analysis' },
-    { label: 'Tools', href: '/tools' },
+    { label: 'Work', href: '/work' },
+    { label: 'Published', href: '/published' },
     { label: 'Method', href: '/method' },
+    { label: 'Tools', href: '/tools' },
     { label: 'Contact', href: '/contact' },
   ];
 
@@ -35,13 +36,6 @@ const Layout = () => {
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-2">
-            <Link to="/tools" className="btn-secondary">Tools</Link>
-            <Link to="/contact" className="btn-primary">
-              Describe your situation →
-            </Link>
-          </div>
-
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden text-xl"
@@ -60,10 +54,6 @@ const Layout = () => {
                 {link.label}
               </Link>
             ))}
-            <Link to="/tools" onClick={() => setIsMobileMenuOpen(false)} className="btn-secondary w-full">Tools</Link>
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-primary w-full">
-              Describe your situation →
-            </Link>
           </div>
         </div>
       )}
@@ -74,6 +64,7 @@ const Layout = () => {
 
       <footer className="border-t px-6 lg:px-16 py-8" style={{ borderColor: 'var(--border)' }}>
         <div className="max-w-[1120px] mx-auto flex flex-wrap items-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <span><strong>DDA.</strong> Diagnostics, Dataflow, Analysis.</span><span>Metro Vancouver, BC. Operating nationally.</span>
           <Link to="/tools" className="hover:underline">Tools</Link>
           <Link to="/privacy" className="hover:underline">Privacy</Link>
           <Link to="/terms" className="hover:underline">Terms</Link>

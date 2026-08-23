@@ -25,6 +25,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   return res.json({
     success: true,
-    message: 'Thank you for your inquiry. We will respond within 24 hours.',
+    message: 'Thank you. David will respond within 48 hours.',
   });
 }
