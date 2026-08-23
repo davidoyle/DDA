@@ -1,0 +1,7 @@
+import { useState } from 'react';
+import ScenarioComparison from '@/components/model/ScenarioComparison';
+import { BASE_ASSUMPTIONS } from '@/lib/model/assumptions';
+import { buildCashFlow, DEFAULT_PROJECT } from '@/lib/model/cashflow';
+import { applyScenario, SCENARIOS } from '@/lib/model/scenarios';
+import { Page, fmt, pct } from './shared';
+export default function ScenariosPage() { const [selected, setSelected] = useState('base'); const comparisons = SCENARIOS.map((s) => { const p = s.id === 'ramp_delay' ? { ...DEFAULT_PROJECT, inServiceYear: DEFAULT_PROJECT.inServiceYear + 2 } : DEFAULT_PROJECT; const f = buildCashFlow({ project: p, register: applyScenario(BASE_ASSUMPTIONS, s) }); return { label: s.label, irr: f.metrics.irr, npv: f.metrics.npv, govTake: f.metrics.governmentTakeNPV, flagsUsed: f.metrics.flagsUsed }; }); const active = comparisons.find((s) => s.label === SCENARIOS.find((x) => x.id === selected)?.label) ?? comparisons[0]; return <Page title="Module 4 — Scenarios"><div className="flex flex-wrap gap-2">{SCENARIOS.map((s) => <label className="rounded border bg-white p-2" key={s.id}><input type="radio" checked={selected === s.id} onChange={() => setSelected(s.id)} /> {s.label}</label>)}</div><div className="rounded border bg-white p-4">Selected: <strong>{active.label}</strong> — IRR {pct(active.irr)}, NPV {fmt(active.npv)}</div><ScenarioComparison scenarios={comparisons} /></Page>; }
