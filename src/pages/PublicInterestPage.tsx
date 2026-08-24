@@ -1,41 +1,7 @@
-import { Link } from 'react-router-dom';
-
-const examples = [
-  ['Institutional response analysis.', 'For a typical public safety or policy review, DDA compares enforcement logs, coordination records, public communications, and budget allocations. The record may show when an agency acted and what it reported. It may not show why an individual decision was made, especially when internal records have not been released.'],
-  ['System strain analysis.', "DDA compares an institution's published staffing, funding, attrition, and outcome data with its public statements. You receive findings about workload, capacity, and the conditions linked to poor results."],
-  ['Cost and accountability analysis.', 'DDA maps regulatory costs, institutional spending, and fiscal transfers. The resulting account shows who bears the cost and what the published record identifies as its main drivers.'],
+import {Link} from 'react-router-dom';
+const studies=[
+['BC Minister of Labour mandate delivery investigation',<>The investigation converted five announced priorities into verifiable measures and assembled budget estimates, Hansard, legislation, WorkSafeBC records, and quarterly outputs. Approximately <strong>20% of the mandate was observably delivered</strong>. During the period, appeals rose <strong>146%</strong>, the responsible budget increased by <strong>$579,000</strong>, and WorkSafeBC penalty activity was tested against Alberta and Ontario benchmarks. A verification appendix linked each claim to its source and calculation. The closing finding distinguished measurable delivery from political theatre: activity and announcement volume cannot substitute for outcomes.</>],
+['Surrey extortion crisis — institutional response analysis',<>The register documented <strong>132 incidents and 49 shootings</strong>, then tested the response against four institutional functions: detection, coordination, throughput, and credibility. It compared the January 20 statement that the situation was “not a crisis” with operational escalation already visible in the record. Version 1.1 incorporated <strong>56 attempts in 55 days</strong>, a <strong>56% re-victimization rate</strong>, and <strong>296 immigration cases</strong>. The analysis was briefed to MLA Bhangu. Its central finding was the divergence between public reassurance and the scale, recurrence, and cross-agency load observable in the evidence.</>],
+['BC PST expansion — fiscal impact analysis',<>The 586-paragraph analysis began with the budget revenue projection. It sourced effective rates from legislation, modelled supply-chain cascades with national input-output tables, tested behavioural erosion using IMF and Bank of Canada elasticity research, and calculated firm-level absorption with sector margins. It then cross-referenced those effects with the LookWest investment fund. The structural contradiction was clear: the fund assumed <strong>70–75% local sourcing</strong> of professional services while the tax weakened the local sector expected to supply them. Aggregate findings separated booked revenue from behavioural erosion, indirect cascade costs, margin pressure, and the policy’s conflict with the government’s own investment premise.</>]
 ];
-
-const PublicInterestPage = () => (
-  <div className="px-6 lg:px-16 py-[var(--space-10)]">
-    <article className="max-w-[900px] mx-auto space-y-8">
-      <h1 className="headline-md">Public Interest Analysis</h1>
-      <section className="space-y-4 text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-        <p>You receive findings and recommendations that can inform a story, submission, review, policy decision, or legal matter.</p>
-        <p>DDA examines public records on institutional decisions, resource allocation, policy design, and public costs. The work compares what an institution reported with what its published data and records show.</p>
-      </section>
-      <section className="space-y-4">
-        <h2 className="headline-sm">How sources are handled</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Claims point to named primary documents. The analysis separates what a record says from what can reasonably be inferred from it. Access-to-information responses can contain redactions, and published datasets may omit local or case-level detail. Those gaps limit the conclusions. They aren&apos;t filled with assumptions presented as facts.</p>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Journalists, advocates, oversight bodies, policymakers, and legal teams can use the source record to check a finding before relying on it in a story, submission, review, or case.</p>
-      </section>
-      <section className="space-y-4">
-        <h2 className="headline-sm">What This Work Looks Like</h2>
-        {examples.map(([title, body]) => (
-          <p key={title} className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}><strong style={{ color: 'var(--text-primary)' }}>{title}</strong> {body}</p>
-        ))}
-      </section>
-      <section className="card space-y-4">
-        <h2 className="headline-sm">Access</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Selected public interest analyses will be displayed as PDF reports and samples when they are ready for publication.</p>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>Where analysis is produced in response to a specific request from a journalist, advocacy organization, or oversight body, direct access can be arranged. Contact DDA to discuss.</p>
-        <div className="flex flex-wrap gap-3">
-          <Link to="/analysis" className="btn-primary">About forthcoming samples →</Link>
-          <Link to="/contact" className="btn-secondary">Contact DDA →</Link>
-        </div>
-      </section>
-    </article>
-  </div>
-);
-
-export default PublicInterestPage;
+export default function PublishedPage(){return <article className="page-copy"><header><h1 className="headline-lg">Published analysis</h1><p>DDA has produced independent investigative research and institutional analysis using the same methodology applied to all work. These analyses are named because they were produced as public-interest work and their findings are part of the public record.</p></header>{studies.map(([h,b])=><section key={h as string}><h2>{h}</h2><p>{b}</p></section>)}<section className="contact-panel"><h2>Contact</h2><p>If you are a journalist, policy researcher, or oversight body with a question about these analyses—or a public-interest question that may benefit from this method—contact David directly.</p><Link className="btn-primary" to="/contact">Get in touch →</Link></section></article>}

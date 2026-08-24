@@ -37,7 +37,7 @@ export default function PSTDiagnostic() {
     fireEvent('diag_start', { source_route: sourceRoute })
     maybeTrackReturnRun()
     startedAtRef.current = Date.now()
-  }, [fireEvent, intentReady, location.state, maybeTrackReturnRun])
+  }, [fireEvent, intentReady, isDemoMode, location.state, maybeTrackReturnRun])
 
   const segment = useMemo(() => deriveSegment(intent, signals), [intent, signals])
 

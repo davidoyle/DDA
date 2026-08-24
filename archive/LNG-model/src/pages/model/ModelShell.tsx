@@ -206,7 +206,7 @@ export default function ModelShell() {
   const narrative = useMemo(() => generateNarrative(result.metrics, dualRows, state.wacc), [result.metrics, dualRows, state.wacc]);
   const scenarioResults = useMemo(() => scenarioResultsFor(selectedProject, state), [selectedProject, state]);
   const { actualCount, estimatedCount, proxyCount, totalCount } = useMemo(() => qualityCounts(register), [register]);
-  const lastCalculated = useMemo(() => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), [result]);
+  const lastCalculated = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   const govTake = result.metrics.governmentTakeUndiscounted / Math.max(1, result.rows.reduce((sum, row) => sum + row.revenue, 0));
   const flagHint = estimatedCount > 0 ? `${estimatedCount} estimated inputs active` : 'All assumptions confirmed';
 

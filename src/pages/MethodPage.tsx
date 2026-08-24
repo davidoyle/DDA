@@ -1,59 +1,9 @@
-import { Link } from 'react-router-dom';
-
-const MethodPage = () => (
-  <div className="px-6 lg:px-16 py-[var(--space-10)]">
-    <article className="max-w-[900px] mx-auto space-y-8">
-      <section className="space-y-4">
-        <h1 className="headline-md">How the work is done</h1>
-        <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          You receive a strategy, plan, model, or set of recommendations suited to the decision. The working record behind it shows why the direction is reliable and what may need to change when new information arrives.
-        </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="headline-sm">From question to recommendation</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          The engagement begins by defining the decision, the output you need, and who will use it. The analysis then tests the available options and leads to recommendations, responsibilities, measures, and an implementation sequence where the scope calls for them.
-        </p>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          Each key figure points to a named primary document, such as a Statistics Canada table, CMHC report, regulatory filing, or municipal budget. Its release date, calculation, and relevant limits stay with the record. This makes the advice clear about what the evidence does and does not support.
-        </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="headline-sm">How we keep claims traceable</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          An actual is taken directly from a named, dated source. A proxy is an estimate built from sourced inputs, with the calculation shown. A flag marks an input for which a reliable source is not available and records how that gap could affect the answer.
-        </p>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          These labels sit in the input register delivered with the work. They are a practical way to find the basis for a number and to identify which results should be updated if an assumption changes.
-        </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="headline-sm">Where the data falls short</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          Public labour-market releases can describe conditions six to twelve months earlier, so they may not capture a recent plant opening or project delay. Land-use work depends on the timing and completeness of municipal parcel, permit, and servicing data. Where current local information is unavailable, the deliverable uses a range or a stated estimate rather than presenting an unknown figure as fact.
-        </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="headline-sm">David Doyle</h2>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          David Doyle builds strategies and gives direction on planning, labour-market, regulatory-cost, and financial questions. He uses analysis that can be traced back to named sources so organisations can act on what the evidence actually shows.
-        </p>
-        <p className="text-[15px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          DDA is a sole-principal practice. David assembles project-specific teams from an associate network when a scope needs added expertise. Those sub-consultants are independent senior associates, not a standing workforce, and are identified in bids with their availability confirmed.
-        </p>
-      </section>
-
-      <section className="card space-y-4">
-        <h2 className="headline-sm">Discuss an engagement</h2>
-        <p style={{ color: 'var(--text-secondary)' }}>Tell David what you need to decide and what deliverable would help you act.</p>
-        <Link to="/contact" className="btn-primary">Contact David →</Link>
-      </section>
-    </article>
-  </div>
-);
-
-export default MethodPage;
+import {Link} from 'react-router-dom';
+const blocks=[
+['The register',<>The register is a structured inventory built from primary institutional sources: Statistics Canada, BC Stats, CMHC, BC Assessment, environmental databases, budget estimates, Hansard, regulatory records, FOI responses, and project filings. Registers have ranged from 37 entries in a land-demand Data Lexicon to 243 rows in a regional plan. One OCP framework held 91 ACTUAL, 10 PROXY, and 21 FLAG entries; an energy fiscal model classified 48 assumptions, including the default and basis for every FLAG.</>],
+['Analytical principles',<><strong>Constraint sequencing</strong> identifies what binds first. <strong>Disaggregation</strong> exposes the trade, scope position, and date hidden by aggregate gaps. <strong>Cross-domain connection</strong> reveals conclusions no single dataset contains. <strong>Absence as finding</strong> treats missing institutional outcome data as evidence. <strong>Falsification</strong> structures plausible explanations as propositions and tests which survive.</>],
+['GIS and spatial analysis',<>David conducts all GIS and spatial analysis directly: parcel inventory; slope, ALR, floodplain, and wildfire overlays; OCP–zoning crosswalks; development permit area review; hazard and sensitive-area mapping; and transportation network analysis. The spatial and interpretive sit in the same hands.</>],
+['Adversarial resilience',<>The work is structured to survive the hardest question in a council chamber, ministry, boardroom, opposition caucus, or courtroom. Every claim traces to a named, dated source; every limitation is open; every gap records its consequence.</>],
+['David Doyle',<>David Doyle is the principal of DDA, based in Metro Vancouver and operating nationally. DDA uses independent senior associates when projects require it.</>]
+];
+export default function MethodPage(){return <article className="page-copy"><header><h1 className="headline-lg">How the work is done</h1><p>Every DDA engagement starts with a data register. The register is built before analysis begins — often before a proposal is submitted. It is the foundation, not a Phase 1 task.</p></header><section><h2>Every entry is classified</h2><div className="register-grid"><p><b>ACTUAL</b><span>A source-published value from a named primary source with a date.</span></p><p><b>PROXY</b><span>A derived value with its method, assumptions, and limitations documented.</span></p><p><b>FLAG</b><span>A gap, its analytical consequence, and—where possible—the path to resolution.</span></p></div></section>{blocks.map(([h,b])=><section key={h as string}><h2>{h}</h2><p>{b}</p></section>)}<section className="contact-panel"><h2>Contact</h2><p>Tell David what decision you are facing and what you need to have in hand.</p><Link to="/contact" className="btn-primary">Get in touch →</Link></section></article>}

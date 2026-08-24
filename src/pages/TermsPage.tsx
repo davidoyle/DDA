@@ -7,7 +7,7 @@ const TermsPage = () => {
         <h1 className="headline-md">Terms of Service</h1>
 
         <p><strong>DDA TERMS OF SERVICE</strong><br />
-        <strong>EFFECTIVE DATE:</strong> May 5, 2025</p>
+        <strong>EFFECTIVE DATE:</strong> August 23, 2026</p>
 
         <h2 className="text-2xl font-semibold text-[#F3EFE6]">1. AGREEMENT TO TERMS</h2>
         <p>

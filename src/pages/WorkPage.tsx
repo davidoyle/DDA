@@ -1,27 +1,8 @@
-import { Link } from 'react-router-dom';
-
-const WorkPage = () => (
-  <div className="px-6 lg:px-16 py-[var(--space-10)]">
-    <article className="max-w-[900px] mx-auto space-y-8">
-      <section className="space-y-5 pb-[var(--space-7)] border-b" style={{ borderColor: 'var(--border)' }}>
-        <h1 className="headline-md">Analysis</h1>
-        <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          Selected PDF reports and work samples will be displayed here as they are prepared for publication.
-        </p>
-        <p className="text-[16px] leading-[1.8]" style={{ color: 'var(--text-secondary)' }}>
-          Each sample will show the type of decision it addressed, the deliverable provided, and the sources and limits that shaped the recommendations.
-        </p>
-      </section>
-
-      <section className="card space-y-4">
-        <h2 className="headline-sm">Discuss your project</h2>
-        <p className="text-[16px]" style={{ color: 'var(--text-secondary)' }}>
-          If you need a strategy, plan, model, or set of recommendations now, describe the decision and the output you need.
-        </p>
-        <Link to="/contact" className="btn-primary">Contact David →</Link>
-      </section>
-    </article>
-  </div>
-);
-
-export default WorkPage;
+const sections: [string, [string,string][]][] = [
+['Municipal and regional planning',[['Regional economic development strategy','A primary-source register spanning population, labour, housing, industry, infrastructure, and fiscal capacity supported a constraint-sequenced strategy of more than a thousand paragraphs. A 243-row evidence register separated sourced facts, derived values, and structural gaps.'],['Official Community Plan revision framework','A complete bylaw-format framework joined parcel-level GIS, zoning–OCP alignment, development permit areas, hazard constraints, and Bill 44 compliance. Colour-coded amendments let legal, planning, and council reviewers trace every proposed change.'],['Employment land demand and housing capacity','A 37-entry Data Lexicon established common definitions and transparent derivations before land demand, servicing, absorption, and workforce-housing constraints were modelled.']]],
+['Resource sector',[['Construction workforce critical-path model','Trade-level supply and project demand were sequenced by date and certification. The analysis identified a 90-worker commissioning requirement against 30 available workers, making a specific trade—not aggregate labour supply—the binding constraint.'],['Project delivery and financing exposure','Operational data, competing project demand, dispatch capacity, and financing milestones were held in one register to show where labour constraints translated into schedule and capital exposure.']]],
+['Energy',[['B.C. Energy Fiscal Decision Model','A 48-assumption fiscal platform covers four LNG projects through year-by-year cash flow, 36 royalty-rate scenarios, Monte Carlo analysis, project classification, international benchmarking, and Executive, Analyst, and Audit views. Thirty-six assumptions are ACTUAL and twelve are documented FLAG defaults.'],['Energy transition pathway analysis','Sector emissions inventories, statutory targets, electricity constraints, and policy pathways were assembled into scenarios that make feasibility gaps and dependency sequences visible.']]],
+['Policy and institutional research',[['Ministerial mandate delivery investigation','Budget estimates, Hansard, legislation, regulatory outputs, and quarterly measures were used to test five announced priorities. Approximately 20% delivery was observable; the verification appendix made every conclusion reproducible.'],['Surrey extortion crisis institutional response','Incident records, enforcement activity, public statements, immigration actions, and repeat-victimization evidence exposed failures of detection, coordination, throughput, and credibility.'],['B.C. PST expansion fiscal impact','Legislation, national input-output tables, behavioural elasticity literature, and sector margin data supported a 586-paragraph assessment of revenue, cascade effects, and firm-level absorption.']]],
+['Diagnostic tools',[['Workers’ compensation diagnostics','Open tools model repricing, jurisdictional surplus, experience rating, claim suppression, mental-health claim growth, and surplus run-down using published parameters and explicit assumptions.'],['Tax, climate, and executive tools','PST burden, B.C. fiscal impact, decarbonization pathways, and executive risk-brief tools turn bounded evidence questions into transparent, repeatable calculations.']]]
+];
+export default function WorkPage(){return <article className="page-copy"><header><h1 className="headline-lg">Selected work</h1><p>DDA builds analytical frameworks for complex planning, policy, and resource sector problems. The work shown here represents the scope of analysis developed through the practice. All references are anonymized except where the work was published as public-interest analysis.</p></header>{sections.map(([heading,entries])=><section className="work-section" key={heading}><h2>{heading}</h2>{entries.map(([title,body])=><div className="work-entry" key={title}><h3>{title}</h3><p>{body}</p></div>)}</section>)}</article>}
