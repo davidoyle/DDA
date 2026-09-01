@@ -1,8 +1,8 @@
 import { getEmailAddress } from '@/lib/email';
 const PrivacyPolicyPage = () => {
   return (
-    <div className="pt-28 pb-20 px-6 lg:px-[8vw]">
-      <section className="max-w-4xl space-y-6 text-[#F3EFE6]/90">
+    <div className="public-page legacy-privacy">
+      <section className="markdown max-w-4xl space-y-6">
         <p className="eyebrow">Privacy Policy</p>
         <h1 className="headline-md">Privacy Policy</h1>
 
