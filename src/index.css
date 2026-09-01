@@ -283,3 +283,11 @@ html{scroll-padding-top:76px}body{background:var(--paper);color:var(--ink)}a,but
 @media(max-width:1023px){.desktop-nav{display:none}.mobile-actions{display:flex}.home-page .hero-art{opacity:.25;width:90vw}.home-page .markdown h3{width:100%;min-height:0}.footer-lead{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}.mega{display:none}}
 @media(max-width:600px){.site-header{height:64px}.markdown{padding:40px 20px 70px}.breadcrumb{padding:25px 20px 0}.home-page:before{height:690px}.home-page .markdown>h2:first-of-type{margin-top:190px}.markdown h2{margin-top:70px}.footer-grid{grid-template-columns:1fr}.site-footer{padding-top:50px}.contact-close{padding:55px 20px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* The original, detailed privacy notice retained within the current public shell. */
+.legacy-privacy .markdown { max-width: 900px; }
+.legacy-privacy .markdown h1 { margin-bottom: 32px; }
+.legacy-privacy .markdown h2 { margin-top: 64px; font-size: clamp(28px, 3vw, 40px); color: var(--ink); }
+.legacy-privacy .markdown h3 { margin-top: 32px; font-size: 21px; color: var(--ink); }
+.legacy-privacy .markdown p,
+.legacy-privacy .markdown li { color: #34434c; }
