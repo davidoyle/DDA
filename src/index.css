@@ -314,3 +314,11 @@ html{scroll-padding-top:76px}body{background:var(--paper);color:var(--ink)}a,but
   .motion-ready .markdown > .table-scroll,
   .motion-ready .contact-close { opacity: 1; transform: none; }
 }
+
+.evidence-module { margin: 28px 0 45px; padding: clamp(22px,4vw,44px); background: var(--navy); color: white; }
+.evidence-module figcaption { font-size: clamp(24px,3vw,36px); font-weight: 650; margin-bottom: 25px; }
+.evidence-module ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit,minmax(145px,1fr)); }
+.evidence-module li { color: white; padding: 18px 14px; border-top: 1px solid #536774; display: grid; gap: 20px; }
+.evidence-module li span { color: var(--lime); font-size: 12px; letter-spacing: .12em; }
+.evidence-module p { color: #d8e2e8; margin: 28px 0 0; }
+@media(max-width:600px){.evidence-module ol{grid-template-columns:1fr}.evidence-module li{grid-template-columns:38px 1fr;gap:8px}}
