@@ -29,18 +29,20 @@ const searchItems = [
 
 export default function Layout(){
  const [menu,setMenu]=useState(false), [mega,setMega]=useState<string|null>(null), [search,setSearch]=useState(false), [query,setQuery]=useState(''), [searchReady,setSearchReady]=useState(false);
- const loc=useLocation(), nav=useNavigate(), menuButton=useRef<HTMLButtonElement>(null), searchButton=useRef<HTMLButtonElement>(null), mobilePanel=useRef<HTMLDivElement>(null), searchPanel=useRef<HTMLDivElement>(null), searchInput=useRef<HTMLInputElement>(null);
+ const loc=useLocation(), nav=useNavigate(), menuButton=useRef<HTMLButtonElement>(null), searchButton=useRef<HTMLButtonElement>(null), mobilePanel=useRef<HTMLDivElement>(null), searchPanel=useRef<HTMLDivElement>(null), searchInput=useRef<HTMLInputElement>(null), hoverTimer=useRef<number|null>(null);
+ const openWithIntent=(name:string)=>{if(hoverTimer.current)window.clearTimeout(hoverTimer.current);hoverTimer.current=window.setTimeout(()=>setMega(name),180)};
  useFocusTrap(menu,mobilePanel);useFocusTrap(search,searchPanel);
  useEffect(()=>{setMenu(false);setMega(null);setSearch(false);window.scrollTo(0,0)},[loc.pathname]);
  useEffect(()=>{document.body.style.overflow=(menu||search)?'hidden':'';if(search){setSearchReady(false);const timer=setTimeout(()=>{setSearchReady(true);searchInput.current?.focus()},120);return()=>{clearTimeout(timer);document.body.style.overflow=''}}return()=>{document.body.style.overflow=''}},[menu,search]);
  useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){setMega(null);if(search){setSearch(false);searchButton.current?.focus()}if(menu){setMenu(false);menuButton.current?.focus()}}};addEventListener('keydown',key);return()=>removeEventListener('keydown',key)},[menu,search]);
+ useEffect(()=>{if(!mega)return;const outside=(event:PointerEvent)=>{if(!(event.target as Element).closest('.site-header'))setMega(null)};document.addEventListener('pointerdown',outside);return()=>document.removeEventListener('pointerdown',outside)},[mega]);
  const results=searchItems.filter(([t])=>t.toLowerCase().includes(query.toLowerCase()));
  return <div className="site-shell"><a className="skip-link" href="#main">Skip to main content</a>
   <header className="site-header"><div className="nav-wrap"><Link className="brand" to="/" aria-label="DDA home"><span>DDA</span><i/></Link>
    <nav className="desktop-nav" aria-label="Primary navigation">
-    <button onMouseEnter={()=>setMega('who')} onFocus={()=>setMega('who')} onClick={()=>setMega(mega==='who'?null:'who')} aria-expanded={mega==='who'}>Who we are <ChevronDown/></button>
-    <button onMouseEnter={()=>setMega('work')} onFocus={()=>setMega('work')} onClick={()=>setMega(mega==='work'?null:'work')} aria-expanded={mega==='work'}>What we do <ChevronDown/></button>
-    <button onMouseEnter={()=>setMega('think')} onFocus={()=>setMega('think')} onClick={()=>setMega(mega==='think'?null:'think')} aria-expanded={mega==='think'}>Our Thinking <ChevronDown/></button>
+    <button onMouseEnter={()=>openWithIntent('who')} onFocus={()=>setMega('who')} onClick={()=>setMega(mega==='who'?null:'who')} aria-expanded={mega==='who'}>Who we are <ChevronDown/></button>
+    <button onMouseEnter={()=>openWithIntent('work')} onFocus={()=>setMega('work')} onClick={()=>setMega(mega==='work'?null:'work')} aria-expanded={mega==='work'}>What we do <ChevronDown/></button>
+    <button onMouseEnter={()=>openWithIntent('think')} onFocus={()=>setMega('think')} onClick={()=>setMega(mega==='think'?null:'think')} aria-expanded={mega==='think'}>Our Thinking <ChevronDown/></button>
     <Link to="/selected-work/">Selected work</Link><button ref={searchButton} className="icon-button" onClick={()=>setSearch(true)} aria-label="Search"><Search/></button><Link className="nav-contact" to="/contact/">Contact <ArrowRight/></Link>
    </nav>
    <div className="mobile-actions"><button onClick={()=>setSearch(true)} aria-label="Search"><Search/></button><button ref={menuButton} onClick={()=>setMenu(true)} aria-label="Menu"><Menu/></button></div>

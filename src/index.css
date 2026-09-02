@@ -322,3 +322,16 @@ html{scroll-padding-top:76px}body{background:var(--paper);color:var(--ink)}a,but
 .evidence-module li span { color: var(--lime); font-size: 12px; letter-spacing: .12em; }
 .evidence-module p { color: #d8e2e8; margin: 28px 0 0; }
 @media(max-width:600px){.evidence-module ol{grid-template-columns:1fr}.evidence-module li{grid-template-columns:38px 1fr;gap:8px}}
+
+/* Editorial image supplied for the opening block of the Insights hub. */
+.insights-page { background: var(--paper); isolation: isolate; }
+.insights-underlay { position: absolute; inset: 0 0 auto; height: min(720px,82vh); z-index: 0; background: linear-gradient(90deg,rgba(5,15,23,.94) 0%,rgba(5,15,23,.74) 48%,rgba(5,15,23,.18) 100%),linear-gradient(0deg,rgba(5,15,23,.72),transparent 45%),url('/dda-insights-page.svg') center/cover no-repeat; }
+.insights-page .breadcrumb { position: relative; z-index: 1; color: #d7e0e5; }
+.insights-page .breadcrumb a { color: white; }
+.insights-page .markdown { position: relative; z-index: 1; padding-top: clamp(72px,11vh,130px); }
+.insights-page .markdown > h1 { color: white; max-width: 780px; }
+.insights-page .markdown > h1 + p,
+.insights-page .markdown > h1 + h2 { color: #edf2f4; max-width: 720px; }
+.insights-page .markdown > h2:first-of-type { margin-top: clamp(260px,38vh,390px); }
+@media(max-width:600px){.insights-underlay{height:670px;background-position:58% center}.insights-page .markdown>h2:first-of-type{margin-top:230px}}
+.field-error { color: #8f1111; font-size: 14px; font-weight: 700; }
