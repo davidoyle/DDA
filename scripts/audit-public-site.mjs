@@ -1,4 +1,4 @@
-import { readFile, access } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -27,8 +27,8 @@ const fileRoutes=new Map(pages);
 const siteContent=await readFile(path.join(root,'src/content/siteContent.ts'),'utf8');
 const sitemap=await readFile(path.join(root,'public/sitemap.xml'),'utf8');
 const entrypoints=await readFile(path.join(root,'scripts/generate-route-entrypoints.mjs'),'utf8');
-const styles=await readFile(path.join(root,'src/index.css'),'utf8');
-const websitePage=await readFile(path.join(root,'src/pages/WebsitePage.tsx'),'utf8');
+const styles=await readFile(path.join(root,'src/public-site.css'),'utf8');
+const markdownContent=await readFile(path.join(root,'src/components/public/MarkdownContent.tsx'),'utf8');
 const app=await readFile(path.join(root,'src/App.tsx'),'utf8');
 const publicPage=await readFile(path.join(root,'src/pages/PublicPage.tsx'),'utf8');
 const templates=await readFile(path.join(root,'src/components/public/templates/PublicTemplates.tsx'),'utf8');
@@ -47,15 +47,14 @@ for(const [file,route] of pages){
    if(!resolved||!routes.has(resolved))fail(`${file}: unresolved internal link ${target}`);
  }
 }
-await access(path.join(root,'public/dda-insights-page.svg')).catch(()=>fail('Insights editorial asset is missing'));
-if(!styles.includes("url('/dda-insights-page.svg')"))fail('Insights editorial asset is not referenced by the public stylesheet');
-if(/\.insights-underlay\s*\{[^}]*z-index:\s*-/.test(styles))fail('Insights underlay is behind the page background');
-if(!websitePage.includes('onBlur={onBlur}')||!websitePage.includes('aria-describedby='))fail('Contact fields do not expose post-submit blur validation');
+if(!markdownContent.includes('onBlur={onBlur}')||!markdownContent.includes('aria-describedby='))fail('Contact fields do not expose post-submit blur validation');
 if(!app.includes('element={<PublicPage/>}')||app.includes('element={<WebsitePage/>}'))fail('Public routes are not connected to the template dispatcher');
+if(!styles.includes('.home-hero')||!styles.includes('.analysis-chain')||!styles.includes('.article-layout'))fail('Active public template styles are incomplete');
+const main=await readFile(path.join(root,'src/main.tsx'),'utf8');if(!main.includes("import './public-site.css'"))fail('Scoped public stylesheet is not imported by the active application');
 for(const name of ['HomeTemplate','CapabilityHubTemplate','CapabilityDetailTemplate','AboutTemplate','InsightsHubTemplate','InsightArticleTemplate','SelectedWorkTemplate','ContactTemplate','UtilityTemplate'])if(!publicPage.includes(name)||!templates.includes(`function ${name}`))fail(`${name}: template is not defined and connected`);
 if(!static404.includes('<h1>')||!static404.includes('href="/"'))fail('Static 404 is missing its heading or recovery link');
 if(entrypoints.includes("writeFile(path.join(distDir, '404.html'), indexHtml)"))fail('Build overwrites the dedicated static 404 page');
 if(!siteContent.includes("../../.mds/01-home.md?raw"))fail('Markdown imports do not resolve from src/content');
 
 if(failures.length){console.error(`Public-site audit failed (${failures.length}):\n- ${failures.join('\n- ')}`);process.exit(1)}
-console.log(`Public-site audit passed: ${pages.length} routes, headings, links, sitemap entries, static entrypoints, and editorial asset.`);
+console.log(`Public-site audit passed: ${pages.length} routes, headings, links, sitemap entries, static entrypoints, and active template wiring.`);
