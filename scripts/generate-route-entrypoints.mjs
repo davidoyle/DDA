@@ -99,7 +99,7 @@ const legacyRoutes = [
 const manifestSource = await readFile(path.resolve(__dirname,'..','src/content/siteContent.ts'),'utf8');
 const publicRoutes=[...manifestSource.matchAll(/define\('([^']+)'/g)].map(match=>match[1].replace(/^\//,'').replace(/\/$/,''));
 const routes=[...new Set([...publicRoutes,...legacyRoutes])];
-const mdFiles=(await import('node:fs/promises')).readdir(path.resolve(__dirname,'..','.mds')).then(files=>files.filter(file=>/^\d{2}-.+\.md$/.test(file)).sort());
+const mdFiles=(await import('node:fs/promises')).readdir(path.resolve(__dirname,'..','.mds')).then(files=>files.filter(file=>/^(?:0[1-9]|1\d|20)-.+\.md$/.test(file)).sort());
 const escape=value=>value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 function renderMarkdown(source){return source.split(/\n\n+/).map(block=>{const value=block.trim();if(!value)return '';const heading=value.match(/^(#{1,3}) (.+)$/s);if(heading&&!heading[2].includes('\n')){const level=heading[1].length;return `<h${level}>${escape(heading[2])}</h${level}>`}if(value.startsWith('- '))return `<ul>${value.split('\n').map(line=>`<li>${escape(line.slice(2))}</li>`).join('')}</ul>`;return `<p>${escape(value.replace(/\n/g,' '))}</p>`}).join('\n')}
 const sources=new Map();for(const [index,file] of (await mdFiles).entries()){const route=publicRoutes[index];if(route!==undefined)sources.set(route,await readFile(path.resolve(__dirname,'..','.mds',file),'utf8'))}
