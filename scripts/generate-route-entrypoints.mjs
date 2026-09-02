@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 const distDir = path.resolve(__dirname, '..', 'dist');
 const indexPath = path.join(distDir, 'index.html');
 
-const routes = [
+const legacyRoutes = [
   '',
   'who-we-are',
   'what-we-do',
@@ -96,12 +96,21 @@ const routes = [
   'booking-confirmation/small-business',
 ];
 
+const manifestSource = await readFile(path.resolve(__dirname,'..','src/content/siteContent.ts'),'utf8');
+const publicRoutes=[...manifestSource.matchAll(/define\('([^']+)'/g)].map(match=>match[1].replace(/^\//,'').replace(/\/$/,''));
+const routes=[...new Set([...publicRoutes,...legacyRoutes])];
+const mdFiles=(await import('node:fs/promises')).readdir(path.resolve(__dirname,'..','.mds')).then(files=>files.filter(file=>/^\d{2}-.+\.md$/.test(file)).sort());
+const escape=value=>value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+function renderMarkdown(source){return source.split(/\n\n+/).map(block=>{const value=block.trim();if(!value)return '';const heading=value.match(/^(#{1,3}) (.+)$/s);if(heading&&!heading[2].includes('\n')){const level=heading[1].length;return `<h${level}>${escape(heading[2])}</h${level}>`}if(value.startsWith('- '))return `<ul>${value.split('\n').map(line=>`<li>${escape(line.slice(2))}</li>`).join('')}</ul>`;return `<p>${escape(value.replace(/\n/g,' '))}</p>`}).join('\n')}
+const sources=new Map();for(const [index,file] of (await mdFiles).entries()){const route=publicRoutes[index];if(route!==undefined)sources.set(route,await readFile(path.resolve(__dirname,'..','.mds',file),'utf8'))}
 const indexHtml = await readFile(indexPath, 'utf8');
 
 for (const route of routes) {
   const routeDir = path.join(distDir, route);
   await mkdir(routeDir, { recursive: true });
-  await writeFile(path.join(routeDir, 'index.html'), indexHtml);
+  const source=sources.get(route);const title=source?.match(/^# (.+)$/m)?.[1];
+  const shell=source?indexHtml.replace('<div id="root"></div>',`<div id="root"><main class="static-public-copy">${renderMarkdown(source)}</main></div>`).replace(/<title>.*?<\/title>/,`<title>${escape(title??'DDA')} — DDA</title>`):indexHtml;
+  await writeFile(path.join(routeDir, 'index.html'), shell);
 }
 
 console.log(`Generated static entrypoints for ${routes.length} routes; preserved the dedicated static 404 page.`);

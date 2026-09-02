@@ -1,0 +1,11 @@
+# Imagery plan
+
+Use commissioned, owned, or properly licensed documentary photography only. Never use visible third-party logos or Deloitte imagery. Images should be wide, muted, naturally lit, and offer negative space; alt text should describe decision-relevant place, activity, and conditions rather than mood or inferred identity. Decorative textures use empty alt text.
+
+| Family | Direction | Search / generation prompts | Alt-text pattern |
+|---|---|---|---|
+| Places under decision | Western Canadian communities, working landscapes, infrastructure edges | “Wide documentary view of a small BC community beside mountains and transport infrastructure, muted natural colour”; “Canadian municipal growth edge showing housing, serviced road and terrain, no logos” | “Wide view of [place type], with [visible constraint/infrastructure] in the foreground.” |
+| Systems at work | Ports, rail, utilities, forestry, mining and construction as connected systems | “Western Canadian freight, rail and port interfaces at work, realistic overcast light”; “Water and road infrastructure serving a growing BC community, documentary realism” | “[System/activity] connected to [second system], showing [relevant condition].” |
+| People responsible for decisions | Real meetings, site review, public administration; unstaged | “Candid municipal planning team reviewing printed maps in a working meeting, diverse adults, no logos”; “Decision-makers conducting a realistic infrastructure site review, wide composition, no posed portrait” | “People reviewing [artifact/place] during [observable activity].” |
+| Evidence made visible | Real maps, marked plans, source registers and physical analytical artifacts | “Overhead documentary photograph of annotated regional maps, source documents and scenario matrix, no fake UI”; “Close wide view of a planner’s evidence register and map layers, legible structure but no private data” | “[Artifact types] arranged to compare [observable variables].” |
+| Community/economic context | Main streets, industrial lands, housing, commuting and work environments | “Working Canadian main street and nearby employment land, everyday activity, muted colour”; “Western Canadian workers arriving by transit near an industrial site, candid wide view, no branding” | “[Community/economic activity] in [setting], including [decision-relevant detail].” |

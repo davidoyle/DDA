@@ -335,3 +335,18 @@ html{scroll-padding-top:76px}body{background:var(--paper);color:var(--ink)}a,but
 .insights-page .markdown > h2:first-of-type { margin-top: clamp(260px,38vh,390px); }
 @media(max-width:600px){.insights-underlay{height:670px;background-position:58% center}.insights-page .markdown>h2:first-of-type{margin-top:230px}}
 .field-error { color: #8f1111; font-size: 14px; font-weight: 700; }
+
+/* 2026 public palette: Civic navy + lichen. Deliberately scoped away from tools. */
+.site-shell{--site-page:#f4f3ed;--site-panel:#e9ede7;--site-stripe:#eef0ea;--site-total:#dce4d8;--site-body:#17232b;--site-heading:#122330;--site-h2:#314b3e;--site-border:#9aa8a0;--site-rule:#63746a;--site-accent:#617947;--site-footer:#0b1d2a;--site-footer-text:#e8eee9;--site-muted:#4c5d61;--site-link:#155678;--site-cta:#b4c98d;--site-focus:#2e6fa3;background:var(--site-page);color:var(--site-body)}
+.site-shell .public-page{background:var(--site-page);color:var(--site-body)}
+.site-shell .markdown h1,.site-shell .markdown h3{color:var(--site-heading)}.site-shell .markdown h2{color:var(--site-h2)}
+.site-shell .markdown p,.site-shell .markdown li{color:var(--site-body)}.site-shell .markdown p a{color:var(--site-link)}
+.site-shell :focus-visible{outline-color:var(--site-focus)}.site-shell .site-footer{background:var(--site-footer);color:var(--site-footer-text)}
+.desktop-nav>.active{box-shadow:inset 0 -4px var(--site-cta)}
+.search-box li a span{display:grid;gap:5px}.search-box li small{display:block;color:#c7d1d4;max-width:620px;line-height:1.4}.search-box li b{font-size:18px}
+.page-contents{float:right;width:250px;margin:10px 0 40px 55px;border-top:3px solid var(--site-heading);padding-top:16px}.page-contents b{text-transform:uppercase;letter-spacing:.1em;font-size:12px}.page-contents ol{padding-left:20px}.page-contents li{font-size:14px;margin:9px 0;line-height:1.35}.page-contents a{text-decoration:underline;text-underline-offset:3px}
+.template-capability .markdown>h1+.page-contents~p,.template-article .markdown>h1+p{max-width:72ch}.template-capability .evidence-module{clear:both}
+.template-capability-hub .markdown h3{background:var(--site-panel);border-top:3px solid var(--site-h2);padding:24px;margin-top:28px}.template-work .markdown h2{border-top:4px solid var(--site-h2);padding-top:28px}.template-work .markdown h2~p strong{color:var(--site-h2);text-transform:uppercase;letter-spacing:.06em;font-size:13px}.article-page .markdown p,.article-page .markdown li{font-size:18px;max-width:72ch}.article-page .markdown>p:first-of-type strong{display:inline-block;color:var(--site-muted);text-transform:uppercase;letter-spacing:.08em;font-size:13px;border-bottom:1px solid var(--site-border);padding-bottom:14px}
+@media(max-width:760px){.page-contents{float:none;width:auto;margin:0 0 35px}.markdown>h1{font-size:clamp(38px,13vw,48px)}.mobile-actions button{min-width:44px;min-height:44px}.footer-lead a{min-height:44px}}
+@media(max-width:340px){.nav-wrap{padding:0 12px}.markdown,.breadcrumb{padding-left:16px;padding-right:16px}.mobile-panel{padding:16px}.markdown h2{font-size:30px}}
+.parallax-media{transform:translate3d(0,var(--parallax-y,0),0);will-change:transform}@media(prefers-reduced-motion:reduce){.parallax-media{transform:none;will-change:auto}}

@@ -35,7 +35,7 @@ for(const [file,route] of pages){
  const source=await readFile(path.join(root,'.mds',file),'utf8');
  const h1=(source.match(/^# /gm)||[]).length;
  if(h1!==1)fail(`${file}: expected one H1, found ${h1}`);
- if(!siteContent.includes(`'${route}':`))fail(`${route}: missing from runtime page map`);
+ if(!siteContent.includes(`define('${route}'`))fail(`${route}: missing from public-page manifest`);
  if(!sitemap.includes(`<loc>https://ddanalytics.ca${route}</loc>`))fail(`${route}: missing from sitemap`);
  const entry=route==='/'?"  ''":`  '${route.slice(1,-1)}'`;
  if(!entrypoints.includes(entry))fail(`${route}: missing from static entrypoint list`);
