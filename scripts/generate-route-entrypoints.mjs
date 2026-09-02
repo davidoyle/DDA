@@ -104,6 +104,4 @@ for (const route of routes) {
   await writeFile(path.join(routeDir, 'index.html'), indexHtml);
 }
 
-await writeFile(path.join(distDir, '404.html'), indexHtml);
-
-console.log(`Generated static entrypoints for ${routes.length} routes.`);
+console.log(`Generated static entrypoints for ${routes.length} routes; preserved the dedicated static 404 page.`);

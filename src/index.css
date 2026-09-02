@@ -334,3 +334,4 @@ html{scroll-padding-top:76px}body{background:var(--paper);color:var(--ink)}a,but
 .insights-page .markdown > h1 + h2 { color: #edf2f4; max-width: 720px; }
 .insights-page .markdown > h2:first-of-type { margin-top: clamp(260px,38vh,390px); }
 @media(max-width:600px){.insights-underlay{height:670px;background-position:58% center}.insights-page .markdown>h2:first-of-type{margin-top:230px}}
+.field-error { color: #8f1111; font-size: 14px; font-weight: 700; }
