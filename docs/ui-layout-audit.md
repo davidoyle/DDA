@@ -5,7 +5,7 @@ Basis: `00-FUNCTIONAL-SPEC.md`, `00-UI-SPEC.md`, and the current implementation.
 
 ## Executive finding
 
-The implementation establishes the requested dark global chrome, public route inventory, responsive navigation, search, shared editorial typography, utility layouts, and reduced-motion foundation. It does **not yet fully meet** the handoff. In particular, the generic Markdown renderer does not produce all page-specific component templates, navigation dialogs do not yet implement a complete focus trap, search does not expose genuine loading/error states, and core content is client-rendered rather than available without JavaScript.
+The implementation establishes the requested dark global chrome, public route inventory, preserved diagnostic destinations, responsive navigation with focus containment, search states, shared editorial typography, service evidence modules, utility layouts, and reduced-motion foundation. It does **not yet fully meet** the handoff. In particular, several page families still rely on the generic Markdown renderer, public content is not prerendered, and full browser-based accessibility and reflow testing remains outstanding.
 
 ## Conformance matrix
 
@@ -13,6 +13,7 @@ The implementation establishes the requested dark global chrome, public route in
 | --- | --- | --- |
 | Twenty canonical routes | Meets | The route map contains P01–P20, with slashless aliases. |
 | Existing diagnostic routes | Meets | Existing `/tools/*` and `/model/*` applications remain routed to their original components. |
+| Legacy diagnostic aliases | Meets | Historical `/diagnostics/*`, demo, WorkSafeBC, PST, experience-rating, and decarbonization URLs resolve to their corresponding live tools rather than a generic directory. |
 | Homepage order | Partly meets | Approved copy follows hero, insights, selected work, contact, footer; generic Markdown presentation does not create the full lead/supporting card composition. |
 | Dark header and footer | Meets | Both use the dark global shell and real destinations. |
 | Desktop mega-menus | Mostly meets | Hover, focus, click, Enter/Space, Escape, focus-leave closure, and the specified entrance motion work. A dedicated hover-intent delay is not implemented. |
@@ -27,6 +28,7 @@ The implementation establishes the requested dark global chrome, public route in
 | SEO | Partly meets | Route titles, descriptions, canonical URLs, Open Graph basics, and a sitemap exist; metadata remains client-rendered rather than prerendered. |
 | 404 | Partly meets | A routed 404 exists, but static/no-JavaScript behavior has not been verified. |
 | 320px and 200% zoom | Not verified | Responsive rules exist; a formal browser matrix and automated overflow audit have not been completed. |
+| Structural audit | Meets | `npm run audit:site` checks all 20 source files, one-H1 rules, Markdown links, runtime mappings, sitemap URLs, static entrypoints, import depth, and the Insights asset. |
 
 ## Image request
 
@@ -36,4 +38,4 @@ The supplied insights image is deployed as a decorative editorial underlay benea
 
 1. Build explicit Home, insight hub, article, selected-work, contact, and utility templates rather than inferring all presentation from Markdown headings.
 2. Prerender the 20 public routes and their metadata.
-3. Add automated route, internal-link, heading, keyboard, axe, 320px overflow, 200% zoom, and reduced-motion checks.
+3. Add browser-based keyboard, axe, 320px overflow, 200% zoom, and reduced-motion checks to complement the structural audit.
