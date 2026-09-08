@@ -1,3 +1,0 @@
-http://www.ddanalytics.ca/* http://ddanalytics.ca/:splat 301
-https://www.ddanalytics.ca/* https://ddanalytics.ca/:splat 301
-/* /index.html 200

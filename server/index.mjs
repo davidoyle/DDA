@@ -2,7 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import router from './src/routes.mjs';
-import { attachSession } from './src/middleware.mjs';
+import { attachSession, requireAdmin } from './src/middleware.mjs';
 import { config } from './src/config.mjs';
 
 const app = express();
@@ -35,23 +35,33 @@ const modelStore = {
   ],
 };
 
+// Reads stay public (the model's public-assumption pitch depends on visitors
+// being able to see them); every write mutates shared in-memory state for
+// every visitor at once, so those require an admin session.
 app.get('/api/model/assumptions', (_req, res) => res.json({ assumptions: modelStore.assumptions }));
-app.patch('/api/model/assumptions', (req, res) => {
-  modelStore.assumptions = { ...modelStore.assumptions, ...(req.body?.assumptions ?? req.body ?? {}) };
+app.patch('/api/model/assumptions', requireAdmin, (req, res) => {
+  modelStore.assumptions = {
+    ...modelStore.assumptions,
+    ...(req.body?.assumptions ?? req.body ?? {}),
+  };
   res.json({ assumptions: modelStore.assumptions });
 });
 app.post('/api/model/cashflow', (req, res) => {
-  res.json({ status: 'accepted', project: req.body?.project ?? null, assumptions: req.body?.assumptions ?? modelStore.assumptions });
+  res.json({
+    status: 'accepted',
+    project: req.body?.project ?? null,
+    assumptions: req.body?.assumptions ?? modelStore.assumptions,
+  });
 });
 app.get('/api/model/changelog', (_req, res) => res.json({ entries: modelStore.changelog }));
-app.post('/api/model/changelog', (req, res) => {
+app.post('/api/model/changelog', requireAdmin, (req, res) => {
   const latest = Math.max(...modelStore.changelog.map((entry) => Number(entry.version) || 0), 0);
   const entry = { ...(req.body ?? {}), version: Math.round((latest + 0.1) * 10) / 10 };
   modelStore.changelog.push(entry);
   res.status(201).json({ entry, entries: modelStore.changelog });
 });
 app.get('/api/model/flags', (_req, res) => res.json({ flags: modelStore.flags }));
-app.patch('/api/model/flags', (req, res) => {
+app.patch('/api/model/flags', requireAdmin, (req, res) => {
   modelStore.flags = { ...modelStore.flags, ...(req.body?.flags ?? req.body ?? {}) };
   res.json({ flags: modelStore.flags });
 });

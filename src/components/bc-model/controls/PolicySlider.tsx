@@ -28,9 +28,17 @@ export function PolicySlider({
           <p className="font-semibold text-[#1f1f1f]">{label}</p>
           {helper ? <p className="mt-1 text-sm text-[#5c5548]">{helper}</p> : null}
         </div>
-        <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">{formatValue(value)}</span>
+        <span className="font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]">
+          {formatValue(value)}
+        </span>
       </div>
-      <Slider value={[value]} min={min} max={max} step={step} onValueChange={([next]) => onChange(next ?? value)} />
+      <Slider
+        value={[value]}
+        min={min}
+        max={max}
+        step={step}
+        onValueChange={([next]) => onChange(next ?? value)}
+      />
     </div>
   );
 }

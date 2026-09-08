@@ -65,10 +65,12 @@ export const DEFAULT_PHI_WEIGHTS: PhiWeights = {
 };
 
 export const SOURCE_LINKS = {
-  accountability: 'https://www2.gov.bc.ca/assets/gov/environment/climate-change/action/accountability-progress-reports/2025_climate_change_accountability_report.pdf',
+  accountability:
+    'https://www2.gov.bc.ca/assets/gov/environment/climate-change/action/accountability-progress-reports/2025_climate_change_accountability_report.pdf',
   roadmap: 'https://cleanbc.gov.bc.ca/cleanbc-roadmap-to-2030/',
   irp: 'https://www.bchydro.com/toolbar/about/planning-for-our-future/integrated-resource-plan.html',
-  servicePlan: 'https://www.bchydro.com/content/dam/BCHydro/customer-portal/documents/about/accountability-reports-plans/service-plan/2024-25-bc-hydro-service-plan.pdf',
+  servicePlan:
+    'https://www.bchydro.com/content/dam/BCHydro/customer-portal/documents/about/accountability-reports-plans/service-plan/2024-25-bc-hydro-service-plan.pdf',
   statcan: 'https://www150.statcan.gc.ca/',
   fortis: 'https://www.fortisbc.com/about-us/newsroom',
   climateAct: 'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/08042_01',

@@ -7,6 +7,15 @@ const __dirname = path.dirname(__filename);
 const distDir = path.resolve(__dirname, '..', 'dist');
 const indexPath = path.join(distDir, 'index.html');
 
+// This list must mirror every route actually registered in src/App.tsx.
+// It previously carried ~30 entries (dashboard, login, consultation/*,
+// booking-confirmation/*, verify-access, payment-success, services/*,
+// about, analysis, public-interest, public-sector) left over from an
+// earlier route plan that App.tsx no longer implements — visiting any of
+// them in the live SPA renders the 404 page, so pre-generating a static
+// entrypoint for them was pure dead weight. It was also missing
+// tools/bc-pst-impact, a route App.tsx does register, which meant a hard
+// refresh on that URL would 404 at the host instead of loading the SPA.
 const routes = [
   '',
   'who-we-are',
@@ -25,30 +34,15 @@ const routes = [
   'selected-work',
   'legal',
   'accessibility',
-  'analysis',
   'work',
-  'services',
-  'services/economic-regional-strategy',
-  'services/land-use-planning',
-  'services/labour-market-workforce-risk',
-  'services/regulatory-institutional-cost',
-  'services/financial-policy-modelling',
-  'public-interest',
   'method',
-  'about',
+  'published',
   'contact',
-  'public-sector',
   'privacy',
   'terms',
   'diagnostics',
   'diagnostics/subscribe',
   'tools',
-  'dashboard',
-  'consultation',
-  'booking-confirmation',
-  'verify-access',
-  'payment-success',
-  'login',
   'diagnostics/demo',
   'diagnostics/demo/pst-diagnostic',
   'diagnostics/demo/worksafe-repricing',
@@ -61,13 +55,16 @@ const routes = [
   'diagnostics/demo/executive-risk-brief',
   'tools/worksafe-repricing',
   'tools/pst-diagnostic',
+  'tools/bc-pst-impact',
   'tools/mental-health-forecaster',
   'tools/province-comparator',
   'tools/suppression-audit',
   'tools/experience-rating-optimizer',
+  'tools/experience-rating',
   'tools/surplus-alert',
   'tools/executive-risk-brief',
   'tools/bc-decarbonization-model',
+  'tools/bc-decarbonization',
   'diagnostics/worksafe-repricing',
   'diagnostics/pst-diagnostic',
   'diagnostics/mental-health-forecaster',
@@ -80,20 +77,6 @@ const routes = [
   'worksafebc-repricing-risk-diagnostic',
   'bc-pst-impact-diagnostic',
   'model',
-  'consultation/municipality',
-  'consultation/union',
-  'consultation/contractor',
-  'consultation/law-firm',
-  'consultation/association',
-  'consultation/journalist',
-  'consultation/small-business',
-  'booking-confirmation/municipality',
-  'booking-confirmation/union',
-  'booking-confirmation/contractor',
-  'booking-confirmation/law-firm',
-  'booking-confirmation/association',
-  'booking-confirmation/journalist',
-  'booking-confirmation/small-business',
 ];
 
 const indexHtml = await readFile(indexPath, 'utf8');
@@ -104,4 +87,6 @@ for (const route of routes) {
   await writeFile(path.join(routeDir, 'index.html'), indexHtml);
 }
 
-console.log(`Generated static entrypoints for ${routes.length} routes; preserved the dedicated static 404 page.`);
+console.log(
+  `Generated static entrypoints for ${routes.length} routes; preserved the dedicated static 404 page.`,
+);

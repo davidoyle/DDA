@@ -193,7 +193,8 @@ export const industryRows: IndustryRow[] = [
 export const scenarios: Record<ScenarioId, Scenario> = {
   A: {
     title: 'Discount-Rate Case (3.0% real)',
-    trigger: 'Funding-basis returns track liability discount assumptions (~6.0% nominal) and do not close the rate gap',
+    trigger:
+      'Funding-basis returns track liability discount assumptions (~6.0% nominal) and do not close the rate gap',
     timeline: '~3.4 years buffer runway',
     annualIncrease: 'High urgency (full $570M annual draw)',
     totalShock: 'Fast normalization pressure',
@@ -209,7 +210,8 @@ export const scenarios: Record<ScenarioId, Scenario> = {
   },
   B: {
     title: 'Objective Case (3.5% real)',
-    trigger: 'Returns meet SIPG objective (~6.5% nominal), covering only ~22% of the annual suppression gap',
+    trigger:
+      'Returns meet SIPG objective (~6.5% nominal), covering only ~22% of the annual suppression gap',
     timeline: '~4.4 years buffer runway',
     annualIncrease: 'Gradual but persistent normalization',
     totalShock: 'Moderate repricing path',

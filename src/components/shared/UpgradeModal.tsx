@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import type { PlanTier } from '@/lib/licensing';
 
 interface UpgradeModalProps {
@@ -18,9 +24,15 @@ export function UpgradeModal({ open, onOpenChange, onChoosePlan }: UpgradeModalP
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-3">
-          <button className="btn-secondary" onClick={() => onChoosePlan('pro')}>Switch to Pro (demo)</button>
-          <button className="btn-secondary" onClick={() => onChoosePlan('enterprise')}>Switch to Enterprise (demo)</button>
-          <button className="btn-secondary" onClick={() => onChoosePlan('free')}>Stay on Free</button>
+          <button className="btn-secondary" onClick={() => onChoosePlan('pro')}>
+            Switch to Pro (demo)
+          </button>
+          <button className="btn-secondary" onClick={() => onChoosePlan('enterprise')}>
+            Switch to Enterprise (demo)
+          </button>
+          <button className="btn-secondary" onClick={() => onChoosePlan('free')}>
+            Stay on Free
+          </button>
         </div>
       </DialogContent>
     </Dialog>

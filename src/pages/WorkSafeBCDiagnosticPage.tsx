@@ -7,7 +7,13 @@ import ScenarioSelector from '@/components/worksafebc/ScenarioSelector';
 import SectorExposureCharts from '@/components/worksafebc/SectorExposureCharts';
 import TwoModeCalculator from '@/components/worksafebc/TwoModeCalculator';
 import { heroStats, industryRows, scenarios } from '@/lib/worksafebc/data';
-import { getDriftLine, getScenarioChartData, getScenarioTimeline, getSelectedIndustry, getSharedOutput } from '@/lib/worksafebc/engine';
+import {
+  getDriftLine,
+  getScenarioChartData,
+  getScenarioTimeline,
+  getSelectedIndustry,
+  getSharedOutput,
+} from '@/lib/worksafebc/engine';
 import type { Mode, ScenarioId } from '@/lib/worksafebc/types';
 import { useDiagnosticSession } from '@/hooks/useDiagnosticSession';
 import { appendSnapshot, bucketSpend } from '@/lib/session';
@@ -38,7 +44,8 @@ const WorkSafeBCDiagnosticPage = () => {
 
   const location = useLocation();
   const { isDemoMode } = useAccess();
-  const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } = useDiagnosticSession('wcb');
+  const { intent, intentReady, setIntentAndTrack, fireEvent, maybeTrackReturnRun } =
+    useDiagnosticSession('wcb');
   const startTimeRef = useRef<number | null>(null);
   const toggleTimers = useRef<Record<string, number>>({});
   const toggleValuesRef = useRef<Record<string, string>>({});
@@ -51,9 +58,10 @@ const WorkSafeBCDiagnosticPage = () => {
       fireEvent('demo_tool_opened', { toolName: 'worksafe-repricing', source: 'demo-route' });
     }
     if (!intentReady) return;
-    const sourceRoute = location.state && typeof location.state === 'object' && 'from' in location.state
-      ? String((location.state as { from?: string }).from ?? 'direct')
-      : 'direct';
+    const sourceRoute =
+      location.state && typeof location.state === 'object' && 'from' in location.state
+        ? String((location.state as { from?: string }).from ?? 'direct')
+        : 'direct';
     fireEvent('diag_start', { source_route: sourceRoute });
     maybeTrackReturnRun();
     startTimeRef.current = Date.now();
@@ -114,36 +122,51 @@ const WorkSafeBCDiagnosticPage = () => {
         ownPayroll,
         averageWage,
       }),
-    [avgCostPerClaim, averageWage, injuryFrequency, medicalInflation, mode, ownPayroll, safetyImprovement],
+    [
+      avgCostPerClaim,
+      averageWage,
+      injuryFrequency,
+      medicalInflation,
+      mode,
+      ownPayroll,
+      safetyImprovement,
+    ],
   );
 
-  const completionCost = scenarioTimeline[scenarioTimeline.length - 1]?.cumulative ?? sharedOutput.baseExposure;
+  const completionCost =
+    scenarioTimeline[scenarioTimeline.length - 1]?.cumulative ?? sharedOutput.baseExposure;
   const segment = useMemo(() => deriveSegment(intent, signals), [intent, signals]);
 
-  const queueToggle = useCallback((toggleId: string, toggleValue: string | number) => {
-    if (toggleTimers.current[toggleId]) {
-      window.clearTimeout(toggleTimers.current[toggleId]);
-    }
-    toggleTimers.current[toggleId] = window.setTimeout(() => {
-      toggleCountRef.current += 1;
-      fireEvent('toggle_used', { toggle_id: toggleId, toggle_value: String(toggleValue) });
-    }, 500);
-  }, [fireEvent]);
+  const queueToggle = useCallback(
+    (toggleId: string, toggleValue: string | number) => {
+      if (toggleTimers.current[toggleId]) {
+        window.clearTimeout(toggleTimers.current[toggleId]);
+      }
+      toggleTimers.current[toggleId] = window.setTimeout(() => {
+        toggleCountRef.current += 1;
+        fireEvent('toggle_used', { toggle_id: toggleId, toggle_value: String(toggleValue) });
+      }, 500);
+    },
+    [fireEvent],
+  );
 
-  const trackToggleChange = useCallback((toggleId: string, toggleValue: string | number) => {
-    if (!intentReady) return;
+  const trackToggleChange = useCallback(
+    (toggleId: string, toggleValue: string | number) => {
+      if (!intentReady) return;
 
-    const nextValue = String(toggleValue);
-    if (!(toggleId in toggleValuesRef.current)) {
+      const nextValue = String(toggleValue);
+      if (!(toggleId in toggleValuesRef.current)) {
+        toggleValuesRef.current[toggleId] = nextValue;
+        return;
+      }
+
+      if (toggleValuesRef.current[toggleId] === nextValue) return;
+
       toggleValuesRef.current[toggleId] = nextValue;
-      return;
-    }
-
-    if (toggleValuesRef.current[toggleId] === nextValue) return;
-
-    toggleValuesRef.current[toggleId] = nextValue;
-    queueToggle(toggleId, nextValue);
-  }, [intentReady, queueToggle]);
+      queueToggle(toggleId, nextValue);
+    },
+    [intentReady, queueToggle],
+  );
 
   useEffect(() => {
     trackToggleChange('scenario', activeScenario);
@@ -174,9 +197,9 @@ const WorkSafeBCDiagnosticPage = () => {
     fireEvent('dashboard_prompt_shown');
 
     const configs: Array<{
-      ref: { current: HTMLElement | null }
-      eventName: 'risk_flags_viewed' | 'advocacy_viewed'
-      payload?: Record<string, number>
+      ref: { current: HTMLElement | null };
+      eventName: 'risk_flags_viewed' | 'advocacy_viewed';
+      payload?: Record<string, number>;
     }> = [
       { ref: riskRef, eventName: 'risk_flags_viewed', payload: { flags_count: 5 } },
       { ref: advocacyRef, eventName: 'advocacy_viewed' },
@@ -188,27 +211,34 @@ const WorkSafeBCDiagnosticPage = () => {
 
       let enteredAt = 0;
       let fired = false;
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            enteredAt = Date.now();
-            return;
-          }
-          if (!enteredAt || fired) return;
-          const dwell = Math.max(1, Math.round((Date.now() - enteredAt) / 1000));
-          fired = true;
-          fireEvent(eventName, {
-            ...payload,
-            dwell_time_s: dwell,
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              enteredAt = Date.now();
+              return;
+            }
+            if (!enteredAt || fired) return;
+            const dwell = Math.max(1, Math.round((Date.now() - enteredAt) / 1000));
+            fired = true;
+            fireEvent(eventName, {
+              ...payload,
+              dwell_time_s: dwell,
+            });
+            if (eventName === 'risk_flags_viewed') {
+              setSignals((prev) => ({
+                ...prev,
+                viewed_risk_flags: true,
+                risk_flags_dwell_s: dwell,
+              }));
+            }
+            if (eventName === 'advocacy_viewed') {
+              setSignals((prev) => ({ ...prev, viewed_advocacy: true }));
+            }
           });
-          if (eventName === 'risk_flags_viewed') {
-            setSignals((prev) => ({ ...prev, viewed_risk_flags: true, risk_flags_dwell_s: dwell }));
-          }
-          if (eventName === 'advocacy_viewed') {
-            setSignals((prev) => ({ ...prev, viewed_advocacy: true }));
-          }
-        });
-      }, { threshold: 0.35 });
+        },
+        { threshold: 0.35 },
+      );
 
       observer.observe(el);
       return () => observer.disconnect();
@@ -219,10 +249,15 @@ const WorkSafeBCDiagnosticPage = () => {
 
   function handleRunComplete() {
     if (isDemoMode) {
-      fireEvent('demo_calculation_run', { toolName: 'worksafe-repricing', fieldsChanged: toggleCountRef.current });
+      fireEvent('demo_calculation_run', {
+        toolName: 'worksafe-repricing',
+        fieldsChanged: toggleCountRef.current,
+      });
       return;
     }
-    const completionTime = startTimeRef.current ? Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000)) : 0;
+    const completionTime = startTimeRef.current
+      ? Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000))
+      : 0;
     const spendBucket = bucketSpend(completionCost);
     fireEvent('diag_complete', {
       completion_time_s: completionTime,
@@ -248,14 +283,18 @@ const WorkSafeBCDiagnosticPage = () => {
   return (
     <div className="diagnostic-theme pt-20 pb-20 min-h-screen">
       <section className="px-6 lg:px-[8vw] py-5 bg-[#f1e8d8] text-[#3d372f] border-b border-[#d8cdb9]">
-        <p className="font-mono text-xs uppercase tracking-[0.12em]">Rate Normalization Exposure · Executive Assessment · Confidential</p>
+        <p className="font-mono text-xs uppercase tracking-[0.12em]">
+          Rate Normalization Exposure · Executive Assessment · Confidential
+        </p>
       </section>
 
       <section className="px-6 lg:px-[8vw] pt-12 pb-14 border-b border-[#d8cdb9]">
         <p className="eyebrow">WorkSafeBC Repricing Risk Diagnostic</p>
         <h1 className="headline-lg max-w-4xl">Repricing Risk Calculator</h1>
         <p className="text-[#F3EFE6]/80 text-lg max-w-3xl mt-5">
-          Current rates are still priced below system cost, with the gap bridged by surplus and return performance. The core planning risk is investment dependency, not whether normalization eventually appears.
+          Current rates are still priced below system cost, with the gap bridged by surplus and
+          return performance. The core planning risk is investment dependency, not whether
+          normalization eventually appears.
         </p>
 
         <HeroStats stats={heroStats} />
@@ -272,7 +311,10 @@ const WorkSafeBCDiagnosticPage = () => {
               {[
                 ['$1.55', 'Published base rate charged to employers.'],
                 ['$1.83', "Published system cost rate from WorkSafeBC's 2026 rate announcement."],
-                ['$570M', 'Annual system-wide gap funded through surplus/returns when charging $1.55 vs. $1.83.'],
+                [
+                  '$570M',
+                  'Annual system-wide gap funded through surplus/returns when charging $1.55 vs. $1.83.',
+                ],
               ].map(([value, label]) => (
                 <article key={value} className="card">
                   <h3 className="font-heading text-3xl mt-1">{value}</h3>
@@ -281,7 +323,10 @@ const WorkSafeBCDiagnosticPage = () => {
               ))}
             </div>
             <p className="text-[#F3EFE6]/85 max-w-4xl">
-              The funded ratio is 140.8% versus a 130% policy floor, leaving a finite buffer. At the stated investment objective, only about 22% of the annual suppression gap is covered by objective outperformance; the remainder implies continued drawdown or higher returns. Repricing can begin before the 130% floor if trajectory risk rises.
+              The funded ratio is 140.8% versus a 130% policy floor, leaving a finite buffer. At the
+              stated investment objective, only about 22% of the annual suppression gap is covered
+              by objective outperformance; the remainder implies continued drawdown or higher
+              returns. Repricing can begin before the 130% floor if trajectory risk rises.
             </p>
           </section>
 
@@ -321,13 +366,41 @@ const WorkSafeBCDiagnosticPage = () => {
               costSensitivity={costSensitivity}
               setCostSensitivity={setCostSensitivity}
               ownInputs={[
-                { label: 'Annual assessable payroll ($)', value: ownPayroll, setter: setOwnPayroll },
-                { label: 'Current effective WSBC rate', value: currentEffectiveRate, setter: setCurrentEffectiveRate },
-                { label: 'Average wage per worker ($)', value: averageWage, setter: setAverageWage },
-                { label: 'Injury frequency: claims per 100 workers', value: injuryFrequency, setter: setInjuryFrequency },
-                { label: 'Average cost per claim ($)', value: avgCostPerClaim, setter: setAvgCostPerClaim },
-                { label: 'Projected medical inflation rate (%)', value: medicalInflation, setter: setMedicalInflation },
-                { label: 'Projected safety improvement rate (%)', value: safetyImprovement, setter: setSafetyImprovement },
+                {
+                  label: 'Annual assessable payroll ($)',
+                  value: ownPayroll,
+                  setter: setOwnPayroll,
+                },
+                {
+                  label: 'Current effective WSBC rate',
+                  value: currentEffectiveRate,
+                  setter: setCurrentEffectiveRate,
+                },
+                {
+                  label: 'Average wage per worker ($)',
+                  value: averageWage,
+                  setter: setAverageWage,
+                },
+                {
+                  label: 'Injury frequency: claims per 100 workers',
+                  value: injuryFrequency,
+                  setter: setInjuryFrequency,
+                },
+                {
+                  label: 'Average cost per claim ($)',
+                  value: avgCostPerClaim,
+                  setter: setAvgCostPerClaim,
+                },
+                {
+                  label: 'Projected medical inflation rate (%)',
+                  value: medicalInflation,
+                  setter: setMedicalInflation,
+                },
+                {
+                  label: 'Projected safety improvement rate (%)',
+                  value: safetyImprovement,
+                  setter: setSafetyImprovement,
+                },
               ]}
               sharedOutput={sharedOutput}
               activeScenario={activeScenario}
@@ -335,7 +408,9 @@ const WorkSafeBCDiagnosticPage = () => {
               scenarioTimeline={scenarioTimeline}
               driftLine={driftLine}
             />
-            <button className="btn-primary" onClick={handleRunComplete}>{isDemoMode ? 'Run demo calculation' : 'Save this scenario'}</button>
+            <button className="btn-primary" onClick={handleRunComplete}>
+              {isDemoMode ? 'Run demo calculation' : 'Save this scenario'}
+            </button>
           </section>
 
           <section ref={riskRef} className="px-6 lg:px-[8vw] py-14">
@@ -351,11 +426,26 @@ const WorkSafeBCDiagnosticPage = () => {
                 </thead>
                 <tbody>
                   {[
-                    ['Return required to sustain $1.55', 'Employers cannot plan rate durability without the annual return assumption that keeps reserves from eroding'],
-                    ['Objective coverage share of the annual gap', 'Published objective performance appears to cover only a minority of the suppression gap, changing planning timelines'],
-                    ['Per-rate-group funded percentages', 'System average funded ratio can mask group-level pressure and uneven repricing risk'],
-                    ['Board trigger for repricing action', 'Without a published trigger, employers cannot model when adjustment decisions are likely to start'],
-                    ['Sensitivity to objective underperformance', 'A normal down-cycle year can materially compress runway, but no public sensitivity table is provided'],
+                    [
+                      'Return required to sustain $1.55',
+                      'Employers cannot plan rate durability without the annual return assumption that keeps reserves from eroding',
+                    ],
+                    [
+                      'Objective coverage share of the annual gap',
+                      'Published objective performance appears to cover only a minority of the suppression gap, changing planning timelines',
+                    ],
+                    [
+                      'Per-rate-group funded percentages',
+                      'System average funded ratio can mask group-level pressure and uneven repricing risk',
+                    ],
+                    [
+                      'Board trigger for repricing action',
+                      'Without a published trigger, employers cannot model when adjustment decisions are likely to start',
+                    ],
+                    [
+                      'Sensitivity to objective underperformance',
+                      'A normal down-cycle year can materially compress runway, but no public sensitivity table is provided',
+                    ],
                   ].map(([left, right]) => (
                     <tr key={left} className="border-b border-[#ece0cc]">
                       <td className="py-3">{left}</td>
@@ -368,9 +458,18 @@ const WorkSafeBCDiagnosticPage = () => {
             <section ref={advocacyRef} className="mt-8 card space-y-4">
               <h3 className="font-heading text-2xl">Advocacy priorities</h3>
               <ul className="space-y-2 list-disc list-inside text-[#4a453d]">
-                <li>Model repricing pathways quarterly and socialize assumptions with operations and finance teams.</li>
-                <li>Document sector-specific cost trends to support policy submissions before repricing pressure peaks.</li>
-                <li>Coordinate with peers on shared exposure narratives when engaging government stakeholders.</li>
+                <li>
+                  Model repricing pathways quarterly and socialize assumptions with operations and
+                  finance teams.
+                </li>
+                <li>
+                  Document sector-specific cost trends to support policy submissions before
+                  repricing pressure peaks.
+                </li>
+                <li>
+                  Coordinate with peers on shared exposure narratives when engaging government
+                  stakeholders.
+                </li>
               </ul>
               <Link
                 to="/contact"
@@ -383,7 +482,9 @@ const WorkSafeBCDiagnosticPage = () => {
 
             <article className="card print:hidden mt-8">
               <h3 className="font-heading text-2xl mb-3">See your combined regulatory exposure</h3>
-              <p className="text-[#5b5347] mb-4">Combine your latest WCB and PST snapshots in one view.</p>
+              <p className="text-[#5b5347] mb-4">
+                Combine your latest WCB and PST snapshots in one view.
+              </p>
               <Link
                 to="/dashboard"
                 className="btn-primary"
@@ -404,10 +505,12 @@ const WorkSafeBCDiagnosticPage = () => {
             </div>
 
             <p className="text-sm text-[#5b5347] mt-6">
-              Your inputs are used to benchmark this diagnostic against similar firms in your sector. No identifying information is stored or shared.
+              Your inputs are used to benchmark this diagnostic against similar firms in your
+              sector. No identifying information is stored or shared.
             </p>
             <p className="text-sm text-[#5b5347] mt-2">
-              This tool provides scenario modelling based on published data and should be used as decision support, not legal, actuarial, or tax advice.
+              This tool provides scenario modelling based on published data and should be used as
+              decision support, not legal, actuarial, or tax advice.
             </p>
           </section>
         </>

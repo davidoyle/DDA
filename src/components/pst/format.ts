@@ -3,6 +3,6 @@ export const money = (value: number) =>
     style: 'currency',
     currency: 'CAD',
     maximumFractionDigits: 0,
-  }).format(value)
+  }).format(value);
 
-export const pct = (value: number, digits = 2) => `${(value * 100).toFixed(digits)}%`
+export const pct = (value: number, digits = 2) => `${(value * 100).toFixed(digits)}%`;

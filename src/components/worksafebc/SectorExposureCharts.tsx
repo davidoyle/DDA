@@ -1,4 +1,14 @@
-import { Bar, BarChart, CartesianGrid, Cell, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import type { IndustryRow } from '@/lib/worksafebc/types';
 
 interface SectorExposureChartsProps {
@@ -15,24 +25,45 @@ const SectorExposureCharts = ({ industryRows }: SectorExposureChartsProps) => (
           <YAxis type="category" dataKey="name" width={210} stroke="#c7bba7" opacity={0.8} />
           <Tooltip formatter={(value: number) => `$${value.toFixed(1)}M`} />
           <Legend />
-          <Bar dataKey="currentPremiumM" name="Current premium ($M)" fill="#1f3a5f" fillOpacity={0.25} />
+          <Bar
+            dataKey="currentPremiumM"
+            name="Current premium ($M)"
+            fill="#1f3a5f"
+            fillOpacity={0.25}
+          />
           <Bar dataKey="exposureM" name="Repricing exposure ($M)" fill="#A63A2C" />
         </BarChart>
       </ResponsiveContainer>
     </article>
-    <p className="text-xs text-[#5b5347] -mt-5">“Other Sectors (aggregate)” covers approximately 1.92M workers across sectors not individually broken out.</p>
+    <p className="text-xs text-[#5b5347] -mt-5">
+      “Other Sectors (aggregate)” covers approximately 1.92M workers across sectors not individually
+      broken out.
+    </p>
 
     <article className="card h-[360px]">
       <h3 className="font-heading text-2xl mb-4">Per-employee impact by sector</h3>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={industryRows}>
           <CartesianGrid stroke="#c7bba7" strokeOpacity={0.08} />
-          <XAxis dataKey="name" interval={0} angle={-35} textAnchor="end" height={130} stroke="#c7bba7" opacity={0.8} />
+          <XAxis
+            dataKey="name"
+            interval={0}
+            angle={-35}
+            textAnchor="end"
+            height={130}
+            stroke="#c7bba7"
+            opacity={0.8}
+          />
           <YAxis stroke="#c7bba7" opacity={0.8} />
           <Tooltip formatter={(value: number) => `~$${value}/yr`} />
           <Bar dataKey="perEmployeeImpact" name="Per-employee impact ($/yr)">
             {industryRows.map((row) => {
-              const fill = row.perEmployeeImpact > 450 ? '#A63A2C' : row.perEmployeeImpact >= 200 ? '#D4A03A' : '#7CBF9E';
+              const fill =
+                row.perEmployeeImpact > 450
+                  ? '#A63A2C'
+                  : row.perEmployeeImpact >= 200
+                    ? '#D4A03A'
+                    : '#7CBF9E';
               return <Cell key={row.name} fill={fill} />;
             })}
           </Bar>
@@ -74,7 +105,10 @@ const SectorExposureCharts = ({ industryRows }: SectorExposureChartsProps) => (
         </tbody>
       </table>
       <p className="text-xs text-[#6b6255] mt-4">
-        Cost rate = industry base rate × 1.1806 (1.83 ÷ 1.55). Repricing exposure = payroll × (cost rate − base rate). Base rates sourced directly from WorkSafeBC 2026 Classification and Rate List. Payroll estimates from Statistics Canada Labour Force Survey (BC, 2024–2025). Uncertainty: ±10–15%.
+        Cost rate = industry base rate × 1.1806 (1.83 ÷ 1.55). Repricing exposure = payroll × (cost
+        rate − base rate). Base rates sourced directly from WorkSafeBC 2026 Classification and Rate
+        List. Payroll estimates from Statistics Canada Labour Force Survey (BC, 2024–2025).
+        Uncertainty: ±10–15%.
       </p>
     </div>
   </>

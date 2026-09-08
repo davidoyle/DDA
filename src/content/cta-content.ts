@@ -1,6 +1,14 @@
-import type { SegmentKey } from '@/lib/segment'
+import type { SegmentKey } from '@/lib/segment';
 
-export const ctaContent: Record<SegmentKey, { title: string; body: string; primary: { label: string; href: string }; secondary: { label: string; href: string } }> = {
+export const ctaContent: Record<
+  SegmentKey,
+  {
+    title: string;
+    body: string;
+    primary: { label: string; href: string };
+    secondary: { label: string; href: string };
+  }
+> = {
   cost_reducer: {
     title: 'Reduce cost pressure quickly',
     body: 'Get a focused review on the fastest path to lower near-term regulatory cost exposure.',
@@ -19,4 +27,4 @@ export const ctaContent: Record<SegmentKey, { title: string; body: string; prima
     primary: { label: 'Talk to us about your members', href: '/contact' },
     secondary: { label: 'Open diagnostics library', href: '/diagnostics' },
   },
-}
+};

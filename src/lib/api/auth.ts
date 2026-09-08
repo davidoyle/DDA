@@ -34,7 +34,11 @@ export async function getAdminSetupStatus(): Promise<{ setupRequired: boolean }>
   return response.json() as Promise<{ setupRequired: boolean }>;
 }
 
-export async function setupFirstAdmin(payload: { email: string; password: string; confirmPassword: string }) {
+export async function setupFirstAdmin(payload: {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}) {
   const response = await fetch('/api/auth/admin/setup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -11,7 +11,11 @@ import type {
 const SYSTEM_BASE = 1.55;
 const SYSTEM_LOADING = 0.25;
 
-export const calculateExperienceRatingImpact = (expectedClaims: number, averageCostPerClaim: number, payroll = 1000000) => {
+export const calculateExperienceRatingImpact = (
+  expectedClaims: number,
+  averageCostPerClaim: number,
+  payroll = 1000000,
+) => {
   const expectedClaimCost = expectedClaims * averageCostPerClaim;
   const baselinePremium = (payroll * SYSTEM_BASE) / 100;
   const experienceLoad = expectedClaimCost / Math.max(baselinePremium, 1);
@@ -24,7 +28,11 @@ export const calculateExperienceRatingImpact = (expectedClaims: number, averageC
 };
 
 export const fmtMoney = (value: number) =>
-  new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 }).format(value);
+  new Intl.NumberFormat('en-CA', {
+    style: 'currency',
+    currency: 'CAD',
+    maximumFractionDigits: 0,
+  }).format(value);
 
 export const getSelectedIndustry = (industryRows: IndustryRow[], selectedIndustryName: string) =>
   industryRows.find((industry) => industry.name === selectedIndustryName) ?? industryRows[1];
@@ -67,10 +75,12 @@ export const getSharedOutput = ({
 }: SharedOutputArgs): SharedOutput => {
   if (mode === 'proxy') {
     const claimCostProxy = selectedIndustry.baseRate * 0.75;
-    const riskScore = selectedIndustry.frequencyIndex * selectedIndustry.severityIndex * selectedIndustry.wageIndex;
+    const riskScore =
+      selectedIndustry.frequencyIndex * selectedIndustry.severityIndex * selectedIndustry.wageIndex;
     const payrollImplied = 100;
     const sensitivity = 1 + costSensitivity / 100;
-    const adequateRate = ((claimCostProxy * riskScore * 100) / payrollImplied) * (1 + SYSTEM_LOADING) * sensitivity;
+    const adequateRate =
+      ((claimCostProxy * riskScore * 100) / payrollImplied) * (1 + SYSTEM_LOADING) * sensitivity;
     const repricingGap = adequateRate - selectedIndustry.baseRate;
     const baseExposure = (proxyPayroll * repricingGap) / 100;
 
@@ -116,7 +126,10 @@ export const getSharedOutput = ({
   };
 };
 
-export const getScenarioTimeline = (scenario: Scenario, sharedOutput: SharedOutput): ScenarioTimelineRow[] => {
+export const getScenarioTimeline = (
+  scenario: Scenario,
+  sharedOutput: SharedOutput,
+): ScenarioTimelineRow[] => {
   const scale = sharedOutput.currentRate / SYSTEM_BASE;
   const todayPremium = (sharedOutput.payroll * sharedOutput.currentRate) / 100;
   const rows: ScenarioTimelineRow[] = [];
@@ -125,7 +138,9 @@ export const getScenarioTimeline = (scenario: Scenario, sharedOutput: SharedOutp
   for (let year = 1; year <= 5; year += 1) {
     const stepForYear = scenario.steps.find((step) => step.year === year);
     const lastStep = scenario.steps[scenario.steps.length - 1];
-    const baseRatePoint = stepForYear ? (stepForYear.low + stepForYear.high) / 2 : (lastStep.low + lastStep.high) / 2;
+    const baseRatePoint = stepForYear
+      ? (stepForYear.low + stepForYear.high) / 2
+      : (lastStep.low + lastStep.high) / 2;
     const rateApplied = baseRatePoint * scale;
     const annualPremium = (sharedOutput.payroll * rateApplied) / 100;
     const delta = annualPremium - todayPremium;

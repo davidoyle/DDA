@@ -9,7 +9,8 @@ function buildSessionResponse(auth) {
   }
 
   const role = deriveRole(auth);
-  const planTier = auth.plan_tier === 'enterprise' ? 'enterprise' : auth.plan_tier === 'pro' ? 'pro' : 'free';
+  const planTier =
+    auth.plan_tier === 'enterprise' ? 'enterprise' : auth.plan_tier === 'pro' ? 'pro' : 'free';
 
   return {
     authenticated: true,

@@ -1,7 +1,74 @@
-import {Link} from 'react-router-dom';
-const studies=[
-['BC Minister of Labour mandate delivery investigation',<>The investigation converted five announced priorities into verifiable measures and assembled budget estimates, Hansard, legislation, WorkSafeBC records, and quarterly outputs. Approximately <strong>20% of the mandate was observably delivered</strong>. During the period, appeals rose <strong>146%</strong>, the responsible budget increased by <strong>$579,000</strong>, and WorkSafeBC penalty activity was tested against Alberta and Ontario benchmarks. A verification appendix linked each claim to its source and calculation. The closing finding distinguished measurable delivery from political theatre: activity and announcement volume cannot substitute for outcomes.</>],
-['Surrey extortion crisis — institutional response analysis',<>The register documented <strong>132 incidents and 49 shootings</strong>, then tested the response against four institutional functions: detection, coordination, throughput, and credibility. It compared the January 20 statement that the situation was “not a crisis” with operational escalation already visible in the record. Version 1.1 incorporated <strong>56 attempts in 55 days</strong>, a <strong>56% re-victimization rate</strong>, and <strong>296 immigration cases</strong>. The analysis was briefed to MLA Bhangu. Its central finding was the divergence between public reassurance and the scale, recurrence, and cross-agency load observable in the evidence.</>],
-['BC PST expansion — fiscal impact analysis',<>The 586-paragraph analysis began with the budget revenue projection. It sourced effective rates from legislation, modelled supply-chain cascades with national input-output tables, tested behavioural erosion using IMF and Bank of Canada elasticity research, and calculated firm-level absorption with sector margins. It then cross-referenced those effects with the LookWest investment fund. The structural contradiction was clear: the fund assumed <strong>70–75% local sourcing</strong> of professional services while the tax weakened the local sector expected to supply them. Aggregate findings separated booked revenue from behavioural erosion, indirect cascade costs, margin pressure, and the policy’s conflict with the government’s own investment premise.</>]
+import { Link } from 'react-router-dom';
+const studies = [
+  [
+    'BC Minister of Labour mandate delivery investigation',
+    <>
+      The investigation converted five announced priorities into verifiable measures and assembled
+      budget estimates, Hansard, legislation, WorkSafeBC records, and quarterly outputs.
+      Approximately <strong>20% of the mandate was observably delivered</strong>. During the period,
+      appeals rose <strong>146%</strong>, the responsible budget increased by{' '}
+      <strong>$579,000</strong>, and WorkSafeBC penalty activity was tested against Alberta and
+      Ontario benchmarks. A verification appendix linked each claim to its source and calculation.
+      The closing finding distinguished measurable delivery from political theatre: activity and
+      announcement volume cannot substitute for outcomes.
+    </>,
+  ],
+  [
+    'Surrey extortion crisis — institutional response analysis',
+    <>
+      The register documented <strong>132 incidents and 49 shootings</strong>, then tested the
+      response against four institutional functions: detection, coordination, throughput, and
+      credibility. It compared the January 20 statement that the situation was “not a crisis” with
+      operational escalation already visible in the record. Version 1.1 incorporated{' '}
+      <strong>56 attempts in 55 days</strong>, a <strong>56% re-victimization rate</strong>, and{' '}
+      <strong>296 immigration cases</strong>. The analysis was briefed to MLA Bhangu. Its central
+      finding was the divergence between public reassurance and the scale, recurrence, and
+      cross-agency load observable in the evidence.
+    </>,
+  ],
+  [
+    'BC PST expansion — fiscal impact analysis',
+    <>
+      The 586-paragraph analysis began with the budget revenue projection. It sourced effective
+      rates from legislation, modelled supply-chain cascades with national input-output tables,
+      tested behavioural erosion using IMF and Bank of Canada elasticity research, and calculated
+      firm-level absorption with sector margins. It then cross-referenced those effects with the
+      LookWest investment fund. The structural contradiction was clear: the fund assumed{' '}
+      <strong>70–75% local sourcing</strong> of professional services while the tax weakened the
+      local sector expected to supply them. Aggregate findings separated booked revenue from
+      behavioural erosion, indirect cascade costs, margin pressure, and the policy’s conflict with
+      the government’s own investment premise.
+    </>,
+  ],
 ];
-export default function PublishedPage(){return <article className="page-copy"><header><h1 className="headline-lg">Published analysis</h1><p>DDA has produced independent investigative research and institutional analysis using the same methodology applied to all work. These analyses are named because they were produced as public-interest work and their findings are part of the public record.</p></header>{studies.map(([h,b])=><section key={h as string}><h2>{h}</h2><p>{b}</p></section>)}<section className="contact-panel"><h2>Contact</h2><p>If you are a journalist, policy researcher, or oversight body with a question about these analyses—or a public-interest question that may benefit from this method—contact David directly.</p><Link className="btn-primary" to="/contact">Get in touch →</Link></section></article>}
+export default function PublishedPage() {
+  return (
+    <article className="page-copy">
+      <header>
+        <h1 className="headline-lg">Published analysis</h1>
+        <p>
+          DDA has produced independent investigative research and institutional analysis using the
+          same methodology applied to all work. These analyses are named because they were produced
+          as public-interest work and their findings are part of the public record.
+        </p>
+      </header>
+      {studies.map(([h, b]) => (
+        <section key={h as string}>
+          <h2>{h}</h2>
+          <p>{b}</p>
+        </section>
+      ))}
+      <section className="contact-panel">
+        <h2>Contact</h2>
+        <p>
+          If you are a journalist, policy researcher, or oversight body with a question about these
+          analyses—or a public-interest question that may benefit from this method—contact David
+          directly.
+        </p>
+        <Link className="btn-primary" to="/contact">
+          Get in touch →
+        </Link>
+      </section>
+    </article>
+  );
+}

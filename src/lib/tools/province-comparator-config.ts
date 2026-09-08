@@ -1,11 +1,36 @@
 export const provinces = ['BC', 'Alberta', 'Ontario', 'Washington', 'Oregon'] as const;
 
 export const provinceMeta = {
-  BC: { fundedRatio: 140.8, surplusPercentPayroll: 1.9, dataDate: '2026-01-01', unit: 'per-$100 payroll' },
-  Alberta: { fundedRatio: 123.2, surplusPercentPayroll: 1.2, dataDate: '2026-01-01', unit: 'per-$100 payroll' },
-  Ontario: { fundedRatio: 155.0, surplusPercentPayroll: 2.3, dataDate: '2026-01-01', unit: 'per-$100 payroll' },
-  Washington: { fundedRatio: 112.0, surplusPercentPayroll: 0.8, dataDate: '2026-01-01', unit: 'per-hour' },
-  Oregon: { fundedRatio: 129.0, surplusPercentPayroll: 1.1, dataDate: '2026-01-01', unit: 'per-$100 payroll' },
+  BC: {
+    fundedRatio: 140.8,
+    surplusPercentPayroll: 1.9,
+    dataDate: '2026-01-01',
+    unit: 'per-$100 payroll',
+  },
+  Alberta: {
+    fundedRatio: 123.2,
+    surplusPercentPayroll: 1.2,
+    dataDate: '2026-01-01',
+    unit: 'per-$100 payroll',
+  },
+  Ontario: {
+    fundedRatio: 155.0,
+    surplusPercentPayroll: 2.3,
+    dataDate: '2026-01-01',
+    unit: 'per-$100 payroll',
+  },
+  Washington: {
+    fundedRatio: 112.0,
+    surplusPercentPayroll: 0.8,
+    dataDate: '2026-01-01',
+    unit: 'per-hour',
+  },
+  Oregon: {
+    fundedRatio: 129.0,
+    surplusPercentPayroll: 1.1,
+    dataDate: '2026-01-01',
+    unit: 'per-$100 payroll',
+  },
 } as const;
 
 export const rates = {

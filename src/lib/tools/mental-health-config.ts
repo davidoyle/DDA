@@ -23,9 +23,38 @@ export const healthcareSubSectors = [
 ] as const;
 
 export const mitigationItems = [
-  { name: 'Psychological health and safety policy', impact: -12, sectors: ['all'], source: 'IWH guidance' },
-  { name: 'EAP + mandatory awareness program', impact: -8, sectors: ['all'], source: 'SafeCare BC' },
-  { name: 'RTW coordinator for mental health claims', impact: -18, sectors: ['all'], source: 'IWH RTW studies' },
-  { name: 'Supervisor mental health training', impact: -10, sectors: ['Healthcare & Social Assistance', 'Education', 'Public Administration'], source: 'IWH supervision effect range' },
-  { name: 'Incident debriefing protocol', impact: -6, sectors: ['Healthcare & Social Assistance', 'Transportation & Warehousing', 'Public Administration'], source: 'SafeCare BC trauma-exposure guidance' },
+  {
+    name: 'Psychological health and safety policy',
+    impact: -12,
+    sectors: ['all'],
+    source: 'IWH guidance',
+  },
+  {
+    name: 'EAP + mandatory awareness program',
+    impact: -8,
+    sectors: ['all'],
+    source: 'SafeCare BC',
+  },
+  {
+    name: 'RTW coordinator for mental health claims',
+    impact: -18,
+    sectors: ['all'],
+    source: 'IWH RTW studies',
+  },
+  {
+    name: 'Supervisor mental health training',
+    impact: -10,
+    sectors: ['Healthcare & Social Assistance', 'Education', 'Public Administration'],
+    source: 'IWH supervision effect range',
+  },
+  {
+    name: 'Incident debriefing protocol',
+    impact: -6,
+    sectors: [
+      'Healthcare & Social Assistance',
+      'Transportation & Warehousing',
+      'Public Administration',
+    ],
+    source: 'SafeCare BC trauma-exposure guidance',
+  },
 ] as const;

@@ -1,7 +1,12 @@
 export const SECTORS = ['transport', 'industry', 'buildings'] as const;
 export type Sector = (typeof SECTORS)[number];
 export type Status = 'ON TRACK' | 'AT RISK' | 'OFF TRACK';
-export type ScenarioPresetId = 'baseline' | 'accelerated' | 'constrained' | 'politicalStress' | 'gridConstrained';
+export type ScenarioPresetId =
+  | 'baseline'
+  | 'accelerated'
+  | 'constrained'
+  | 'politicalStress'
+  | 'gridConstrained';
 
 export interface PhiWeights {
   phi1: number;

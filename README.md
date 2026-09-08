@@ -23,6 +23,10 @@ DDA’s core message throughout the site:
 
 ## Site structure
 
+> The section below describes an earlier content plan and no longer matches what's live.
+> The routes actually implemented today are listed under "Notes"; the real page copy lives
+> in `.mds/*.md`, imported by `src/content/siteContent.ts`.
+
 ### 1) Home (`/`)
 The homepage establishes the institutional brand and value proposition:
 - Hero: **Institutional Systems Analysis**
@@ -89,37 +93,63 @@ npm run build
 - Diagnostic tooling in this cycle stores anonymous session and intent data in browser `localStorage` only.
 - No identifying information (name, email, company, free-text entries) is collected in analytics events.
 - Benchmarking language shown in tool UIs must remain true to implementation; if data handling changes (aggregation, export, sharing, sale), the disclosure line must be updated before release.
+- The contact form is the one exception: submissions (name, email, message, and the other
+  fields on `/contact/`) are written to `contact_submissions` in Postgres by `server/index.mjs`
+  (see "Server" below). That table, and the account/session/billing tables alongside it, hold
+  real personal data — this section's "localStorage only" claim does not cover them. If the
+  privacy policy at `/privacy/` says otherwise, reconcile the two before this server is deployed.
 
 ## Notes
 
-- This repo currently includes legacy UI components and pages from earlier iterations.
-- The active marketing flow is driven by the primary routes in `src/App.tsx`:
-  - `/`
-  - `/services`
-  - `/about`
-  - `/contact`
+- The marketing flow is driven by the routes in `src/content/siteContent.ts` and rendered by
+  `src/pages/WebsitePage.tsx`. The current primary routes are:
+  - `/` (home)
+  - `/what-we-do/` (services, plus one page per service line)
+  - `/who-we-are/`
+  - `/insights/`
+  - `/selected-work/`
+  - `/contact/`
+  - Diagnostic tools live separately under `/tools/*`, and the fiscal model lives under `/model/*`.
 
 ## Production routing for deep links
 
 This app uses `BrowserRouter`, so routes like `/consultation/municipality` are resolved in the client.
 
 To prevent direct URL 404s across hosts, the build now ships route-specific HTML entrypoints in `dist/`
-(e.g. `dist/services/index.html`, `dist/consultation/municipality/index.html`) that load the same SPA shell.
+(e.g. `dist/what-we-do/index.html`, `dist/tools/pst-diagnostic/index.html`) that load the same SPA shell.
 This allows hard refresh and direct navigation on known routes even when host-level rewrite rules are unavailable.
+The route list lives in `scripts/generate-route-entrypoints.mjs` and must be kept in sync with the routes
+registered in `src/App.tsx` — `npm run audit:site` checks this for the 20 markdown-driven pages, but not
+for the tool/model routes, so double-check those by hand when adding one.
 
-The repo also includes optional host rewrite files:
+The repo also includes optional host rewrite files, which Vite copies into `dist/` during build:
 - `public/.htaccess` for Apache-style hosts
 - `public/_redirects` for Netlify-style hosts
 
-`npm run build` generates both the normal Vite output and the route entrypoint files via
-`scripts/generate-route-entrypoints.mjs`.
 Your web host must rewrite unknown paths to `index.html`; otherwise direct navigation to deep links returns a server 404.
 
-The repo now includes:
-- `public/.htaccess` for Apache-style hosts
-- `public/_redirects` for Netlify-style hosts
+## Server
 
-Vite copies these files into `dist/` during build.
+`server/` is an Express + Postgres backend (sessions, admin login, magic-link entitlements,
+Stripe billing, and the `/api/contact` and `/api/model/*` endpoints the frontend calls). It is
+not wired to any deployment target in this repo — no Procfile, no Vercel/Netlify function config,
+no CI step that runs it. If the production site is hosted as a static SPA (per the HTTPS section
+below), none of this backend is currently reachable, which means `/contact/` submissions have
+nowhere to land and the model/billing/admin flows are unusable in production.
+
+To run it locally:
+
+```bash
+# needs a Postgres instance; run server/db/schema.sql against it first
+npm run server
+```
+
+See `.env.example` for the required `DATABASE_URL`, `SESSION_SECRET`, `MAGIC_LINK_SECRET`, and
+the optional `SMTP_*` / `CONTACT_WEBHOOK_URL` vars used to notify on new contact submissions.
+Every contact submission is persisted to `contact_submissions` regardless of whether email/webhook
+notification is configured; those are best-effort delivery on top of that. Decide whether this
+backend should be deployed for real or removed — right now it's neither, which means it carries
+real security surface (auth, sessions, a database, payments) for zero live functionality.
 
 ## HTTPS / TLS troubleshooting (for `ddanalytics.ca`)
 

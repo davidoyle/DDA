@@ -1,7 +1,14 @@
 import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import type { ScenarioRun } from '@/lib/bc-model/types';
 import { EmissionsLineChart } from './charts/EmissionsLineChart';
 import { ScenarioSelector } from './controls/ScenarioSelector';
@@ -30,11 +37,26 @@ export function ScenarioComparison({ scenarios, selectedIds, onToggle }: Props) 
     <div className="space-y-6">
       <ScenarioSelector scenarios={scenarios} selectedIds={selectedIds} onToggle={onToggle} />
       <Card className="border-[#d8cdb9] bg-white shadow-sm">
-        <CardHeader className="flex flex-row items-center justify-between"><CardTitle>Scenario comparison</CardTitle><Button type="button" onClick={handleExport} className="gap-2"><Download className="size-4" />Export JSON</Button></CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Scenario comparison</CardTitle>
+          <Button type="button" onClick={handleExport} className="gap-2">
+            <Download className="size-4" />
+            Export JSON
+          </Button>
+        </CardHeader>
         <CardContent className="space-y-6">
           <EmissionsLineChart scenarios={selected} />
           <Table>
-            <TableHeader><TableRow><TableHead>Scenario</TableHead><TableHead>2030 emissions</TableHead><TableHead>Household burden</TableHead><TableHead>Political cost</TableHead><TableHead>Status</TableHead><TableHead>Grid constraint</TableHead></TableRow></TableHeader>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Scenario</TableHead>
+                <TableHead>2030 emissions</TableHead>
+                <TableHead>Household burden</TableHead>
+                <TableHead>Political cost</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Grid constraint</TableHead>
+              </TableRow>
+            </TableHeader>
             <TableBody>
               {selected.map((scenario) => {
                 const final = scenario.results.at(-1);

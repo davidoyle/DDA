@@ -28,9 +28,12 @@ export default function FiscalSpaceDiagram({
   currentRoyaltyRate?: number;
 }) {
   const chartPoints = points.map((point) => ({ ...point, projectIRR: point.projectIRR ?? 0 }));
-  const currentPoint = chartPoints.filter((point) => Math.abs(point.royaltyRate - currentRoyaltyRate) < 0.005);
+  const currentPoint = chartPoints.filter(
+    (point) => Math.abs(point.royaltyRate - currentRoyaltyRate) < 0.005,
+  );
   const maxRevenue = Math.max(1, ...chartPoints.map((point) => point.provincialRevenueNPV));
-  const maxIrr = Math.max(waccLine + 0.03, ...chartPoints.map((point) => Number(point.projectIRR))) + 0.02;
+  const maxIrr =
+    Math.max(waccLine + 0.03, ...chartPoints.map((point) => Number(point.projectIRR))) + 0.02;
   const minIrr = Math.min(0, ...chartPoints.map((point) => Number(point.projectIRR))) - 0.02;
 
   return (
@@ -60,7 +63,12 @@ export default function FiscalSpaceDiagram({
               fill="rgba(34,197,94,0.08)"
               stroke="rgba(34,197,94,0.28)"
             >
-              <Label value="Fiscal space exists here" position="insideTopRight" fill="#166534" fontSize={13} />
+              <Label
+                value="Fiscal space exists here"
+                position="insideTopRight"
+                fill="#166534"
+                fontSize={13}
+              />
             </ReferenceArea>
             <XAxis
               type="number"
@@ -80,16 +88,34 @@ export default function FiscalSpaceDiagram({
             <Tooltip
               formatter={(value, name) => {
                 if (name === 'projectIRR') return `${(Number(value) * 100).toFixed(1)}%`;
-                if (name === 'provincialRevenueNPV') return `$${(Number(value) / 1000).toFixed(1)}B`;
+                if (name === 'provincialRevenueNPV')
+                  return `$${(Number(value) / 1000).toFixed(1)}B`;
                 if (name === 'royaltyRate') return `${(Number(value) * 100).toFixed(0)}%`;
                 return String(value);
               }}
               labelFormatter={() => ''}
             />
-            <ReferenceLine y={waccLine} stroke="#dc2626" strokeWidth={2} strokeDasharray="5 4" label={{ value: 'WACC', fill: '#dc2626', position: 'right' }} />
+            <ReferenceLine
+              y={waccLine}
+              stroke="#dc2626"
+              strokeWidth={2}
+              strokeDasharray="5 4"
+              label={{ value: 'WACC', fill: '#dc2626', position: 'right' }}
+            />
             <ReferenceLine x={0} stroke="#64748b" strokeDasharray="3 3" />
-            <Scatter name="Royalty sweep" data={chartPoints} fill="#94a3b8" line={{ stroke: '#cbd5e1', strokeWidth: 1 }} />
-            <Scatter name="Current royalty" data={currentPoint} fill="#003366" stroke="#003366" strokeWidth={3} />
+            <Scatter
+              name="Royalty sweep"
+              data={chartPoints}
+              fill="#94a3b8"
+              line={{ stroke: '#cbd5e1', strokeWidth: 1 }}
+            />
+            <Scatter
+              name="Current royalty"
+              data={currentPoint}
+              fill="#003366"
+              stroke="#003366"
+              strokeWidth={3}
+            />
           </ScatterChart>
         </ResponsiveContainer>
       </div>

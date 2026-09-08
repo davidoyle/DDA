@@ -31,17 +31,23 @@ const DdaLogo = ({ className = '', compact = false, linkToHome = false }: DdaLog
       <DdaLogoMark className={compact ? 'h-10 w-10 flex-none' : 'h-14 w-14 flex-none'} />
       <div className="space-y-1">
         <div className="flex items-end gap-2">
-          <span className={`${compact ? 'text-2xl' : 'text-4xl'} font-heading font-black leading-none tracking-[-0.04em]`}>
+          <span
+            className={`${compact ? 'text-2xl' : 'text-4xl'} font-heading font-black leading-none tracking-[-0.04em]`}
+          >
             DDA.
           </span>
         </div>
         {!compact ? (
           <>
             <div className="h-[2px] w-full bg-[#7382B6]" />
-            <p className="text-sm leading-none text-[#A8B3D8] sm:text-base">public-evidence systems analysis</p>
+            <p className="text-sm leading-none text-[#A8B3D8] sm:text-base">
+              public-evidence systems analysis
+            </p>
           </>
         ) : (
-          <p className="text-[10px] uppercase tracking-[0.18em] text-[#A8B3D8]">public-evidence systems analysis</p>
+          <p className="text-[10px] uppercase tracking-[0.18em] text-[#A8B3D8]">
+            public-evidence systems analysis
+          </p>
         )}
       </div>
     </div>

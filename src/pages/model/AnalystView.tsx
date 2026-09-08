@@ -29,19 +29,63 @@ export default function AnalystView({
   onRingClick: () => void;
 }) {
   const firstOperating = rows.find((row) => row.year === 1) ?? rows[0];
-  const currentRow = dualRows.find((row) => Math.abs(row.royaltyRate - currentRoyaltyRate) < 0.001) ?? dualRows[0];
+  const currentRow =
+    dualRows.find((row) => Math.abs(row.royaltyRate - currentRoyaltyRate) < 0.001) ?? dualRows[0];
   const baseIrr = currentRow?.projectIRR ?? 0;
   const totalRevenue = rows.reduce((sum, row) => sum + row.revenue, 0);
   const totalCapex = rows.reduce((sum, row) => sum + row.capex, 0);
-  const totalTax = rows.reduce((sum, row) => sum + row.citProvincial + row.citFederal + row.carbonCost, 0);
-  const targetReturn = Math.max(0, totalRevenue - totalCapex - totalTax - rows.reduce((sum, row) => sum + row.upstreamOpex + row.pipelineToll + row.facilityOpex + row.electricityCost + row.royaltyAmount, 0));
+  const totalTax = rows.reduce(
+    (sum, row) => sum + row.citProvincial + row.citFederal + row.carbonCost,
+    0,
+  );
+  const targetReturn = Math.max(
+    0,
+    totalRevenue -
+      totalCapex -
+      totalTax -
+      rows.reduce(
+        (sum, row) =>
+          sum +
+          row.upstreamOpex +
+          row.pipelineToll +
+          row.facilityOpex +
+          row.electricityCost +
+          row.royaltyAmount,
+        0,
+      ),
+  );
   const sensitivities = [
-    { label: 'Gas price', lowImpact: baseIrr - 0.045, highImpact: baseIrr + 0.055, baseIRR: baseIrr },
-    { label: 'Royalty rate', lowImpact: baseIrr + 0.035, highImpact: baseIrr - 0.055, baseIRR: baseIrr },
+    {
+      label: 'Gas price',
+      lowImpact: baseIrr - 0.045,
+      highImpact: baseIrr + 0.055,
+      baseIRR: baseIrr,
+    },
+    {
+      label: 'Royalty rate',
+      lowImpact: baseIrr + 0.035,
+      highImpact: baseIrr - 0.055,
+      baseIRR: baseIrr,
+    },
     { label: 'WACC', lowImpact: baseIrr - 0.015, highImpact: baseIrr + 0.015, baseIRR: baseIrr },
-    { label: 'Pipeline toll', lowImpact: baseIrr + 0.012, highImpact: baseIrr - 0.025, baseIRR: baseIrr },
-    { label: 'OBPS price', lowImpact: baseIrr + 0.01, highImpact: baseIrr - 0.018, baseIRR: baseIrr },
-    { label: 'Electricity load', lowImpact: baseIrr + 0.008, highImpact: baseIrr - 0.014, baseIRR: baseIrr },
+    {
+      label: 'Pipeline toll',
+      lowImpact: baseIrr + 0.012,
+      highImpact: baseIrr - 0.025,
+      baseIRR: baseIrr,
+    },
+    {
+      label: 'OBPS price',
+      lowImpact: baseIrr + 0.01,
+      highImpact: baseIrr - 0.018,
+      baseIRR: baseIrr,
+    },
+    {
+      label: 'Electricity load',
+      lowImpact: baseIrr + 0.008,
+      highImpact: baseIrr - 0.014,
+      baseIRR: baseIrr,
+    },
   ];
 
   return (
@@ -56,10 +100,16 @@ export default function AnalystView({
             <div>
               <h2 className="text-lg font-bold text-[#003366]">Dual output table</h2>
               <p className="mt-1 text-sm text-slate-600">
-                At {(currentRoyaltyRate * 100).toFixed(0)}% royalty, project IRR and provincial revenue update together.
+                At {(currentRoyaltyRate * 100).toFixed(0)}% royalty, project IRR and provincial
+                revenue update together.
               </p>
             </div>
-            <DataQualityRing actualCount={actualCount} totalCount={totalCount} size={38} onClick={onRingClick} />
+            <DataQualityRing
+              actualCount={actualCount}
+              totalCount={totalCount}
+              size={38}
+              onClick={onRingClick}
+            />
           </div>
           <div className="overflow-x-auto rounded-lg border border-slate-200">
             <table className="min-w-full text-sm">
@@ -74,9 +124,14 @@ export default function AnalystView({
                 {dualRows.map((row) => {
                   const active = Math.abs(row.royaltyRate - currentRoyaltyRate) < 0.001;
                   return (
-                    <tr key={row.royaltyRate} className={active ? 'border-t bg-sky-50 font-semibold' : 'border-t bg-white'}>
+                    <tr
+                      key={row.royaltyRate}
+                      className={active ? 'border-t bg-sky-50 font-semibold' : 'border-t bg-white'}
+                    >
                       <td className="p-3">{(row.royaltyRate * 100).toFixed(0)}%</td>
-                      <td className="p-3">{row.projectIRR === null ? 'n/a' : `${(row.projectIRR * 100).toFixed(1)}%`}</td>
+                      <td className="p-3">
+                        {row.projectIRR === null ? 'n/a' : `${(row.projectIRR * 100).toFixed(1)}%`}
+                      </td>
                       <td className="p-3">{formatCurrency(row.provincialRevenueNPV)}</td>
                     </tr>
                   );
@@ -93,13 +148,36 @@ export default function AnalystView({
             totalCount={totalCount}
             onRingClick={onRingClick}
             segments={[
-              { label: 'Upstream OPEX', value: firstOperating.upstreamOpex, flagsUsed: ['upstream.wellOpex'] },
-              { label: 'Pipeline toll', value: firstOperating.pipelineToll, flagsUsed: ['infra.pipelineToll'] },
+              {
+                label: 'Upstream OPEX',
+                value: firstOperating.upstreamOpex,
+                flagsUsed: ['upstream.wellOpex'],
+              },
+              {
+                label: 'Pipeline toll',
+                value: firstOperating.pipelineToll,
+                flagsUsed: ['infra.pipelineToll'],
+              },
               { label: 'Facility OPEX', value: firstOperating.facilityOpex, flagsUsed: [] },
               { label: 'Electricity', value: firstOperating.electricityCost, flagsUsed: [] },
-              { label: 'Royalty', value: firstOperating.royaltyAmount, flagsUsed: ['royalty.thresholdLow', 'royalty.thresholdHigh'] },
-              { label: 'Tax/carbon', value: firstOperating.citFederal + firstOperating.citProvincial + firstOperating.carbonCost, flagsUsed: ['tax.ccaLNGFacility'] },
-              { label: 'Return cushion', value: targetReturn / Math.max(1, rows.length - 1), flagsUsed: ['macro.wacc'] },
+              {
+                label: 'Royalty',
+                value: firstOperating.royaltyAmount,
+                flagsUsed: ['royalty.thresholdLow', 'royalty.thresholdHigh'],
+              },
+              {
+                label: 'Tax/carbon',
+                value:
+                  firstOperating.citFederal +
+                  firstOperating.citProvincial +
+                  firstOperating.carbonCost,
+                flagsUsed: ['tax.ccaLNGFacility'],
+              },
+              {
+                label: 'Return cushion',
+                value: targetReturn / Math.max(1, rows.length - 1),
+                flagsUsed: ['macro.wacc'],
+              },
             ]}
           />
         </section>

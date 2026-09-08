@@ -1,9 +1,94 @@
-import {Link} from 'react-router-dom';
-const blocks=[
-['The register',<>The register is a structured inventory built from primary institutional sources: Statistics Canada, BC Stats, CMHC, BC Assessment, environmental databases, budget estimates, Hansard, regulatory records, FOI responses, and project filings. Registers have ranged from 37 entries in a land-demand Data Lexicon to 243 rows in a regional plan. One OCP framework held 91 ACTUAL, 10 PROXY, and 21 FLAG entries; an energy fiscal model classified 48 assumptions, including the default and basis for every FLAG.</>],
-['Analytical principles',<><strong>Constraint sequencing</strong> identifies what binds first. <strong>Disaggregation</strong> exposes the trade, scope position, and date hidden by aggregate gaps. <strong>Cross-domain connection</strong> reveals conclusions no single dataset contains. <strong>Absence as finding</strong> treats missing institutional outcome data as evidence. <strong>Falsification</strong> structures plausible explanations as propositions and tests which survive.</>],
-['GIS and spatial analysis',<>David conducts all GIS and spatial analysis directly: parcel inventory; slope, ALR, floodplain, and wildfire overlays; OCP–zoning crosswalks; development permit area review; hazard and sensitive-area mapping; and transportation network analysis. The spatial and interpretive sit in the same hands.</>],
-['Adversarial resilience',<>The work is structured to survive the hardest question in a council chamber, ministry, boardroom, opposition caucus, or courtroom. Every claim traces to a named, dated source; every limitation is open; every gap records its consequence.</>],
-['David Doyle',<>David Doyle is the principal of DDA, based in Metro Vancouver and operating nationally. DDA uses independent senior associates when projects require it.</>]
+import { Link } from 'react-router-dom';
+const blocks = [
+  [
+    'The register',
+    <>
+      The register is a structured inventory built from primary institutional sources: Statistics
+      Canada, BC Stats, CMHC, BC Assessment, environmental databases, budget estimates, Hansard,
+      regulatory records, FOI responses, and project filings. Registers have ranged from 37 entries
+      in a land-demand Data Lexicon to 243 rows in a regional plan. One OCP framework held 91
+      ACTUAL, 10 PROXY, and 21 FLAG entries; an energy fiscal model classified 48 assumptions,
+      including the default and basis for every FLAG.
+    </>,
+  ],
+  [
+    'Analytical principles',
+    <>
+      <strong>Constraint sequencing</strong> identifies what binds first.{' '}
+      <strong>Disaggregation</strong> exposes the trade, scope position, and date hidden by
+      aggregate gaps. <strong>Cross-domain connection</strong> reveals conclusions no single dataset
+      contains. <strong>Absence as finding</strong> treats missing institutional outcome data as
+      evidence. <strong>Falsification</strong> structures plausible explanations as propositions and
+      tests which survive.
+    </>,
+  ],
+  [
+    'GIS and spatial analysis',
+    <>
+      David conducts all GIS and spatial analysis directly: parcel inventory; slope, ALR,
+      floodplain, and wildfire overlays; OCP–zoning crosswalks; development permit area review;
+      hazard and sensitive-area mapping; and transportation network analysis. The spatial and
+      interpretive sit in the same hands.
+    </>,
+  ],
+  [
+    'Adversarial resilience',
+    <>
+      The work is structured to survive the hardest question in a council chamber, ministry,
+      boardroom, opposition caucus, or courtroom. Every claim traces to a named, dated source; every
+      limitation is open; every gap records its consequence.
+    </>,
+  ],
+  [
+    'David Doyle',
+    <>
+      David Doyle is the principal of DDA, based in Metro Vancouver and operating nationally. DDA
+      uses independent senior associates when projects require it.
+    </>,
+  ],
 ];
-export default function MethodPage(){return <article className="page-copy"><header><h1 className="headline-lg">How the work is done</h1><p>Every DDA engagement starts with a data register. The register is built before analysis begins — often before a proposal is submitted. It is the foundation, not a Phase 1 task.</p></header><section><h2>Every entry is classified</h2><div className="register-grid"><p><b>ACTUAL</b><span>A source-published value from a named primary source with a date.</span></p><p><b>PROXY</b><span>A derived value with its method, assumptions, and limitations documented.</span></p><p><b>FLAG</b><span>A gap, its analytical consequence, and—where possible—the path to resolution.</span></p></div></section>{blocks.map(([h,b])=><section key={h as string}><h2>{h}</h2><p>{b}</p></section>)}<section className="contact-panel"><h2>Contact</h2><p>Tell David what decision you are facing and what you need to have in hand.</p><Link to="/contact" className="btn-primary">Get in touch →</Link></section></article>}
+export default function MethodPage() {
+  return (
+    <article className="page-copy">
+      <header>
+        <h1 className="headline-lg">How the work is done</h1>
+        <p>
+          Every DDA engagement starts with a data register. The register is built before analysis
+          begins — often before a proposal is submitted. It is the foundation, not a Phase 1 task.
+        </p>
+      </header>
+      <section>
+        <h2>Every entry is classified</h2>
+        <div className="register-grid">
+          <p>
+            <b>ACTUAL</b>
+            <span>A source-published value from a named primary source with a date.</span>
+          </p>
+          <p>
+            <b>PROXY</b>
+            <span>A derived value with its method, assumptions, and limitations documented.</span>
+          </p>
+          <p>
+            <b>FLAG</b>
+            <span>
+              A gap, its analytical consequence, and—where possible—the path to resolution.
+            </span>
+          </p>
+        </div>
+      </section>
+      {blocks.map(([h, b]) => (
+        <section key={h as string}>
+          <h2>{h}</h2>
+          <p>{b}</p>
+        </section>
+      ))}
+      <section className="contact-panel">
+        <h2>Contact</h2>
+        <p>Tell David what decision you are facing and what you need to have in hand.</p>
+        <Link to="/contact" className="btn-primary">
+          Get in touch →
+        </Link>
+      </section>
+    </article>
+  );
+}

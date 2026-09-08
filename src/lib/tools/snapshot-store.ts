@@ -1,6 +1,9 @@
 const PREFIX = 'dda-tool-snapshot';
 
-export interface StandardToolSnapshot<TInputs = Record<string, unknown>, TResult = Record<string, unknown>> {
+export interface StandardToolSnapshot<
+  TInputs = Record<string, unknown>,
+  TResult = Record<string, unknown>,
+> {
   id: string;
   tool: string;
   createdAt: string;
@@ -23,12 +26,20 @@ export const saveSnapshot = <TInputs, TResult>(
     payload,
   };
   const key = `${PREFIX}:${tool}`;
-  const existing = JSON.parse(window.localStorage.getItem(key) ?? '[]') as StandardToolSnapshot<TInputs, TResult>[];
+  const existing = JSON.parse(window.localStorage.getItem(key) ?? '[]') as StandardToolSnapshot<
+    TInputs,
+    TResult
+  >[];
   window.localStorage.setItem(key, JSON.stringify([snapshot, ...existing].slice(0, 20)));
 };
 
-export const getSnapshots = <TInputs, TResult>(tool: string): StandardToolSnapshot<TInputs, TResult>[] => {
+export const getSnapshots = <TInputs, TResult>(
+  tool: string,
+): StandardToolSnapshot<TInputs, TResult>[] => {
   if (typeof window === 'undefined') return [];
   const key = `${PREFIX}:${tool}`;
-  return JSON.parse(window.localStorage.getItem(key) ?? '[]') as StandardToolSnapshot<TInputs, TResult>[];
+  return JSON.parse(window.localStorage.getItem(key) ?? '[]') as StandardToolSnapshot<
+    TInputs,
+    TResult
+  >[];
 };

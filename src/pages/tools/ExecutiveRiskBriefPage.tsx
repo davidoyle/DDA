@@ -46,7 +46,9 @@ export default function ExecutiveRiskBriefPage() {
       {entitlements.canViewPortfolioBrief ? (
         <>
           <Card>
-            <CardHeader><CardTitle>3-Year downside envelope</CardTitle></CardHeader>
+            <CardHeader>
+              <CardTitle>3-Year downside envelope</CardTitle>
+            </CardHeader>
             <CardContent>
               <p>Low: ${brief.threeYearDownsideLow.toLocaleString()}</p>
               <p>Base: ${brief.threeYearDownsideBase.toLocaleString()}</p>
@@ -54,12 +56,24 @@ export default function ExecutiveRiskBriefPage() {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader><CardTitle>Top controllable drivers</CardTitle></CardHeader>
-            <CardContent>{brief.topDrivers.map((d) => <p key={d}>• {d}</p>)}</CardContent>
+            <CardHeader>
+              <CardTitle>Top controllable drivers</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {brief.topDrivers.map((d) => (
+                <p key={d}>• {d}</p>
+              ))}
+            </CardContent>
           </Card>
           <Card>
-            <CardHeader><CardTitle>Priority actions this quarter</CardTitle></CardHeader>
-            <CardContent>{brief.topActions.map((a) => <p key={a}>• {a}</p>)}</CardContent>
+            <CardHeader>
+              <CardTitle>Priority actions this quarter</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {brief.topActions.map((a) => (
+                <p key={a}>• {a}</p>
+              ))}
+            </CardContent>
           </Card>
         </>
       ) : (
@@ -69,11 +83,19 @@ export default function ExecutiveRiskBriefPage() {
           onUpgrade={() => setUpgradeOpen(true)}
         />
       )}
-      <UpgradeModal open={upgradeOpen} onOpenChange={setUpgradeOpen} onChoosePlan={(tier) => {
-        updatePlan(tier);
-        setUpgradeOpen(false);
-      }} />
-      <ToolDisclaimer toolName="Executive Risk Brief" paramDate="2026-01" text="Rollup combines tool outputs and is intended for strategic planning support." />
+      <UpgradeModal
+        open={upgradeOpen}
+        onOpenChange={setUpgradeOpen}
+        onChoosePlan={(tier) => {
+          updatePlan(tier);
+          setUpgradeOpen(false);
+        }}
+      />
+      <ToolDisclaimer
+        toolName="Executive Risk Brief"
+        paramDate="2026-01"
+        text="Rollup combines tool outputs and is intended for strategic planning support."
+      />
     </div>
   );
 }

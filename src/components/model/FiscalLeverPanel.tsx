@@ -71,7 +71,12 @@ function Lever({
   const pct = ((value - min) / (max - min)) * 100;
 
   return (
-    <div className={cn('rounded-lg border border-slate-200 bg-white p-4 transition', disabled && 'opacity-55')}>
+    <div
+      className={cn(
+        'rounded-lg border border-slate-200 bg-white p-4 transition',
+        disabled && 'opacity-55',
+      )}
+    >
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-semibold text-slate-800">{label}</p>
@@ -121,35 +126,123 @@ export default function FiscalLeverPanel({
       <details open className="rounded-xl border border-slate-200 bg-slate-50 p-4">
         <summary className="cursor-pointer font-semibold text-[#003366]">Project inputs</summary>
         <div className="mt-4 space-y-3">
-          <NumberInput label="Capacity" value={state.capacityMtpa} suffix="mtpa" onChange={(capacityMtpa) => onChange({ capacityMtpa, scenarioId: 'custom' })} />
-          <NumberInput label="In-service year" value={state.inServiceYear} suffix="year" onChange={(inServiceYear) => onChange({ inServiceYear, scenarioId: 'custom' })} />
-          <NumberInput label="CAPEX" value={state.capexB} suffix="C$B" onChange={(capexB) => onChange({ capexB, scenarioId: 'custom' })} />
-          <NumberInput label="Annual OPEX" value={state.annualOpexM} suffix="C$M" onChange={(annualOpexM) => onChange({ annualOpexM, scenarioId: 'custom' })} />
-          <NumberInput label="Electricity load" value={state.electricityGWh} suffix="GWh/y" onChange={(electricityGWh) => onChange({ electricityGWh, scenarioId: 'custom' })} />
+          <NumberInput
+            label="Capacity"
+            value={state.capacityMtpa}
+            suffix="mtpa"
+            onChange={(capacityMtpa) => onChange({ capacityMtpa, scenarioId: 'custom' })}
+          />
+          <NumberInput
+            label="In-service year"
+            value={state.inServiceYear}
+            suffix="year"
+            onChange={(inServiceYear) => onChange({ inServiceYear, scenarioId: 'custom' })}
+          />
+          <NumberInput
+            label="CAPEX"
+            value={state.capexB}
+            suffix="C$B"
+            onChange={(capexB) => onChange({ capexB, scenarioId: 'custom' })}
+          />
+          <NumberInput
+            label="Annual OPEX"
+            value={state.annualOpexM}
+            suffix="C$M"
+            onChange={(annualOpexM) => onChange({ annualOpexM, scenarioId: 'custom' })}
+          />
+          <NumberInput
+            label="Electricity load"
+            value={state.electricityGWh}
+            suffix="GWh/y"
+            onChange={(electricityGWh) => onChange({ electricityGWh, scenarioId: 'custom' })}
+          />
         </div>
       </details>
 
       <details open className="rounded-xl border border-slate-200 bg-slate-50 p-4">
         <summary className="cursor-pointer font-semibold text-[#003366]">Fiscal levers</summary>
         <div className="mt-4 space-y-3">
-          <Lever disabled={scenarioLocked} label="Royalty rate" value={state.royaltyRate} min={0.05} max={0.4} step={0.01} format={(v) => `${(v * 100).toFixed(0)}%`} annotation="Current legislated range: 5% to 40%." onChange={(royaltyRate) => onChange({ royaltyRate, scenarioId: 'custom' })} />
-          <Lever disabled={scenarioLocked} label="WACC" value={state.wacc} min={0.06} max={0.16} step={0.005} format={(v) => `${(v * 100).toFixed(1)}%`} annotation="Proxy default used until project finance data is confirmed." onChange={(wacc) => onChange({ wacc, scenarioId: 'custom' })} />
-          <Lever disabled={scenarioLocked} label="Gas price" value={state.gasPrice} min={0.5} max={4} step={0.1} format={(v) => `$${v.toFixed(2)}/GJ`} annotation="BC Budget band: $1.22 to $2.82/GJ." onChange={(gasPrice) => onChange({ gasPrice, scenarioId: 'custom' })} />
-          <Lever disabled={scenarioLocked} label="Pipeline toll" value={state.pipelineToll} min={0.2} max={1.5} step={0.05} format={(v) => `$${v.toFixed(2)}/GJ`} annotation="Public NGTL tariff range proxy." onChange={(pipelineToll) => onChange({ pipelineToll, scenarioId: 'custom' })} />
-          <Lever disabled={scenarioLocked} label="OBPS carbon price" value={state.obpsPrice} min={50} max={200} step={5} format={(v) => `$${v.toFixed(0)}/t`} annotation="Confirmed schedule reaches $170/t by 2030." onChange={(obpsPrice) => onChange({ obpsPrice, scenarioId: 'custom' })} />
+          <Lever
+            disabled={scenarioLocked}
+            label="Royalty rate"
+            value={state.royaltyRate}
+            min={0.05}
+            max={0.4}
+            step={0.01}
+            format={(v) => `${(v * 100).toFixed(0)}%`}
+            annotation="Current legislated range: 5% to 40%."
+            onChange={(royaltyRate) => onChange({ royaltyRate, scenarioId: 'custom' })}
+          />
+          <Lever
+            disabled={scenarioLocked}
+            label="WACC"
+            value={state.wacc}
+            min={0.06}
+            max={0.16}
+            step={0.005}
+            format={(v) => `${(v * 100).toFixed(1)}%`}
+            annotation="Proxy default used until project finance data is confirmed."
+            onChange={(wacc) => onChange({ wacc, scenarioId: 'custom' })}
+          />
+          <Lever
+            disabled={scenarioLocked}
+            label="Gas price"
+            value={state.gasPrice}
+            min={0.5}
+            max={4}
+            step={0.1}
+            format={(v) => `$${v.toFixed(2)}/GJ`}
+            annotation="BC Budget band: $1.22 to $2.82/GJ."
+            onChange={(gasPrice) => onChange({ gasPrice, scenarioId: 'custom' })}
+          />
+          <Lever
+            disabled={scenarioLocked}
+            label="Pipeline toll"
+            value={state.pipelineToll}
+            min={0.2}
+            max={1.5}
+            step={0.05}
+            format={(v) => `$${v.toFixed(2)}/GJ`}
+            annotation="Public NGTL tariff range proxy."
+            onChange={(pipelineToll) => onChange({ pipelineToll, scenarioId: 'custom' })}
+          />
+          <Lever
+            disabled={scenarioLocked}
+            label="OBPS carbon price"
+            value={state.obpsPrice}
+            min={50}
+            max={200}
+            step={5}
+            format={(v) => `$${v.toFixed(0)}/t`}
+            annotation="Confirmed schedule reaches $170/t by 2030."
+            onChange={(obpsPrice) => onChange({ obpsPrice, scenarioId: 'custom' })}
+          />
         </div>
       </details>
 
       <details open className="rounded-xl border border-slate-200 bg-slate-50 p-4">
         <summary className="cursor-pointer font-semibold text-[#003366]">Scenario selector</summary>
-        <RadioGroup.Root value={state.scenarioId} onValueChange={(scenarioId) => onChange({ scenarioId })} className="mt-4 space-y-2">
+        <RadioGroup.Root
+          value={state.scenarioId}
+          onValueChange={(scenarioId) => onChange({ scenarioId })}
+          className="mt-4 space-y-2"
+        >
           <label className="flex items-center gap-2 text-sm font-medium normal-case tracking-normal text-slate-700">
-            <RadioGroup.Item value="custom" className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#003366]" />
+            <RadioGroup.Item
+              value="custom"
+              className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#003366]"
+            />
             Custom live sliders
           </label>
           {SCENARIOS.map((scenario) => (
-            <label key={scenario.id} className="flex items-center gap-2 text-sm font-medium normal-case tracking-normal text-slate-700">
-              <RadioGroup.Item value={scenario.id} className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#003366]" />
+            <label
+              key={scenario.id}
+              className="flex items-center gap-2 text-sm font-medium normal-case tracking-normal text-slate-700"
+            >
+              <RadioGroup.Item
+                value={scenario.id}
+                className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#003366]"
+              />
               {scenario.label}
             </label>
           ))}

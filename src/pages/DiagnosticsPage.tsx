@@ -33,7 +33,8 @@ const tools: DiagnosticTool[] = [
     name: 'B.C. PST Impact Diagnostic',
     href: '/tools/bc-pst-impact',
     category: 'Tax and fiscal',
-    diagnosis: 'Provides the broader B.C. PST impact model for public-sector and organizational cost exposure.',
+    diagnosis:
+      'Provides the broader B.C. PST impact model for public-sector and organizational cost exposure.',
     input: 'Capital, operating, and supply-chain spend assumptions.',
     output: 'PST impact summary, exposed cost categories, and mitigation questions.',
     source: 'B.C. PST rules and public expenditure classifications.',
@@ -87,7 +88,8 @@ const tools: DiagnosticTool[] = [
     name: 'B.C. Energy Fiscal Decision Model',
     href: '/model',
     category: 'Climate and energy',
-    diagnosis: 'Models LNG fiscal levers, project IRR, provincial revenue NPV, flags, and audit trail.',
+    diagnosis:
+      'Models LNG fiscal levers, project IRR, provincial revenue NPV, flags, and audit trail.',
     input: 'Public assumption register with ACTUAL, PROXY, and FLAG defaults.',
     output: 'Executive fiscal-space view, analyst controls, audit trail, and briefing-note export.',
     source: 'BC Budget 2026 anchors, public tax/royalty parameters, and documented flag defaults.',
@@ -112,7 +114,12 @@ const tools: DiagnosticTool[] = [
   },
 ];
 
-const categories: DiagnosticTool['category'][] = ['Workers compensation', 'Tax and fiscal', 'Climate and energy', 'Executive tools'];
+const categories: DiagnosticTool['category'][] = [
+  'Workers compensation',
+  'Tax and fiscal',
+  'Climate and energy',
+  'Executive tools',
+];
 
 function DiagnosticsPage() {
   return (
@@ -120,34 +127,72 @@ function DiagnosticsPage() {
       <section className="mx-auto max-w-[1120px]">
         <h1 className="headline-lg">Diagnostic tools</h1>
         <p className="mt-4 text-[18px] font-medium">Built from public evidence. Open access.</p>
-        <p className="mt-4 max-w-[760px] text-[17px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>
-          These tools apply the same register methodology used in DDA&apos;s commissioned and published analytical work — sourced, classified, and documented. They address specific, bounded questions in workers&apos; compensation, tax policy, climate, and energy economics.
+        <p
+          className="mt-4 max-w-[760px] text-[17px] leading-[1.7]"
+          style={{ color: 'var(--text-secondary)' }}
+        >
+          These tools apply the same register methodology used in DDA&apos;s commissioned and
+          published analytical work — sourced, classified, and documented. They address specific,
+          bounded questions in workers&apos; compensation, tax policy, climate, and energy
+          economics.
         </p>
       </section>
-      <section className="mx-auto mt-12 max-w-[1120px] card"><h2 className="headline-sm">B.C. Energy Fiscal Decision Model</h2><p className="my-3" style={{color:'var(--text-secondary)'}}>A 48-assumption fiscal simulation platform covering four BC LNG projects. Executive, Analyst, and Audit views. Standalone application.</p><Link to="/model" className="btn-primary">Open model →</Link></section>
+      <section className="mx-auto mt-12 max-w-[1120px] card">
+        <h2 className="headline-sm">B.C. Energy Fiscal Decision Model</h2>
+        <p className="my-3" style={{ color: 'var(--text-secondary)' }}>
+          A 48-assumption fiscal simulation platform covering four BC LNG projects. Executive,
+          Analyst, and Audit views. Standalone application.
+        </p>
+        <Link to="/model" className="btn-primary">
+          Open model →
+        </Link>
+      </section>
 
       <section className="mx-auto mt-[var(--space-7)] max-w-[1120px] space-y-8">
         {categories.map((category) => (
           <div key={category}>
-            <div className="mb-4 flex items-center justify-between gap-4 border-b pb-2" style={{ borderColor: 'var(--border)' }}>
+            <div
+              className="mb-4 flex items-center justify-between gap-4 border-b pb-2"
+              style={{ borderColor: 'var(--border)' }}
+            >
               <h2 className="text-[18px] font-semibold text-slate-900">{category}</h2>
-              <span className="text-xs text-slate-500">{tools.filter((tool) => tool.category === category).length} tools</span>
+              <span className="text-xs text-slate-500">
+                {tools.filter((tool) => tool.category === category).length} tools
+              </span>
             </div>
             <div className="grid gap-[var(--space-5)] sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {tools.filter((tool) => tool.category === category).map((tool) => (
-                <article key={tool.name} className="card tool-card flex h-full flex-col">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-[18px] font-medium leading-[1.3]">{tool.name}</h3>
-                  </div>
-                  <p className="mt-3 text-[13px] leading-[1.7]" style={{ color: 'var(--text-secondary)' }}>{tool.diagnosis}</p>
-                  <div className="mt-4 flex-1 space-y-2 border-t pt-4 text-[13px]" style={{ borderColor: 'var(--border)' }}>
-                    <p><strong>Input:</strong> {tool.input}</p>
-                    <p><strong>Output:</strong> {tool.output}</p>
-                    <p><strong>Source:</strong> {tool.source}</p>
-                  </div>
-                  <Link to={tool.href} className="btn-primary tool-action mt-4">Run →</Link>
-                </article>
-              ))}
+              {tools
+                .filter((tool) => tool.category === category)
+                .map((tool) => (
+                  <article key={tool.name} className="card tool-card flex h-full flex-col">
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="text-[18px] font-medium leading-[1.3]">{tool.name}</h3>
+                    </div>
+                    <p
+                      className="mt-3 text-[13px] leading-[1.7]"
+                      style={{ color: 'var(--text-secondary)' }}
+                    >
+                      {tool.diagnosis}
+                    </p>
+                    <div
+                      className="mt-4 flex-1 space-y-2 border-t pt-4 text-[13px]"
+                      style={{ borderColor: 'var(--border)' }}
+                    >
+                      <p>
+                        <strong>Input:</strong> {tool.input}
+                      </p>
+                      <p>
+                        <strong>Output:</strong> {tool.output}
+                      </p>
+                      <p>
+                        <strong>Source:</strong> {tool.source}
+                      </p>
+                    </div>
+                    <Link to={tool.href} className="btn-primary tool-action mt-4">
+                      Run →
+                    </Link>
+                  </article>
+                ))}
             </div>
           </div>
         ))}

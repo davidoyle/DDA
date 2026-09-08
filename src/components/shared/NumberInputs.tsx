@@ -71,10 +71,13 @@ export function ValidatedNumberInput({
         }}
       />
       {invalid ? (
-        <p className="text-xs text-red-300">Enter a valid number{typeof min === 'number' ? ` (min ${min})` : ''}{typeof max === 'number' ? ` (max ${max})` : ''}.</p>
-      ) : (
-        helperText ? <p className="text-xs text-[#F3EFE6]/65">{helperText}</p> : null
-      )}
+        <p className="text-xs text-red-300">
+          Enter a valid number{typeof min === 'number' ? ` (min ${min})` : ''}
+          {typeof max === 'number' ? ` (max ${max})` : ''}.
+        </p>
+      ) : helperText ? (
+        <p className="text-xs text-[#F3EFE6]/65">{helperText}</p>
+      ) : null}
     </div>
   );
 }

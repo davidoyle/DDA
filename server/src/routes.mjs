@@ -1,27 +1,39 @@
 import express from 'express';
 import { randomUUID } from 'crypto';
 import { config } from './config.mjs';
-import { createSession, revokeSession, signMagicLink, verifyMagicLinkSignature, SESSION_AUTH_METHOD } from './auth.mjs';
-import { clearSessionCookie, requireAdmin, requireAuthenticated, setSessionCookie } from './middleware.mjs';
+import {
+  createSession,
+  revokeSession,
+  decodeMagicLinkToken,
+  encodeMagicLinkToken,
+  SESSION_AUTH_METHOD,
+} from './auth.mjs';
+import {
+  clearSessionCookie,
+  requireAdmin,
+  requireAuthenticated,
+  setSessionCookie,
+} from './middleware.mjs';
 import { query } from './db.mjs';
 import adminAuthRouter from './routes/admin-auth.mjs';
 import sessionRouter from './routes/session.mjs';
+import { notifyContactSubmission } from './services/notify.mjs';
 
 const router = express.Router();
 let stripeClientPromise;
 async function getStripeClient() {
   if (!process.env.STRIPE_SECRET_KEY) return null;
   if (!stripeClientPromise) {
-    stripeClientPromise = import('stripe').then(({ default: Stripe }) => (
-      new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' })
-    ));
+    stripeClientPromise = import('stripe').then(
+      ({ default: Stripe }) =>
+        new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2023-10-16' }),
+    );
   }
   return stripeClientPromise;
 }
 
 router.use(adminAuthRouter);
 router.use(sessionRouter);
-
 
 router.post('/api/create-checkout-session', requireAuthenticated, async (req, res) => {
   const { priceId, successUrl, cancelUrl, customerEmail, metadata = {} } = req.body || {};
@@ -50,22 +62,49 @@ router.post('/api/create-checkout-session', requireAuthenticated, async (req, re
 
     res.json({ sessionId: session.id, url: session.url });
   } catch (error) {
-    res.status(502).json({ error: 'Unable to create checkout session', detail: String(error?.message || error) });
+    res
+      .status(502)
+      .json({
+        error: 'Unable to create checkout session',
+        detail: String(error?.message || error),
+      });
   }
 });
 
-router.post('/api/contact', (req, res) => {
-  const { name = '', email, reason = '', message, segment = '', context = '', source = 'website' } = req.body || {};
+router.post('/api/contact', async (req, res) => {
+  const {
+    name = '',
+    email,
+    reason = '',
+    message,
+    segment = '',
+    context = '',
+    source = 'website',
+  } = req.body || {};
 
   if (!email || !message) {
     res.status(400).json({ error: 'email and message are required' });
     return;
   }
 
-  res.status(202).json({
-    received: true,
-    contact: { name, email, reason, message, segment, context, source },
-  });
+  const submission = { name, email, reason, message, segment, context, source };
+
+  try {
+    await query(
+      `INSERT INTO contact_submissions (id, name, email, reason, message, segment, context, source, ip_address)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [randomUUID(), name, email, reason, message, segment, context, source, req.ip],
+    );
+  } catch (error) {
+    // The submission wasn't durably stored — report failure rather than the
+    // previous behaviour of always returning 202 regardless of outcome.
+    console.error('Unable to persist contact submission', error);
+    res.status(502).json({ error: 'Unable to record submission' });
+    return;
+  }
+
+  const notified = await notifyContactSubmission(submission);
+  res.status(202).json({ received: true, notified });
 });
 
 router.post('/api/auth/logout', requireAuthenticated, async (req, res) => {
@@ -93,9 +132,12 @@ router.post('/api/auth/magic-link/create', requireAdmin, async (req, res) => {
 
   const tokenId = randomUUID();
   const expiresAt = new Date(Date.now() + Number(expiresInHours) * 60 * 60 * 1000).toISOString();
-  const payload = `${tokenId}:${user.email}:${planTier}:${expiresAt}`;
-  const signature = signMagicLink(payload);
-  const token = Buffer.from(`${payload}:${signature}`).toString('base64url');
+  const { token, signature } = encodeMagicLinkToken({
+    tokenId,
+    email: user.email,
+    planTier,
+    expiresAt,
+  });
 
   await query(
     `INSERT INTO magic_links (id, user_id, token_id, token_signature_hash, plan_tier, expires_at)
@@ -114,14 +156,14 @@ router.post('/api/auth/magic-link/verify', async (req, res) => {
   }
 
   try {
-    const decoded = Buffer.from(token, 'base64url').toString('utf8');
-    const [tokenId, email, planTier, expiresAt, signature] = decoded.split(':');
-    const payload = `${tokenId}:${email}:${planTier}:${expiresAt}`;
-
-    if (!verifyMagicLinkSignature(payload, signature)) {
+    const decoded = decodeMagicLinkToken(token);
+    if (!decoded) {
       res.status(401).json({ error: 'Invalid signature' });
       return;
     }
+
+    const { tokenId, planTier } = decoded.fields;
+    const signature = decoded.signature;
 
     const linkRows = await query(
       `SELECT ml.id, ml.user_id, ml.consumed_at, ml.expires_at

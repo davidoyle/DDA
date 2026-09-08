@@ -74,24 +74,35 @@ export function AccessProvider({ children }: { children: React.ReactNode }) {
   const accessMode = toAccessMode(session.role, isDemoPath);
   const hasAdminAccess = session.role === 'admin';
 
-  const value = useMemo<AccessState>(() => ({
-    planTier: session.planTier,
-    setPlanTier,
-    isAuthenticated: session.authenticated,
-    userEmail: session.email,
-    canAccessDiagnostics: accessMode === 'admin' || accessMode === 'paid' || accessMode === 'demo',
-    canExportData: accessMode === 'paid' && (session.planTier === 'pro' || session.planTier === 'enterprise'),
-    canSaveScenarios: accessMode === 'paid' && (session.planTier === 'pro' || session.planTier === 'enterprise'),
-    canAccessAdvancedFeatures: accessMode === 'admin' || (accessMode === 'paid' && session.planTier === 'enterprise'),
-    upgradeToPro: () => { window.location.href = '/diagnostics/subscribe?plan=pro'; },
-    upgradeToEnterprise: () => { window.location.href = '/diagnostics/subscribe?plan=enterprise'; },
-    accessMode,
-    isAdminModeActive: hasAdminAccess,
-    setAdminModeActive,
-    hasAdminAccess,
-    isDemoMode: accessMode === 'demo',
-    refreshSession,
-  }), [accessMode, hasAdminAccess, refreshSession, session, setAdminModeActive, setPlanTier]);
+  const value = useMemo<AccessState>(
+    () => ({
+      planTier: session.planTier,
+      setPlanTier,
+      isAuthenticated: session.authenticated,
+      userEmail: session.email,
+      canAccessDiagnostics:
+        accessMode === 'admin' || accessMode === 'paid' || accessMode === 'demo',
+      canExportData:
+        accessMode === 'paid' && (session.planTier === 'pro' || session.planTier === 'enterprise'),
+      canSaveScenarios:
+        accessMode === 'paid' && (session.planTier === 'pro' || session.planTier === 'enterprise'),
+      canAccessAdvancedFeatures:
+        accessMode === 'admin' || (accessMode === 'paid' && session.planTier === 'enterprise'),
+      upgradeToPro: () => {
+        window.location.href = '/diagnostics/subscribe?plan=pro';
+      },
+      upgradeToEnterprise: () => {
+        window.location.href = '/diagnostics/subscribe?plan=enterprise';
+      },
+      accessMode,
+      isAdminModeActive: hasAdminAccess,
+      setAdminModeActive,
+      hasAdminAccess,
+      isDemoMode: accessMode === 'demo',
+      refreshSession,
+    }),
+    [accessMode, hasAdminAccess, refreshSession, session, setAdminModeActive, setPlanTier],
+  );
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }

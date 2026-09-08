@@ -1,5 +1,115 @@
-import {getEmailAddress,getMailtoHref} from '@/lib/email';
-import {useState} from 'react';
-export default function ContactPage(){const [form,setForm]=useState({name:'',email:'',reason:'',message:'',busy:false,status:'idle'}); const submit=async(e:React.FormEvent)=>{e.preventDefault();setForm(f=>({...f,busy:true,status:'idle'}));try{const r=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:form.name,email:form.email,reason:form.reason,message:form.message})});if(!r.ok)throw Error();setForm(f=>({...f,busy:false,status:'success'}))}catch{setForm(f=>({...f,busy:false,status:'error'}))}};
-if(form.status==='success')return <main className="page-copy"><h1 className="headline-lg">Thank you.</h1><p>David will respond within 48 hours.</p></main>;
-return <main className="page-copy"><header><h1 className="headline-lg">Contact</h1><p>Describe the decision you are facing and the kind of analysis you need. David will respond within 48 hours with a direct read on fit, scope, and approach.</p><p>Metro Vancouver, BC. Operating nationally.<br/><a href={getMailtoHref('primary')}>{getEmailAddress('primary')}</a></p></header><form onSubmit={submit} className="space-y-5 max-w-[700px]"><div><label htmlFor="name">Name</label><input id="name" required value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/></div><div><label htmlFor="email">Email</label><input id="email" type="email" required value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/></div><div><label htmlFor="reason">Organization type</label><select id="reason" required value={form.reason} onChange={e=>setForm({...form,reason:e.target.value})}><option value="">Select an organization type</option>{['Municipality or regional government','Resource sector operator','Provincial or federal agency','Legal or advisory team','Journalist or oversight body','General inquiry'].map(x=><option key={x}>{x}</option>)}</select></div><div><label htmlFor="message">Message</label><textarea id="message" required value={form.message} onChange={e=>setForm({...form,message:e.target.value})}/></div>{form.status==='error'&&<p className="constraint-block">Message could not be sent. Please email directly at <a href={getMailtoHref('primary')}>{getEmailAddress('primary')}</a>.</p>}<button className="btn-primary" disabled={form.busy}>{form.busy?'Sending…':'Send message'}</button></form></main>}
+import { getEmailAddress, getMailtoHref } from '@/lib/email';
+import { useState } from 'react';
+export default function ContactPage() {
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    reason: '',
+    message: '',
+    busy: false,
+    status: 'idle',
+  });
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setForm((f) => ({ ...f, busy: true, status: 'idle' }));
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          reason: form.reason,
+          message: form.message,
+        }),
+      });
+      if (!r.ok) throw Error();
+      setForm((f) => ({ ...f, busy: false, status: 'success' }));
+    } catch {
+      setForm((f) => ({ ...f, busy: false, status: 'error' }));
+    }
+  };
+  if (form.status === 'success')
+    return (
+      <main className="page-copy">
+        <h1 className="headline-lg">Thank you.</h1>
+        <p>David will respond within 48 hours.</p>
+      </main>
+    );
+  return (
+    <main className="page-copy">
+      <header>
+        <h1 className="headline-lg">Contact</h1>
+        <p>
+          Describe the decision you are facing and the kind of analysis you need. David will respond
+          within 48 hours with a direct read on fit, scope, and approach.
+        </p>
+        <p>
+          Metro Vancouver, BC. Operating nationally.
+          <br />
+          <a href={getMailtoHref('primary')}>{getEmailAddress('primary')}</a>
+        </p>
+      </header>
+      <form onSubmit={submit} className="space-y-5 max-w-[700px]">
+        <div>
+          <label htmlFor="name">Name</label>
+          <input
+            id="name"
+            required
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+        </div>
+        <div>
+          <label htmlFor="reason">Organization type</label>
+          <select
+            id="reason"
+            required
+            value={form.reason}
+            onChange={(e) => setForm({ ...form, reason: e.target.value })}
+          >
+            <option value="">Select an organization type</option>
+            {[
+              'Municipality or regional government',
+              'Resource sector operator',
+              'Provincial or federal agency',
+              'Legal or advisory team',
+              'Journalist or oversight body',
+              'General inquiry',
+            ].map((x) => (
+              <option key={x}>{x}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="message">Message</label>
+          <textarea
+            id="message"
+            required
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+          />
+        </div>
+        {form.status === 'error' && (
+          <p className="constraint-block">
+            Message could not be sent. Please email directly at{' '}
+            <a href={getMailtoHref('primary')}>{getEmailAddress('primary')}</a>.
+          </p>
+        )}
+        <button className="btn-primary" disabled={form.busy}>
+          {form.busy ? 'Sending…' : 'Send message'}
+        </button>
+      </form>
+    </main>
+  );
+}

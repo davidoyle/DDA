@@ -1,9 +1,122 @@
 import { Link } from 'react-router-dom';
-const P=({children}:{children:React.ReactNode})=><p className="text-[16px] leading-[1.85]" style={{color:'var(--text-secondary)'}}>{children}</p>;
-export default function HomePage(){return <article className="page-copy">
-  <header><h1 className="headline-lg">David Doyle finds the story in messy data.</h1><P>Public records, institutional filings, regulatory databases, budget documents, statistical releases, environmental assessments, and project-specific operational data. The raw material is always scattered, always incomplete, and almost never organized to answer the question someone actually needs answered. David&apos;s work is assembling that evidence, classifying it honestly, and finding where things break.</P></header>
-  <section><h2>How the work begins</h2><P>Every engagement starts the same way. Before David writes a sentence of analysis, he builds a data register: a structured inventory of everything he would realistically need to know to understand the problem in front of him.</P><P>For municipal strategy, the register covers population, workforce, industry, training, housing, infrastructure, and fiscal position. For a resource project, it maps trade-level labour supply, competing demand, dispatch capacity, and financing exposure. For institutional accountability, it assembles Hansard, budget estimates, FOI responses, regulatory databases, and statistical releases.</P><div className="register-grid"><p><b>ACTUAL</b><span>A source-published value from a named primary source with a date.</span></p><p><b>PROXY</b><span>A value derived from primary sources using a stated method, with its limitations written down.</span></p><p><b>FLAG</b><span>A known gap where no public source provides a usable value, with its consequence stated plainly.</span></p></div><P>This register is often built before a proposal is submitted.</P></section>
-  <section><h2>Where things break</h2><P>Once the register is assembled, a picture forms. David applies consistent analytical principles to find the breaks, gaps, and contradictions the evidence contains.</P><P><strong>Where does something break?</strong> A project needs 90 workers in a certified trade for commissioning. Thirty are available and there is no substitute. That is a binding constraint on the critical path, with a date attached.</P><P><strong>Is something moving fast enough?</strong> A minister announced five priorities. Twelve months of budget figures, legislation, regulatory outputs, and quarterly statistics made delivery measurable. In one case, it measured at approximately 20%.</P><P><strong>What constrains what?</strong> A county strategy assumes workforce inflow, but its housing market cannot absorb those workers at the wages those sectors pay. The constraint binds before the opportunity materialises.</P><P><strong>Where does narrative diverge from the record?</strong> An institution says a situation is controlled while deploying resources at crisis levels. The register holds both the claim and counter-evidence. The divergence is the finding. Sometimes the most important entry is a FLAG: absence is not merely a limitation; it is a result.</P><P>A provincial tax analysis began with projected revenue, then connected legislation, supply-chain input-output tables, elasticity research, and firm-level margins. Six steps in, it exposed a structural contradiction: an investment fund assumed 70–75% local sourcing of professional services while the tax dismantled the sector supplying them. No single source showed that conclusion. The register did.</P></section>
-  <section><h2>What gets built</h2><P>DDA has built fiscal simulation platforms with 48-assumption registers, 25-year cash-flow engines, 36-scenario royalty sweeps, Monte Carlo modelling, classification logic, and international benchmarking. It has built thousand-paragraph economic strategies, OCP revision frameworks in full bylaw format with parcel-level GIS and Bill 44 mapping, and multi-hundred-paragraph policy analyses with advocacy frameworks, appendices, and employer diagnostics.</P><P>David conducts all GIS and spatial analysis directly: parcel inventory, constraint overlays, zoning–OCP alignment, hazard mapping, development permit area review, and transportation network analysis are performed by the analyst who writes the recommendations and builds the models.</P><P>The work is built to survive serious scrutiny. Every claim traces to a named, dated source, every limitation is stated openly, and the analysis is structured to survive the hardest question anyone in the room is likely to ask.</P></section>
-  <section className="contact-panel"><h2>Contact</h2><P>Tell David what decision you are facing and what you need to have in hand.</P><Link className="btn-primary" to="/contact">Get in touch →</Link></section>
- </article>}
+const P = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-[16px] leading-[1.85]" style={{ color: 'var(--text-secondary)' }}>
+    {children}
+  </p>
+);
+export default function HomePage() {
+  return (
+    <article className="page-copy">
+      <header>
+        <h1 className="headline-lg">David Doyle finds the story in messy data.</h1>
+        <P>
+          Public records, institutional filings, regulatory databases, budget documents, statistical
+          releases, environmental assessments, and project-specific operational data. The raw
+          material is always scattered, always incomplete, and almost never organized to answer the
+          question someone actually needs answered. David&apos;s work is assembling that evidence,
+          classifying it honestly, and finding where things break.
+        </P>
+      </header>
+      <section>
+        <h2>How the work begins</h2>
+        <P>
+          Every engagement starts the same way. Before David writes a sentence of analysis, he
+          builds a data register: a structured inventory of everything he would realistically need
+          to know to understand the problem in front of him.
+        </P>
+        <P>
+          For municipal strategy, the register covers population, workforce, industry, training,
+          housing, infrastructure, and fiscal position. For a resource project, it maps trade-level
+          labour supply, competing demand, dispatch capacity, and financing exposure. For
+          institutional accountability, it assembles Hansard, budget estimates, FOI responses,
+          regulatory databases, and statistical releases.
+        </P>
+        <div className="register-grid">
+          <p>
+            <b>ACTUAL</b>
+            <span>A source-published value from a named primary source with a date.</span>
+          </p>
+          <p>
+            <b>PROXY</b>
+            <span>
+              A value derived from primary sources using a stated method, with its limitations
+              written down.
+            </span>
+          </p>
+          <p>
+            <b>FLAG</b>
+            <span>
+              A known gap where no public source provides a usable value, with its consequence
+              stated plainly.
+            </span>
+          </p>
+        </div>
+        <P>This register is often built before a proposal is submitted.</P>
+      </section>
+      <section>
+        <h2>Where things break</h2>
+        <P>
+          Once the register is assembled, a picture forms. David applies consistent analytical
+          principles to find the breaks, gaps, and contradictions the evidence contains.
+        </P>
+        <P>
+          <strong>Where does something break?</strong> A project needs 90 workers in a certified
+          trade for commissioning. Thirty are available and there is no substitute. That is a
+          binding constraint on the critical path, with a date attached.
+        </P>
+        <P>
+          <strong>Is something moving fast enough?</strong> A minister announced five priorities.
+          Twelve months of budget figures, legislation, regulatory outputs, and quarterly statistics
+          made delivery measurable. In one case, it measured at approximately 20%.
+        </P>
+        <P>
+          <strong>What constrains what?</strong> A county strategy assumes workforce inflow, but its
+          housing market cannot absorb those workers at the wages those sectors pay. The constraint
+          binds before the opportunity materialises.
+        </P>
+        <P>
+          <strong>Where does narrative diverge from the record?</strong> An institution says a
+          situation is controlled while deploying resources at crisis levels. The register holds
+          both the claim and counter-evidence. The divergence is the finding. Sometimes the most
+          important entry is a FLAG: absence is not merely a limitation; it is a result.
+        </P>
+        <P>
+          A provincial tax analysis began with projected revenue, then connected legislation,
+          supply-chain input-output tables, elasticity research, and firm-level margins. Six steps
+          in, it exposed a structural contradiction: an investment fund assumed 70–75% local
+          sourcing of professional services while the tax dismantled the sector supplying them. No
+          single source showed that conclusion. The register did.
+        </P>
+      </section>
+      <section>
+        <h2>What gets built</h2>
+        <P>
+          DDA has built fiscal simulation platforms with 48-assumption registers, 25-year cash-flow
+          engines, 36-scenario royalty sweeps, Monte Carlo modelling, classification logic, and
+          international benchmarking. It has built thousand-paragraph economic strategies, OCP
+          revision frameworks in full bylaw format with parcel-level GIS and Bill 44 mapping, and
+          multi-hundred-paragraph policy analyses with advocacy frameworks, appendices, and employer
+          diagnostics.
+        </P>
+        <P>
+          David conducts all GIS and spatial analysis directly: parcel inventory, constraint
+          overlays, zoning–OCP alignment, hazard mapping, development permit area review, and
+          transportation network analysis are performed by the analyst who writes the
+          recommendations and builds the models.
+        </P>
+        <P>
+          The work is built to survive serious scrutiny. Every claim traces to a named, dated
+          source, every limitation is stated openly, and the analysis is structured to survive the
+          hardest question anyone in the room is likely to ask.
+        </P>
+      </section>
+      <section className="contact-panel">
+        <h2>Contact</h2>
+        <P>Tell David what decision you are facing and what you need to have in hand.</P>
+        <Link className="btn-primary" to="/contact">
+          Get in touch →
+        </Link>
+      </section>
+    </article>
+  );
+}

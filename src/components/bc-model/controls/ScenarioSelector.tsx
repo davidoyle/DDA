@@ -18,9 +18,15 @@ export function ScenarioSelector({ scenarios, selectedIds, onToggle }: ScenarioS
             onClick={() => onToggle(scenario.id)}
             className={`rounded-2xl border p-4 text-left transition ${active ? 'border-[#1f3a5f] bg-[#1f3a5f] text-white shadow-lg' : 'border-[#d8cdb9] bg-white text-[#1f1f1f] hover:border-[#1f3a5f]'}`}
           >
-            <p className={`font-mono text-xs uppercase tracking-[0.12em] ${active ? 'text-[#d7e1ef]' : 'text-[#6b6255]'}`}>{scenario.label}</p>
+            <p
+              className={`font-mono text-xs uppercase tracking-[0.12em] ${active ? 'text-[#d7e1ef]' : 'text-[#6b6255]'}`}
+            >
+              {scenario.label}
+            </p>
             <p className="mt-2 font-heading text-xl">{scenario.results.at(-1)?.status}</p>
-            <p className={`mt-2 text-sm ${active ? 'text-white/80' : 'text-[#5c5548]'}`}>{scenario.description}</p>
+            <p className={`mt-2 text-sm ${active ? 'text-white/80' : 'text-[#5c5548]'}`}>
+              {scenario.description}
+            </p>
           </button>
         );
       })}

@@ -1,8 +1,8 @@
-import type { DiagnosticSnapshot } from '@/lib/session'
+import type { DiagnosticSnapshot } from '@/lib/session';
 
 interface Props {
-  title: string
-  snapshots: DiagnosticSnapshot[]
+  title: string;
+  snapshots: DiagnosticSnapshot[];
 }
 
 export default function TrajectoryPanel({ title, snapshots }: Props) {
@@ -14,10 +14,12 @@ export default function TrajectoryPanel({ title, snapshots }: Props) {
         {[...snapshots].reverse().map((row) => (
           <li key={`${row.tool}-${row.timestamp}`} className="border-b border-[#F3EFE6]/10 pb-2">
             <p>{new Date(row.timestamp).toLocaleString('en-CA')}</p>
-            <p className="text-[#F3EFE6]/80">Headline cost: ${row.headlineCost.toLocaleString('en-CA')}</p>
+            <p className="text-[#F3EFE6]/80">
+              Headline cost: ${row.headlineCost.toLocaleString('en-CA')}
+            </p>
           </li>
         ))}
       </ul>
     </article>
-  )
+  );
 }

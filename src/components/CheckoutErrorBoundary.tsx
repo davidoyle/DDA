@@ -48,7 +48,12 @@ export class CheckoutErrorBoundary extends React.Component<Props, State> {
           <h3 className="headline-sm">Unable to process payment</h3>
           <p className="mt-2 text-sm">{this.state.error.userFriendlyMessage}</p>
           <div className="mt-4 flex gap-3">
-            <button className="btn-secondary" onClick={() => { window.location.href = '/contact?context=payment_error'; }}>
+            <button
+              className="btn-secondary"
+              onClick={() => {
+                window.location.href = '/contact?context=payment_error';
+              }}
+            >
               Contact Support
             </button>
             <button className="btn-primary" onClick={() => this.setState({ error: null })}>

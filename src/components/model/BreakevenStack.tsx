@@ -38,24 +38,41 @@ export default function BreakevenStack({
         <div>
           <p className="text-sm font-semibold text-[#003366]">Live breakeven cost stack</p>
           <p className="mt-1 text-sm text-slate-600">
-            The stack uses the first operating-year cash-flow row, so changes to gas price,
-            tolls, OPEX, electricity load, CAPEX, and royalty terms flow through immediately.
+            The stack uses the first operating-year cash-flow row, so changes to gas price, tolls,
+            OPEX, electricity load, CAPEX, and royalty terms flow through immediately.
           </p>
         </div>
         {flagged && actualCount !== undefined && totalCount !== undefined ? (
-          <DataQualityRing actualCount={actualCount} totalCount={totalCount} size={38} onClick={onRingClick} />
+          <DataQualityRing
+            actualCount={actualCount}
+            totalCount={totalCount}
+            size={38}
+            onClick={onRingClick}
+          />
         ) : null}
       </div>
 
       <div className="h-24">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={[Object.fromEntries(data.map((segment) => [segment.label, segment.value]))]} layout="vertical" margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+          <BarChart
+            data={[Object.fromEntries(data.map((segment) => [segment.label, segment.value]))]}
+            layout="vertical"
+            margin={{ top: 8, right: 8, bottom: 8, left: 8 }}
+          >
             <XAxis type="number" hide />
             <Tooltip formatter={(value) => formatMillions(Number(value))} />
             {data.map((segment, index) => (
-              <Bar key={segment.label} dataKey={segment.label} stackId="breakeven" fill={COLORS[index % COLORS.length]} radius={index === 0 ? [6, 0, 0, 6] : undefined}>
+              <Bar
+                key={segment.label}
+                dataKey={segment.label}
+                stackId="breakeven"
+                fill={COLORS[index % COLORS.length]}
+                radius={index === 0 ? [6, 0, 0, 6] : undefined}
+              >
                 <Cell fill={COLORS[index % COLORS.length]} />
-                {segment.share > 0.12 ? <LabelList dataKey={segment.label} position="center" fill="white" fontSize={11} /> : null}
+                {segment.share > 0.12 ? (
+                  <LabelList dataKey={segment.label} position="center" fill="white" fontSize={11} />
+                ) : null}
               </Bar>
             ))}
           </BarChart>
@@ -64,11 +81,19 @@ export default function BreakevenStack({
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {data.map((segment, index) => (
-          <div key={segment.label} className="flex items-center gap-3 rounded-lg bg-slate-50 px-3 py-2">
-            <span className="h-3 w-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+          <div
+            key={segment.label}
+            className="flex items-center gap-3 rounded-lg bg-slate-50 px-3 py-2"
+          >
+            <span
+              className="h-3 w-3 rounded-full"
+              style={{ backgroundColor: COLORS[index % COLORS.length] }}
+            />
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-semibold text-slate-700">{segment.label}</p>
-              <p className="text-xs text-slate-500">{formatMillions(segment.value)} · {(segment.share * 100).toFixed(0)}%</p>
+              <p className="text-xs text-slate-500">
+                {formatMillions(segment.value)} · {(segment.share * 100).toFixed(0)}%
+              </p>
             </div>
           </div>
         ))}

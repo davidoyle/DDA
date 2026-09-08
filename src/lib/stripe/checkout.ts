@@ -3,7 +3,9 @@ import { getStripePublishableKey, getPriceIdOrThrow, isStripeConfigured } from '
 import { trackEvent } from '@/lib/analytics';
 
 type StripeRedirectResult = { error?: { message?: string } };
-type StripeClient = { redirectToCheckout: (options: { sessionId: string }) => Promise<StripeRedirectResult> };
+type StripeClient = {
+  redirectToCheckout: (options: { sessionId: string }) => Promise<StripeRedirectResult>;
+};
 
 declare global {
   interface Window {
@@ -31,7 +33,9 @@ async function loadStripeClient(): Promise<StripeClient | null> {
       const existing = document.querySelector('script[data-stripe-js="true"]');
       if (existing) {
         existing.addEventListener('load', () => resolve(), { once: true });
-        existing.addEventListener('error', () => reject(new Error('Failed to load Stripe.js')), { once: true });
+        existing.addEventListener('error', () => reject(new Error('Failed to load Stripe.js')), {
+          once: true,
+        });
         return;
       }
 

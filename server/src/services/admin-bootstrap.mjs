@@ -27,7 +27,9 @@ export async function hasAnyAdminAccount(client = null) {
 }
 
 export async function createFirstAdmin({ email, password }) {
-  const normalizedEmail = String(email || '').trim().toLowerCase();
+  const normalizedEmail = String(email || '')
+    .trim()
+    .toLowerCase();
   if (!validateEmail(normalizedEmail)) {
     const error = new Error('Please enter a valid email address.');
     error.statusCode = 400;
@@ -79,8 +81,13 @@ export async function createFirstAdmin({ email, password }) {
 }
 
 export async function validateAdminCredentials({ email, password }) {
-  const normalizedEmail = String(email || '').trim().toLowerCase();
-  const rows = await query('SELECT id, email, password_hash, role FROM users WHERE email = $1 LIMIT 1', [normalizedEmail]);
+  const normalizedEmail = String(email || '')
+    .trim()
+    .toLowerCase();
+  const rows = await query(
+    'SELECT id, email, password_hash, role FROM users WHERE email = $1 LIMIT 1',
+    [normalizedEmail],
+  );
   const user = rows[0];
   if (!user || user.role !== 'admin' || !user.password_hash) return null;
 

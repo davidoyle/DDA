@@ -1,16 +1,21 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import type { PSTResults, RiskLevel } from '@/lib/pst-types'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import type { PSTResults, RiskLevel } from '@/lib/pst-types';
 
-const levelOrder: Record<RiskLevel, number> = { high: 0, medium: 1, low: 2 }
+const levelOrder: Record<RiskLevel, number> = { high: 0, medium: 1, low: 2 };
 const levelClass: Record<RiskLevel, string> = {
   high: 'border-red-400/60 bg-red-500/10',
   medium: 'border-amber-400/60 bg-amber-500/10',
   low: 'border-emerald-400/60 bg-emerald-500/10',
-}
+};
 
 export default function PSTRiskFlags({ results }: { results: PSTResults }) {
-  const ordered = [...results.riskFlags].sort((a, b) => levelOrder[a.level] - levelOrder[b.level])
+  const ordered = [...results.riskFlags].sort((a, b) => levelOrder[a.level] - levelOrder[b.level]);
 
   return (
     <article className="space-y-3">
@@ -31,5 +36,5 @@ export default function PSTRiskFlags({ results }: { results: PSTResults }) {
         </Alert>
       ))}
     </article>
-  )
+  );
 }

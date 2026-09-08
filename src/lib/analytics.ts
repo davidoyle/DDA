@@ -18,19 +18,22 @@ export type AnalyticsEventName =
   | 'demo_calculation_run'
   | 'demo_export_attempted'
   | 'demo_upgrade_clicked'
-  | 'demo_to_paid_converted'
+  | 'demo_to_paid_converted';
 
-export type AnalyticsEventParams = Record<string, string | number | boolean | null | undefined>
+export type AnalyticsEventParams = Record<string, string | number | boolean | null | undefined>;
 
 declare global {
   interface Window {
-    gtag?: (...args: unknown[]) => void
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
-export function dispatchAnalyticsEvent(name: AnalyticsEventName, params: AnalyticsEventParams = {}) {
-  if (!window.gtag) return
-  window.gtag('event', name, params)
+export function dispatchAnalyticsEvent(
+  name: AnalyticsEventName,
+  params: AnalyticsEventParams = {},
+) {
+  if (!window.gtag) return;
+  window.gtag('event', name, params);
 }
 
-export const trackEvent = dispatchAnalyticsEvent
+export const trackEvent = dispatchAnalyticsEvent;

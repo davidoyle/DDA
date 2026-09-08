@@ -19,7 +19,37 @@ export function signMagicLink(payload) {
 
 export function verifyMagicLinkSignature(payload, signature) {
   const expected = signMagicLink(payload);
-  return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
+  const expectedBuf = Buffer.from(expected);
+  const signatureBuf = Buffer.from(String(signature || ''));
+  if (expectedBuf.length !== signatureBuf.length) return false;
+  return crypto.timingSafeEqual(expectedBuf, signatureBuf);
+}
+
+// Fields (tokenId/email/expiresAt) contain ':' characters (UUIDs do not, but
+// ISO timestamps do), so they cannot be packed into a single ':'-delimited
+// string and split back apart unambiguously. Instead the payload is
+// serialized as JSON, base64url-encoded (an alphabet with no '.' or ':'),
+// and joined to its signature with a single '.' that can never appear in
+// either half.
+export function encodeMagicLinkToken(fields) {
+  const encodedPayload = Buffer.from(JSON.stringify(fields), 'utf8').toString('base64url');
+  const signature = signMagicLink(encodedPayload);
+  return { token: `${encodedPayload}.${signature}`, signature };
+}
+
+export function decodeMagicLinkToken(token) {
+  const parts = String(token || '').split('.');
+  if (parts.length !== 2) return null;
+  const [encodedPayload, signature] = parts;
+
+  if (!verifyMagicLinkSignature(encodedPayload, signature)) return null;
+
+  try {
+    const fields = JSON.parse(Buffer.from(encodedPayload, 'base64url').toString('utf8'));
+    return { fields, signature };
+  } catch {
+    return null;
+  }
 }
 
 export async function createSession(userId, reqMeta, authMethod) {
@@ -72,7 +102,8 @@ export async function revokeSession(sessionToken) {
 
 export function deriveRole(user) {
   if (!user) return 'free';
-  if (user.role === 'admin' && user.auth_method === SESSION_AUTH_METHOD.ADMIN_PASSWORD) return 'admin';
+  if (user.role === 'admin' && user.auth_method === SESSION_AUTH_METHOD.ADMIN_PASSWORD)
+    return 'admin';
   if (user.plan_tier === 'enterprise') return 'enterprise';
   if (user.plan_tier === 'pro') return 'pro';
   return 'free';

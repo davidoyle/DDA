@@ -1,6 +1,6 @@
 interface Props {
-  index: number
-  complete: boolean
+  index: number;
+  complete: boolean;
 }
 
 export default function ExposureIndex({ index, complete }: Props) {
@@ -14,5 +14,5 @@ export default function ExposureIndex({ index, complete }: Props) {
           : 'Partial index — run both diagnostics for a complete combined view.'}
       </p>
     </article>
-  )
+  );
 }
