@@ -1,57 +1,37 @@
-# Our thinking
+# Insights
 
-## Analysis for decisions that do not stay in one lane
-
-DDA examines complex public and regulated systems at the point where policy, economics, operations, and accountability meet. Each piece is written to clarify a decision, expose an assumption, or show where action is getting stuck.
+DDA follows public evidence into the systems behind a target, workforce number, or unsupported assumption. These pieces show the investigation in practice: reconstruct the claim, connect the dependencies, and identify what changes when the missing part becomes visible.
 
 ## Featured
 
 ### When a housing target outruns delivery
 
-Housing need is only the beginning of a delivery decision. Land, servicing, construction economics, financing, approvals, and observed production determine whether a target can move from policy into completed homes.
+A stated housing need becomes a different problem when it is read beside historical production, land, servicing, procurement economics, financing, and vacancy. This analysis follows the target through the delivery chain.
 
 **Perspective · Planning and place · 7 minute read**
 
 [Read When a housing target outruns delivery](./12-insight-housing-target-delivery.md)
 
-## More from DDA
+## More investigations
 
 ### The trade gap hidden inside a workforce number
 
-A region can appear to have enough workers while a single occupation, qualification, location, or date controls a project phase. The analysis shows how to find the constraint behind the aggregate.
+An aggregate workforce figure can conceal the occupation, qualification, place, or date that affects a project phase. The Eskay Creek example shows what trade-level decomposition reveals.
 
 **Perspective · Labour and major projects · 7 minute read**
 
 [Read The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md)
 
-### When one missing number can change the decision
+### When an unsupported number carries the answer
 
-Some missing inputs are ordinary limitations. Others could change the answer. A FLAG identifies the consequential gap, what depends on it, and the next responsible step.
+A missing or borrowed input can undermine a schedule, forecast, policy claim, or business case. This piece explains how to establish whether the unresolved number changes the conclusion.
 
 **Perspective · Evidence · 4 minute read**
 
-[Read When one missing number can change the decision](./14-insight-what-a-flag-tells-you.md)
+[Read When an unsupported number carries the answer](./14-insight-what-a-flag-tells-you.md)
 
-## How our thinking supports the work
+## Have a question worth opening up?
 
-### Reconstruct
+Send DDA the report, dataset, project, forecast, or public claim. You do not need to define the whole scope before getting in touch.
 
-Understand how the system actually works across organizations, policy, infrastructure, labour, economics, and time.
-
-### Find
-
-Identify the constraint, dependency, evidence gap, or exposure that is shaping the outcome.
-
-### Quantify
-
-Establish what it changes in cost, capacity, timing, risk, or performance.
-
-### Build
-
-Turn the finding into a model, evidence base, register, strategy, or decision tool that can be used.
-
-## Put the thinking to work
-
-If one of these questions is already live in your organization, DDA can help define the analysis needed to move it.
-
-[Get in touch](./16-contact.md)
+[Talk to DDA](./16-contact.md)
