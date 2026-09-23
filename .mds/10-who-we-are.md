@@ -1,53 +1,33 @@
 # Who we are
 
-## Strategic analysis for decisions that cross systems
-
-DDA is a strategic analysis and decision-design practice for complex public and regulated systems, led by David Doyle in Metro Vancouver, British Columbia.
-
-**Know what actually controls the outcome, what it changes, and what to do next.**
+DDA is a principal-led analytical practice based in Metro Vancouver, British Columbia. David Doyle carries the work from the first question through research, modelling, analysis, writing, and the final product.
 
 [Explore what we do](./02-what-we-do.md)
 
-## Why DDA exists
+## Built for problems that cross boundaries
 
-The decisions with the greatest consequences rarely stay inside one discipline.
+A growth target can become a land, housing, infrastructure, and fiscal problem. A workforce question can depend on qualifications, mobility, accommodation, and a project date. A public claim can require budgets, policy, institutional records, and implementation evidence to be read together.
 
-A growth target becomes a land, housing, infrastructure, and fiscal question. A workforce shortage becomes a problem of qualifications, mobility, accommodation, and timing. A regional strategy depends on institutional capacity and decisions held by other actors. A policy instrument changes incentives and costs far beyond the line where it appears in a budget.
+DDA is comfortable crossing domains because the problem determines what must be learned. The work may move between economics, workforce, land, infrastructure, policy, institutions, public records, project timing, and financial analysis when those variables belong to the same system.
 
-DDA works across those boundaries. The practice connects economics, policy, infrastructure, labour, institutions, evidence, and timing so the controlling condition becomes visible and the response reaches it.
+That breadth has a practical limit: DDA follows the relationships needed to answer the question and works with specialist advice where legal, engineering, tax, or other regulated judgment is required.
 
-## Principal-led from question to decision
+## Principal-led from question to final product
 
-David leads the diagnosis, research, modelling, analysis, and writing. Clients work directly with the person responsible for connecting the parts and carrying the logic through to the final product.
+David leads the investigation and remains responsible for connecting its parts. Clients and consulting partners work directly with the person testing the source, building the model, writing the finding, and preparing the material others will use.
 
-That continuity matters. The question that begins the work remains connected to the assumptions in the model, the choices in the strategy, and the explanation delivered to the people who must use it.
+This continuity keeps the initial problem connected to the assumptions, evidence, and choices inside the final work.
 
-## How DDA works
+## How the work develops
 
-### Reconstruct
+DDA begins with what is known, what is claimed, what needs to move, and which dates are fixed. The next steps emerge from the evidence: reconstruct the system, follow dependencies, investigate contradictions, test material assumptions, and determine the consequence.
 
-Understand how the system actually works across organizations, policy, infrastructure, labour, economics, and time.
+The final form is chosen for the situation. It may be a model, GIS analysis, evidence register, chronology, scenario set, strategy, technical report, implementation sequence, or brief.
 
-### Find
+## Working with DDA
 
-Identify the constraint, dependency, evidence gap, or exposure that is shaping the outcome.
+Organizations can engage DDA directly. Consultants and specialist firms can also bring DDA into an existing assignment to own a defined analytical workstream and contribute within the wider team's scope and schedule.
 
-### Quantify
+A finished scope is not needed for the first conversation.
 
-Establish what it changes in cost, capacity, timing, risk, or performance.
-
-### Build
-
-Turn the finding into a model, evidence base, register, strategy, or decision tool that can be used.
-
-## A cross-domain advantage
-
-DDA is strongest where a narrow study would miss the relationship between systems: planning and economics, workforce and project delivery, policy and institutional behaviour, infrastructure and growth, evidence and accountability.
-
-The practice supports municipalities and regions, public agencies, project and policy teams, regulated organizations, and advisers facing decisions with several moving parts and no useful answer from one dataset or discipline alone.
-
-## Work with DDA
-
-Bring the decision, the date, and the part that remains unresolved.
-
-[Get in touch](./16-contact.md)
+[Talk to DDA](./16-contact.md)

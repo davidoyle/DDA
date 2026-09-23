@@ -1,40 +1,29 @@
 # Labour market analysis
 
-## Which occupation can the project actually reach?
+A region can show a large workforce on paper and still lack the people a project needs on a fixed date. DDA moves below aggregate totals to establish which workers are completed, qualified, deployable, available, and able to reach the work.
 
-A sector total, participation rate, registration count, or public shortage figure can describe the labour market and still fail to answer the decision. DDA narrows the number to the occupation, qualification, place, and date that matter.
+## The difference between a count and usable supply
 
-**Find the constraint inside the workforce number**
+Registrations are different from completed workers. Completion is different from certification. A worker in the right occupation may live elsewhere, lack housing near the project, be committed to another employer, or become available after the required phase.
 
-## The consequential decision
+DDA keeps occupation, qualification, geography, mobility, housing, demand, and timing visible. Categories stay separate when combining them could double-count supply or hide a shortage.
 
-The buyer may need to set a workforce target, choose a training response, change recruitment or mobility measures, support a funding request, or decide whether a project phase can be staffed.
+## How the workforce problem is investigated
 
-## The controlling condition
+The analysis can reconstruct public datasets, employer evidence, training pipelines, project schedules, commuting patterns, accommodation, competing demand, and fixed project gates. Demand is broken down by trade and phase, then compared with the supply the buyer can realistically use.
 
-Registrations are not completed workers. A regional total does not show whether people hold the required qualification, can reach the work, have housing, or will be available before the required phase.
+This is how a broad labour concern becomes a specific problem: a pipefitter gap during commissioning, a certification bottleneck, a housing constraint, or a training pipeline that arrives too late.
 
-The controlling condition may be one trade, a certification step, training completion, geography, housing, mobility, or timing.
+## Possible outputs
 
-## The analysis
+The work may produce a workforce baseline, trade-by-phase table, occupation and participation analysis, training-pipeline assessment, mobility and housing review, supply and demand scenarios, evidence register, employer brief, or implementation monitor.
 
-DDA narrows supply through occupation, qualification, geography, mobility, timing, and demand. Categories remain separate where combining them could count the same people twice.
+## Related analysis
 
-The evidence register distinguishes ACTUAL, PROXY, and FLAG. The analysis then breaks demand down by trade, project phase, training pipeline, geography, competing projects, and timing. This shows the difference between a broad workforce count and the supply the decision can use.
+Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for an Eskay Creek example. For concurrent projects and schedule exposure, see [Resource-sector and complex planning analysis](./07-resource-sector-complex-planning-analysis.md). For the wider economic base, see [Economic development strategy](./05-economic-development-strategy.md).
 
-## The usable output
+## Bring the workforce question
 
-A scoped package can include a workforce baseline, occupation and participation analysis, demand by phase, training-pipeline assessment, enabling-condition review, supply and demand scenarios, employer or council brief, evidence register, and implementation monitor.
+Send the workforce figure, project schedule, grant scope, employer concern, or dataset already in use. DDA can find the first narrowing step and determine which missing evidence could change the response.
 
-The buyer can set a target against usable supply, assign the next data request, and choose an intervention that reaches the constraint. The useful number may be smaller than the headline because it is tied to the actual decision.
-
-## Related thinking
-
-Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for a trade-and-date example. For fixed project phases and concurrent regional demand, see [Resource-sector and complex planning analysis](./07-resource-sector-complex-planning-analysis.md). For the broader economic base and action owners, see [Economic development strategy](./05-economic-development-strategy.md).
-
-## Contact
-
-Bring the workforce number, decision date, project or grant phase, and source already in use. DDA will identify the first narrowing step.
-
-[Find the constraint inside the workforce number](./16-contact.md)
-
+[Talk to DDA](./16-contact.md)

@@ -11,6 +11,10 @@
   RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
   RewriteRule ^ https://ddanalytics.ca%{REQUEST_URI} [R=301,L]
 
+  # Preserve authority when public routes move.
+  RewriteRule ^what-we-do/public-interest-research-evidence-packages/?$ /what-we-do/institutional-policy-analysis/ [R=301,L]
+  RewriteRule ^insights/what-a-flag-tells-you/?$ /insights/when-an-unsupported-number-carries-the-answer/ [R=301,L]
+
   # Allow existing files and directories to be served directly.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
