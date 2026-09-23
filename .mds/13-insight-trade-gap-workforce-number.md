@@ -52,11 +52,10 @@ The project team can decide whether to change procurement, training, mobility, a
 
 ## Related thinking
 
-Read [When a housing target outruns delivery](./12-insight-housing-target-delivery.md) for a target with an incomplete delivery mechanism, or [What a FLAG tells you](./14-insight-what-a-flag-tells-you.md) for the evidence-status method.
+Read [When a housing target outruns delivery](./12-insight-housing-target-delivery.md) for a target with an incomplete delivery mechanism, or [When one missing number can change the decision](./14-insight-what-a-flag-tells-you.md) for the evidence-status method.
 
 ## Find the trade that controls the date
 
 Bring the workforce number, the phase or commissioning date, and the decision it has failed to answer. DDA will identify the first narrowing step.
 
 [Find the trade that controls the date](./16-contact.md)
-

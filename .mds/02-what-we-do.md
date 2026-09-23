@@ -10,27 +10,27 @@ DDA is a strategic analysis and decision-design practice for complex public and 
 
 ## Four capabilities, one connected practice
 
-### Diagnose the system
+### Reconstruct
 
-Find the condition beneath the stated problem. DDA connects the actors, incentives, infrastructure, evidence, dependencies, and timing that determine how a system actually behaves.
+Understand how the system actually works across organizations, policy, infrastructure, labour, economics, and time.
 
 The result may be a governing diagnosis, constraint map, chronology, policy-to-delivery trace, or dependency register.
 
-### Model the consequence
+### Find
 
-Show what changes under different assumptions, dates, and choices. DDA builds models that make capacity, cost, exposure, timing, sensitivity, and uncertainty visible.
+Identify the constraint, dependency, evidence gap, or exposure that is shaping the outcome.
 
 The result may be a growth model, workforce gap analysis, fiscal scenario, capacity reconciliation, breakeven, or sensitivity table.
 
-### Design the response
+### Quantify
 
-Turn the diagnosis into an executable sequence. DDA defines what should happen, in what order, under whose authority, and what evidence should trigger a change in direction.
+Establish what it changes in cost, capacity, timing, risk, or performance.
 
 The result may be a strategy, policy framework, implementation roadmap, owner-and-dependency matrix, adaptation trigger, or decision brief.
 
-### Equip the decision
+### Build
 
-Leave the people responsible with working material they can test, explain, and update. DDA builds evidence systems, interactive models, diagnostic tools, monitoring structures, and technical handoffs around the decision.
+Turn the finding into a model, evidence base, register, strategy, or decision tool that can be used.
 
 Existing DDA diagnostic tools remain part of this capability and continue to support the decisions they were built to examine.
 

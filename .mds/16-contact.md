@@ -1,8 +1,14 @@
-# Contact
+# Work with DDA
 
-## Bring us the decision in front of you
+## Bring us the problem you need to understand before you act
 
-You do not need a finished scope. A useful first message explains what must be decided, when it has to move, and why the answer matters.
+Tell us what you are trying to get done, what is getting in the way, and what you already know.
+
+DDA will reconstruct the system, follow the evidence, and find the constraint, dependency, or exposure that is actually shaping the outcome.
+
+Then we show you what it changes and what can be done about it.
+
+**Bring us the problem.**
 
 ## Start the conversation
 
@@ -41,4 +47,3 @@ Sending an inquiry does not create a client relationship or engagement; work beg
 ## Learn more
 
 Explore [What we do](./02-what-we-do.md), [Our thinking](./11-insights.md), or [Selected work](./15-selected-work.md).
-

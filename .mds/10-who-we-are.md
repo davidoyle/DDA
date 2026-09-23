@@ -24,21 +24,21 @@ That continuity matters. The question that begins the work remains connected to 
 
 ## How DDA works
 
-### Diagnose the system
+### Reconstruct
 
-Define the decision, reconstruct the system around it, and identify the condition that controls the outcome.
+Understand how the system actually works across organizations, policy, infrastructure, labour, economics, and time.
 
-### Model the consequence
+### Find
 
-Quantify how capacity, cost, exposure, timing, or performance changes under different assumptions and choices.
+Identify the constraint, dependency, evidence gap, or exposure that is shaping the outcome.
 
-### Design the response
+### Quantify
 
-Turn the diagnosis into a practical sequence with clear actions, authority, dependencies, and decision triggers.
+Establish what it changes in cost, capacity, timing, risk, or performance.
 
-### Equip the decision
+### Build
 
-Deliver a model, strategy, register, brief, framework, or interactive tool that can be used, explained, and updated.
+Turn the finding into a model, evidence base, register, strategy, or decision tool that can be used.
 
 ## A cross-domain advantage
 

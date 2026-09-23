@@ -49,11 +49,10 @@ The useful output may be a capacity reconciliation, evidence register, and decis
 
 ## Related thinking
 
-Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for the same problem in a project workforce plan, or [What a FLAG tells you](./14-insight-what-a-flag-tells-you.md) for the method used to govern missing inputs.
+Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for the same problem in a project workforce plan, or [When one missing number can change the decision](./14-insight-what-a-flag-tells-you.md) for the method used to govern missing inputs.
 
 ## Test the delivery chain
 
 Bring the target, the date it matters, and the supporting report or data already in circulation. DDA will identify the first link that needs to hold.
 
 [Test the delivery chain](./16-contact.md)
-
