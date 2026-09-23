@@ -1,12 +1,14 @@
 # Find what actually controls the outcome
 
-DDA is a strategic analysis and decision-design practice for complex public and regulated systems.
+DDA investigates complex public, industrial, and regulated systems to find the constraint, gap, or dependency that others have missed.
 
-We connect economics, policy, infrastructure, labour, institutions, and timing to find the condition that matters most, then build the model, strategy, or decision system needed to act.
+We learn how the system actually works, follow the evidence across organizations and datasets, and identify where the outcome is being constrained.
 
-**Know what actually controls the outcome, what it changes, and what to do next.**
+Then we quantify what it changes and build the analysis, model, register, or strategy needed to act on it.
 
-[Discover what we do](./02-what-we-do.md)
+**Find the problem beneath the problem. Know what it changes. Know where to act.**
+
+[Explore what we do](./02-what-we-do.md)
 
 ## Our latest insights
 
@@ -28,11 +30,11 @@ A region can have workers on paper and still miss a project date. Occupation, qu
 
 [Find the trade that controls the date](./13-insight-trade-gap-workforce-number.md)
 
-### What a FLAG tells you
+### When one missing number can change the decision
 
 Some missing inputs barely affect a decision. Others carry the answer. A FLAG identifies the consequential gap, what it prevents, and the shortest responsible route to resolving it.
 
-**Method · Decision quality · 7 minute read**
+**Perspective · Evidence · 4 minute read**
 
 [See how DDA handles uncertainty](./14-insight-what-a-flag-tells-you.md)
 
@@ -70,8 +72,14 @@ A policy cost was traced through its taxable base, timing, pass-through, complia
 
 ## Work with DDA
 
-## Bring the decision that crosses more than one system
+## Bring us the problem you need to understand before you act
 
-Start with what must be decided, when it matters, and the condition that remains unclear. DDA will help identify the analysis, model, or decision instrument needed to move it forward.
+Tell us what you are trying to get done, what is getting in the way, and what you already know.
+
+DDA will reconstruct the system, follow the evidence, and find the constraint, dependency, or exposure that is actually shaping the outcome.
+
+Then we show you what it changes and what can be done about it.
+
+**Bring us the problem.**
 
 [Get in touch](./16-contact.md)

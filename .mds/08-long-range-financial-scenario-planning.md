@@ -28,11 +28,10 @@ The brief states the choice, the evidence, the assumption carrying the result, t
 
 ## Related thinking
 
-Read [What a FLAG tells you](./14-insight-what-a-flag-tells-you.md) for the evidence control used when a material input is unresolved. For a growth target tied to land, housing, servicing, and public revenue, see [Fiscal impact and growth modelling](./03-fiscal-impact-growth-modelling.md). For timing and dependency exposure, see [Resource-sector and complex planning analysis](./07-resource-sector-complex-planning-analysis.md).
+Read [When one missing number can change the decision](./14-insight-what-a-flag-tells-you.md) for the evidence control used when a material input is unresolved. For a growth target tied to land, housing, servicing, and public revenue, see [Fiscal impact and growth modelling](./03-fiscal-impact-growth-modelling.md). For timing and dependency exposure, see [Resource-sector and complex planning analysis](./07-resource-sector-complex-planning-analysis.md).
 
 ## Contact
 
 Bring the model or official number, the decision date, the planning horizon, and the assumption that cannot yet be explained. DDA will identify the first input that needs to be opened.
 
 [Show which assumption carries the result](./16-contact.md)
-

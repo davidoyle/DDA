@@ -24,35 +24,34 @@ A region can appear to have enough workers while a single occupation, qualificat
 
 [Read The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md)
 
-### What a FLAG tells you
+### When one missing number can change the decision
 
 Some missing inputs are ordinary limitations. Others could change the answer. A FLAG identifies the consequential gap, what depends on it, and the next responsible step.
 
-**Method · Decision quality · 7 minute read**
+**Perspective · Evidence · 4 minute read**
 
-[Read What a FLAG tells you](./14-insight-what-a-flag-tells-you.md)
+[Read When one missing number can change the decision](./14-insight-what-a-flag-tells-you.md)
 
 ## How our thinking supports the work
 
-### Diagnose
+### Reconstruct
 
-Define the real decision, separate symptoms from causes, and locate the condition that is controlling progress.
+Understand how the system actually works across organizations, policy, infrastructure, labour, economics, and time.
 
-### Model
+### Find
 
-Make assumptions visible, test scenarios, and show how the result changes when the evidence or conditions change.
+Identify the constraint, dependency, evidence gap, or exposure that is shaping the outcome.
 
-### Design
+### Quantify
 
-Turn the analysis into a practical decision structure: options, responsibilities, sequence, and review points.
+Establish what it changes in cost, capacity, timing, risk, or performance.
 
-### Equip
+### Build
 
-Give the people responsible for the decision a clear brief, model, framework, or tool they can use and explain.
+Turn the finding into a model, evidence base, register, strategy, or decision tool that can be used.
 
 ## Put the thinking to work
 
 If one of these questions is already live in your organization, DDA can help define the analysis needed to move it.
 
 [Get in touch](./16-contact.md)
-

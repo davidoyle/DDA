@@ -30,11 +30,10 @@ This is research and strategic analysis. It is not legal representation, privile
 
 ## Related thinking
 
-Read [What a FLAG tells you](./14-insight-what-a-flag-tells-you.md) for the method used to govern an unresolved input. For a plan, bylaw, or public hearing, see [Official Community Plan review and policy analysis](./04-official-community-plan-policy-analysis.md). For a fiscal or policy number, see [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md).
+Read [When one missing number can change the decision](./14-insight-what-a-flag-tells-you.md) for the method used to govern an unresolved input. For a plan, bylaw, or public hearing, see [Official Community Plan review and policy analysis](./04-official-community-plan-policy-analysis.md). For a fiscal or policy number, see [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md).
 
 ## Contact
 
 Bring the decision, publication or hearing date, and the sources already in circulation. A high-level description is enough to begin.
 
 [Build the analysis around the decision](./16-contact.md)
-

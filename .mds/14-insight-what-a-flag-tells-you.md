@@ -1,57 +1,106 @@
-# What a FLAG tells you
+# When one missing number can change the decision
 
-**Explainer · Evidence method · 4 minute read**
+**Perspective · Evidence · 4 minute read**
 
-## The missing input has a consequence
+## A missing input is only harmless when the conclusion does not depend on it
 
-A report or model may depend on a number no one can establish. The usual response is to fill the field, hide the gap in an appendix, or repeat a proxy until it begins to look official.
+Most analysis does not collapse because every number is wrong.
 
-DDA uses FLAG to make the unresolved input governable. A FLAG states what is missing, why it matters, how it can be resolved, and what the reader can conclude while it remains open.
+It can collapse because one important number was assumed, borrowed from somewhere else, left out of date, or never established at all.
 
-## Three working states
+That matters when the conclusion depends on it.
 
-| Status | Meaning | What it controls |
+DDA uses three working evidence states to keep that distinction visible: **ACTUAL, PROXY, and FLAG.**
+
+| Status | What it means | What needs to be known |
 | --- | --- | --- |
-| ACTUAL | Information tied to a named, dated source | Source, vintage, definition, and unit |
-| PROXY | An informative comparison or derived value that differs from the target | Basis, difference, and limitation |
-| FLAG | A material unresolved gap | Owner, resolution path, consequence, and review point |
+| **ACTUAL** | The information can be tied to a specific source, date, definition, and unit | Where it came from and exactly what it measures |
+| **PROXY** | The information tells us something useful, but does not directly measure the thing we need | How it differs from the target and what that limits |
+| **FLAG** | A material input remains unresolved | What depends on it, where the answer may exist, and what happens if it stays unresolved |
 
-DDA uses ACTUAL, PROXY, and FLAG as practical evidence controls. Other assignments may use labels such as HELD, PARTIAL, GAP, and MODELED. The purpose is the same: keep source status and decision consequences visible.
+A FLAG is not simply missing data.
 
-## Put the FLAG beside the claim
+It means the missing information could change the answer.
 
-Consider a workforce analysis with no current apprenticeship completion data. Registrations may be ACTUAL as a count of registrations, but they are not ACTUAL as deployable supply. Completion and geographic availability become FLAGs if the workforce conclusion depends on them.
+## Find where the analysis actually breaks
 
-The register identifies the next source, the person or institution that can provide it, the date it is needed, and the consequence of proceeding without it. A gap that changes the choice belongs in the decision brief.
+Consider a workforce study that reports apprenticeship registrations and uses them to support a conclusion about available labour.
 
-## Keep a correction log
+The registration count may be perfectly accurate.
 
-A stale benchmark can be replaced. An unsupported input can be changed to PROXY. A copied figure can be reconciled to its primary source. A conclusion can be narrowed when its source cannot carry it.
+It still does not establish how many workers will complete their training, remain in the region, enter the required occupation, become available during the project window, or meet the employer's actual requirements.
 
-The correction log keeps each change visible. It tells the next reader why a number moved and what the change affects. This matters in a staff report, model handoff, hearing, public claim, or project gate.
+Those are different questions.
 
-## What changes for the decision-maker
+If the workforce conclusion depends on them, those unresolved conditions become FLAGs.
 
-The reader can ask for the right evidence, defer a conclusion, proceed within a stated limit, or assign the gap to an owner. An unresolved number becomes a governed decision exposure instead of a hidden assumption.
+That tells us something useful immediately: **this is where the investigation needs to go next.**
 
-## Practical implications
+## Follow the consequence
 
-- Put evidence status beside the claim and carry it into the appendix.
-- State what changes if the gap remains unresolved.
-- Give each material FLAG an owner and a route to resolution.
-- Keep the basis of a proxy visible.
-- Treat absence as non-verifiability, not proof of concealment or falsity.
-- Reopen the register when the decision date or source vintage changes.
+DDA does not treat every missing input as equally important.
 
-**Source note:** ACTUAL, PROXY, and FLAG are DDA working labels. Terminology can be adapted to the assignment. A FLAG defines an evidence problem and is not a finding of wrongdoing.
+The question is what the missing information controls.
+
+A FLAG may affect:
+
+- whether a labour shortage actually exists;
+- whether a project schedule is achievable;
+- whether infrastructure capacity is sufficient;
+- whether a financial estimate holds;
+- whether two public numbers can legitimately be compared;
+- whether a policy target can actually be delivered.
+
+Some gaps barely move the answer.
+
+Others change the entire decision.
+
+The job is to know which is which.
+
+## Keep the evidence chain visible
+
+As the analysis develops, evidence changes.
+
+A number that began as a PROXY may later be replaced by an ACTUAL.
+
+Two apparently conflicting figures may turn out to use different definitions.
+
+A figure repeated across several reports may trace back to one original source.
+
+A FLAG may eventually reveal that the evidence needed to support the original conclusion does not exist.
+
+DDA keeps those changes visible so the final conclusion can be traced back through the evidence that supports it.
+
+That matters when the work is going into a business case, investment decision, project plan, staff report, hearing, procurement process, or public claim.
+
+## The point is not the label
+
+ACTUAL, PROXY, and FLAG are working controls.
+
+The value comes from what they force the analysis to answer:
+
+**What do we actually know?**
+
+**What are we estimating?**
+
+**What remains unresolved?**
+
+**And does any of it change the outcome?**
+
+A missing number becomes important when the system depends on it.
+
+That is often where the most valuable work begins.
 
 ## Related thinking
 
-Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for an occupation-and-date constraint, or [When a housing target outruns delivery](./12-insight-housing-target-delivery.md) for a target-to-delivery trace.
+Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for an example of how occupation, geography, and timing can radically change an apparent workforce number.
 
-## Name the gap and its consequence
+Read [When a housing target outruns delivery](./12-insight-housing-target-delivery.md) for an example of tracing a public target through the system required to deliver it.
 
-Bring the unresolved number, the document carrying it, the decision date, and the conclusion that depends on it. DDA can help define the gap, the next source, and the consequence of leaving it open.
+## Have a number that does not quite hold together?
 
-[Name the gap and its consequence](./16-contact.md)
+Send DDA the report, dataset, forecast, or claim.
 
+We will trace where the number came from, what the conclusion depends on, and whether the missing piece changes the answer.
+
+[Bring us the question](./16-contact.md)
