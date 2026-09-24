@@ -310,30 +310,30 @@ textarea { min-height: 160px; resize: vertical; }
 @media(max-width:700px){.site-header{height:68px}.nav-wrap{padding-inline:20px}.brand{font-size:22px}.method-rail .public-container{width:100%;grid-template-columns:1fr 1fr}.method-rail .public-container>div{min-height:96px;padding:20px}.page-hero{padding-top:64px}.page-hero h1{letter-spacing:-.04em}.page-hero:after{width:90vw;right:-45vw;top:-10vw}.site-shell p,.site-shell li{font-size:16px;line-height:1.65}.section-heading{margin-bottom:36px}.insight-layout{gap:16px}.insight-lead{min-height:auto;padding-top:110px!important}.work-grid article{padding:30px 8px}.supporting-insights{gap:16px}.supporting-insights article{padding:30px 24px}.detail-section,.analysis-section{padding-bottom:60px;margin-bottom:60px}.on-page{gap:8px 16px;padding-bottom:20px}.on-page strong{flex-basis:100%}.on-page a{font-size:13px}.search-head h2{font-size:34px}.search-box li small{line-height:1.45}.footer-lead{padding-bottom:45px}.site-footer{padding-top:60px}}
 @media(max-width:420px){.method-rail{padding-top:42px}.method-rail .public-container{grid-template-columns:1fr}.method-rail .public-container>div,.method-rail .public-container>div:nth-of-type(1),.method-rail .public-container>div:nth-of-type(3){border-left:0;border-right:0;border-bottom:1px solid #d1d6d2;min-height:0;grid-template-columns:34px 1fr;padding:22px 0}.method-rail .public-container>div:last-child{border-bottom:0}.method-rail p{grid-column:2}.hero-actions{gap:12px}.mobile-panel nav>a,.mobile-panel summary{font-size:22px}.search-overlay{padding:24px 20px}.article-shell,.utility-shell{width:calc(100% - 40px)}.article-shell h1,.utility-shell h1{font-size:40px}.article-shell header>p{font-size:18px}.contact-band .button-primary,.home-close .button-primary{width:100%}}
 
-/* Long-form fiscal service page. */
-.detail-p03{grid-template-columns:250px minmax(0,850px);gap:72px;align-items:start}
-.detail-p03 .on-page{max-height:calc(100vh - 132px);overflow-y:auto;padding:20px 14px 20px 0;counter-reset:fiscal-nav;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
-.detail-p03 .on-page a{display:grid;grid-template-columns:27px 1fr;gap:8px;align-items:start;line-height:1.3}
-.detail-p03 .on-page a:before{counter-increment:fiscal-nav;content:counter(fiscal-nav,decimal-leading-zero);color:var(--link);font:700 11px/1.65 "JetBrains Mono",monospace;letter-spacing:.04em}
-.detail-p03 .detail-section{padding-bottom:72px;margin-bottom:72px}
-.detail-p03 .detail-section h2{max-width:760px}
-.detail-p03 .detail-section>ul{columns:2;column-gap:48px;margin:30px 0;padding:28px 32px 18px 52px;background:var(--panel);border-top:4px solid var(--navy-2);box-shadow:0 12px 30px #12242c0a}
-.detail-p03 .detail-section>ul li{break-inside:avoid;margin:0 0 11px;padding-left:4px}
-.detail-p03 #capacity-on-paper-and-capacity-that-can-be-delivered>p:has(>strong),
-.detail-p03 #fiscal-consequence-over-time>p:has(>strong),
-.detail-p03 #what-the-work-may-produce>p:has(>strong){margin:0;padding:18px 20px;border-top:1px solid #c9d0cc;background:var(--panel)}
-.detail-p03 #capacity-on-paper-and-capacity-that-can-be-delivered>p:has(>strong):first-of-type,
-.detail-p03 #fiscal-consequence-over-time>p:has(>strong):first-of-type,
-.detail-p03 #what-the-work-may-produce>p:has(>strong):first-of-type{margin-top:28px}
-.detail-p03 .detail-subsection{padding:28px 30px;background:var(--panel);border-left:4px solid var(--line);margin-top:20px}
-.detail-p03 .detail-subsection h3{margin-bottom:14px}
-.detail-p03 #decision-instrument{max-width:850px;margin-left:-36px;margin-right:-36px;padding:52px 36px;background:var(--navy);border-bottom:0;color:#dce5e7}
-.detail-p03 #decision-instrument .section-number{color:var(--lime)}
-.detail-p03 #decision-instrument h2,.detail-p03 #decision-instrument h3,.detail-p03 #decision-instrument strong{color:#fff}
-.detail-p03 #decision-instrument .detail-subsection{max-width:none;padding:0;background:transparent;border-left:0}
-.detail-p03 #decision-instrument .detail-subsection:first-of-type>p{display:grid;grid-template-columns:minmax(170px,.7fr) 1.3fr;gap:24px;margin:0;padding:17px 0;border-top:1px solid #405963}
-.detail-p03 #decision-instrument .detail-subsection:first-of-type>p strong{font-size:14px}
-.detail-p03 #related-analysis p{margin:0;padding:22px 0;border-top:1px solid var(--line)}
-.detail-p03 #related-analysis p a{font-size:19px;line-height:1.3}
-@media(max-width:1023px){.detail-p03{grid-template-columns:1fr;gap:42px}.detail-p03 .on-page{position:relative;top:auto;display:flex;flex-wrap:nowrap;max-height:none;overflow-x:auto;overflow-y:hidden;margin-inline:-32px;padding:18px 32px 22px;border-bottom:1px solid var(--line);scroll-snap-type:x proximity}.detail-p03 .on-page strong{position:sticky;left:0;z-index:1;flex:0 0 auto;background:var(--paper);padding-right:18px}.detail-p03 .on-page a{flex:0 0 230px;scroll-snap-align:start}.detail-p03 #decision-instrument{margin-inline:0}}
-@media(max-width:700px){.detail-p03 .detail-section{padding-bottom:54px;margin-bottom:54px}.detail-p03 .detail-section>ul{columns:1;padding:24px 24px 14px 44px}.detail-p03 .detail-subsection{padding:22px 20px}.detail-p03 #decision-instrument{padding:36px 22px}.detail-p03 #decision-instrument .detail-subsection:first-of-type>p{grid-template-columns:1fr;gap:5px}.detail-p03 .on-page{margin-inline:-20px;padding-inline:20px}.detail-p03 #related-analysis p a{font-size:17px}}
+/* Long-form analytical service pages. */
+:is(.detail-p03,.detail-p05){grid-template-columns:250px minmax(0,850px);gap:72px;align-items:start}
+:is(.detail-p03,.detail-p05) .on-page{max-height:calc(100vh - 132px);overflow-y:auto;padding:20px 14px 20px 0;counter-reset:fiscal-nav;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+:is(.detail-p03,.detail-p05) .on-page a{display:grid;grid-template-columns:27px 1fr;gap:8px;align-items:start;line-height:1.3}
+:is(.detail-p03,.detail-p05) .on-page a:before{counter-increment:fiscal-nav;content:counter(fiscal-nav,decimal-leading-zero);color:var(--link);font:700 11px/1.65 "JetBrains Mono",monospace;letter-spacing:.04em}
+:is(.detail-p03,.detail-p05) .detail-section{padding-bottom:72px;margin-bottom:72px}
+:is(.detail-p03,.detail-p05) .detail-section h2{max-width:760px}
+:is(.detail-p03,.detail-p05) .detail-section>ul{columns:2;column-gap:48px;margin:30px 0;padding:28px 32px 18px 52px;background:var(--panel);border-top:4px solid var(--navy-2);box-shadow:0 12px 30px #12242c0a}
+:is(.detail-p03,.detail-p05) .detail-section>ul li{break-inside:avoid;margin:0 0 11px;padding-left:4px}
+:is(.detail-p03,.detail-p05) #capacity-on-paper-and-capacity-that-can-be-delivered>p:has(>strong),
+:is(.detail-p03,.detail-p05) #fiscal-consequence-over-time>p:has(>strong),
+:is(.detail-p03,.detail-p05) #what-the-work-may-produce>p:has(>strong){margin:0;padding:18px 20px;border-top:1px solid #c9d0cc;background:var(--panel)}
+:is(.detail-p03,.detail-p05) #capacity-on-paper-and-capacity-that-can-be-delivered>p:has(>strong):first-of-type,
+:is(.detail-p03,.detail-p05) #fiscal-consequence-over-time>p:has(>strong):first-of-type,
+:is(.detail-p03,.detail-p05) #what-the-work-may-produce>p:has(>strong):first-of-type{margin-top:28px}
+:is(.detail-p03,.detail-p05) .detail-subsection{padding:28px 30px;background:var(--panel);border-left:4px solid var(--line);margin-top:20px}
+:is(.detail-p03,.detail-p05) .detail-subsection h3{margin-bottom:14px}
+:is(.detail-p03,.detail-p05) #decision-instrument{max-width:850px;margin-left:-36px;margin-right:-36px;padding:52px 36px;background:var(--navy);border-bottom:0;color:#dce5e7}
+:is(.detail-p03,.detail-p05) #decision-instrument .section-number{color:var(--lime)}
+:is(.detail-p03,.detail-p05) #decision-instrument h2,:is(.detail-p03,.detail-p05) #decision-instrument h3,:is(.detail-p03,.detail-p05) #decision-instrument strong{color:#fff}
+:is(.detail-p03,.detail-p05) #decision-instrument .detail-subsection{max-width:none;padding:0;background:transparent;border-left:0}
+:is(.detail-p03,.detail-p05) #decision-instrument .detail-subsection:first-of-type>p{display:grid;grid-template-columns:minmax(170px,.7fr) 1.3fr;gap:24px;margin:0;padding:17px 0;border-top:1px solid #405963}
+:is(.detail-p03,.detail-p05) #decision-instrument .detail-subsection:first-of-type>p strong{font-size:14px}
+:is(.detail-p03,.detail-p05) #related-analysis p{margin:0;padding:22px 0;border-top:1px solid var(--line)}
+:is(.detail-p03,.detail-p05) #related-analysis p a{font-size:19px;line-height:1.3}
+@media(max-width:1023px){:is(.detail-p03,.detail-p05){grid-template-columns:1fr;gap:42px}:is(.detail-p03,.detail-p05) .on-page{position:relative;top:auto;display:flex;flex-wrap:nowrap;max-height:none;overflow-x:auto;overflow-y:hidden;margin-inline:-32px;padding:18px 32px 22px;border-bottom:1px solid var(--line);scroll-snap-type:x proximity}:is(.detail-p03,.detail-p05) .on-page strong{position:sticky;left:0;z-index:1;flex:0 0 auto;background:var(--paper);padding-right:18px}:is(.detail-p03,.detail-p05) .on-page a{flex:0 0 230px;scroll-snap-align:start}:is(.detail-p03,.detail-p05) #decision-instrument{margin-inline:0}}
+@media(max-width:700px){:is(.detail-p03,.detail-p05) .detail-section{padding-bottom:54px;margin-bottom:54px}:is(.detail-p03,.detail-p05) .detail-section>ul{columns:1;padding:24px 24px 14px 44px}:is(.detail-p03,.detail-p05) .detail-subsection{padding:22px 20px}:is(.detail-p03,.detail-p05) #decision-instrument{padding:36px 22px}:is(.detail-p03,.detail-p05) #decision-instrument .detail-subsection:first-of-type>p{grid-template-columns:1fr;gap:5px}:is(.detail-p03,.detail-p05) .on-page{margin-inline:-20px;padding-inline:20px}:is(.detail-p03,.detail-p05) #related-analysis p a{font-size:17px}}
