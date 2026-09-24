@@ -49,7 +49,7 @@ The useful output may be a capacity reconciliation, evidence register, and decis
 
 ## Related thinking
 
-Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for the same problem in a project workforce plan, or [When one missing number can change the decision](./14-insight-what-a-flag-tells-you.md) for the method used to govern missing inputs.
+Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for the same problem in a project workforce plan, or [When an unsupported number carries the answer](./14-insight-what-a-flag-tells-you.md) for the method used to govern missing inputs.
 
 ## Test the delivery chain
 

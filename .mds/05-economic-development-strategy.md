@@ -1,40 +1,29 @@
 # Economic development strategy
 
-## Which opportunity can the region move now?
+Economic strategies often contain a strong baseline and a long list of opportunities. The hard part is determining which opportunity the region can move, what it depends on, who owns the next step, and when the evidence should change the plan.
 
-A strategy can contain a strong economic baseline and a long list of opportunities without telling a board what to fund, who owns the next step, or which dependency will stop delivery. DDA turns strategy into a sequence of decisions.
+## When a strategy stops moving
 
-**Turn the strategy into owned decisions**
+A sector opportunity may depend on serviced land. A workforce initiative may depend on housing, qualifications, or training completion. A recovery action may depend on infrastructure, insurance, municipal assets, funding, or a decision held by another institution.
 
-## The consequential decision
+DDA investigates these connections before turning them into priorities. Marketing cannot resolve a land constraint. A broad training target will not fill a near-term certified-trade gap. An action without an owner or prerequisite remains an aspiration.
 
-The decision may be which opportunity to fund, which action to staff first, where to seek a partner, or when to stop pursuing an option that the region cannot control.
+## From opportunity list to executable sequence
 
-## The controlling condition
+The work can combine an economic baseline, sector and economic-base analysis, employment lands, workforce conditions, project pipelines, infrastructure, tourism, institutional capacity, and public funding. Each opportunity is tested against evidence, local influence, readiness, dependencies, and timing.
 
-A sector opportunity may depend on serviced land. A workforce initiative may depend on housing or training completion. A recovery action may depend on infrastructure, insurance, municipal assets, or another institution's decision.
+This distinguishes actions that can move now from work that needs preparation, partnership, or better evidence. It also identifies reasons to stop or adapt an initiative when conditions change.
 
-The controlling condition is the dependency that determines whether the region can act within its capacity and funding window.
+## What teams can use
 
-## The analysis
+A strategy may be accompanied by a prioritized action framework, owner and dependency table, implementation sequence, evidence register, monitoring indicators, and review triggers. Boards and delivery teams can see what happens next, who carries it, and what must happen first.
 
-DDA screens each opportunity against evidence, local control, timing, capacity, and dependency. The analysis asks whether the proposed action reaches the binding condition. Marketing cannot solve a land constraint. A broad training target may miss a near-term trade shortage.
+## Related problems
 
-The work connects the economic baseline to an evidence and data-gap register, clear ownership, implementation sequencing, monitoring, and triggers for changing course. It shows which opportunities are ready, which depend on another actor, and which need more evidence.
+For occupation and timing constraints, see [Labour market analysis](./06-labour-market-analysis.md). For employment land, policy, and servicing, see [Official Community Plan review and policy analysis](./04-official-community-plan-policy-analysis.md). For major-project dependencies, see [Resource-sector and complex planning analysis](./07-resource-sector-complex-planning-analysis.md).
 
-## The usable output
+## When to get in touch
 
-Depending on scope, the work can include an economic baseline, sector and economic-base analysis, employment-lands review, workforce conditions, project-pipeline assessment, tourism integration, evidence register, prioritized action framework, owner and dependency table, monitoring indicators, and adaptation triggers.
+Bring the current strategy, RFP, funding requirement, stalled action, or opportunity nobody has been able to test. DDA can own the evidence-heavy workstream or help reconstruct the whole problem.
 
-The implementation brief states who acts, by when, what must happen first, and what evidence would change the plan. A board can distinguish an opportunity worth watching from an action worth funding.
-
-## Related thinking
-
-For workforce constraints, see [Labour market analysis](./06-labour-market-analysis.md). If the action depends on employment lands, policy, or servicing, see [Official Community Plan review and policy analysis](./04-official-community-plan-policy-analysis.md). For project timing and external dependencies, see [Resource-sector and complex planning analysis](./07-resource-sector-complex-planning-analysis.md).
-
-## Contact
-
-Bring the current strategy, the decision or funding date, and the action that has stopped moving or has no owner. DDA will start with the dependency that affects the sequence.
-
-[Turn the strategy into owned decisions](./16-contact.md)
-
+[Talk to DDA](./16-contact.md)

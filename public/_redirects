@@ -16,4 +16,8 @@ https://www.ddanalytics.ca/* https://ddanalytics.ca/:splat 301
 /diagnostics/bc-decarbonization-model /tools/bc-decarbonization 301
 /diagnostics/executive-risk-brief /tools/executive-risk-brief 301
 /diagnostics/demo/* /tools/:splat 301
+/what-we-do/public-interest-research-evidence-packages /what-we-do/institutional-policy-analysis/ 301
+/what-we-do/public-interest-research-evidence-packages/* /what-we-do/institutional-policy-analysis/ 301
+/insights/what-a-flag-tells-you /insights/when-an-unsupported-number-carries-the-answer/ 301
+/insights/what-a-flag-tells-you/* /insights/when-an-unsupported-number-carries-the-answer/ 301
 /* /index.html 200

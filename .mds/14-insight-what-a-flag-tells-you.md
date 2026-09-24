@@ -1,4 +1,4 @@
-# When one missing number can change the decision
+# When an unsupported number carries the answer
 
 **Perspective · Evidence · 4 minute read**
 
@@ -18,7 +18,7 @@ DDA uses three working evidence states to keep that distinction visible: **ACTUA
 | **PROXY** | The information tells us something useful, but does not directly measure the thing we need | How it differs from the target and what that limits |
 | **FLAG** | A material input remains unresolved | What depends on it, where the answer may exist, and what happens if it stays unresolved |
 
-A FLAG is not simply missing data.
+A FLAG marks a missing input with a material consequence.
 
 It means the missing information could change the answer.
 
@@ -38,7 +38,7 @@ That tells us something useful immediately: **this is where the investigation ne
 
 ## Follow the consequence
 
-DDA does not treat every missing input as equally important.
+DDA separates ordinary limitations from inputs that could change the conclusion.
 
 The question is what the missing information controls.
 
@@ -73,7 +73,7 @@ DDA keeps those changes visible so the final conclusion can be traced back throu
 
 That matters when the work is going into a business case, investment decision, project plan, staff report, hearing, procurement process, or public claim.
 
-## The point is not the label
+## The labels support the investigation
 
 ACTUAL, PROXY, and FLAG are working controls.
 
@@ -97,10 +97,10 @@ Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-wor
 
 Read [When a housing target outruns delivery](./12-insight-housing-target-delivery.md) for an example of tracing a public target through the system required to deliver it.
 
-## Have a number that does not quite hold together?
+## Have a number that does not hold together?
 
 Send DDA the report, dataset, forecast, or claim.
 
 We will trace where the number came from, what the conclusion depends on, and whether the missing piece changes the answer.
 
-[Bring us the question](./16-contact.md)
+[Talk to DDA](./16-contact.md)
