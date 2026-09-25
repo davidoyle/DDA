@@ -535,3 +535,14 @@ textarea { min-height: 160px; resize: vertical; }
 .todo-marker{color:#9b5a00!important;background:#fff3cd;padding:4px 10px;display:inline-block;border-radius:2px}
 .about-todo-body{font-size:17px;color:var(--muted);max-width:640px;margin:16px 0 0}
 .about-todo-fields{font-size:14px;color:var(--muted);margin-top:20px;padding:14px 18px;background:var(--paper-2,#e8ebe3);border-left:3px solid #c0972a}
+
+/* Service pages: on-page nav on tablet and phone */
+@media(max-width:1023px){
+  .detail-layout .on-page{position:sticky;top:76px;z-index:20;display:flex;flex-wrap:nowrap;align-items:center;gap:8px;overflow-x:auto;overflow-y:hidden;max-height:none;margin-inline:-32px;padding:12px 32px;background:var(--paper);border-top:0;border-bottom:1px solid var(--line);scroll-snap-type:x proximity;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .detail-layout .on-page::-webkit-scrollbar{display:none}
+  .detail-layout .on-page strong{flex:0 0 auto;flex-basis:auto;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 4px 0 0;background:none;position:static}
+  .detail-layout .on-page a{flex:0 0 auto;display:block;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:8px 12px;border:1px solid var(--line);background:var(--panel);font-size:13px;line-height:1.3;color:var(--ink);scroll-snap-align:start}
+  .detail-layout .on-page a:before{display:none}
+  .detail-layout .on-page a:hover{padding-left:12px}
+}
+@media(max-width:700px){.detail-layout .on-page{top:68px;margin-inline:-20px;padding-inline:20px}}
