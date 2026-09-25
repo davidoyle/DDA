@@ -393,91 +393,59 @@ textarea { min-height: 160px; resize: vertical; }
 @media(max-width:900px){.utility-with-contents{grid-template-columns:1fr;gap:0}.utility-with-contents .utility-shell{padding-top:0}.utility-contents-desktop{display:none}.utility-contents-mobile{display:block}}
 @media(max-width:700px){.utility-with-contents{width:calc(100% - 40px)}.utility-contents-mobile{width:calc(100% - 40px)}}
 
-/* --- Distinct per-service evidence modules --- */
+/* --- Per-service evidence modules --- */
+.detail-layout>main,.analysis-module{min-width:0}
+.analysis-module .module-source{display:block!important;margin:24px 0 0!important;padding-top:16px;border-top:1px solid #48606a;font-size:13px!important;line-height:1.55!important;color:#b9c9cf!important}
+.analysis-module .module-source a{color:#e6eee9;text-decoration:underline;text-underline-offset:3px}
+.module-claim{display:grid!important;gap:6px;margin:0 0 20px!important;font-size:19px!important;line-height:1.4!important;color:white!important}
+.module-claim span{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#b9c9cf}
 
-/* Fiscal impact: horizontal pipeline chain */
-.fiscal-chain{display:grid;grid-template-columns:repeat(6,1fr);margin:28px 0 0}
-.fiscal-step{display:contents}
-.fiscal-step-body{padding:18px 16px;border-top:2px solid var(--lime);border-right:1px solid #48606a;display:grid;gap:4px;align-content:start;min-height:120px}
-.fiscal-step:last-child .fiscal-step-body{border-right:0}
-.fiscal-step-body span{font-size:11px;color:var(--lime);font-weight:700;letter-spacing:.1em}
-.fiscal-step-body b{font-size:14px;color:white;line-height:1.3;display:block;margin-top:4px}
-.fiscal-step-body small{font-size:12px;color:#b9c9cf;display:block}
+.module-register{overflow-x:auto;scrollbar-width:thin;scrollbar-color:#48606a transparent}
+.module-register table{width:100%;border-collapse:collapse}
+.module-register th,.module-register td{text-align:left;vertical-align:top;padding:13px 16px 13px 0;border-bottom:1px solid #48606a;font-size:14px;line-height:1.45;color:#d6e0e3}
+.module-register thead th{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#b9c9cf;padding-top:0}
+.module-register tbody th{color:white;font-weight:700;min-width:150px}
+.module-register tr.row-flag th{box-shadow:inset 3px 0 0 #e2757f;padding-left:12px}
+.module-register .status-none{font-size:12px;color:#b9c9cf;font-style:italic}
+.module-register-compare table{min-width:680px}
+.module-register-compare td:nth-child(2),.module-register-compare td:nth-child(3),.module-register-compare td:nth-child(4){font-variant-numeric:tabular-nums;white-space:nowrap}
+.module-register-compare td:nth-child(3){color:white;font-weight:700}
+.module-register-compare td:nth-child(5){font-size:13px;color:#b9c9cf}
 
-/* OCP review: plan-claim vs evidence-status table */
-.ocp-table{margin:28px 0 0;border-top:1px solid #48606a}
-.ocp-head,.ocp-row{display:grid;grid-template-columns:1fr 120px;gap:20px;padding:12px 0;border-bottom:1px solid #48606a;align-items:center}
-.ocp-head span{font-size:11px;font-weight:800;letter-spacing:.1em;color:#b9c9cf;text-transform:uppercase}
-.ocp-row span:first-child{font-size:14px;color:white}
+.analysis-module .labour-funnel{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:3px}
+.analysis-module .funnel-step{min-height:0;border-right:0;position:static;background:#0d2c3a;border-top:2px solid #48606a;padding:12px 18px;display:flex;align-items:center;gap:16px;min-width:0}
+.analysis-module .funnel-step.funnel-binding{background:#0d1f2b;border-top-color:var(--lime)}
+.analysis-module .funnel-index{font:700 11px/1 "JetBrains Mono",monospace;color:#b9c9cf;min-width:28px;flex:none}
+.analysis-module .funnel-n{font-size:30px;font-weight:800;color:var(--lime);min-width:28px;line-height:1;font-variant-numeric:tabular-nums;flex:none}
+.analysis-module .funnel-step b{font-size:14px;color:white;display:block;line-height:1.25}
+.analysis-module .funnel-step small{font-size:12px;color:#b9c9cf;display:block}
 
-/* Economic development: constraint matrix */
-.constraint-matrix{margin:28px 0 0}
-.matrix-head{display:grid;grid-template-columns:160px repeat(4,1fr);gap:0;padding:10px 0;border-bottom:1px solid #48606a}
-.matrix-head span:first-child{display:block}
-.matrix-head span:not(:first-child){font-size:11px;font-weight:800;letter-spacing:.06em;color:#b9c9cf;text-transform:uppercase;text-align:center}
-.matrix-row{display:grid;grid-template-columns:160px repeat(4,1fr);gap:0;padding:12px 0;border-bottom:1px solid #48606a;align-items:center}
-.matrix-opp{font-size:14px;color:white}
-.matrix-pass{text-align:center;font-size:16px;font-weight:700;color:var(--lime)}
-.matrix-gap{text-align:center;font-size:16px;color:#48606a}
+.analysis-module .dependency-chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr)}
+.analysis-module .dep-gate{padding:16px 12px;border-top:2px solid #48606a;min-height:120px;display:grid;align-content:start;gap:10px;border-right:1px solid #48606a}
+.analysis-module .dep-gate:last-child{border-right:0}
+.analysis-module .dep-flag{border-top-color:#e2757f}
+.analysis-module .dep-fixed{border-top:4px solid var(--lime)}
+.analysis-module .dep-label{font-size:11px;font-weight:800;letter-spacing:.1em;color:#b9c9cf;text-transform:uppercase}
+.analysis-module .dep-fixed .dep-label{color:var(--lime)}
+.analysis-module .dep-gate small{font-size:12px;color:#b9c9cf;line-height:1.4}
+.analysis-module .dep-gate .status-label{justify-self:start}
 
-/* Labour market: supply funnel */
-.labour-funnel{display:grid;gap:3px;margin:28px 0 0}
-.funnel-step{background:#0d2c3a;border-top:2px solid #48606a;padding:13px 18px;display:flex;align-items:center;gap:16px}
-.funnel-step.funnel-binding{background:#0d1f2b;border-top-color:var(--lime)}
-.funnel-n{font-size:22px;font-weight:800;color:var(--lime);min-width:64px;font-variant-numeric:tabular-nums;flex:none}
-.funnel-step b{font-size:14px;color:white;display:block;line-height:1.2}
-.funnel-step small{font-size:12px;color:#b9c9cf;display:block}
-
-/* Resource sector: dependency chain */
-.dependency-chain{display:grid;grid-template-columns:repeat(6,1fr);margin:28px 0 0}
-.dep-gate{padding:16px 12px;border-top:2px solid #48606a;min-height:110px;display:grid;align-content:start;gap:8px;border-right:1px solid #48606a}
-.dep-gate:last-child{border-right:0}
-.dep-flag{border-top-color:#e2757f}
-.dep-proxy{border-top-color:#e0b44d}
-.dep-ok{border-top-color:#75bd91}
-.dep-label{font-size:11px;font-weight:800;letter-spacing:.1em;color:#b9c9cf;text-transform:uppercase}
-.dep-gate small{font-size:12px;color:#b9c9cf;line-height:1.4}
-
-/* Long-range financial: scenario comparison table */
-.scenario-table{margin:28px 0 0;border-top:1px solid #48606a}
-.scenario-head,.scenario-row{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:0;padding:12px 0;border-bottom:1px solid #48606a;align-items:center}
-.scenario-head span{font-size:11px;font-weight:800;letter-spacing:.08em;color:#b9c9cf;text-transform:uppercase}
-.scenario-row span:first-child{font-size:14px;color:white}
-.scenario-row span:not(:first-child){font-size:14px;color:#d6e0e3;font-variant-numeric:tabular-nums}
-.scenario-flag-row{background:#0d1f2b}
-.scenario-flag-row span:first-child{color:var(--lime)}
-.scenario-flag-row span:not(:first-child){color:#e2757f}
-
-/* Institutional: evidence register */
-.evidence-register{margin:28px 0 0;max-height:260px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#48606a transparent}
-.reg-head,.reg-row{display:grid;grid-template-columns:160px 1fr 80px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid #48606a;align-items:start}
-.reg-head span{font-size:11px;font-weight:800;letter-spacing:.08em;color:#b9c9cf;text-transform:uppercase}
-.reg-row span{font-size:13px;color:#d6e0e3;line-height:1.4}
-.reg-source{font-family:var(--font-mono)!important;font-size:11px!important;color:#b9c9cf!important}
-.reg-consequence{color:#b9c9cf!important;font-size:12px!important}
-
-/* Mobile adjustments for new modules */
 @media(max-width:900px){
-  .fiscal-chain{grid-template-columns:repeat(3,1fr)}
-  .fiscal-step-body{border-right:1px solid #48606a}
-  .matrix-head{grid-template-columns:120px repeat(4,1fr)}
-  .matrix-row{grid-template-columns:120px repeat(4,1fr)}
-  .matrix-opp{font-size:12px}
+  .analysis-module .dependency-chain{grid-template-columns:1fr;border-left:2px solid #48606a;margin-left:6px}
+  .analysis-module .dep-gate{min-height:0;border-right:0;border-top:0;border-bottom:1px solid #48606a;padding:14px 0 14px 18px;grid-template-columns:1fr auto;position:relative}
+  .analysis-module .dep-gate:before{content:"";position:absolute;left:-7px;top:18px;width:12px;height:12px;background:#48606a}
+  .analysis-module .dep-flag:before{background:#e2757f}
+  .analysis-module .dep-fixed{border-top:0}
+  .analysis-module .dep-fixed:before{background:var(--lime)}
+  .analysis-module .dep-gate small{grid-column:1/-1}
+  .analysis-module .funnel-step{width:100%!important}
 }
 @media(max-width:700px){
-  .fiscal-chain{grid-template-columns:1fr 1fr}
-  .dependency-chain{grid-template-columns:repeat(3,1fr)}
-  .dep-gate:nth-child(3){border-right:0}
-  .scenario-head,.scenario-row{grid-template-columns:1fr 1fr 1fr}
-  .scenario-head span:nth-child(3),.scenario-row span:nth-child(3){display:none}
-  .reg-head,.reg-row{grid-template-columns:1fr 1fr}
-  .reg-head span:nth-child(3),.reg-head span:nth-child(4){display:none}
-  .reg-row span:nth-child(3),.reg-row span:nth-child(4){display:none}
-  .evidence-register{max-height:none}
-  .matrix-head{grid-template-columns:100px repeat(4,minmax(0,1fr))}
-  .matrix-row{grid-template-columns:100px repeat(4,minmax(0,1fr))}
-  .matrix-head span:not(:first-child){font-size:9px;letter-spacing:0}
-  .matrix-cell{font-size:14px}
+  .module-register:not(.module-register-compare) thead{display:none}
+  .module-register:not(.module-register-compare) tr{display:grid;gap:6px;padding:14px 0;border-bottom:1px solid #48606a}
+  .module-register:not(.module-register-compare) th,.module-register:not(.module-register-compare) td{border:0;padding:0}
+  .module-register tr.row-flag th{padding-left:10px}
+  .module-register-compare th:first-child{position:sticky;left:0;background:var(--navy);z-index:1;min-width:130px}
 }
 
 /* ─── Visual system overrides (Task 11) ──────────────── */
