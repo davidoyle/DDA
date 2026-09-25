@@ -12,14 +12,6 @@ Then we determine what the finding changes and build the analysis needed to resp
 
 These perspectives show what becomes visible when headline claims are traced through the systems required to support them.
 
-### The trade gap hidden inside a workforce number
-
-A project can have workers on paper and still miss a fixed date. In one resource-project analysis, a single trade controlled the commissioning date. The constraint sat at the level of trade, qualification, mobility, location, and the commissioning window.
-
-**Perspective · Major projects and workforce · 5 minute read**
-
-[Read the workforce analysis](./13-insight-trade-gap-workforce-number.md)
-
 ### When a housing target outruns delivery
 
 A stated need of 291 homes looks different beside historical delivery of 3.6 homes a year, local construction economics, servicing, and vacancy. The useful question is where the delivery chain breaks.
@@ -27,6 +19,14 @@ A stated need of 291 homes looks different beside historical delivery of 3.6 hom
 **Perspective · Planning and place · 5 minute read**
 
 [Read the housing analysis](./12-insight-housing-target-delivery.md)
+
+### The trade gap hidden inside a workforce number
+
+A project can have workers on paper and still miss a fixed date. The useful question is which trade, qualification, location, and date the headline number hides.
+
+**Perspective · Major projects and workforce · 5 minute read**
+
+[Read the workforce analysis](./13-insight-trade-gap-workforce-number.md)
 
 ### When an unsupported number carries the answer
 

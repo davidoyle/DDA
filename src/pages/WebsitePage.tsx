@@ -234,22 +234,22 @@ const workOutputs=[
   {label:'Data and decision architecture',detail:'Common definitions, transparent derivations, linked datasets, maps, and analytical structures that give a team a reliable basis for subsequent work.'},
 ];
 
-const leadFigures:Record<string,{n:string;label:string}>={
-  'The trade gap hidden inside a workforce number':{n:'90 / 30',label:'Workers required at commissioning in one trade, against workers available'},
-};
+const isLink=(prefix:string)=>(b:Block)=>b.kind==='p'&&!!b.text?.startsWith(prefix);
+const without=(blocks:Block[],prefix:string)=>blocks.filter(b=>!isLink(prefix)(b));
 
 function HomeTemplate({doc}:{doc:Document}){
   const insights=doc.sections.find(x=>x.title==='Evidence of how DDA thinks')!;
   const mandate=doc.sections.find(x=>x.title==='Already holding the mandate?')!;
   const contact=doc.sections.find(x=>x.title==='Show us what you are working on')!;
+  const allInsights=insights.subsections.flatMap(x=>x.blocks).find(isLink('[Explore all insights'));
   return <>
     <PageHero doc={doc} kicker="Investigation · Evidence · Analysis" fullViewport={true}/>
 
-    <section className="work-outputs-section public-container" aria-labelledby="work-outputs-heading">
-      <div className="section-heading">
+    <section className="home-section public-container" aria-labelledby="work-outputs-heading">
+      <div className="home-heading">
         <h2 id="work-outputs-heading">What the work produces</h2>
-        <p className="section-subhead">Analysis built to be used</p>
-        <p className="section-intro">The final product depends on the problem. DDA builds the model, evidence base, assessment, map, or decision tool needed to make the underlying issue visible and usable.</p>
+        <p className="home-subhead">Analysis built to be used</p>
+        <p className="home-intro">The final product depends on the problem. DDA builds the model, evidence base, assessment, map, or decision tool needed to make the underlying issue visible and usable.</p>
       </div>
       <div className="work-outputs-grid">
         {workOutputs.map(({label,detail})=><article className="work-output-item" key={label}>
@@ -258,19 +258,19 @@ function HomeTemplate({doc}:{doc:Document}){
       </div>
     </section>
 
-    <section className="editorial-section public-container">
-      <div className="section-heading"><p className="kicker">Inside the evidence</p><h2>{insights.title}</h2></div>
+    <section className="home-section public-container">
+      <div className="home-heading"><p className="kicker">Inside the evidence</p><h2>{insights.title}</h2></div>
       <div className="insight-layout">
         {insights.subsections.map((section,i)=><article className={i===0?'insight-lead':'insight-card'} key={section.title}>
-          {i===0&&leadFigures[section.title]&&<p className="lead-figure"><b>{leadFigures[section.title].n}</b><span>{leadFigures[section.title].label}</span></p>}
-          <span>0{i+1} / Insight</span><h3>{section.title}</h3><Blocks blocks={section.blocks}/>
+          <span>0{i+1} / Insight</span><h3>{section.title}</h3><Blocks blocks={without(section.blocks,'[Explore all insights')}/>
         </article>)}
       </div>
+      {allInsights&&<p className="home-section-link"><Rich text={allInsights.text!}/></p>}
     </section>
 
-    <section className="tools-strip">
+    <section className="home-section home-band">
       <div className="public-container">
-        <div className="section-heading"><p className="kicker">Open tools</p><h2>Analytical models available now</h2></div>
+        <div className="home-heading"><p className="kicker">Open tools</p><h2>Analytical models available now</h2></div>
         <div className="tools-strip-grid">
           {diagnosticTools.map(({name,href,desc})=><div className="tool-strip-item" key={href}>
             <strong>{name}</strong><p>{desc}</p>
@@ -280,15 +280,13 @@ function HomeTemplate({doc}:{doc:Document}){
       </div>
     </section>
 
-    <section className="work-home">
-      <div className="public-container">
-        <div className="section-heading"><p className="kicker">For consulting teams</p><h2>{mandate.title}</h2></div>
-        <div className="mandate-copy"><Blocks blocks={mandate.blocks}/></div>
-      </div>
+    <section className="home-section public-container">
+      <div className="home-heading"><p className="kicker">For consulting teams</p><h2>{mandate.title}</h2></div>
+      <div className="home-copy"><Blocks blocks={without(mandate.blocks,'[Talk to')}/></div>
     </section>
 
-    <section className="home-close public-container">
-      <div><p className="kicker">Talk to DDA</p><h2>{contact.title}</h2><Blocks blocks={contact.blocks}/></div>
+    <section className="home-section home-close public-container">
+      <div><p className="kicker">Talk to DDA</p><h2>{contact.title}</h2><Blocks blocks={without(contact.blocks,'[Talk to')}/></div>
       <Link className="button-primary" to="/contact/">Talk to DDA <ArrowRight/></Link>
     </section>
   </>
