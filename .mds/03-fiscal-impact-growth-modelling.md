@@ -365,6 +365,6 @@ You do not need another number to repeat.
 
 You need to know **what the number depends on, where it can fail, and what changes the decision.**
 
-[Talk to David](./16-contact.md)
+[Talk to DDA](./16-contact.md)
 
 *Current law, tax treatment, engineering conditions, market conditions, and client data may require current or specialist review. DDA provides analytical and decision-support work. It does not provide tax, legal, engineering, investment, or securities advice.*

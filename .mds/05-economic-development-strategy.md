@@ -312,4 +312,4 @@ The work traces the evidence, follows the delivery chain, tests the constraint a
 
 Sometimes the next decision is investment. Sometimes it is better information. Sometimes the sequence needs to change. Sometimes the intervention moves activity without creating enough additional regional benefit to support the case. Sometimes the evidence does not yet support action.
 
-[Talk to David](./16-contact.md)
+[Talk to DDA](./16-contact.md)
