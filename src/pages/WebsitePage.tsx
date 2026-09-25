@@ -438,7 +438,7 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
           </ul>
         </div>
         {relatedService&&<div className="rail-block">
-          <p className="kicker">This analysis came from</p>
+          <p className="kicker">Related service</p>
           <Link className="rail-service-link" to={relatedService.route}>{relatedService.navTitle} <ArrowRight/></Link>
         </div>}
         {related.length>0&&<div className="rail-block">
