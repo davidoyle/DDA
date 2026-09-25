@@ -352,6 +352,7 @@ textarea { min-height: 160px; resize: vertical; }
 /* Full-viewport home hero */
 .page-hero-full{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
 .page-hero-full .public-container{padding-block:80px}
+@media(max-width:700px){.page-hero-full{min-height:0;padding:40px 0 56px}.page-hero-full .public-container{padding-block:0}.page-hero-full h1{margin:16px 0 20px}.page-hero-full .hero-summary p:nth-child(2){display:none}.page-hero-full .hero-summary p{font-size:17px}.page-hero-full .hero-actions{margin-top:24px}}
 
 /* Asymmetric heading rhythm — article and utility flowing prose only */
 .article-shell h2{margin-bottom:0.4em}
@@ -522,6 +523,13 @@ textarea { min-height: 160px; resize: vertical; }
 .insight-entry-read{font-size:14px;font-weight:800;color:var(--link);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
 .insight-entry-read svg{width:14px;height:14px}
 @media(max-width:600px){.insight-entry{grid-template-columns:40px 1fr;gap:16px;padding:32px 0}}
+
+.insight-hub-lead{margin-bottom:24px}
+.insight-hub-lead h2 a{color:white}
+.insight-hub-lead h2 a:hover{text-decoration:underline;text-underline-offset:6px}
+.insight-hub-lead .insight-hub-finding{font-size:21px;line-height:1.45;color:white;border-left:4px solid var(--lime);padding-left:20px;margin:28px 0 20px}
+.insight-hub-lead .button-primary{margin-top:18px}
+@media(max-width:700px){.insight-hub-lead h2{font-size:34px}.insight-hub-lead .insight-hub-finding{font-size:18px}}
 
 /* Article service CTA (Task 10) */
 .article-service-cta{border-top:4px solid var(--lime);padding:48px 0 80px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;width:min(800px,calc(100% - 48px));margin:0 auto}

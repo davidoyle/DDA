@@ -367,12 +367,19 @@ function DetailTemplate({doc,page}:{doc:Document;page:PublicPage}){
 }
 
 function InsightsHubTemplate({doc}:{doc:Document}){
-  const articles=pageManifest.filter(p=>p.type==='article');
+  const [lead,...rest]=pageManifest.filter(p=>p.type==='article');
   return <>
     <PageHero doc={doc} kicker="Insights" actions={false}/>
     <main className="public-container insights-editorial">
-      {articles.map((a,i)=><article className="insight-entry" key={a.route}>
-        <span>{String(i+1).padStart(2,'0')}</span>
+      <article className="featured-insight insight-hub-lead">
+        <p className="kicker">{lead.topics.join(' · ')}{lead.readTime&&` · ${lead.readTime}`}</p>
+        <h2><Link to={lead.route}>{lead.title}</Link></h2>
+        {lead.finding&&<p className="insight-hub-finding">{lead.finding}</p>}
+        <p>{lead.description}</p>
+        <Link className="button-primary" to={lead.route}>Read the analysis <ArrowRight/></Link>
+      </article>
+      {rest.map((a,i)=><article className="insight-entry" key={a.route}>
+        <span>{String(i+2).padStart(2,'0')}</span>
         <div className="insight-entry-body">
           <div className="insight-entry-tags">
             {a.topics.map(t=><span key={t}>{t}</span>)}
@@ -469,7 +476,7 @@ function AboutTemplate({doc}:{doc:Document}){
           {s.subsections.map(x=><article key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></article>)}
         </div>}
       </section>)}
-      <section className="about-method-todo">
+      {import.meta.env.DEV&&<section className="about-method-todo">
         <span>05</span>
         <div>
           <p className="kicker todo-marker">Development placeholder — owner approval required</p>
@@ -477,7 +484,7 @@ function AboutTemplate({doc}:{doc:Document}){
           <p className="about-todo-body">Add one specific methodological decision: a choice made in this practice that would surprise a peer, a constraint taken seriously that others ignore, or a point where the evidence forced a different answer. One paragraph. No generalities.</p>
           <p className="about-todo-fields"><strong>Required fields:</strong> the specific decision · what it replaced · why it changed the result</p>
         </div>
-      </section>
+      </section>}
     </main>
     <ContactBand/>
   </>
