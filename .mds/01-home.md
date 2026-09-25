@@ -1,85 +1,53 @@
-# Find what actually controls the outcome
+# Get deep into the problem. Find what matters.
 
-DDA investigates complex public, industrial, and regulated systems to find the constraint, gap, or dependency that others have missed.
+DDA investigates difficult public, industrial, regulated, and institutional problems. We reconstruct how the system works, follow evidence across sources and organizations, and find the constraint, gap, dependency, assumption, or exposure shaping the outcome.
 
-We learn how the system actually works, follow the evidence across organizations and datasets, and identify where the outcome is being constrained.
+Then we determine what the finding changes and build the analysis needed to respond. A model, register, map, strategy, brief, or decision tool may be the result. The work begins with the problem, even when the question is still taking shape.
 
-Then we quantify what it changes and build the analysis, model, register, or strategy needed to act on it.
-
-**Find the problem beneath the problem. Know what it changes. Know where to act.**
+**Bring us a project that is stuck, a number that does not hold together, an RFP you need to deliver, or evidence nobody has assembled.**
 
 [Explore what we do](./02-what-we-do.md)
 
-## Our latest insights
+## Evidence of how DDA thinks
 
-Fresh thinking for decisions that cross planning, economics, workforce, policy, and major projects.
+These perspectives show what becomes visible when headline claims are traced through the systems required to support them.
 
 ### When a housing target outruns delivery
 
-A housing target becomes a delivery question when land, servicing, construction economics, and financing are tested together. The first constraint is rarely visible in the headline number.
+A stated need of 291 homes looks different beside historical delivery of 3.6 homes a year, local construction economics, servicing, and vacancy. The useful question is where the delivery chain breaks.
 
 **Perspective · Planning and place · 7 minute read**
 
-[Test the delivery chain](./12-insight-housing-target-delivery.md)
+[Read the housing analysis](./12-insight-housing-target-delivery.md)
 
 ### The trade gap hidden inside a workforce number
 
-A region can have workers on paper and still miss a project date. Occupation, qualification, mobility, location, and timing determine whether supply is actually available.
+A project can have workers on paper and still miss a fixed date. An Eskay Creek analysis found the issue at the level of trade, qualification, mobility, location, and the commissioning window.
 
 **Perspective · Major projects and workforce · 7 minute read**
 
-[Find the trade that controls the date](./13-insight-trade-gap-workforce-number.md)
+[Read the workforce analysis](./13-insight-trade-gap-workforce-number.md)
 
-### When one missing number can change the decision
+### When an unsupported number carries the answer
 
-Some missing inputs barely affect a decision. Others carry the answer. A FLAG identifies the consequential gap, what it prevents, and the shortest responsible route to resolving it.
+An unresolved input matters when a schedule, forecast, policy claim, or investment case depends on it. The task is to trace the consequence and establish what needs to be resolved.
 
 **Perspective · Evidence · 4 minute read**
 
-[See how DDA handles uncertainty](./14-insight-what-a-flag-tells-you.md)
+[Read the evidence analysis](./14-insight-what-a-flag-tells-you.md)
 
-[Explore more thinking](./11-insights.md)
+[Explore all insights](./11-insights.md)
 
-## Selected work
+## Already holding the mandate?
 
-DDA works across communities and regions, major projects and workforce, and policy and institutions. Each engagement starts by finding the controlling condition and ends with something the decision-maker can use.
+DDA can join a live assignment and own a defined analytical workstream. That may include evidence reconstruction, economic or labour analysis, land and GIS analysis, institutional research, modelling, or another evidence-heavy part of the scope.
 
-### Planning growth against real capacity
+Prime consultants and specialist firms can bring DDA in when the assignment needs someone to follow the evidence across boundaries, test the numbers, and carry the analytical logic through to a usable product.
 
-A municipal growth question was opened into population, households, housing, employment, land, infrastructure, and servicing. The analysis separated theoretical capacity from the capacity that could be delivered under different scenarios.
+[Talk to DDA](./16-contact.md)
 
-[Explore selected work](./15-selected-work.md)
+## Show us what you are working on
 
-### Finding the workforce constraint inside a project schedule
+A few sentences are enough. Send the report, RFP, project, dataset, strategy, public link, or unresolved question. DDA will review it and start with a conversation where there is a fit.
 
-Trade-level demand was tested against qualifications, training completion, mobility, accommodation, concurrent projects, and timing. A broad labour concern became a defined execution problem with specific levers.
-
-[Explore selected work](./15-selected-work.md)
-
-### Turning regional ambition into an executable sequence
-
-Economic opportunities were assessed against evidence, local control, institutional capacity, dependencies, and timing. The strategy could then distinguish what to move now, what to prepare, and what to monitor.
-
-[Explore selected work](./15-selected-work.md)
-
-### Opening a fiscal number before it becomes a commitment
-
-A policy cost was traced through its taxable base, timing, pass-through, compliance burden, and behavioural assumptions. Scenario analysis showed which inputs changed the exposure.
-
-[Explore selected work](./15-selected-work.md)
-
-[View selected work](./15-selected-work.md)
-
-## Work with DDA
-
-## Bring us the problem you need to understand before you act
-
-Tell us what you are trying to get done, what is getting in the way, and what you already know.
-
-DDA will reconstruct the system, follow the evidence, and find the constraint, dependency, or exposure that is actually shaping the outcome.
-
-Then we show you what it changes and what can be done about it.
-
-**Bring us the problem.**
-
-[Get in touch](./16-contact.md)
+[Talk to DDA](./16-contact.md)

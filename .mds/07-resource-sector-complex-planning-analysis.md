@@ -1,40 +1,31 @@
 # Resource-sector and complex planning analysis
 
-## Which dependency can move the project date?
+Major projects depend on systems that sit across organizations: labour, infrastructure, logistics, approvals, accommodation, capital, communities, and schedule. DDA follows those dependencies to find what could stop a phase or narrow the available response.
 
-A formal schedule can show the sequence of work while leaving out the condition that makes the sequence possible. DDA connects the project date to the trade, approval, infrastructure, logistics, or outside decision that controls it.
+## Start with the gate that cannot move
 
-**Map the dependency before the gate**
+A formal schedule shows the intended sequence. It may leave out the trade, approval, road, power supply, fabrication capacity, accommodation, financing condition, or outside decision that makes the sequence possible.
 
-## The consequential decision
+DDA works backward from fixed dates such as permitting, financing, construction, procurement, and commissioning gates. Each dependency is tied to an actor, source, timing requirement, and consequence if it remains open.
 
-The project team may need to change procurement, training, design, mobilization, sequencing, or escalation before a permit, financing, construction, commissioning, or labour-procurement gate.
+## Connect project and regional evidence
 
-## The controlling condition
+A trade-and-date analysis can narrow a general workforce concern to the occupation affecting commissioning. A regional pressure map can connect that issue with logistics, roads, power, regulation, housing, and concurrent projects. The investigation follows relationships that conventional workstreams may treat separately.
 
-A phase may depend on a non-substitutable trade, a training pipeline, road or aerodrome access, accommodation, fabrication capacity, an approval, or a decision held by another actor.
+The analysis also distinguishes conditions the owner can change from decisions held by governments, suppliers, infrastructure providers, communities, or other projects.
 
-The controlling condition is the dependency that can stop the phase and the date after which the available response narrows or disappears.
+## What the assignment may need
 
-## The analysis
+Outputs can include a project evidence register, dependency map, trade-and-phase workforce view, concurrency analysis, training and housing assessment, infrastructure and logistics review, approval sequence, actor map, schedule scenarios, risk register, or decision brief.
 
-DDA works backward from the date that cannot move. An actor and decision-control map sits beside a dependency register. Each entry records the stage, condition, controlling party, timing, source status, and consequence if it remains open.
+DDA handles operational information within agreed confidentiality terms. Engineering, regulatory, investment, and legal conclusions remain with the relevant qualified advisers.
 
-A trade-and-date analysis can narrow a broad workforce concern to the occupation that controls a commissioning window. A regional pressure map connects that constraint to logistics, power, transportation corridors, regulation, and competing projects.
+## Related analysis
 
-## The usable output
+Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for workforce detail. For usable labour supply, see [Labour market analysis](./06-labour-market-analysis.md). For cost and scenario exposure, see [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md).
 
-The work can produce a project and regional evidence register, trade-and-phase workforce view, concurrency analysis, training and housing assessment, infrastructure and logistics review, approval sequence, actor map, dependency register, schedule-exposure scenario, risk register, and decision brief.
+## Bring the live problem
 
-The brief shows what the owner controls, what requires another party, and which open item needs escalation. DDA handles operational information within the confidentiality terms agreed for the assignment. Engineering, regulatory, investment, and legal conclusions remain with the relevant qualified advisers.
+A project schedule, RFP, risk register, fixed gate, or high-level description is enough for a first conversation. DDA can join the team to own a defined analytical stream or investigate a problem that crosses the existing ones.
 
-## Related thinking
-
-Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for the workforce constraint inside a project date. For usable labour supply, see [Labour market analysis](./06-labour-market-analysis.md). For cost, revenue, and scenario exposure, see [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md).
-
-## Contact
-
-Bring the fixed phase date, the risk already under discussion, the schedule or gate document, and the unresolved dependency. A high-level description is enough to begin.
-
-[Map the dependency before the gate](./16-contact.md)
-
+[Talk to DDA](./16-contact.md)

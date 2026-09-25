@@ -1,14 +1,8 @@
-# Work with DDA
+# Talk to DDA
 
-## Bring us the problem you need to understand before you act
+Tell us what you are working on. It can be a project that is stuck, a mandate you have won, an RFP or report you need to deliver, a number that does not hold together, or a question that is still taking shape.
 
-Tell us what you are trying to get done, what is getting in the way, and what you already know.
-
-DDA will reconstruct the system, follow the evidence, and find the constraint, dependency, or exposure that is actually shaping the outcome.
-
-Then we show you what it changes and what can be done about it.
-
-**Bring us the problem.**
+A finished scope is not required. DDA will review the problem and, where there is a fit, start with a conversation.
 
 ## Start the conversation
 
@@ -18,32 +12,20 @@ Then we show you what it changes and what can be done about it.
 
 **Email**
 
-**What decision needs to be made?**
+**What are you working on?**
 
-Tell us who will use the answer and what choice, approval, direction, or action is required.
-
-**What is the deadline?**
-
-Include the hearing, project gate, reporting date, funding decision, planning horizon, or other point when the work must be usable.
-
-**What happens if the decision is delayed or gets the wrong answer?**
-
-Describe the practical consequence: cost, schedule, capacity, legal or policy exposure, public accountability, or a missed opportunity.
-
-**What material is already available?**
-
-List the plans, data, models, reports, policies, correspondence, or other sources already in circulation.
+A few sentences are enough. Tell us what you are trying to solve, what changed, or what you have been asked to deliver. You can also paste a public link to the project, RFP, report, dataset, or issue.
 
 **Send inquiry**
 
-Please do not send privileged, personal, or commercially confidential material in the initial message; DDA can arrange an appropriate transfer method if needed.
+Please do not send privileged, personal, or commercially confidential information in an unsecured first message. DDA can arrange a suitable transfer method if needed.
 
 ## What happens next
 
-DDA will review the decision, deadline, consequence, and available material. If the question is a fit, the next step is a short conversation to identify the smallest useful scope and the form the work should take.
+DDA reviews the problem and the material you shared. Where there is a fit, the next step is a conversation about the question, the people who need the work, and a useful way to begin.
 
-Sending an inquiry does not create a client relationship or engagement; work begins only under agreed written terms.
+Sending an inquiry does not create a client relationship or engagement. Work begins only under agreed written terms.
 
 ## Learn more
 
-Explore [What we do](./02-what-we-do.md), [Our thinking](./11-insights.md), or [Selected work](./15-selected-work.md).
+Explore [What we do](./02-what-we-do.md) or [Insights](./11-insights.md).
