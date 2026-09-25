@@ -479,3 +479,31 @@ textarea { min-height: 160px; resize: vertical; }
   .matrix-head span:not(:first-child){font-size:9px;letter-spacing:0}
   .matrix-cell{font-size:14px}
 }
+
+/* Key finding callout (Task 4) */
+.key-finding{border-left:4px solid var(--lime);padding:20px 24px;margin:28px 0 32px;background:rgba(200,222,100,.06);border-radius:0 4px 4px 0}
+.key-finding .kicker{margin-bottom:8px}
+.key-finding p{font-size:17px;font-weight:600;color:var(--ink);line-height:1.45;margin:0}
+@media(max-width:700px){.key-finding{padding:16px 18px;margin:20px 0 24px}}
+
+/* Work outputs (Task 2) */
+.work-outputs-section{padding-top:80px;padding-bottom:80px}
+.work-outputs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:40px}
+.work-output-item{padding:24px;background:var(--paper-mid,#f0ede6);border-radius:2px}
+.work-output-item strong{display:block;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+.work-output-item p{font-size:14px;line-height:1.55;color:var(--ink-mid,#4a5568);margin:0}
+@media(max-width:900px){.work-outputs-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.work-outputs-grid{grid-template-columns:1fr}}
+
+/* Rail service link (Task 3) */
+.rail-service-link{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;padding:10px 0;border-bottom:1px solid var(--line)}
+.rail-service-link:hover{color:var(--lime-dark,#7a9a00)}
+.rail-service-link svg{width:14px;height:14px;flex-shrink:0}
+
+/* Detail insights cross-link (Task 3) */
+.detail-insights-link{border-top:1px solid var(--line);padding-top:40px;margin-top:40px}
+.detail-insights-link .kicker{margin-bottom:16px}
+.detail-insights-link ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.detail-insights-link li a{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:12px}
+.detail-insights-link li a:hover{color:var(--lime-dark,#7a9a00)}
+.detail-insights-link li a svg{width:14px;height:14px;flex-shrink:0}

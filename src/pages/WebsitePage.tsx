@@ -255,6 +255,21 @@ function AnalysisModule({page}:{page:PublicPage}){
   return render?<>{render()}</>:<></>;
 }
 
+/* --- Cross-link maps (Task 3) --- */
+
+const articleToService:Record<string,string>={
+  '/insights/when-a-housing-target-outruns-delivery/':           '/what-we-do/official-community-plan-policy-analysis/',
+  '/insights/the-trade-gap-hidden-inside-a-workforce-number/':  '/what-we-do/labour-market-analysis/',
+  '/insights/when-an-unsupported-number-carries-the-answer/':   '/what-we-do/institutional-policy-analysis/',
+};
+
+const serviceToArticles:Record<string,string[]>={
+  '/what-we-do/official-community-plan-policy-analysis/':    ['/insights/when-a-housing-target-outruns-delivery/'],
+  '/what-we-do/labour-market-analysis/':                     ['/insights/the-trade-gap-hidden-inside-a-workforce-number/'],
+  '/what-we-do/resource-sector-complex-planning-analysis/':  ['/insights/the-trade-gap-hidden-inside-a-workforce-number/'],
+  '/what-we-do/institutional-policy-analysis/':              ['/insights/when-an-unsupported-number-carries-the-answer/'],
+};
+
 /* --- Page templates --- */
 
 const capabilities=[
@@ -262,6 +277,13 @@ const capabilities=[
   ['Reconstruct the evidence','Connect fragmented sources, definitions, dates, datasets, and claims.'],
   ['Test what matters','Find the constraint, gap, dependency, assumption, or exposure and establish what it changes.'],
   ['Build the response','Produce the analysis or working asset the situation requires.'],
+];
+
+const workOutputs=[
+  {label:'Fiscal decision model',detail:'48 assumptions, 36 royalty-rate scenarios, Monte Carlo analysis across four LNG projects. Thirty-six assumptions ACTUAL; twelve documented FLAG defaults.'},
+  {label:'Evidence register',detail:'243 rows separating sourced facts, derived values, and structural gaps — built to support a constraint-sequenced regional economic development strategy.'},
+  {label:'Policy impact assessment',detail:'586-paragraph assessment of revenue, cascade effects, and firm-level absorption from a provincial tax expansion analysis.'},
+  {label:'Data Lexicon',detail:'37 entries establishing common definitions and transparent derivations before land demand, servicing, absorption, and workforce-housing constraints were modelled.'},
 ];
 
 function HomeTemplate({doc}:{doc:Document}){
@@ -275,6 +297,14 @@ function HomeTemplate({doc}:{doc:Document}){
         <h2 id="capabilities-heading">What the work does</h2>
         {capabilities.map(([title,description],i)=><div key={title}>
           <span>0{i+1}</span><strong>{title}</strong><p>{description}</p>
+        </div>)}
+      </div>
+    </section>
+    <section className="work-outputs-section public-container">
+      <div className="section-heading"><p className="kicker">What the work produces</p><h2>Analytical instruments that live in the decision</h2></div>
+      <div className="work-outputs-grid">
+        {workOutputs.map(({label,detail})=><div className="work-output-item" key={label}>
+          <strong>{label}</strong><p>{detail}</p>
         </div>)}
       </div>
     </section>
@@ -358,6 +388,10 @@ function DetailTemplate({doc,page}:{doc:Document;page:PublicPage}){
             {showModule&&<AnalysisModule page={page}/>}
           </section>
         })}
+        {(serviceToArticles[page.route]??[]).length>0&&<section className="detail-insights-link">
+          <p className="kicker">See this in practice</p>
+          <ul>{(serviceToArticles[page.route]??[]).map(route=>{const p=pageManifest.find(x=>x.route===route);return p?<li key={route}><Link to={route}>{p.title} <ArrowRight/></Link></li>:null})}</ul>
+        </section>}
       </main>
     </div>
     <ContactBand/>
@@ -392,6 +426,7 @@ function InsightsHubTemplate({doc}:{doc:Document}){
 function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
   const intro=doc.intro.filter(block=>block.kind!=='p'||!block.text?.startsWith('**Perspective'));
   const related=pageManifest.filter(p=>p.type==='article'&&p.route!==page.route).slice(0,3);
+  const relatedService=articleToService[page.route]?pageManifest.find(p=>p.route===articleToService[page.route]):undefined;
   return <>
     <Breadcrumbs page={page}/>
     <div className="article-with-rail public-container">
@@ -401,6 +436,10 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
             <span>Perspective</span><span>{page.topics[0]}</span><span>{page.readTime}</span>
           </div>
           <h1>{doc.title}</h1>
+          {page.finding&&<div className="key-finding" role="note">
+            <span className="kicker">Key finding</span>
+            <p>{page.finding}</p>
+          </div>}
           <Blocks blocks={intro}/>
         </header>
         {doc.sections.map(s=><section key={s.title} className={s.blocks.some(x=>x.kind==='table')?'article-evidence':''}>
@@ -425,6 +464,10 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
             <li><span className="status-label status-flag">FLAG</span> Material unresolved inputs</li>
           </ul>
         </div>
+        {relatedService&&<div className="rail-block">
+          <p className="kicker">This analysis came from</p>
+          <Link className="rail-service-link" to={relatedService.route}>{relatedService.navTitle} <ArrowRight/></Link>
+        </div>}
         {related.length>0&&<div className="rail-block">
           <p className="kicker">Related</p>
           <ul className="rail-related">

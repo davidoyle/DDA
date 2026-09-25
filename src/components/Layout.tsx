@@ -8,20 +8,8 @@ function useFocusTrap(active:boolean, container:RefObject<HTMLElement|null>){
  useEffect(()=>{if(!active||!container.current)return;const node=container.current;const focusable=()=>[...node.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),input,summary,[tabindex]:not([tabindex="-1"])')];const onKey=(event:KeyboardEvent)=>{if(event.key!=='Tab')return;const items=focusable();if(!items.length)return;const first=items[0],last=items[items.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}};node.addEventListener('keydown',onKey);focusable()[0]?.focus();return()=>node.removeEventListener('keydown',onKey)},[active,container]);
 }
 
-const services = [
-  ['Fiscal impact and growth modelling','/what-we-do/fiscal-impact-growth-modelling/'],
-  ['Official Community Plan review and policy analysis','/what-we-do/official-community-plan-policy-analysis/'],
-  ['Economic development strategy','/what-we-do/economic-development-strategy/'],
-  ['Labour market analysis','/what-we-do/labour-market-analysis/'],
-  ['Resource-sector and complex planning analysis','/what-we-do/resource-sector-complex-planning-analysis/'],
-  ['Long-range financial and scenario planning','/what-we-do/long-range-financial-scenario-planning/'],
-  ['Institutional and policy analysis','/what-we-do/institutional-policy-analysis/'],
-];
-const insights = [
-  ['When a housing target outruns delivery','/insights/when-a-housing-target-outruns-delivery/'],
-  ['The trade gap hidden inside a workforce number','/insights/the-trade-gap-hidden-inside-a-workforce-number/'],
-  ['When an unsupported number carries the answer','/insights/when-an-unsupported-number-carries-the-answer/'],
-];
+const services=pageManifest.filter(p=>p.type==='capability-detail').map(p=>[p.navTitle,p.route] as [string,string]);
+const insights=pageManifest.filter(p=>p.type==='article').map(p=>[p.navTitle,p.route] as [string,string]);
 const searchItems = pageManifest;
 
 export default function Layout(){
