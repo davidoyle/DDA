@@ -286,13 +286,6 @@ const serviceToArticles:Record<string,string[]>={
 
 /* --- Page templates --- */
 
-const capabilities=[
-  ['Learn the system','Trace the organizations, policy, infrastructure, labour, economics, and timing that belong to the problem.'],
-  ['Reconstruct the evidence','Connect fragmented sources, definitions, dates, datasets, and claims.'],
-  ['Test what matters','Find the constraint, gap, dependency, assumption, or exposure and establish what it changes.'],
-  ['Build the response','Produce the analysis or working asset the situation requires.'],
-];
-
 const workOutputs=[
   {label:'Fiscal decision model',detail:'48 assumptions, 36 royalty-rate scenarios, Monte Carlo analysis across four LNG projects. Thirty-six assumptions ACTUAL; twelve documented FLAG defaults.'},
   {label:'Evidence register',detail:'243 rows separating sourced facts, derived values, and structural gaps — built to support a constraint-sequenced regional economic development strategy.'},
