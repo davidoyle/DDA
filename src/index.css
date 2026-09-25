@@ -480,7 +480,17 @@ textarea { min-height: 160px; resize: vertical; }
   .matrix-cell{font-size:14px}
 }
 
-/* Key finding callout (Task 4) */
+/* ─── Visual system overrides (Task 11) ──────────────── */
+/* Remove decorative hero circle */
+.page-hero:after{content:none!important;display:none!important}
+/* Remove rotating logo square hover */
+.brand:hover i{transform:none!important}
+/* Remove hover-lift from non-primary cards */
+.insight-layout article:hover{transform:none!important;box-shadow:none!important}
+.application-grid article:hover{transform:none!important;box-shadow:none!important}
+.supporting-insights article:hover{transform:none!important;box-shadow:none!important}
+
+/* ─── Key finding callout (Task 4) ───────────────────── */
 .key-finding{border-left:4px solid var(--lime);padding:20px 24px;margin:28px 0 32px;background:rgba(200,222,100,.06);border-radius:0 4px 4px 0}
 .key-finding .kicker{margin-bottom:8px}
 .key-finding p{font-size:17px;font-weight:600;color:var(--ink);line-height:1.45;margin:0}
@@ -507,3 +517,57 @@ textarea { min-height: 160px; resize: vertical; }
 .detail-insights-link li a{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:12px}
 .detail-insights-link li a:hover{color:var(--lime-dark,#7a9a00)}
 .detail-insights-link li a svg{width:14px;height:14px;flex-shrink:0}
+
+/* Recognition stats row (Task 5) */
+.stats-row{background:var(--navy)}
+.stats-row .public-container{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #3a5360}
+.stats-item{padding:44px 36px;border-right:1px solid #3a5360}
+.stats-item:last-child{border-right:0}
+.stats-n{display:block;font-size:clamp(40px,5vw,62px);font-weight:700;letter-spacing:-.04em;color:var(--lime);line-height:1;margin-bottom:12px}
+.stats-item strong{display:block;font-size:14px;font-weight:700;color:#edf2ef;margin-bottom:8px;line-height:1.3}
+.stats-item p{font-size:14px;color:#8fa8b4;line-height:1.5;margin:0}
+@media(max-width:900px){.stats-row .public-container{grid-template-columns:1fr 1fr}.stats-item:nth-child(2){border-right:0}.stats-item:nth-child(3){border-top:1px solid #3a5360;border-right:0;grid-column:1/-1}}
+@media(max-width:600px){.stats-row .public-container{grid-template-columns:1fr}.stats-item{border-right:0;border-top:1px solid #3a5360}}
+
+/* Diagnostic tools strip (Task 13) */
+.tools-strip{padding:80px 0;background:#e7ebe4}
+.tools-strip .section-heading{margin-bottom:36px}
+.tools-strip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.tool-strip-item{padding:24px 28px;background:var(--panel,#fffef9)}
+.tool-strip-item strong{display:block;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.tool-strip-item p{font-size:14px;color:var(--muted);line-height:1.55;margin:0 0 14px}
+.tool-strip-item a{font-size:13px;font-weight:800;color:var(--link);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.tool-strip-item a:hover{text-decoration:underline}
+.tool-strip-item a svg{width:13px;height:13px}
+@media(max-width:900px){.tools-strip-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.tools-strip-grid{grid-template-columns:1fr}}
+
+/* Insights editorial index (Task 9) */
+.insights-editorial{padding-top:80px;padding-bottom:100px}
+.insight-entry{display:grid;grid-template-columns:56px 1fr;gap:28px;padding:48px 0;border-top:1px solid var(--line);align-items:start}
+.insight-entry>span{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--muted);padding-top:8px;font-family:var(--font-mono)}
+.insight-entry-tags{display:flex;flex-wrap:wrap;gap:6px 18px;margin-bottom:14px}
+.insight-entry-tags span{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.insight-entry h2{font-size:clamp(26px,3.5vw,40px);line-height:1.08;letter-spacing:-.03em;margin:0 0 16px}
+.insight-entry h2 a{color:var(--ink);text-decoration:none}
+.insight-entry h2 a:hover{color:var(--link)}
+.insight-entry-finding{font-size:16px;font-weight:600;color:var(--ink);line-height:1.45;margin:0 0 12px;max-width:680px;padding-left:16px;border-left:3px solid var(--lime)}
+.insight-entry p:not(.insight-entry-finding){font-size:16px;color:var(--muted);line-height:1.6;margin:0 0 20px;max-width:640px}
+.insight-entry-read{font-size:14px;font-weight:800;color:var(--link);display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.insight-entry-read svg{width:14px;height:14px}
+@media(max-width:600px){.insight-entry{grid-template-columns:40px 1fr;gap:16px;padding:32px 0}}
+
+/* Article service CTA (Task 10) */
+.article-service-cta{border-top:4px solid var(--lime);padding:48px 0 80px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;width:min(800px,calc(100% - 48px));margin:0 auto}
+.article-service-cta>.kicker{display:none}
+.article-service-cta>div .kicker{display:block}
+.article-service-cta h3{font-size:clamp(24px,3.5vw,34px);line-height:1.1;letter-spacing:-.025em;margin:0 0 10px}
+.article-service-cta>div>p{font-size:15px;color:var(--muted);margin:0}
+@media(max-width:700px){.article-service-cta{grid-template-columns:1fr;gap:24px}}
+
+/* Who We Are: methodological decision TODO (Task 6) */
+.about-method-todo{border-top:1px solid var(--line)}
+.about-method-todo>div{padding:70px 0}
+.todo-marker{color:#9b5a00!important;background:#fff3cd;padding:4px 10px;display:inline-block;border-radius:2px}
+.about-todo-body{font-size:17px;color:var(--muted);max-width:640px;margin:16px 0 0}
+.about-todo-fields{font-size:14px;color:var(--muted);margin-top:20px;padding:14px 18px;background:var(--paper-2,#e8ebe3);border-left:3px solid #c0972a}

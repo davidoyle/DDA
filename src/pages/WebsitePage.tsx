@@ -255,6 +255,20 @@ function AnalysisModule({page}:{page:PublicPage}){
   return render?<>{render()}</>:<></>;
 }
 
+/* --- Static data --- */
+
+const recognitionStats=[
+  {n:'90 / 30',label:'workers required vs. available',note:'A specific commissioning trade at a fixed project date — not aggregate labour supply — controlled the schedule.'},
+  {n:'291',label:'housing units needed',note:'Historical delivery: 3.6 per year. Local builders could not meet the stated cost range. The delivery chain was never tested.'},
+  {n:'48',label:'model assumptions',note:'36 royalty-rate scenarios. Twelve documented FLAG defaults. Each assumption traceable to its fiscal consequence.'},
+];
+
+const diagnosticTools=[
+  {name:'WorkSafeBC Repricing Risk Diagnostic',href:'/tools/worksafe-repricing',desc:'Models repricing exposure versus sector and system benchmarks using published rate tables.'},
+  {name:'B.C. Energy Fiscal Decision Model',href:'/model',desc:'48 assumptions, 36 royalty-rate scenarios across four LNG projects. Executive, analyst, and audit views.'},
+  {name:'BC Decarbonization Model',href:'/tools/bc-decarbonization',desc:'Stress-tests emissions pathways against statutory targets. Sector-level feasibility gaps and dependency sequences.'},
+];
+
 /* --- Cross-link maps (Task 3) --- */
 
 const articleToService:Record<string,string>={
@@ -291,15 +305,10 @@ function HomeTemplate({doc}:{doc:Document}){
   const mandate=doc.sections.find(x=>x.title==='Already holding the mandate?')!;
   const contact=doc.sections.find(x=>x.title==='Show us what you are working on')!;
   return <>
+    {/* 1. Hero */}
     <PageHero doc={doc} kicker="Investigation · Evidence · Analysis" fullViewport={true}/>
-    <section className="method-rail" aria-labelledby="capabilities-heading">
-      <div className="public-container">
-        <h2 id="capabilities-heading">What the work does</h2>
-        {capabilities.map(([title,description],i)=><div key={title}>
-          <span>0{i+1}</span><strong>{title}</strong><p>{description}</p>
-        </div>)}
-      </div>
-    </section>
+
+    {/* 2. Proof — what the work produces */}
     <section className="work-outputs-section public-container">
       <div className="section-heading"><p className="kicker">What the work produces</p><h2>Analytical instruments that live in the decision</h2></div>
       <div className="work-outputs-grid">
@@ -308,6 +317,19 @@ function HomeTemplate({doc}:{doc:Document}){
         </div>)}
       </div>
     </section>
+
+    {/* 3. Recognition — specific evidence figures */}
+    <div className="stats-row" aria-label="Evidence figures">
+      <div className="public-container">
+        {recognitionStats.map(s=><div className="stats-item" key={s.n}>
+          <span className="stats-n">{s.n}</span>
+          <strong>{s.label}</strong>
+          <p>{s.note}</p>
+        </div>)}
+      </div>
+    </div>
+
+    {/* 4. Investigation — insights with analytical context */}
     <section className="editorial-section public-container">
       <div className="section-heading"><p className="kicker">Inside the evidence</p><h2>{insights.title}</h2></div>
       <div className="insight-layout">
@@ -316,15 +338,32 @@ function HomeTemplate({doc}:{doc:Document}){
         </article>)}
       </div>
     </section>
+
+    {/* 5. How DDA joins a mandate */}
     <section className="work-home">
       <div className="public-container">
         <div className="section-heading"><p className="kicker">For consulting teams</p><h2>{mandate.title}</h2></div>
         <div className="mandate-copy"><Blocks blocks={mandate.blocks}/></div>
       </div>
     </section>
+
+    {/* Diagnostic tools in public use */}
+    <section className="tools-strip">
+      <div className="public-container">
+        <div className="section-heading"><p className="kicker">Open tools</p><h2>Analytical models available now</h2></div>
+        <div className="tools-strip-grid">
+          {diagnosticTools.map(({name,href,desc})=><div className="tool-strip-item" key={href}>
+            <strong>{name}</strong><p>{desc}</p>
+            <Link to={href}>Open tool <ArrowRight/></Link>
+          </div>)}
+        </div>
+      </div>
+    </section>
+
+    {/* 6. One primary CTA */}
     <section className="home-close public-container">
       <div><p className="kicker">Talk to DDA</p><h2>{contact.title}</h2><Blocks blocks={contact.blocks}/></div>
-      <Link className="button-primary" to="/contact/">Talk to DDA <ArrowRight/></Link>
+      <Link className="button-primary" to="/contact/">Show us what you are working on <ArrowRight/></Link>
     </section>
   </>
 }
@@ -394,30 +433,27 @@ function DetailTemplate({doc,page}:{doc:Document;page:PublicPage}){
         </section>}
       </main>
     </div>
-    <ContactBand/>
   </>
 }
 
 function InsightsHubTemplate({doc}:{doc:Document}){
-  const featured=doc.sections.find(x=>x.title==='Featured')!;
-  const more=doc.sections.find(x=>x.title.includes('More'))!;
+  const articles=pageManifest.filter(p=>p.type==='article');
   return <>
     <PageHero doc={doc} kicker="Insights" actions={false}/>
-    <main className="public-container insights-hub">
-      <section className="featured-insight">
-        {featured.subsections.map(s=><article key={s.title}>
-          <p className="kicker">Featured perspective</p><h2>{s.title}</h2><Blocks blocks={s.blocks}/>
-        </article>)}
-      </section>
-      <section className="supporting-insights">
-        {more.subsections.map(s=><article key={s.title}>
-          <p className="kicker">Perspective</p><h2>{s.title}</h2><Blocks blocks={s.blocks}/>
-        </article>)}
-      </section>
-      {doc.sections.slice(1).filter(x=>x!==featured&&x!==more).map(s=><section className="standard-section" key={s.title}>
-        <h2>{s.title}</h2><Blocks blocks={s.blocks}/>
-        {s.subsections.map(x=><div key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></div>)}
-      </section>)}
+    <main className="public-container insights-editorial">
+      {articles.map((a,i)=><article className="insight-entry" key={a.route}>
+        <span>{String(i+1).padStart(2,'0')}</span>
+        <div className="insight-entry-body">
+          <div className="insight-entry-tags">
+            {a.topics.map(t=><span key={t}>{t}</span>)}
+            {a.readTime&&<span>{a.readTime}</span>}
+          </div>
+          <h2><Link to={a.route}>{a.title}</Link></h2>
+          {a.finding&&<p className="insight-entry-finding">{a.finding}</p>}
+          <p>{a.description}</p>
+          <Link className="insight-entry-read" to={a.route}>Read <ArrowRight/></Link>
+        </div>
+      </article>)}
     </main>
     <ContactBand/>
   </>
@@ -476,7 +512,17 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
         </div>}
       </aside>
     </div>
-    <ContactBand/>
+    {relatedService
+      ?<div className="article-service-cta public-container">
+          <div>
+            <p className="kicker">See this in practice</p>
+            <h3>{relatedService.navTitle}</h3>
+            <p>{relatedService.description}</p>
+          </div>
+          <Link className="button-primary" to={relatedService.route}>Explore this capability <ArrowRight/></Link>
+        </div>
+      :<ContactBand/>
+    }
   </>
 }
 
@@ -493,6 +539,15 @@ function AboutTemplate({doc}:{doc:Document}){
           {s.subsections.map(x=><article key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></article>)}
         </div>}
       </section>)}
+      <section className="about-method-todo">
+        <span>05</span>
+        <div>
+          <p className="kicker todo-marker">Development placeholder — owner approval required</p>
+          <h2>One decision the work turns on</h2>
+          <p className="about-todo-body">Add one specific methodological decision: a choice made in this practice that would surprise a peer, a constraint taken seriously that others ignore, or a point where the evidence forced a different answer. One paragraph. No generalities.</p>
+          <p className="about-todo-fields"><strong>Required fields:</strong> the specific decision · what it replaced · why it changed the result</p>
+        </div>
+      </section>
     </main>
     <ContactBand/>
   </>
