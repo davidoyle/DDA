@@ -33,7 +33,7 @@
     "title": "Fiscal impact and growth modelling",
     "navTitle": "Fiscal impact and growth modelling",
     "type": "capability-detail",
-    "description": "Connect growth, land, infrastructure, cost and public revenue under explicit assumptions.",
+    "description": "Connect growth, land, infrastructure, costs, revenues, and timing to show which assumptions and thresholds change fiscal decisions.",
     "topics": [
       "fiscal",
       "growth",
@@ -61,7 +61,7 @@
     "title": "Economic development strategy",
     "navTitle": "Economic development strategy",
     "type": "capability-detail",
-    "description": "Build executable regional strategy around readiness, control, dependencies and timing.",
+    "description": "Test economic opportunities through evidence, delivery conditions, public-action logic, system response, and regional consequence.",
     "topics": [
       "economic development",
       "regional strategy"
