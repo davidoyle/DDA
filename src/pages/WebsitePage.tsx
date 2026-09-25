@@ -287,10 +287,10 @@ const serviceToArticles:Record<string,string[]>={
 /* --- Page templates --- */
 
 const workOutputs=[
-  {label:'Fiscal decision model',detail:'48 assumptions, 36 royalty-rate scenarios, Monte Carlo analysis across four LNG projects. Thirty-six assumptions ACTUAL; twelve documented FLAG defaults.'},
-  {label:'Evidence register',detail:'243 rows separating sourced facts, derived values, and structural gaps — built to support a constraint-sequenced regional economic development strategy.'},
-  {label:'Policy impact assessment',detail:'586-paragraph assessment of revenue, cascade effects, and firm-level absorption from a provincial tax expansion analysis.'},
-  {label:'Data Lexicon',detail:'37 entries establishing common definitions and transparent derivations before land demand, servicing, absorption, and workforce-housing constraints were modelled.'},
+  {label:'Decision models',detail:'Fiscal, economic, workforce, land, and project models that connect assumptions to consequences and allow scenarios to be tested.'},
+  {label:'Evidence registers',detail:'Structured evidence bases that separate sourced facts, derived values, assumptions, and unresolved gaps, with source and reasoning kept traceable.'},
+  {label:'Impact assessments',detail:'Analysis that follows a policy, investment, or project change through the firms, institutions, places, revenues, costs, and dependencies it affects.'},
+  {label:'Data and decision architecture',detail:'Common definitions, transparent derivations, linked datasets, maps, and analytical structures that give a team a reliable basis for subsequent work.'},
 ];
 
 function HomeTemplate({doc}:{doc:Document}){
@@ -303,7 +303,7 @@ function HomeTemplate({doc}:{doc:Document}){
 
     {/* 2. Proof — what the work produces */}
     <section className="work-outputs-section public-container">
-      <div className="section-heading"><p className="kicker">What the work produces</p><h2>Analytical instruments that live in the decision</h2></div>
+      <div className="section-heading"><p className="kicker">What the work produces</p><h2>Analysis built to be used</h2><p className="section-intro">The final product depends on the problem. DDA builds the model, evidence base, assessment, map, or decision tool needed to make the underlying issue visible and usable.</p></div>
       <div className="work-outputs-grid">
         {workOutputs.map(({label,detail})=><div className="work-output-item" key={label}>
           <strong>{label}</strong><p>{detail}</p>

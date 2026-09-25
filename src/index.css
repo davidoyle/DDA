@@ -498,6 +498,7 @@ textarea { min-height: 160px; resize: vertical; }
 
 /* Work outputs (Task 2) */
 .work-outputs-section{padding-top:80px;padding-bottom:80px}
+.work-outputs-section .section-intro{margin-top:12px;max-width:640px;font-size:17px;line-height:1.7;color:var(--text-secondary)}
 .work-outputs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:40px}
 .work-output-item{padding:24px;background:var(--paper-mid,#f0ede6);border-radius:2px}
 .work-output-item strong{display:block;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
