@@ -257,15 +257,9 @@ function AnalysisModule({page}:{page:PublicPage}){
 
 /* --- Static data --- */
 
-const recognitionStats=[
-  {n:'90 / 30',label:'workers required vs. available',note:'A specific commissioning trade at a fixed project date — not aggregate labour supply — controlled the schedule.'},
-  {n:'291',label:'housing units needed',note:'Historical delivery: 3.6 per year. Local builders could not meet the stated cost range. The delivery chain was never tested.'},
-  {n:'48',label:'model assumptions',note:'36 royalty-rate scenarios. Twelve documented FLAG defaults. Each assumption traceable to its fiscal consequence.'},
-];
-
 const diagnosticTools=[
   {name:'WorkSafeBC Repricing Risk Diagnostic',href:'/tools/worksafe-repricing',desc:'Models repricing exposure versus sector and system benchmarks using published rate tables.'},
-  {name:'B.C. Energy Fiscal Decision Model',href:'/model',desc:'48 assumptions, 36 royalty-rate scenarios across four LNG projects. Executive, analyst, and audit views.'},
+  {name:'B.C. Energy Fiscal Decision Model',href:'/model',desc:'Tests royalty and fiscal scenarios for B.C. LNG against a sourced assumption register. Executive, analyst, and audit views.'},
   {name:'BC Decarbonization Model',href:'/tools/bc-decarbonization',desc:'Stress-tests emissions pathways against statutory targets. Sector-level feasibility gaps and dependency sequences.'},
 ];
 
@@ -293,54 +287,40 @@ const workOutputs=[
   {label:'Data and decision architecture',detail:'Common definitions, transparent derivations, linked datasets, maps, and analytical structures that give a team a reliable basis for subsequent work.'},
 ];
 
+const leadFigures:Record<string,{n:string;label:string}>={
+  'The trade gap hidden inside a workforce number':{n:'90 / 30',label:'Workers required at commissioning in one trade, against workers available'},
+};
+
 function HomeTemplate({doc}:{doc:Document}){
   const insights=doc.sections.find(x=>x.title==='Evidence of how DDA thinks')!;
   const mandate=doc.sections.find(x=>x.title==='Already holding the mandate?')!;
   const contact=doc.sections.find(x=>x.title==='Show us what you are working on')!;
   return <>
-    {/* 1. Hero */}
     <PageHero doc={doc} kicker="Investigation · Evidence · Analysis" fullViewport={true}/>
 
-    {/* 2. Proof — what the work produces */}
-    <section className="work-outputs-section public-container">
-      <div className="section-heading"><p className="kicker">What the work produces</p><h2>Analysis built to be used</h2><p className="section-intro">The final product depends on the problem. DDA builds the model, evidence base, assessment, map, or decision tool needed to make the underlying issue visible and usable.</p></div>
+    <section className="work-outputs-section public-container" aria-labelledby="work-outputs-heading">
+      <div className="section-heading">
+        <h2 id="work-outputs-heading">What the work produces</h2>
+        <p className="section-subhead">Analysis built to be used</p>
+        <p className="section-intro">The final product depends on the problem. DDA builds the model, evidence base, assessment, map, or decision tool needed to make the underlying issue visible and usable.</p>
+      </div>
       <div className="work-outputs-grid">
-        {workOutputs.map(({label,detail})=><div className="work-output-item" key={label}>
-          <strong>{label}</strong><p>{detail}</p>
-        </div>)}
+        {workOutputs.map(({label,detail})=><article className="work-output-item" key={label}>
+          <h3>{label}</h3><p>{detail}</p>
+        </article>)}
       </div>
     </section>
 
-    {/* 3. Recognition — specific evidence figures */}
-    <div className="stats-row" aria-label="Evidence figures">
-      <div className="public-container">
-        {recognitionStats.map(s=><div className="stats-item" key={s.n}>
-          <span className="stats-n">{s.n}</span>
-          <strong>{s.label}</strong>
-          <p>{s.note}</p>
-        </div>)}
-      </div>
-    </div>
-
-    {/* 4. Investigation — insights with analytical context */}
     <section className="editorial-section public-container">
       <div className="section-heading"><p className="kicker">Inside the evidence</p><h2>{insights.title}</h2></div>
       <div className="insight-layout">
         {insights.subsections.map((section,i)=><article className={i===0?'insight-lead':'insight-card'} key={section.title}>
+          {i===0&&leadFigures[section.title]&&<p className="lead-figure"><b>{leadFigures[section.title].n}</b><span>{leadFigures[section.title].label}</span></p>}
           <span>0{i+1} / Insight</span><h3>{section.title}</h3><Blocks blocks={section.blocks}/>
         </article>)}
       </div>
     </section>
 
-    {/* 5. How DDA joins a mandate */}
-    <section className="work-home">
-      <div className="public-container">
-        <div className="section-heading"><p className="kicker">For consulting teams</p><h2>{mandate.title}</h2></div>
-        <div className="mandate-copy"><Blocks blocks={mandate.blocks}/></div>
-      </div>
-    </section>
-
-    {/* Diagnostic tools in public use */}
     <section className="tools-strip">
       <div className="public-container">
         <div className="section-heading"><p className="kicker">Open tools</p><h2>Analytical models available now</h2></div>
@@ -353,10 +333,16 @@ function HomeTemplate({doc}:{doc:Document}){
       </div>
     </section>
 
-    {/* 6. One primary CTA */}
+    <section className="work-home">
+      <div className="public-container">
+        <div className="section-heading"><p className="kicker">For consulting teams</p><h2>{mandate.title}</h2></div>
+        <div className="mandate-copy"><Blocks blocks={mandate.blocks}/></div>
+      </div>
+    </section>
+
     <section className="home-close public-container">
       <div><p className="kicker">Talk to DDA</p><h2>{contact.title}</h2><Blocks blocks={contact.blocks}/></div>
-      <Link className="button-primary" to="/contact/">Show us what you are working on <ArrowRight/></Link>
+      <Link className="button-primary" to="/contact/">Talk to DDA <ArrowRight/></Link>
     </section>
   </>
 }

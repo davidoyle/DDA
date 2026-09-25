@@ -496,15 +496,23 @@ textarea { min-height: 160px; resize: vertical; }
 .key-finding p{font-size:17px;font-weight:600;color:var(--ink);line-height:1.45;margin:0}
 @media(max-width:700px){.key-finding{padding:16px 18px;margin:20px 0 24px}}
 
-/* Work outputs (Task 2) */
-.work-outputs-section{padding-top:80px;padding-bottom:80px}
-.work-outputs-section .section-intro{margin-top:12px;max-width:640px;font-size:17px;line-height:1.7;color:var(--text-secondary)}
-.work-outputs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:40px}
-.work-output-item{padding:24px;background:var(--paper-mid,#f0ede6);border-radius:2px}
-.work-output-item strong{display:block;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
-.work-output-item p{font-size:14px;line-height:1.55;color:var(--ink-mid,#4a5568);margin:0}
-@media(max-width:900px){.work-outputs-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.work-outputs-grid{grid-template-columns:1fr}}
+/* Homepage: what the work produces */
+.work-outputs-section{padding-top:96px;padding-bottom:96px}
+.work-outputs-section .section-heading>*{grid-column:2}
+.work-outputs-section .section-heading h2{margin:0}
+.section-subhead{font-size:21px!important;line-height:1.35!important;font-weight:600;color:var(--ink);margin:-24px 0 0}
+.work-outputs-section .section-intro{max-width:700px;color:var(--muted);margin:-24px 0 0}
+.work-outputs-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line)}
+.work-output-item{padding:32px 28px 36px 0;border-right:1px solid var(--line);margin-right:28px}
+.work-output-item:last-child{border-right:0;margin-right:0}
+.work-output-item h3{font-size:24px;line-height:1.15;letter-spacing:-.02em;margin:0 0 14px}
+.work-output-item p{font-size:16px!important;line-height:1.6;color:var(--muted);margin:0}
+@media(max-width:1000px){.work-outputs-grid{grid-template-columns:1fr 1fr}.work-output-item:nth-child(2n){border-right:0;margin-right:0}.work-output-item:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:700px){.work-outputs-section{padding-top:64px;padding-bottom:64px}.work-outputs-section .section-heading>*{grid-column:1}.section-subhead,.work-outputs-section .section-intro{margin-top:0}.work-outputs-grid{grid-template-columns:1fr}.work-output-item{border-right:0;margin-right:0;padding:26px 0}.work-output-item+.work-output-item{border-top:1px solid var(--line)}}
+
+.insight-lead .lead-figure{display:grid;gap:12px;margin:0 0 auto;padding-bottom:40px;color:var(--ink)!important}
+.lead-figure b{font-size:clamp(64px,8vw,112px);line-height:.9;letter-spacing:-.05em;font-weight:560}
+.lead-figure span{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);max-width:340px;line-height:1.5}
 
 /* Rail service link (Task 3) */
 .rail-service-link{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;padding:10px 0;border-bottom:1px solid var(--line)}
@@ -518,17 +526,6 @@ textarea { min-height: 160px; resize: vertical; }
 .detail-insights-link li a{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:12px}
 .detail-insights-link li a:hover{color:var(--lime-dark,#7a9a00)}
 .detail-insights-link li a svg{width:14px;height:14px;flex-shrink:0}
-
-/* Recognition stats row (Task 5) */
-.stats-row{background:var(--navy)}
-.stats-row .public-container{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #3a5360}
-.stats-item{padding:44px 36px;border-right:1px solid #3a5360}
-.stats-item:last-child{border-right:0}
-.stats-n{display:block;font-size:clamp(40px,5vw,62px);font-weight:700;letter-spacing:-.04em;color:var(--lime);line-height:1;margin-bottom:12px}
-.stats-item strong{display:block;font-size:14px;font-weight:700;color:#edf2ef;margin-bottom:8px;line-height:1.3}
-.stats-item p{font-size:14px;color:#8fa8b4;line-height:1.5;margin:0}
-@media(max-width:900px){.stats-row .public-container{grid-template-columns:1fr 1fr}.stats-item:nth-child(2){border-right:0}.stats-item:nth-child(3){border-top:1px solid #3a5360;border-right:0;grid-column:1/-1}}
-@media(max-width:600px){.stats-row .public-container{grid-template-columns:1fr}.stats-item{border-right:0;border-top:1px solid #3a5360}}
 
 /* Diagnostic tools strip (Task 13) */
 .tools-strip{padding:80px 0;background:#e7ebe4}

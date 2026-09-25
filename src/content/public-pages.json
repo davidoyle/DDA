@@ -158,8 +158,8 @@
       "Planning and place",
       "housing"
     ],
-    "readTime": "7 minute read",
-    "finding": "The stated need was 291 units over twenty years. Historical delivery was 3.6 units per year. A 2024 duplex procurement found that local builders could not deliver at the stated $300,000–$320,000 range."
+    "readTime": "5 minute read",
+    "finding": "A stated need of 291 units over twenty years sat against historical delivery of 3.6 units a year, and local builders could not build at the stated price."
   },
   {
     "id": "P13",
@@ -173,8 +173,8 @@
       "Labour and major projects",
       "workforce"
     ],
-    "readTime": "7 minute read",
-    "finding": "90 workers required at commissioning. 30 available. The binding constraint was a specific trade at a fixed date — not aggregate labour supply."
+    "readTime": "5 minute read",
+    "finding": "Commissioning required 90 workers in one trade and 30 were available. One trade at a fixed date was the binding constraint."
   },
   {
     "id": "P14",
@@ -188,7 +188,7 @@
       "Evidence"
     ],
     "readTime": "4 minute read",
-    "finding": "A missing input matters only when the conclusion depends on it. ACTUAL, PROXY, and FLAG keep that distinction visible — and show which gap needs to be resolved before the analysis can hold."
+    "finding": "A missing input matters only when the conclusion depends on it. ACTUAL, PROXY, and FLAG keep that distinction visible and show which gap has to be resolved before the analysis can hold."
   },
   {
     "id": "P16",
