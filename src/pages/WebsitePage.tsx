@@ -1,14 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { ArrowRight, Check, CircleAlert } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { pageByRoute, pageManifest, pages, type PublicPage } from '@/content/siteContent';
+import { BASE_ASSUMPTIONS } from '@/lib/model/assumptions';
 
 const fileRoutes: Record<string,string>={
- '01-home.md':'/','02-what-we-do.md':'/what-we-do/','03-fiscal-impact-growth-modelling.md':'/what-we-do/fiscal-impact-growth-modelling/','04-official-community-plan-policy-analysis.md':'/what-we-do/official-community-plan-policy-analysis/','05-economic-development-strategy.md':'/what-we-do/economic-development-strategy/','06-labour-market-analysis.md':'/what-we-do/labour-market-analysis/','07-resource-sector-complex-planning-analysis.md':'/what-we-do/resource-sector-complex-planning-analysis/','08-long-range-financial-scenario-planning.md':'/what-we-do/long-range-financial-scenario-planning/','09-public-interest-research-evidence-packages.md':'/what-we-do/institutional-policy-analysis/','10-who-we-are.md':'/who-we-are/','11-insights.md':'/insights/','12-insight-housing-target-delivery.md':'/insights/when-a-housing-target-outruns-delivery/','13-insight-trade-gap-workforce-number.md':'/insights/the-trade-gap-hidden-inside-a-workforce-number/','14-insight-what-a-flag-tells-you.md':'/insights/when-an-unsupported-number-carries-the-answer/','16-contact.md':'/contact/','17-privacy.md':'/privacy/','18-legal.md':'/legal/','19-terms.md':'/terms/','20-accessibility.md':'/accessibility/'
+ '01-home.md':'/','02-what-we-do.md':'/what-we-do/','03-fiscal-impact-growth-modelling.md':'/what-we-do/fiscal-impact-growth-modelling/','05-economic-development-strategy.md':'/what-we-do/economic-development-strategy/','06-labour-market-analysis.md':'/what-we-do/labour-market-analysis/','07-resource-sector-complex-planning-analysis.md':'/what-we-do/resource-sector-complex-planning-analysis/','08-long-range-financial-scenario-planning.md':'/what-we-do/long-range-financial-scenario-planning/','09-public-interest-research-evidence-packages.md':'/what-we-do/institutional-policy-analysis/','10-who-we-are.md':'/who-we-are/','11-insights.md':'/insights/','12-insight-housing-target-delivery.md':'/insights/when-a-housing-target-outruns-delivery/','13-insight-trade-gap-workforce-number.md':'/insights/the-trade-gap-hidden-inside-a-workforce-number/','14-insight-what-a-flag-tells-you.md':'/insights/when-an-unsupported-number-carries-the-answer/','16-contact.md':'/contact/','17-privacy.md':'/privacy/','18-legal.md':'/legal/','19-terms.md':'/terms/','20-accessibility.md':'/accessibility/'
 };
 
-type Block={kind:'p'|'list'|'table';text?:string;items?:string[];rows?:string[][]};
+type Block={kind:'p'|'list'|'table'|'quote'|'figure';text?:string;items?:string[];rows?:string[][]};
 type Subsection={title:string;blocks:Block[]};
 type Section={title:string;blocks:Block[];subsections:Subsection[]};
 type Document={title:string;intro:Block[];sections:Section[]};
@@ -24,9 +25,12 @@ function parse(source:string):Document{
     if(line.startsWith('## ')){section={title:line.slice(3),blocks:[],subsections:[]};doc.sections.push(section);sub=undefined;i++;continue}
     if(line.startsWith('### ')){sub={title:line.slice(4),blocks:[]};section?.subsections.push(sub);i++;continue}
     if(line.startsWith('|')){const rows:string[][]=[];while(i<lines.length&&lines[i].trim().startsWith('|')){const row=lines[i].split('|').slice(1,-1).map(x=>x.trim());if(!/^[-: ]+$/.test(row.join('')))rows.push(row);i++}target().push({kind:'table',rows});continue}
+    const fig=line.match(/^\{\{figure:([\w-]+)\}\}$/);
+    if(fig){target().push({kind:'figure',text:fig[1]});i++;continue}
+    if(line.startsWith('> ')){let text=line.slice(2);i++;while(i<lines.length&&lines[i].trim().startsWith('> ')){text+=' '+lines[i].trim().slice(2);i++}target().push({kind:'quote',text});continue}
     if(line.startsWith('- ')){const items:string[]=[];while(i<lines.length&&lines[i].trim().startsWith('- ')){items.push(lines[i].trim().slice(2));i++}target().push({kind:'list',items});continue}
     let text=line;i++;
-    while(i<lines.length&&lines[i].trim()&&!/^(#{2,3}) |^- |^\|/.test(lines[i].trim())){text+=' '+lines[i].trim();i++}
+    while(i<lines.length&&lines[i].trim()&&!/^(#{2,3}) |^- |^\||^> |^\{\{figure:/.test(lines[i].trim())){text+=' '+lines[i].trim();i++}
     target().push({kind:'p',text})
   }
   return doc
@@ -48,9 +52,50 @@ function Rich({text}:{text:string}){
 function Blocks({blocks}:{blocks:Block[]}){
   return <>{blocks.map((b,i)=>
     b.kind==='p'?<p className={b.text?.startsWith('[Talk to')?'cta-text-link':undefined} key={i}><Rich text={b.text!}/></p>
+    :b.kind==='quote'?<blockquote key={i}><Rich text={b.text!}/></blockquote>
+    :b.kind==='figure'?<ArticleFigure key={i} id={b.text!}/>
     :b.kind==='list'?<ul key={i}>{b.items!.map(x=><li key={x}><Rich text={x}/></li>)}</ul>
     :<div className="public-table" role="region" aria-label="Evidence table" tabIndex={0} key={i}><table><thead><tr>{b.rows![0].map(x=><th scope="col" key={x}><Rich text={x}/></th>)}</tr></thead><tbody>{b.rows!.slice(1).map((row,r)=><tr key={r}>{row.map((x,c)=>c===0?<th scope="row" key={x}><Rich text={x}/></th>:<td key={x}><Rich text={x}/></td>)}</tr>)}</tbody></table></div>
   )}</>
+}
+
+function TargetVsBuiltFigure(){
+  const max=14.5;
+  const rows=[
+    {label:'Needed to meet the target',detail:'291 units over twenty years',value:14.5},
+    {label:'Built, 2009 to 2019',detail:'36 units',value:3.6},
+  ];
+  return <figure className="article-figure">
+    <div className="rate-chart" role="img" aria-label="Units a year: about 14.5 needed to meet the target, against 3.6 built a year from 2009 to 2019.">
+      <p className="rate-unit">Units a year</p>
+      {rows.map(r=><div className="rate-row" key={r.label}>
+        <div className="rate-label"><strong>{r.label}</strong><span>{r.detail}</span></div>
+        <div className="rate-track"><span className="rate-bar" style={{width:`${r.value/max*100}%`}} title={`${r.label}: ${r.value} units a year`}/><b>{r.value}</b></div>
+      </div>)}
+    </div>
+    <figcaption>The target rate against the built rate. Sources: RDKB Interim Housing Needs Report (February 2025); Village of Fruitvale land disposition RFP (2024).</figcaption>
+  </figure>
+}
+
+function DeliveryChainFigure(){
+  const links=['Households','Land','Policy','Servicing','Project economics','Finance','Builders','Approvals','Occupancy'];
+  const flagged='Project economics';
+  return <figure className="article-figure">
+    <ol className="chain-figure" aria-label="Housing delivery chain">
+      {links.map((l,i)=><li key={l} className={l===flagged?'chain-link chain-link-flagged':'chain-link'}>
+        <span className="chain-index">{String(i+1).padStart(2,'0')}</span>
+        <strong>{l}</strong>
+        {l===flagged&&<small>2020 builder statement: new homes not deliverable at $300,000 to $320,000. Named causes: infrastructure costs and development charges.</small>}
+      </li>)}
+    </ol>
+    <figcaption>The delivery chain, with the link the 2020 builder statement points to. Source: CitySpaces Consulting for the Village of Fruitvale (January 2020), p. 10.</figcaption>
+  </figure>
+}
+
+function ArticleFigure({id}:{id:string}){
+  if(id==='target-vs-built')return <TargetVsBuiltFigure/>;
+  if(id==='delivery-chain')return <DeliveryChainFigure/>;
+  return null;
 }
 
 function Breadcrumbs({page}:{page:PublicPage}){
@@ -62,11 +107,13 @@ function Breadcrumbs({page}:{page:PublicPage}){
   </nav>
 }
 
-function PageHero({doc,kicker,actions=true,showSummary=true,fullViewport=false}:{doc:Document;kicker:string;actions?:boolean;showSummary?:boolean;fullViewport?:boolean}){
+function PageHero({doc,kicker,actions=true,showSummary=true,fullViewport=false,aside,image}:{doc:Document;kicker?:string;actions?:boolean;showSummary?:boolean;fullViewport?:boolean;aside?:ReactNode;image?:string}){
   const opening=doc.intro.length?doc.intro:doc.sections[0]?.blocks??[];
-  return <header className={fullViewport?'page-hero page-hero-full':'page-hero'}>
+  return <header className={[fullViewport?'page-hero page-hero-full':'page-hero',aside?'page-hero-aside':'',image?'page-hero-image':''].filter(Boolean).join(' ')}>
+    {image&&<img className="hero-bg" src={image} alt="" aria-hidden="true" fetchPriority="high" decoding="async"/>}
+    {aside&&<div className="public-container hero-aside">{aside}</div>}
     <div className="public-container">
-      <p className="kicker">{kicker}</p>
+      {kicker&&<p className="kicker">{kicker}</p>}
       <h1>{doc.title}</h1>
       {!doc.intro.length&&doc.sections[0]&&<h2 className="hero-dek">{doc.sections[0].title}</h2>}
       {showSummary&&<div className="hero-summary"><Blocks blocks={opening}/></div>}
@@ -85,167 +132,100 @@ function ContactBand(){
   </section>
 }
 
-/* --- Per-service evidence modules --- */
+/* --- Per-service evidence modules: populated only from repository sources --- */
 
-function FiscalModule(){
-  const steps=[
-    ['01','Population','Projection baseline'],
-    ['02','Housing','Type and timing'],
-    ['03','Infrastructure','Servicing requirements'],
-    ['04','Cost','Capital and operating'],
-    ['05','Revenue','Taxes and levies'],
-    ['06','Scenario','Assumption sensitivity'],
-  ];
-  return <figure className="analysis-module analysis-p03">
-    <figcaption><span>Decision instrument</span><strong>Scenario architecture</strong></figcaption>
-    <div className="fiscal-chain">
-      {steps.map(([n,label,sub],i)=><div key={label} className="fiscal-step">
-        <div className="fiscal-step-body">
-          <span>{n}</span><b>{label}</b><small>{sub}</small>
-        </div>
-        {i<steps.length-1&&<ArrowRight aria-hidden="true" className="fiscal-arrow"/>}
-      </div>)}
-    </div>
-    <p><Check aria-hidden="true"/> Each assumption is traceable to its fiscal consequence.</p>
+type Status='actual'|'proxy'|'flag';
+
+function StatusTag({status}:{status:Status}){
+  return <span className={`status-label status-${status}`}>{status.toUpperCase()}</span>
+}
+
+function EvidenceModule({title,source,children}:{title:string;source:ReactNode;children:ReactNode}){
+  return <figure className="analysis-module">
+    <figcaption><span>Evidence module</span><strong>{title}</strong></figcaption>
+    {children}
+    <p className="module-source">{source}</p>
   </figure>
 }
 
-function OcpModule(){
-  const rows:[string,'actual'|'proxy'|'flag'][]=[
-    ['Land capacity','actual'],
-    ['Servicing alignment','proxy'],
-    ['Approval mechanism','actual'],
-    ['Development phasing','proxy'],
-    ['Bill 44 compliance','flag'],
-  ];
-  const labels:{actual:string;proxy:string;flag:string}={actual:'Supported',proxy:'Partial',flag:'Gap'};
-  return <figure className="analysis-module analysis-p04">
-    <figcaption><span>Decision instrument</span><strong>Policy-to-delivery trace</strong></figcaption>
-    <div className="ocp-table">
-      <div className="ocp-head"><span>Plan element</span><span>Evidence status</span></div>
-      {rows.map(([el,status])=><div key={el} className="ocp-row">
-        <span>{el}</span>
-        <span className={`status-label status-${status}`}>{labels[status]}</span>
-      </div>)}
-    </div>
-    <p><Check aria-hidden="true"/> Every plan element is tested against the evidence supporting it.</p>
-  </figure>
-}
+type RegisterRow={cells:ReactNode[];status?:Status};
 
-function EconDevModule(){
-  const conditions=['Locally owned','Infrastructure-ready','Labour-accessible','Sequenced'];
-  const opportunities:[string,boolean[]][]=[
-    ['Local opportunity',   [true,  true,  false, true ]],
-    ['Export-linked sector',[true,  false, true,  false]],
-    ['Service expansion',   [false, true,  true,  true ]],
-    ['Tech transfer',       [true,  true,  false, false]],
-  ];
-  return <figure className="analysis-module analysis-p05">
-    <figcaption><span>Decision instrument</span><strong>Opportunity screen</strong></figcaption>
-    <div className="constraint-matrix">
-      <div className="matrix-head">
-        <span></span>
-        {conditions.map(c=><span key={c}>{c}</span>)}
-      </div>
-      {opportunities.map(([opp,cells])=><div key={opp} className="matrix-row">
-        <span className="matrix-opp">{opp}</span>
-        {cells.map((pass,j)=><span key={j} className={pass?'matrix-pass':'matrix-gap'}>{pass?'✓':'—'}</span>)}
-      </div>)}
-    </div>
-    <p><Check aria-hidden="true"/> Each opportunity is tested against the conditions that constrain it.</p>
-  </figure>
+function Register({label,columns,rows,compare=false}:{label:string;columns:string[];rows:RegisterRow[];compare?:boolean}){
+  return <div className={compare?'module-register module-register-compare':'module-register'} role="region" aria-label={label} tabIndex={0}>
+    <table>
+      <thead><tr>{columns.map(c=><th scope="col" key={c}>{c}</th>)}<th scope="col">Status</th></tr></thead>
+      <tbody>{rows.map((row,r)=><tr key={r} className={row.status?`row-${row.status}`:undefined}>
+        {row.cells.map((cell,c)=>c===0
+          ?<th scope="row" key={c} data-label={columns[c]}>{cell}</th>
+          :<td key={c} data-label={columns[c]}>{cell}</td>)}
+        <td data-label="Status">{row.status?<StatusTag status={row.status}/>:<span className="status-none">Not established</span>}</td>
+      </tr>)}</tbody>
+    </table>
+  </div>
 }
 
 function LabourModule(){
-  const steps=[
-    {n:'4,200',label:'Total workforce',note:'Regional supply'},
-    {n:'1,840',label:'Qualified',note:'Cert. and experience'},
-    {n:'890', label:'Geographically mobile',note:'Available to relocate'},
-    {n:'340', label:'Available in window',note:'Project timing match'},
-    {n:'210', label:'Usable supply',note:'Binding constraint'},
+  const filters=[
+    ['Headline requirement','The workforce total in the plan'],
+    ['Occupation','Work no other trade can cover'],
+    ['Qualification','Certified and deployable'],
+    ['Place','Able to reach and stay at the project'],
+    ['Timing','Available in the commissioning window'],
+    ['Competition','Not drawn off by concurrent projects'],
   ];
-  const widths=[100,80,65,50,38];
-  return <figure className="analysis-module analysis-p06">
-    <figcaption><span>Decision instrument</span><strong>Usable-supply decomposition</strong></figcaption>
-    <div className="labour-funnel">
-      {steps.map((s,i)=><div key={s.label} className={`funnel-step${i===steps.length-1?' funnel-binding':''}`} style={{width:`${widths[i]}%`}}>
-        <span className="funnel-n">{s.n}</span>
-        <div><b>{s.label}</b><small>{s.note}</small></div>
-      </div>)}
-    </div>
-    <p><Check aria-hidden="true"/> Supply shrinks at each filter — the binding constraint is where it stops.</p>
-  </figure>
+  return <EvidenceModule title="Usable-supply decomposition" source={<>Resource-project workforce analysis, project anonymized. Method: <Link to="/insights/the-trade-gap-hidden-inside-a-workforce-number/">The trade gap hidden inside a workforce number</Link>.</>}>
+    <ol className="labour-funnel">
+      {filters.map(([label,note],i)=><li key={label} className="funnel-step" style={{width:`${100-i*8}%`}}>
+        <span className="funnel-index">{String(i+1).padStart(2,'0')}</span>
+        <div><b>{label}</b><small>{note}</small></div>
+      </li>)}
+      <li className="funnel-step funnel-binding" style={{width:'48%'}}>
+        <span className="funnel-n">30</span>
+        <div><b>Usable supply in the commissioning trade</b><small>Against 90 required</small></div>
+      </li>
+    </ol>
+  </EvidenceModule>
 }
 
 function ResourceModule(){
-  const gates:[string,'ok'|'proxy'|'flag',string][]=[
-    ['Labour',        'flag',   '90 required / 30 available'],
-    ['Infrastructure','proxy',  'Road access confirmed'],
-    ['Approvals',     'ok',     'EA certificate issued'],
-    ['Capital',       'proxy',  'FID milestone pending'],
-    ['Schedule',      'flag',   'Commissioning at risk'],
-    ['Community',     'ok',     'IBAs in place'],
-  ];
-  return <figure className="analysis-module analysis-p07">
-    <figcaption><span>Decision instrument</span><strong>Critical dependency map</strong></figcaption>
-    <div className="dependency-chain">
-      {gates.map(([label,status,detail])=><div key={label} className={`dep-gate dep-${status}`}>
-        <span className="dep-label">{label}</span>
-        <span className={`status-label status-${status}`}>{status==='ok'?'Ready':status==='proxy'?'Partial':'Gap'}</span>
-        <small>{detail}</small>
-      </div>)}
-    </div>
-    <p><Check aria-hidden="true"/> Each dependency is tested against whether it can clear before the fixed project date.</p>
-  </figure>
+  const gates=['Logistics and roads','Power','Regulation','Concurrent projects'];
+  return <EvidenceModule title="Gates against a fixed date" source="Resource-project workforce analysis and regional planning material, anonymized. Only the labour gate carries a status because it is the only gate the published analysis resolves.">
+    <ol className="dependency-chain">
+      <li className="dep-gate dep-flag"><span className="dep-label">Labour</span><StatusTag status="flag"/><small>90 required, 30 available in the commissioning trade</small></li>
+      {gates.map(g=><li className="dep-gate" key={g}><span className="dep-label">{g}</span><small>Mapped against the same window</small></li>)}
+      <li className="dep-gate dep-fixed"><span className="dep-label">Commissioning date</span><small>Fixed. Every gate is tested against it.</small></li>
+    </ol>
+  </EvidenceModule>
 }
 
 function ScenarioModule(){
-  const rows:[string,string,string,string,boolean][]=[
-    ['Royalty rate',   '4.5%',  '6.0%',  '3.0%',   false],
-    ['Project timeline','8 yr', '7 yr',  '11 yr',  false],
-    ['Revenue outcome','$4.2B', '$6.1B', '$2.8B',  false],
-    ['Capital exposure','$1.8B','$1.6B', '$2.4B',  false],
-    ['LNG price',      'FLAG',  'FLAG',  'FLAG',   true ],
-  ];
-  return <figure className="analysis-module analysis-p08">
-    <figcaption><span>Decision instrument</span><strong>Decision scenario register</strong></figcaption>
-    <div className="scenario-table">
-      <div className="scenario-head"><span>Assumption</span><span>Base</span><span>Optimistic</span><span>Stress</span></div>
-      {rows.map(([label,base,opt,stress,flag])=><div key={label} className={`scenario-row${flag?' scenario-flag-row':''}`}>
-        <span>{label}</span><span>{base}</span><span>{opt}</span><span>{stress}</span>
-      </div>)}
-    </div>
-    <p><Check aria-hidden="true"/> Flagged inputs are documented — the answer should not depend on them.</p>
-  </figure>
+  const a=BASE_ASSUMPTIONS;
+  const pct=(v:number|string)=>`${Math.round(Number(v)*100)}%`;
+  return <EvidenceModule title="Scenario register" source={<>DDA's B.C. Energy Fiscal Decision Model, public assumption register. <Link to="/model">Open the model</Link></>}>
+    <Register label="Scenario register" compare columns={['Assumption','Low','Base','High','Basis']} rows={[
+      {cells:['B.C. plant inlet price, C$/GJ',a['price.bcPlantInlet.low'].value,a['price.bcPlantInlet.base'].value,a['price.bcPlantInlet.high'].value,a['price.bcPlantInlet.base'].source],status:'actual'},
+      {cells:['Weighted average cost of capital','8%',pct(a['macro.wacc'].flagDefault),'12%',a['macro.wacc'].flagDefaultBasis],status:'flag'},
+      {cells:['JKM LNG price, US$/MMBtu','',Number(a['price.jkm.base'].flagDefault).toFixed(2),'',a['price.jkm.base'].flagDefaultBasis],status:'flag'},
+      {cells:['CCA rate, LNG facility','',pct(a['tax.ccaLNGFacility'].flagDefault),'',a['tax.ccaLNGFacility'].flagDefaultBasis],status:'flag'},
+    ]}/>
+  </EvidenceModule>
 }
 
 function InstitutionalModule(){
-  const rows:[string,string,'actual'|'proxy'|'flag',string][]=[
-    ['Hansard, 2023-11-14','Minister: 500 units delivered by Q4','flag','Target not traceable to project schedule'],
-    ['Budget estimates 2024','$42M allocated to housing program','actual','Appropriation confirmed, disbursement unknown'],
-    ['Ministerial Q1 update','On track per internal metrics','proxy','Metrics not publicly defined'],
-    ['Legislation s.17(4)','Reporting obligation applies','actual','No public disclosure found'],
-  ];
-  return <figure className="analysis-module analysis-p09">
-    <figcaption><span>Decision instrument</span><strong>Claim-and-source register</strong></figcaption>
-    <div className="evidence-register" role="region" aria-label="Evidence register" tabIndex={0}>
-      <div className="reg-head"><span>Source</span><span>Claim</span><span>Status</span><span>Consequence</span></div>
-      {rows.map(([source,claim,status,consequence],i)=><div key={i} className="reg-row">
-        <span className="reg-source">{source}</span>
-        <span>{claim}</span>
-        <span><span className={`status-label status-${status}`}>{status.toUpperCase()}</span></span>
-        <span className="reg-consequence">{consequence}</span>
-      </div>)}
-    </div>
-    <p><Check aria-hidden="true"/> Every claim is connected to its source, classification, and material consequence.</p>
-  </figure>
+  return <EvidenceModule title="Claim register" source={<>Worked example from <Link to="/insights/when-an-unsupported-number-carries-the-answer/">When an unsupported number carries the answer</Link>. Each FLAG is a condition the conclusion depends on and the count does not establish.</>}>
+    <p className="module-claim"><span>Claim tested</span>Apprenticeship registrations show that labour is available.</p>
+    <Register label="Claim register" columns={['Condition the claim depends on','What the evidence shows']} rows={[
+      {cells:['Registrations recorded','May be accurate. Measures entry to training, not available workers.'],status:'proxy'},
+      {cells:['Workers complete training','Not established by a registration count'],status:'flag'},
+      {cells:['Workers remain in the region','Not established by a registration count'],status:'flag'},
+      {cells:['Workers enter the required occupation','Not established by a registration count'],status:'flag'},
+      {cells:['Workers are available in the project window','Not established by a registration count'],status:'flag'},
+    ]}/>
+  </EvidenceModule>
 }
 
 function AnalysisModule({page}:{page:PublicPage}){
   const map:Record<string,()=>ReactNode>={
-    '/what-we-do/fiscal-impact-growth-modelling/':      ()=><FiscalModule/>,
-    '/what-we-do/official-community-plan-policy-analysis/': ()=><OcpModule/>,
-    '/what-we-do/economic-development-strategy/':       ()=><EconDevModule/>,
     '/what-we-do/labour-market-analysis/':              ()=><LabourModule/>,
     '/what-we-do/resource-sector-complex-planning-analysis/':()=><ResourceModule/>,
     '/what-we-do/long-range-financial-scenario-planning/':   ()=><ScenarioModule/>,
@@ -255,45 +235,96 @@ function AnalysisModule({page}:{page:PublicPage}){
   return render?<>{render()}</>:<></>;
 }
 
+/* --- Static data --- */
+
+const diagnosticTools=[
+  {name:'WorkSafeBC Repricing Risk Diagnostic',href:'/tools/worksafe-repricing',desc:'Models repricing exposure versus sector and system benchmarks using published rate tables.'},
+  {name:'B.C. Energy Fiscal Decision Model',href:'/model',desc:'Tests royalty and fiscal scenarios for B.C. LNG against a sourced assumption register. Executive, analyst, and audit views.'},
+  {name:'BC Decarbonization Model',href:'/tools/bc-decarbonization',desc:'Stress-tests emissions pathways against statutory targets. Sector-level feasibility gaps and dependency sequences.'},
+];
+
+/* --- Cross-link maps (Task 3) --- */
+
+const articleToService:Record<string,string>={
+  '/insights/when-a-housing-target-outruns-delivery/':           '/what-we-do/fiscal-impact-growth-modelling/',
+  '/insights/the-trade-gap-hidden-inside-a-workforce-number/':  '/what-we-do/labour-market-analysis/',
+  '/insights/when-an-unsupported-number-carries-the-answer/':   '/what-we-do/institutional-policy-analysis/',
+};
+
+const serviceToArticles:Record<string,string[]>={
+  '/what-we-do/fiscal-impact-growth-modelling/':             ['/insights/when-a-housing-target-outruns-delivery/'],
+  '/what-we-do/labour-market-analysis/':                     ['/insights/the-trade-gap-hidden-inside-a-workforce-number/'],
+  '/what-we-do/resource-sector-complex-planning-analysis/':  ['/insights/the-trade-gap-hidden-inside-a-workforce-number/'],
+  '/what-we-do/institutional-policy-analysis/':              ['/insights/when-an-unsupported-number-carries-the-answer/'],
+};
+
 /* --- Page templates --- */
 
-const capabilities=[
-  ['Learn the system','Trace the organizations, policy, infrastructure, labour, economics, and timing that belong to the problem.'],
-  ['Reconstruct the evidence','Connect fragmented sources, definitions, dates, datasets, and claims.'],
-  ['Test what matters','Find the constraint, gap, dependency, assumption, or exposure and establish what it changes.'],
-  ['Build the response','Produce the analysis or working asset the situation requires.'],
+const workOutputs=[
+  {label:'Decision models',detail:'Fiscal, economic, workforce, land, and project models that connect assumptions to consequences and allow scenarios to be tested.'},
+  {label:'Evidence registers',detail:'Structured evidence bases that separate sourced facts, derived values, assumptions, and unresolved gaps, with source and reasoning kept traceable.'},
+  {label:'Impact assessments',detail:'Analysis that follows a policy, investment, or project change through the firms, institutions, places, revenues, costs, and dependencies it affects.'},
+  {label:'Data and decision architecture',detail:'Common definitions, transparent derivations, linked datasets, maps, and analytical structures that give a team a reliable basis for subsequent work.'},
 ];
+
+const insightImages:Record<string,string>={
+  'When a housing target is larger than delivery':'/images/housing-target-delivery.webp',
+};
+
+const isLink=(prefix:string)=>(b:Block)=>b.kind==='p'&&!!b.text?.startsWith(prefix);
+const without=(blocks:Block[],prefix:string)=>blocks.filter(b=>!isLink(prefix)(b));
 
 function HomeTemplate({doc}:{doc:Document}){
   const insights=doc.sections.find(x=>x.title==='Evidence of how DDA thinks')!;
-  const mandate=doc.sections.find(x=>x.title==='Already holding the mandate?')!;
+  const mandate=doc.sections.find(x=>x.title==='Assignment underway, and one piece is stuck?')!;
   const contact=doc.sections.find(x=>x.title==='Show us what you are working on')!;
+  const allInsights=insights.subsections.flatMap(x=>x.blocks).find(isLink('[Explore all insights'));
   return <>
-    <PageHero doc={doc} kicker="Investigation · Evidence · Analysis" fullViewport={true}/>
-    <section className="method-rail" aria-labelledby="capabilities-heading">
-      <div className="public-container">
-        <h2 id="capabilities-heading">What the work does</h2>
-        {capabilities.map(([title,description],i)=><div key={title}>
-          <span>0{i+1}</span><strong>{title}</strong><p>{description}</p>
-        </div>)}
+    <PageHero doc={doc} fullViewport={true} image="/images/home-hero.webp"/>
+
+    <section className="home-section public-container" aria-labelledby="work-outputs-heading">
+      <div className="home-heading">
+        <h2 id="work-outputs-heading">What the work produces</h2>
+        <p className="home-subhead">Analysis built to be used</p>
+        <p className="home-intro">The final product depends on the problem. DDA builds the model, evidence base, assessment, map, or decision tool needed to make the underlying issue visible and usable.</p>
       </div>
-    </section>
-    <section className="editorial-section public-container">
-      <div className="section-heading"><p className="kicker">Inside the evidence</p><h2>{insights.title}</h2></div>
-      <div className="insight-layout">
-        {insights.subsections.map((section,i)=><article className={i===0?'insight-lead':'insight-card'} key={section.title}>
-          <span>0{i+1} / Insight</span><h3>{section.title}</h3><Blocks blocks={section.blocks}/>
+      <div className="work-outputs-grid">
+        {workOutputs.map(({label,detail})=><article className="work-output-item" key={label}>
+          <h3>{label}</h3><p>{detail}</p>
         </article>)}
       </div>
     </section>
-    <section className="work-home">
+
+    <section className="home-section public-container">
+      <div className="home-heading"><p className="kicker">Inside the evidence</p><h2>{insights.title}</h2></div>
+      <div className="insight-layout">
+        {insights.subsections.map((section,i)=><article className={[i===0?'insight-lead':'insight-card',insightImages[section.title]?'insight-media':''].join(' ').trim()} key={section.title}>
+          {insightImages[section.title]&&<img className="insight-media-img" src={insightImages[section.title]} alt="" aria-hidden="true" loading="lazy" decoding="async"/>}
+          <span>0{i+1} / Insight</span><h3>{section.title}</h3><Blocks blocks={without(section.blocks,'[Explore all insights')}/>
+        </article>)}
+      </div>
+      {allInsights&&<p className="home-section-link"><Rich text={allInsights.text!}/></p>}
+    </section>
+
+    <section className="home-section home-band">
       <div className="public-container">
-        <div className="section-heading"><p className="kicker">For consulting teams</p><h2>{mandate.title}</h2></div>
-        <div className="mandate-copy"><Blocks blocks={mandate.blocks}/></div>
+        <div className="home-heading"><p className="kicker">Open tools</p><h2>Analytical models available now</h2></div>
+        <div className="tools-strip-grid">
+          {diagnosticTools.map(({name,href,desc})=><div className="tool-strip-item" key={href}>
+            <strong>{name}</strong><p>{desc}</p>
+            <Link to={href}>Open tool <ArrowRight/></Link>
+          </div>)}
+        </div>
       </div>
     </section>
-    <section className="home-close public-container">
-      <div><p className="kicker">Talk to DDA</p><h2>{contact.title}</h2><Blocks blocks={contact.blocks}/></div>
+
+    <section className="home-section public-container">
+      <div className="home-heading"><p className="kicker">For consulting teams</p><h2>{mandate.title}</h2></div>
+      <div className="home-copy"><Blocks blocks={without(mandate.blocks,'[Talk to')}/></div>
+    </section>
+
+    <section className="home-section home-close public-container">
+      <div><p className="kicker">Talk to DDA</p><h2>{contact.title}</h2><Blocks blocks={without(contact.blocks,'[Talk to')}/></div>
       <Link className="button-primary" to="/contact/">Talk to DDA <ArrowRight/></Link>
     </section>
   </>
@@ -338,6 +369,7 @@ function DetailTemplate({doc,page}:{doc:Document;page:PublicPage}){
   const longForm=['/what-we-do/fiscal-impact-growth-modelling/','/what-we-do/economic-development-strategy/'].includes(page.route);
   const heroSection=longForm&&!doc.intro.length?doc.sections[0]:undefined;
   const sections=heroSection?doc.sections.slice(1):doc.intro.length?doc.sections:doc.sections.slice(1);
+  const relatedArticles=(serviceToArticles[page.route]??[]).map(route=>pageManifest.find(x=>x.route===route)).filter((p):p is PublicPage=>!!p);
   return <>
     <Breadcrumbs page={page}/>
     <PageHero doc={doc} kicker="What we do" actions={false} showSummary={!heroSection}/>
@@ -349,41 +381,52 @@ function DetailTemplate({doc,page}:{doc:Document;page:PublicPage}){
       </aside>
       <main>
         {sections.map((s,i)=>{
-          const showModule=i===3&&!longForm;
-          return <section id={sectionId(s.title)} className={showModule?'analysis-section':'detail-section'} key={s.title}>
-            <p className="section-number">{String(i+1).padStart(2,'0')}</p>
-            <h2>{s.title}</h2>
-            <Blocks blocks={s.blocks}/>
-            {s.subsections.map(x=><div className="detail-subsection" key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></div>)}
-            {showModule&&<AnalysisModule page={page}/>}
-          </section>
+          const showModule=i===1&&!longForm;
+          const last=i===sections.length-1;
+          return <Fragment key={s.title}>
+            {last&&relatedArticles.length>0&&<section className="detail-insights-link">
+              <p className="kicker">See this in practice</p>
+              <ul>{relatedArticles.map(p=><li key={p.route}><Link to={p.route}>{p.title} <ArrowRight/></Link></li>)}</ul>
+            </section>}
+            <section id={sectionId(s.title)} className={showModule?'analysis-section':'detail-section'}>
+              <p className="section-number">{String(i+1).padStart(2,'0')}</p>
+              <h2>{s.title}</h2>
+              <Blocks blocks={s.blocks}/>
+              {s.subsections.map(x=><div className="detail-subsection" key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></div>)}
+              {showModule&&<AnalysisModule page={page}/>}
+            </section>
+          </Fragment>
         })}
       </main>
     </div>
-    <ContactBand/>
   </>
 }
 
 function InsightsHubTemplate({doc}:{doc:Document}){
-  const featured=doc.sections.find(x=>x.title==='Featured')!;
-  const more=doc.sections.find(x=>x.title.includes('More'))!;
+  const [lead,...rest]=pageManifest.filter(p=>p.type==='article');
   return <>
     <PageHero doc={doc} kicker="Insights" actions={false}/>
-    <main className="public-container insights-hub">
-      <section className="featured-insight">
-        {featured.subsections.map(s=><article key={s.title}>
-          <p className="kicker">Featured perspective</p><h2>{s.title}</h2><Blocks blocks={s.blocks}/>
-        </article>)}
-      </section>
-      <section className="supporting-insights">
-        {more.subsections.map(s=><article key={s.title}>
-          <p className="kicker">Perspective</p><h2>{s.title}</h2><Blocks blocks={s.blocks}/>
-        </article>)}
-      </section>
-      {doc.sections.slice(1).filter(x=>x!==featured&&x!==more).map(s=><section className="standard-section" key={s.title}>
-        <h2>{s.title}</h2><Blocks blocks={s.blocks}/>
-        {s.subsections.map(x=><div key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></div>)}
-      </section>)}
+    <main className="public-container insights-editorial">
+      <article className="featured-insight insight-hub-lead">
+        <p className="kicker">{lead.topics.join(' · ')}{lead.readTime&&` · ${lead.readTime}`}</p>
+        <h2><Link to={lead.route}>{lead.title}</Link></h2>
+        {lead.finding&&<p className="insight-hub-finding">{lead.finding}</p>}
+        <p>{lead.description}</p>
+        <Link className="button-primary" to={lead.route}>Read the analysis <ArrowRight/></Link>
+      </article>
+      {rest.map((a,i)=><article className="insight-entry" key={a.route}>
+        <span>{String(i+2).padStart(2,'0')}</span>
+        <div className="insight-entry-body">
+          <div className="insight-entry-tags">
+            {a.topics.map(t=><span key={t}>{t}</span>)}
+            {a.readTime&&<span>{a.readTime}</span>}
+          </div>
+          <h2><Link to={a.route}>{a.title}</Link></h2>
+          {a.finding&&<p className="insight-entry-finding">{a.finding}</p>}
+          <p>{a.description}</p>
+          <Link className="insight-entry-read" to={a.route}>Read <ArrowRight/></Link>
+        </div>
+      </article>)}
     </main>
     <ContactBand/>
   </>
@@ -391,7 +434,12 @@ function InsightsHubTemplate({doc}:{doc:Document}){
 
 function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
   const intro=doc.intro.filter(block=>block.kind!=='p'||!block.text?.startsWith('**Perspective'));
+  const bylineAt=intro.findIndex(b=>b.kind==='p'&&!!b.text?.startsWith('**By '));
+  const byline=bylineAt>=0?intro[bylineAt]:undefined;
+  const dek=bylineAt===1?intro[0]:undefined;
+  const body=intro.filter(b=>b!==byline&&b!==dek);
   const related=pageManifest.filter(p=>p.type==='article'&&p.route!==page.route).slice(0,3);
+  const relatedService=articleToService[page.route]?pageManifest.find(p=>p.route===articleToService[page.route]):undefined;
   return <>
     <Breadcrumbs page={page}/>
     <div className="article-with-rail public-container">
@@ -401,7 +449,13 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
             <span>Perspective</span><span>{page.topics[0]}</span><span>{page.readTime}</span>
           </div>
           <h1>{doc.title}</h1>
-          <Blocks blocks={intro}/>
+          {dek&&<p className="article-dek">{dek.text}</p>}
+          {byline&&<p className="article-byline"><Rich text={byline.text!}/></p>}
+          {page.finding&&<div className="key-finding" role="note">
+            <span className="kicker">Key finding</span>
+            <p>{page.finding}</p>
+          </div>}
+          <Blocks blocks={body}/>
         </header>
         {doc.sections.map(s=><section key={s.title} className={s.blocks.some(x=>x.kind==='table')?'article-evidence':''}>
           <h2>{s.title}</h2>
@@ -425,6 +479,10 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
             <li><span className="status-label status-flag">FLAG</span> Material unresolved inputs</li>
           </ul>
         </div>
+        {relatedService&&<div className="rail-block">
+          <p className="kicker">Related service</p>
+          <Link className="rail-service-link" to={relatedService.route}>{relatedService.navTitle} <ArrowRight/></Link>
+        </div>}
         {related.length>0&&<div className="rail-block">
           <p className="kicker">Related</p>
           <ul className="rail-related">
@@ -433,23 +491,45 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
         </div>}
       </aside>
     </div>
-    <ContactBand/>
+    {relatedService
+      ?<div className="article-service-cta public-container">
+          <div>
+            <p className="kicker">See this in practice</p>
+            <h3>{relatedService.navTitle}</h3>
+            <p>{relatedService.description}</p>
+          </div>
+          <Link className="button-primary" to={relatedService.route}>Explore this capability <ArrowRight/></Link>
+        </div>
+      :<ContactBand/>
+    }
   </>
 }
 
 function AboutTemplate({doc}:{doc:Document}){
   const sections=doc.intro.length?doc.sections:doc.sections.slice(1);
   return <>
-    <PageHero doc={doc} kicker="Who we are" actions={false}/>
+    <PageHero doc={doc} kicker="Who we are" actions={false} aside={<figure className="principal-portrait">
+      <img src="/images/david-doyle.jpg" alt="David Doyle" width={800} height={800} fetchPriority="high"/>
+      <figcaption><strong>David Doyle</strong><span>Principal, DDA</span></figcaption>
+    </figure>}/>
     <main className="about-layout public-container">
-      {sections.map((s,i)=><section key={s.title} className={i===0?'about-lead':''}>
-        <span>0{i+1}</span>
+      {sections.map(s=><section key={s.title} className="about-section">
         <h2>{s.title}</h2>
-        <Blocks blocks={s.blocks}/>
-        {s.subsections.length>0&&<div className="method-grid">
-          {s.subsections.map(x=><article key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></article>)}
-        </div>}
+        <div className="about-body">
+          <Blocks blocks={without(s.blocks,'[Talk to')}/>
+          {s.subsections.length>0&&<div className="method-grid">
+            {s.subsections.map(x=><article key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></article>)}
+          </div>}
+        </div>
       </section>)}
+      {import.meta.env.DEV&&<section className="about-section about-method-todo">
+        <h2>One decision the work turns on</h2>
+        <div className="about-body">
+          <p className="kicker todo-marker">Development placeholder: owner approval required</p>
+          <p className="about-todo-body">Add one specific methodological decision: a choice made in this practice that would surprise a peer, a constraint taken seriously that others ignore, or a point where the evidence forced a different answer. One paragraph. No generalities.</p>
+          <p className="about-todo-fields"><strong>Required fields:</strong> the specific decision · what it replaced · why it changed the result</p>
+        </div>
+      </section>}
     </main>
     <ContactBand/>
   </>

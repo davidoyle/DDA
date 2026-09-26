@@ -41,20 +41,6 @@
     ]
   },
   {
-    "id": "P04",
-    "file": "04-official-community-plan-policy-analysis.md",
-    "route": "/what-we-do/official-community-plan-policy-analysis/",
-    "title": "Official Community Plan review and policy analysis",
-    "navTitle": "OCP review and policy analysis",
-    "type": "capability-detail",
-    "description": "Test whether plans, targets and policy mechanisms connect to real delivery conditions.",
-    "topics": [
-      "planning",
-      "housing",
-      "policy"
-    ]
-  },
-  {
     "id": "P05",
     "file": "05-economic-development-strategy.md",
     "route": "/what-we-do/economic-development-strategy/",
@@ -150,15 +136,16 @@
     "id": "P12",
     "file": "12-insight-housing-target-delivery.md",
     "route": "/insights/when-a-housing-target-outruns-delivery/",
-    "title": "When a housing target outruns delivery",
-    "navTitle": "When a housing target outruns delivery",
+    "title": "When a housing target is larger than delivery",
+    "navTitle": "When a housing target is larger than delivery",
     "type": "article",
     "description": "Why housing targets become delivery questions when constraints are tested together.",
     "topics": [
       "Planning and place",
       "housing"
     ],
-    "readTime": "7 minute read"
+    "readTime": "8 minute read",
+    "finding": "The target needs about 14.5 units a year. The Village built 3.6 a year from 2009 to 2019, and local builders said in 2020 they could not deliver new homes at $300,000 to $320,000."
   },
   {
     "id": "P13",
@@ -172,7 +159,7 @@
       "Labour and major projects",
       "workforce"
     ],
-    "readTime": "7 minute read"
+    "readTime": "5 minute read"
   },
   {
     "id": "P14",
@@ -185,7 +172,8 @@
     "topics": [
       "Evidence"
     ],
-    "readTime": "4 minute read"
+    "readTime": "4 minute read",
+    "finding": "A missing input matters only when the conclusion depends on it. ACTUAL, PROXY, and FLAG keep that distinction visible and show which gap has to be resolved before the analysis can hold."
   },
   {
     "id": "P16",
