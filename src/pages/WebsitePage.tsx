@@ -222,6 +222,10 @@ const workOutputs=[
   {label:'Data and decision architecture',detail:'Common definitions, transparent derivations, linked datasets, maps, and analytical structures that give a team a reliable basis for subsequent work.'},
 ];
 
+const insightImages:Record<string,string>={
+  'When a housing target outruns delivery':'/images/housing-target-delivery.webp',
+};
+
 const isLink=(prefix:string)=>(b:Block)=>b.kind==='p'&&!!b.text?.startsWith(prefix);
 const without=(blocks:Block[],prefix:string)=>blocks.filter(b=>!isLink(prefix)(b));
 
@@ -249,7 +253,8 @@ function HomeTemplate({doc}:{doc:Document}){
     <section className="home-section public-container">
       <div className="home-heading"><p className="kicker">Inside the evidence</p><h2>{insights.title}</h2></div>
       <div className="insight-layout">
-        {insights.subsections.map((section,i)=><article className={i===0?'insight-lead':'insight-card'} key={section.title}>
+        {insights.subsections.map((section,i)=><article className={[i===0?'insight-lead':'insight-card',insightImages[section.title]?'insight-media':''].join(' ').trim()} key={section.title}>
+          {insightImages[section.title]&&<img className="insight-media-img" src={insightImages[section.title]} alt="" aria-hidden="true" loading="lazy" decoding="async"/>}
           <span>0{i+1} / Insight</span><h3>{section.title}</h3><Blocks blocks={without(section.blocks,'[Explore all insights')}/>
         </article>)}
       </div>

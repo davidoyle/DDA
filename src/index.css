@@ -637,3 +637,13 @@ textarea { min-height: 160px; resize: vertical; }
   .principal-portrait img{width:96px}
   .principal-portrait figcaption{margin:0}
 }
+
+/* Homepage insight card with photographic overlay: 20% at rest, 60% hover/focus, 80% pressed */
+.insight-layout .insight-media{position:relative;overflow:hidden;isolation:isolate}
+.insight-media-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.2;z-index:-2;transition:opacity .2s var(--ease)}
+.insight-layout .insight-media:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,var(--surface-dim) 0%,rgba(16,43,34,.85) 38%,rgba(16,43,34,0) 75%);pointer-events:none}
+.insight-media:hover .insight-media-img,.insight-media:focus-within .insight-media-img{opacity:.6}
+.insight-media:active .insight-media-img{opacity:.8}
+.insight-media a:after{content:"";position:absolute;inset:0;z-index:1}
+.insight-media{cursor:pointer}
+@media(prefers-reduced-motion:reduce){.insight-media-img{transition:none}}
