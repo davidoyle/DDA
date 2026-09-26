@@ -466,19 +466,19 @@ function AboutTemplate({doc}:{doc:Document}){
   return <>
     <PageHero doc={doc} kicker="Who we are" actions={false}/>
     <main className="about-layout public-container">
-      {sections.map((s,i)=><section key={s.title} className={i===0?'about-lead':''}>
-        <span>0{i+1}</span>
+      {sections.map(s=><section key={s.title} className="about-section">
         <h2>{s.title}</h2>
-        <Blocks blocks={s.blocks}/>
-        {s.subsections.length>0&&<div className="method-grid">
-          {s.subsections.map(x=><article key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></article>)}
-        </div>}
+        <div className="about-body">
+          <Blocks blocks={without(s.blocks,'[Talk to')}/>
+          {s.subsections.length>0&&<div className="method-grid">
+            {s.subsections.map(x=><article key={x.title}><h3>{x.title}</h3><Blocks blocks={x.blocks}/></article>)}
+          </div>}
+        </div>
       </section>)}
-      {import.meta.env.DEV&&<section className="about-method-todo">
-        <span>05</span>
-        <div>
-          <p className="kicker todo-marker">Development placeholder — owner approval required</p>
-          <h2>One decision the work turns on</h2>
+      {import.meta.env.DEV&&<section className="about-section about-method-todo">
+        <h2>One decision the work turns on</h2>
+        <div className="about-body">
+          <p className="kicker todo-marker">Development placeholder: owner approval required</p>
           <p className="about-todo-body">Add one specific methodological decision: a choice made in this practice that would surprise a peer, a constraint taken seriously that others ignore, or a point where the evidence forced a different answer. One paragraph. No generalities.</p>
           <p className="about-todo-fields"><strong>Required fields:</strong> the specific decision · what it replaced · why it changed the result</p>
         </div>

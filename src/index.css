@@ -534,8 +534,6 @@ textarea { min-height: 160px; resize: vertical; }
 @media(max-width:700px){.article-service-cta{grid-template-columns:1fr;gap:24px}}
 
 /* Who We Are: methodological decision TODO (Task 6) */
-.about-method-todo{border-top:1px solid var(--line)}
-.about-method-todo>div{padding:70px 0}
 .todo-marker{color:#9b5a00!important;background:#fff3cd;padding:4px 10px;display:inline-block;border-radius:2px}
 .about-todo-body{font-size:17px;color:var(--muted);max-width:640px;margin:16px 0 0}
 .about-todo-fields{font-size:14px;color:var(--muted);margin-top:20px;padding:14px 18px;background:var(--paper-2,#e8ebe3);border-left:3px solid #c0972a}
@@ -607,3 +605,16 @@ textarea { min-height: 160px; resize: vertical; }
 .site-shell .rail-block p,.site-shell .rail-block li,.site-shell .rail-block a{font-size:14px;line-height:1.5}
 .site-shell .on-page{border-top:1px solid var(--line)}
 @media(max-width:700px){.site-shell .page-hero-full{padding:40px 0 56px}}
+
+/* Who we are: heading column and one body column */
+.about-layout .about-section{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:24px 64px;padding:64px 0;border-top:1px solid var(--line)}
+.about-layout .about-section:first-child{border-top:0;padding-top:0}
+.about-layout .about-section>h2{grid-column:1;margin:0}
+.about-layout .about-body{grid-column:2;max-width:720px}
+.about-layout .about-body>p{margin:0}
+.about-layout .about-body>p+p{margin-top:16px}
+.about-layout .about-body .method-grid{margin-top:32px}
+@media(max-width:900px){.about-layout .about-section{grid-template-columns:1fr;gap:16px;padding:48px 0}.about-layout .about-section>h2,.about-layout .about-body{grid-column:1}}
+
+/* One closing ask per page: the page-level close replaces the footer headline */
+.site-shell:has(.contact-band,.home-close) .footer-lead{display:none}
