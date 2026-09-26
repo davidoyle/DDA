@@ -41,20 +41,6 @@
     ]
   },
   {
-    "id": "P04",
-    "file": "04-official-community-plan-policy-analysis.md",
-    "route": "/what-we-do/official-community-plan-policy-analysis/",
-    "title": "Official Community Plan review and policy analysis",
-    "navTitle": "OCP review and policy analysis",
-    "type": "capability-detail",
-    "description": "Test whether plans, targets and policy mechanisms connect to real delivery conditions.",
-    "topics": [
-      "planning",
-      "housing",
-      "policy"
-    ]
-  },
-  {
     "id": "P05",
     "file": "05-economic-development-strategy.md",
     "route": "/what-we-do/economic-development-strategy/",

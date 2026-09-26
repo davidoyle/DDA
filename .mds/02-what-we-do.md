@@ -34,12 +34,6 @@ Connect population, housing, land, infrastructure, cost, timing, and public reve
 
 [Explore fiscal impact and growth modelling](./03-fiscal-impact-growth-modelling.md)
 
-### Official Community Plan review and policy analysis
-
-Test plans, targets, bylaws, land capacity, servicing, and implementation evidence as one delivery system.
-
-[Explore OCP review and policy analysis](./04-official-community-plan-policy-analysis.md)
-
 ### Economic development strategy
 
 Determine which opportunities are supported, locally reachable, owned, sequenced, and ready to move.

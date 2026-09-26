@@ -22,7 +22,7 @@ This is research and analysis. It is not legal representation, privileged work, 
 
 ## Connected questions
 
-Read [When an unsupported number carries the answer](./14-insight-what-a-flag-tells-you.md) for the consequence of an unresolved input. For plans and public hearings, see [Official Community Plan review and policy analysis](./04-official-community-plan-policy-analysis.md). For fiscal or policy models, see [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md).
+Read [When an unsupported number carries the answer](./14-insight-what-a-flag-tells-you.md) for the consequence of an unresolved input. For fiscal or policy models, see [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md).
 
 ## Start with what is already public
 

@@ -349,8 +349,6 @@ The purpose is to make clear **which uncertainty matters to the decision**.
 
 [When a housing target outruns delivery](./12-insight-housing-target-delivery.md) A practical target-to-delivery test for separating policy ambition from land, servicing, market, and construction capacity.
 
-[Official Community Plan review and policy analysis](./04-official-community-plan-policy-analysis.md) Testing whether growth policy, land supply, infrastructure, implementation mechanisms, and stated objectives form a coherent delivery system.
-
 [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md) Connecting present commitments to future operating pressures, capital requirements, fiscal capacity, and alternative paths.
 
 ## When to call DDA

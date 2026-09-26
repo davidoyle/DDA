@@ -6,7 +6,7 @@ import { pageByRoute, pageManifest, pages, type PublicPage } from '@/content/sit
 import { BASE_ASSUMPTIONS } from '@/lib/model/assumptions';
 
 const fileRoutes: Record<string,string>={
- '01-home.md':'/','02-what-we-do.md':'/what-we-do/','03-fiscal-impact-growth-modelling.md':'/what-we-do/fiscal-impact-growth-modelling/','04-official-community-plan-policy-analysis.md':'/what-we-do/official-community-plan-policy-analysis/','05-economic-development-strategy.md':'/what-we-do/economic-development-strategy/','06-labour-market-analysis.md':'/what-we-do/labour-market-analysis/','07-resource-sector-complex-planning-analysis.md':'/what-we-do/resource-sector-complex-planning-analysis/','08-long-range-financial-scenario-planning.md':'/what-we-do/long-range-financial-scenario-planning/','09-public-interest-research-evidence-packages.md':'/what-we-do/institutional-policy-analysis/','10-who-we-are.md':'/who-we-are/','11-insights.md':'/insights/','12-insight-housing-target-delivery.md':'/insights/when-a-housing-target-outruns-delivery/','13-insight-trade-gap-workforce-number.md':'/insights/the-trade-gap-hidden-inside-a-workforce-number/','14-insight-what-a-flag-tells-you.md':'/insights/when-an-unsupported-number-carries-the-answer/','16-contact.md':'/contact/','17-privacy.md':'/privacy/','18-legal.md':'/legal/','19-terms.md':'/terms/','20-accessibility.md':'/accessibility/'
+ '01-home.md':'/','02-what-we-do.md':'/what-we-do/','03-fiscal-impact-growth-modelling.md':'/what-we-do/fiscal-impact-growth-modelling/','05-economic-development-strategy.md':'/what-we-do/economic-development-strategy/','06-labour-market-analysis.md':'/what-we-do/labour-market-analysis/','07-resource-sector-complex-planning-analysis.md':'/what-we-do/resource-sector-complex-planning-analysis/','08-long-range-financial-scenario-planning.md':'/what-we-do/long-range-financial-scenario-planning/','09-public-interest-research-evidence-packages.md':'/what-we-do/institutional-policy-analysis/','10-who-we-are.md':'/who-we-are/','11-insights.md':'/insights/','12-insight-housing-target-delivery.md':'/insights/when-a-housing-target-outruns-delivery/','13-insight-trade-gap-workforce-number.md':'/insights/the-trade-gap-hidden-inside-a-workforce-number/','14-insight-what-a-flag-tells-you.md':'/insights/when-an-unsupported-number-carries-the-answer/','16-contact.md':'/contact/','17-privacy.md':'/privacy/','18-legal.md':'/legal/','19-terms.md':'/terms/','20-accessibility.md':'/accessibility/'
 };
 
 type Block={kind:'p'|'list'|'table';text?:string;items?:string[];rows?:string[][]};
@@ -119,18 +119,6 @@ function Register({label,columns,rows,compare=false}:{label:string;columns:strin
   </div>
 }
 
-function OcpModule(){
-  return <EvidenceModule title="Target-to-delivery trace" source={<>Village of Fruitvale housing and planning materials, including a 2024 duplex procurement. Full analysis: <Link to="/insights/when-a-housing-target-outruns-delivery/">When a housing target outruns delivery</Link>.</>}>
-    <Register label="Target-to-delivery trace" columns={['Link','Evidence in the review']} rows={[
-      {cells:['Target','Stated need of 291 units over twenty years'],status:'actual'},
-      {cells:['Delivery','Historical production of 3.6 units a year'],status:'actual'},
-      {cells:['Construction','2024 duplex procurement: builders could not deliver at the stated $300,000 to $320,000'],status:'actual'},
-      {cells:['Market','Vacancy fell from 12% to 3% between 2015 and 2017 across Trail, Warfield, and Fruitvale. Regional and dated.'],status:'proxy'},
-      {cells:['Land and servicing','Not established in the published review. A missing input council can commission.']},
-    ]}/>
-  </EvidenceModule>
-}
-
 function LabourModule(){
   const filters=[
     ['Headline requirement','The workforce total in the plan'],
@@ -193,7 +181,6 @@ function InstitutionalModule(){
 
 function AnalysisModule({page}:{page:PublicPage}){
   const map:Record<string,()=>ReactNode>={
-    '/what-we-do/official-community-plan-policy-analysis/': ()=><OcpModule/>,
     '/what-we-do/labour-market-analysis/':              ()=><LabourModule/>,
     '/what-we-do/resource-sector-complex-planning-analysis/':()=><ResourceModule/>,
     '/what-we-do/long-range-financial-scenario-planning/':   ()=><ScenarioModule/>,
@@ -214,13 +201,13 @@ const diagnosticTools=[
 /* --- Cross-link maps (Task 3) --- */
 
 const articleToService:Record<string,string>={
-  '/insights/when-a-housing-target-outruns-delivery/':           '/what-we-do/official-community-plan-policy-analysis/',
+  '/insights/when-a-housing-target-outruns-delivery/':           '/what-we-do/fiscal-impact-growth-modelling/',
   '/insights/the-trade-gap-hidden-inside-a-workforce-number/':  '/what-we-do/labour-market-analysis/',
   '/insights/when-an-unsupported-number-carries-the-answer/':   '/what-we-do/institutional-policy-analysis/',
 };
 
 const serviceToArticles:Record<string,string[]>={
-  '/what-we-do/official-community-plan-policy-analysis/':    ['/insights/when-a-housing-target-outruns-delivery/'],
+  '/what-we-do/fiscal-impact-growth-modelling/':             ['/insights/when-a-housing-target-outruns-delivery/'],
   '/what-we-do/labour-market-analysis/':                     ['/insights/the-trade-gap-hidden-inside-a-workforce-number/'],
   '/what-we-do/resource-sector-complex-planning-analysis/':  ['/insights/the-trade-gap-hidden-inside-a-workforce-number/'],
   '/what-we-do/institutional-policy-analysis/':              ['/insights/when-an-unsupported-number-carries-the-answer/'],
