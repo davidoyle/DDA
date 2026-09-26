@@ -63,9 +63,10 @@ function Breadcrumbs({page}:{page:PublicPage}){
   </nav>
 }
 
-function PageHero({doc,kicker,actions=true,showSummary=true,fullViewport=false}:{doc:Document;kicker:string;actions?:boolean;showSummary?:boolean;fullViewport?:boolean}){
+function PageHero({doc,kicker,actions=true,showSummary=true,fullViewport=false,aside}:{doc:Document;kicker:string;actions?:boolean;showSummary?:boolean;fullViewport?:boolean;aside?:ReactNode}){
   const opening=doc.intro.length?doc.intro:doc.sections[0]?.blocks??[];
-  return <header className={fullViewport?'page-hero page-hero-full':'page-hero'}>
+  return <header className={[fullViewport?'page-hero page-hero-full':'page-hero',aside?'page-hero-aside':''].join(' ').trim()}>
+    {aside&&<div className="public-container hero-aside">{aside}</div>}
     <div className="public-container">
       <p className="kicker">{kicker}</p>
       <h1>{doc.title}</h1>
@@ -464,7 +465,10 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
 function AboutTemplate({doc}:{doc:Document}){
   const sections=doc.intro.length?doc.sections:doc.sections.slice(1);
   return <>
-    <PageHero doc={doc} kicker="Who we are" actions={false}/>
+    <PageHero doc={doc} kicker="Who we are" actions={false} aside={<figure className="principal-portrait">
+      <img src="/images/david-doyle.jpg" alt="David Doyle" width={800} height={800} fetchPriority="high"/>
+      <figcaption><strong>David Doyle</strong><span>Principal, DDA</span></figcaption>
+    </figure>}/>
     <main className="about-layout public-container">
       {sections.map(s=><section key={s.title} className="about-section">
         <h2>{s.title}</h2>
