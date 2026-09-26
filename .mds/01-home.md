@@ -12,11 +12,11 @@ Then we determine what the finding changes and build the analysis needed to resp
 
 These perspectives show what becomes visible when headline claims are traced through the systems required to support them.
 
-### When a housing target outruns delivery
+### When a housing target is larger than delivery
 
 A stated need of 291 homes looks different beside historical delivery of 3.6 homes a year, local construction economics, servicing, and vacancy. The useful question is where the delivery chain breaks.
 
-**Perspective · Planning and place · 5 minute read**
+**Perspective · Planning and place · 8 minute read**
 
 [Read the housing analysis](./12-insight-housing-target-delivery.md)
 
@@ -38,11 +38,11 @@ An unresolved input matters when a schedule, forecast, policy claim, or investme
 
 [Explore all insights](./11-insights.md)
 
-## Already holding the mandate?
+## Assignment underway, and one piece is stuck?
 
-DDA can join a live assignment and own a defined analytical workstream. That may include evidence reconstruction, economic or labour analysis, land and GIS analysis, institutional research, modelling, or another evidence-heavy part of the scope.
+Most projects have one workstream where the evidence is scattered, the numbers don't reconcile, and the client will push back hardest. DDA takes that piece and owns it. We rebuild the evidence, test the numbers, and deliver analysis your team can put in front of the client and defend.
 
-Prime consultants and specialist firms can bring DDA in when the assignment needs someone to follow the evidence across boundaries, test the numbers, and carry the analytical logic through to a usable product.
+We work with prime consultants and specialist firms on economic and labour analysis, land and GIS, institutional research, modelling, and evidence reconstruction.
 
 [Talk to DDA](./16-contact.md)
 

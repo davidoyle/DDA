@@ -136,16 +136,16 @@
     "id": "P12",
     "file": "12-insight-housing-target-delivery.md",
     "route": "/insights/when-a-housing-target-outruns-delivery/",
-    "title": "When a housing target outruns delivery",
-    "navTitle": "When a housing target outruns delivery",
+    "title": "When a housing target is larger than delivery",
+    "navTitle": "When a housing target is larger than delivery",
     "type": "article",
     "description": "Why housing targets become delivery questions when constraints are tested together.",
     "topics": [
       "Planning and place",
       "housing"
     ],
-    "readTime": "5 minute read",
-    "finding": "A stated need of 291 units over twenty years sat against historical delivery of 3.6 units a year, and local builders could not build at the stated price."
+    "readTime": "8 minute read",
+    "finding": "The target needs about 14.5 units a year. The Village built 3.6 a year from 2009 to 2019, and local builders said in 2020 they could not deliver new homes at $300,000 to $320,000."
   },
   {
     "id": "P13",

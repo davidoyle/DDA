@@ -656,3 +656,39 @@ textarea { min-height: 160px; resize: vertical; }
 .page-hero-image{isolation:isolate}
 .page-hero-image .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;opacity:.6;z-index:-1;pointer-events:none}
 @media(max-width:700px){.page-hero-image .hero-bg{object-position:58% center}}
+
+/* Article figures */
+.article-figure{margin:40px 0;padding:28px 28px 20px;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--background)}
+.article-figure figcaption{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font:400 13px/1.5 var(--font-body);color:var(--muted)}
+.rate-chart{display:grid;gap:18px}
+.site-shell .rate-unit{margin:0;font:600 12px/1.2 var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rate-row{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:20px;align-items:center}
+.rate-label{display:grid;gap:2px}
+.rate-label strong{font:600 14px/1.3 var(--font-body);color:var(--ink)}
+.rate-label span{font:400 13px/1.3 var(--font-body);color:var(--muted)}
+.rate-track{display:flex;align-items:center;gap:12px;min-width:0}
+.rate-bar{display:block;height:24px;background:var(--primary);border-radius:0 4px 4px 0;min-width:4px}
+.rate-track b{font:600 18px/1 var(--font-body);color:var(--ink);font-variant-numeric:tabular-nums}
+.chain-figure{list-style:none;margin:0;padding:0;display:grid;border-left:2px solid var(--line);margin-left:6px}
+.chain-link{display:grid;grid-template-columns:32px minmax(0,1fr);gap:4px 8px;align-items:baseline;padding:9px 0 9px 16px;min-width:0}
+.chain-link strong{font:600 14px/1.3 var(--font-body);color:var(--ink)}
+.chain-index{font:600 11px/1 "JetBrains Mono",monospace;color:var(--muted)}
+.chain-link-flagged{border-left:4px solid var(--accent);margin-left:-3px;padding-left:15px;background:var(--surface)}
+.chain-link small{grid-column:2;font:400 13px/1.45 var(--font-body);color:var(--muted);max-width:520px}
+@media(max-width:700px){
+  .article-figure{padding:20px 16px 16px}
+  .rate-row{grid-template-columns:1fr;gap:8px}
+}
+
+/* Article reading: grid children may shrink; paragraph rhythm; dek and byline */
+.article-with-rail>*{min-width:0}
+.article-shell section>p+p,.article-shell section>p+ul,.article-shell section>ul+p,.article-shell header>p+p{margin-top:16px}
+.article-shell section>h2+p{margin-top:12px}
+.site-shell .article-shell header .article-dek{font:300 clamp(22px,2.6vw,28px)/1.3 var(--font-display);color:var(--ink);margin:4px 0 20px}
+.site-shell .article-shell header .article-byline{font-size:14px;line-height:1.5;color:var(--muted);padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 8px}
+.article-shell header .article-byline strong{color:var(--ink)}
+
+/* Paragraph rhythm on service and utility pages */
+.detail-section>p+p,.analysis-section>p+p,.detail-section>p+ul,.detail-section>ul+p,.utility-shell section>p+p{margin-top:16px}
+/* Decision instrument: plain closing paragraphs span the full width */
+:is(.detail-p03,.detail-p05) #decision-instrument .detail-subsection:first-of-type>p:not(:has(>strong)){display:block;margin-top:20px}

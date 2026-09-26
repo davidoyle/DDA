@@ -1,10 +1,14 @@
 # What we do
 
-DDA enters complex problems before every part of the question is settled. We learn the system, reconstruct the evidence, find what is materially shaping the outcome, and establish what that finding changes.
+DDA examines complex problems to find what controls the outcome, and what must change for the outcome to change.
 
-The work may begin with a stalled project, a new mandate, an RFP, an unsupported number, a strategy that is not moving, scattered public records, or a concern that something important has been missed.
+We reconstruct the evidence and test the explanations that compete. We follow the system that causes the result, and we identify the constraints, feedbacks, incentives, dependencies, and decisions that have the most effect.
 
-[Talk to DDA](./16-contact.md)
+Then we test the diagnosis against real conditions. If someone removes the apparent constraint, what occurs? Who changes their behaviour, and what moves to a different place? What becomes the next binding constraint? Which actors must act, what do they wait for, and what will make their commitments credible? What can cause a sound strategy to fail in practice?
+
+The work can start with a project that stopped, a new mandate, an RFP, or numbers that do not agree. It can also start with a strategy that makes no progress, public records in many different locations, or a concern that the accepted explanation is wrong.
+
+The result is an account you can defend with evidence. It shows what occurs and why, where a small action can have a large effect, what is still uncertain, and which next step the evidence supports.
 
 ## How DDA gets into a problem
 

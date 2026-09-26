@@ -95,7 +95,7 @@ That is often where the most valuable work begins.
 
 Read [The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) for an example of how occupation, geography, and timing can radically change an apparent workforce number.
 
-Read [When a housing target outruns delivery](./12-insight-housing-target-delivery.md) for an example of tracing a public target through the system required to deliver it.
+Read [When a housing target is larger than delivery](./12-insight-housing-target-delivery.md) for an example of tracing a public target through the system required to deliver it.
 
 ## Have a number that does not hold together?
 

@@ -9,7 +9,7 @@ const fileRoutes: Record<string,string>={
  '01-home.md':'/','02-what-we-do.md':'/what-we-do/','03-fiscal-impact-growth-modelling.md':'/what-we-do/fiscal-impact-growth-modelling/','05-economic-development-strategy.md':'/what-we-do/economic-development-strategy/','06-labour-market-analysis.md':'/what-we-do/labour-market-analysis/','07-resource-sector-complex-planning-analysis.md':'/what-we-do/resource-sector-complex-planning-analysis/','08-long-range-financial-scenario-planning.md':'/what-we-do/long-range-financial-scenario-planning/','09-public-interest-research-evidence-packages.md':'/what-we-do/institutional-policy-analysis/','10-who-we-are.md':'/who-we-are/','11-insights.md':'/insights/','12-insight-housing-target-delivery.md':'/insights/when-a-housing-target-outruns-delivery/','13-insight-trade-gap-workforce-number.md':'/insights/the-trade-gap-hidden-inside-a-workforce-number/','14-insight-what-a-flag-tells-you.md':'/insights/when-an-unsupported-number-carries-the-answer/','16-contact.md':'/contact/','17-privacy.md':'/privacy/','18-legal.md':'/legal/','19-terms.md':'/terms/','20-accessibility.md':'/accessibility/'
 };
 
-type Block={kind:'p'|'list'|'table';text?:string;items?:string[];rows?:string[][]};
+type Block={kind:'p'|'list'|'table'|'quote'|'figure';text?:string;items?:string[];rows?:string[][]};
 type Subsection={title:string;blocks:Block[]};
 type Section={title:string;blocks:Block[];subsections:Subsection[]};
 type Document={title:string;intro:Block[];sections:Section[]};
@@ -25,9 +25,12 @@ function parse(source:string):Document{
     if(line.startsWith('## ')){section={title:line.slice(3),blocks:[],subsections:[]};doc.sections.push(section);sub=undefined;i++;continue}
     if(line.startsWith('### ')){sub={title:line.slice(4),blocks:[]};section?.subsections.push(sub);i++;continue}
     if(line.startsWith('|')){const rows:string[][]=[];while(i<lines.length&&lines[i].trim().startsWith('|')){const row=lines[i].split('|').slice(1,-1).map(x=>x.trim());if(!/^[-: ]+$/.test(row.join('')))rows.push(row);i++}target().push({kind:'table',rows});continue}
+    const fig=line.match(/^\{\{figure:([\w-]+)\}\}$/);
+    if(fig){target().push({kind:'figure',text:fig[1]});i++;continue}
+    if(line.startsWith('> ')){let text=line.slice(2);i++;while(i<lines.length&&lines[i].trim().startsWith('> ')){text+=' '+lines[i].trim().slice(2);i++}target().push({kind:'quote',text});continue}
     if(line.startsWith('- ')){const items:string[]=[];while(i<lines.length&&lines[i].trim().startsWith('- ')){items.push(lines[i].trim().slice(2));i++}target().push({kind:'list',items});continue}
     let text=line;i++;
-    while(i<lines.length&&lines[i].trim()&&!/^(#{2,3}) |^- |^\|/.test(lines[i].trim())){text+=' '+lines[i].trim();i++}
+    while(i<lines.length&&lines[i].trim()&&!/^(#{2,3}) |^- |^\||^> |^\{\{figure:/.test(lines[i].trim())){text+=' '+lines[i].trim();i++}
     target().push({kind:'p',text})
   }
   return doc
@@ -49,9 +52,50 @@ function Rich({text}:{text:string}){
 function Blocks({blocks}:{blocks:Block[]}){
   return <>{blocks.map((b,i)=>
     b.kind==='p'?<p className={b.text?.startsWith('[Talk to')?'cta-text-link':undefined} key={i}><Rich text={b.text!}/></p>
+    :b.kind==='quote'?<blockquote key={i}><Rich text={b.text!}/></blockquote>
+    :b.kind==='figure'?<ArticleFigure key={i} id={b.text!}/>
     :b.kind==='list'?<ul key={i}>{b.items!.map(x=><li key={x}><Rich text={x}/></li>)}</ul>
     :<div className="public-table" role="region" aria-label="Evidence table" tabIndex={0} key={i}><table><thead><tr>{b.rows![0].map(x=><th scope="col" key={x}><Rich text={x}/></th>)}</tr></thead><tbody>{b.rows!.slice(1).map((row,r)=><tr key={r}>{row.map((x,c)=>c===0?<th scope="row" key={x}><Rich text={x}/></th>:<td key={x}><Rich text={x}/></td>)}</tr>)}</tbody></table></div>
   )}</>
+}
+
+function TargetVsBuiltFigure(){
+  const max=14.5;
+  const rows=[
+    {label:'Needed to meet the target',detail:'291 units over twenty years',value:14.5},
+    {label:'Built, 2009 to 2019',detail:'36 units',value:3.6},
+  ];
+  return <figure className="article-figure">
+    <div className="rate-chart" role="img" aria-label="Units a year: about 14.5 needed to meet the target, against 3.6 built a year from 2009 to 2019.">
+      <p className="rate-unit">Units a year</p>
+      {rows.map(r=><div className="rate-row" key={r.label}>
+        <div className="rate-label"><strong>{r.label}</strong><span>{r.detail}</span></div>
+        <div className="rate-track"><span className="rate-bar" style={{width:`${r.value/max*100}%`}} title={`${r.label}: ${r.value} units a year`}/><b>{r.value}</b></div>
+      </div>)}
+    </div>
+    <figcaption>The target rate against the built rate. Sources: RDKB Interim Housing Needs Report (February 2025); Village of Fruitvale land disposition RFP (2024).</figcaption>
+  </figure>
+}
+
+function DeliveryChainFigure(){
+  const links=['Households','Land','Policy','Servicing','Project economics','Finance','Builders','Approvals','Occupancy'];
+  const flagged='Project economics';
+  return <figure className="article-figure">
+    <ol className="chain-figure" aria-label="Housing delivery chain">
+      {links.map((l,i)=><li key={l} className={l===flagged?'chain-link chain-link-flagged':'chain-link'}>
+        <span className="chain-index">{String(i+1).padStart(2,'0')}</span>
+        <strong>{l}</strong>
+        {l===flagged&&<small>2020 builder statement: new homes not deliverable at $300,000 to $320,000. Named causes: infrastructure costs and development charges.</small>}
+      </li>)}
+    </ol>
+    <figcaption>The delivery chain, with the link the 2020 builder statement points to. Source: CitySpaces Consulting for the Village of Fruitvale (January 2020), p. 10.</figcaption>
+  </figure>
+}
+
+function ArticleFigure({id}:{id:string}){
+  if(id==='target-vs-built')return <TargetVsBuiltFigure/>;
+  if(id==='delivery-chain')return <DeliveryChainFigure/>;
+  return null;
 }
 
 function Breadcrumbs({page}:{page:PublicPage}){
@@ -224,7 +268,7 @@ const workOutputs=[
 ];
 
 const insightImages:Record<string,string>={
-  'When a housing target outruns delivery':'/images/housing-target-delivery.webp',
+  'When a housing target is larger than delivery':'/images/housing-target-delivery.webp',
 };
 
 const isLink=(prefix:string)=>(b:Block)=>b.kind==='p'&&!!b.text?.startsWith(prefix);
@@ -232,7 +276,7 @@ const without=(blocks:Block[],prefix:string)=>blocks.filter(b=>!isLink(prefix)(b
 
 function HomeTemplate({doc}:{doc:Document}){
   const insights=doc.sections.find(x=>x.title==='Evidence of how DDA thinks')!;
-  const mandate=doc.sections.find(x=>x.title==='Already holding the mandate?')!;
+  const mandate=doc.sections.find(x=>x.title==='Assignment underway, and one piece is stuck?')!;
   const contact=doc.sections.find(x=>x.title==='Show us what you are working on')!;
   const allInsights=insights.subsections.flatMap(x=>x.blocks).find(isLink('[Explore all insights'));
   return <>
@@ -390,6 +434,10 @@ function InsightsHubTemplate({doc}:{doc:Document}){
 
 function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
   const intro=doc.intro.filter(block=>block.kind!=='p'||!block.text?.startsWith('**Perspective'));
+  const bylineAt=intro.findIndex(b=>b.kind==='p'&&!!b.text?.startsWith('**By '));
+  const byline=bylineAt>=0?intro[bylineAt]:undefined;
+  const dek=bylineAt===1?intro[0]:undefined;
+  const body=intro.filter(b=>b!==byline&&b!==dek);
   const related=pageManifest.filter(p=>p.type==='article'&&p.route!==page.route).slice(0,3);
   const relatedService=articleToService[page.route]?pageManifest.find(p=>p.route===articleToService[page.route]):undefined;
   return <>
@@ -401,11 +449,13 @@ function ArticleTemplate({doc,page}:{doc:Document;page:PublicPage}){
             <span>Perspective</span><span>{page.topics[0]}</span><span>{page.readTime}</span>
           </div>
           <h1>{doc.title}</h1>
+          {dek&&<p className="article-dek">{dek.text}</p>}
+          {byline&&<p className="article-byline"><Rich text={byline.text!}/></p>}
           {page.finding&&<div className="key-finding" role="note">
             <span className="kicker">Key finding</span>
             <p>{page.finding}</p>
           </div>}
-          <Blocks blocks={intro}/>
+          <Blocks blocks={body}/>
         </header>
         {doc.sections.map(s=><section key={s.title} className={s.blocks.some(x=>x.kind==='table')?'article-evidence':''}>
           <h2>{s.title}</h2>

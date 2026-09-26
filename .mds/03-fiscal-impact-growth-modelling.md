@@ -347,7 +347,7 @@ The purpose is to make clear **which uncertainty matters to the decision**.
 
 ## Related analysis
 
-[When a housing target outruns delivery](./12-insight-housing-target-delivery.md) A practical target-to-delivery test for separating policy ambition from land, servicing, market, and construction capacity.
+[When a housing target is larger than delivery](./12-insight-housing-target-delivery.md) A practical target-to-delivery test for separating policy ambition from land, servicing, market, and construction capacity.
 
 [Long-range financial and scenario planning](./08-long-range-financial-scenario-planning.md) Connecting present commitments to future operating pressures, capital requirements, fiscal capacity, and alternative paths.
 
