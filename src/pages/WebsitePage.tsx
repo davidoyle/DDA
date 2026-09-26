@@ -63,9 +63,10 @@ function Breadcrumbs({page}:{page:PublicPage}){
   </nav>
 }
 
-function PageHero({doc,kicker,actions=true,showSummary=true,fullViewport=false,aside}:{doc:Document;kicker?:string;actions?:boolean;showSummary?:boolean;fullViewport?:boolean;aside?:ReactNode}){
+function PageHero({doc,kicker,actions=true,showSummary=true,fullViewport=false,aside,image}:{doc:Document;kicker?:string;actions?:boolean;showSummary?:boolean;fullViewport?:boolean;aside?:ReactNode;image?:string}){
   const opening=doc.intro.length?doc.intro:doc.sections[0]?.blocks??[];
-  return <header className={[fullViewport?'page-hero page-hero-full':'page-hero',aside?'page-hero-aside':''].join(' ').trim()}>
+  return <header className={[fullViewport?'page-hero page-hero-full':'page-hero',aside?'page-hero-aside':'',image?'page-hero-image':''].filter(Boolean).join(' ')}>
+    {image&&<img className="hero-bg" src={image} alt="" aria-hidden="true" fetchPriority="high" decoding="async"/>}
     {aside&&<div className="public-container hero-aside">{aside}</div>}
     <div className="public-container">
       {kicker&&<p className="kicker">{kicker}</p>}
@@ -235,7 +236,7 @@ function HomeTemplate({doc}:{doc:Document}){
   const contact=doc.sections.find(x=>x.title==='Show us what you are working on')!;
   const allInsights=insights.subsections.flatMap(x=>x.blocks).find(isLink('[Explore all insights'));
   return <>
-    <PageHero doc={doc} fullViewport={true}/>
+    <PageHero doc={doc} fullViewport={true} image="/images/home-hero.webp"/>
 
     <section className="home-section public-container" aria-labelledby="work-outputs-heading">
       <div className="home-heading">

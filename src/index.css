@@ -651,3 +651,8 @@ textarea { min-height: 160px; resize: vertical; }
 /* Header logo */
 .brand .brand-logo{display:block;height:44px;width:auto}
 @media(max-width:700px){.brand .brand-logo{height:36px}}
+
+/* Homepage hero background image */
+.page-hero-image{isolation:isolate}
+.page-hero-image .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;opacity:.6;z-index:-1;pointer-events:none}
+@media(max-width:700px){.page-hero-image .hero-bg{object-position:58% center}}
