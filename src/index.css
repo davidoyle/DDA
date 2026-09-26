@@ -647,3 +647,7 @@ textarea { min-height: 160px; resize: vertical; }
 .insight-media a:after{content:"";position:absolute;inset:0;z-index:1}
 .insight-media{cursor:pointer}
 @media(prefers-reduced-motion:reduce){.insight-media-img{transition:none}}
+
+/* Header logo */
+.brand .brand-logo{display:block;height:44px;width:auto}
+@media(max-width:700px){.brand .brand-logo{height:36px}}
