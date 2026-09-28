@@ -18,18 +18,18 @@ export default function IntentPrompt({ onSelect, tone = 'dark' }: Props) {
   const isLight = tone === 'light'
 
   return (
-    <section className={`px-6 lg:px-[8vw] py-8 border-b print:hidden ${isLight ? 'border-[#d8cdb9]' : 'border-[#F3EFE6]/10'}`}>
+    <section className={`px-6 lg:px-[8vw] py-8 border-b print:hidden ${isLight ? 'border-[#D9DDDA]' : 'border-[#F3F4F2]/10'}`}>
       <div className="max-w-5xl space-y-4">
-        <p className={isLight ? 'font-mono text-xs uppercase tracking-[0.12em] text-[#6b6255]' : 'eyebrow'}>Before you begin</p>
-        <h2 className={isLight ? 'font-heading text-3xl md:text-4xl text-[#131313]' : 'headline-md'}>What brings you to this diagnostic today?</h2>
+        <p className={isLight ? ' text-xs uppercase font-semibold tracking-[0.08em] text-[#626966]' : 'eyebrow'}>Before you begin</p>
+        <h2 className={isLight ? 'font-heading text-3xl md:text-4xl text-[#111111]' : 'headline-md'}>What brings you to this diagnostic today?</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {intentOptions.map((option) => (
             <Card
               key={option.value}
-              className={`cursor-pointer border transition-colors ${isLight ? 'border-[#d8cdb9] hover:border-[#1f3a5f] bg-white text-[#1f1f1f]' : 'border-[#F3EFE6]/20 hover:border-[#D4A03A]'}`}
+              className={`cursor-pointer border transition-colors ${isLight ? 'border-[#D9DDDA] hover:border-[#16324F] bg-white text-[#111111]' : 'border-[#F3F4F2]/20 hover:border-[#D4A03A]'}`}
               onClick={() => onSelect(option.value)}
             >
-              <CardContent className={`py-5 ${isLight ? 'text-[#1f1f1f]' : 'text-[#F3EFE6]/90'}`}>{option.label}</CardContent>
+              <CardContent className={`py-5 ${isLight ? 'text-[#111111]' : 'text-[#F3F4F2]/90'}`}>{option.label}</CardContent>
             </Card>
           ))}
         </div>

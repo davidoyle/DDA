@@ -51,10 +51,10 @@ export default function AnalystView({
       </div>
 
       <div className="space-y-6 lg:max-h-[calc(100vh-220px)] lg:overflow-y-auto">
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-start justify-between gap-4">
             <div>
-              <h2 className="text-lg font-bold text-[#003366]">Dual output table</h2>
+              <h2 className="text-lg font-bold text-[#16324F]">Dual output table</h2>
               <p className="mt-1 text-sm text-slate-600">
                 At {(currentRoyaltyRate * 100).toFixed(0)}% royalty, project IRR and provincial revenue update together.
               </p>
@@ -87,7 +87,7 @@ export default function AnalystView({
         </section>
 
         <section>
-          <h2 className="mb-2 text-lg font-bold text-[#003366]">Breakeven stack</h2>
+          <h2 className="mb-2 text-lg font-bold text-[#16324F]">Breakeven stack</h2>
           <BreakevenStack
             actualCount={actualCount}
             totalCount={totalCount}
@@ -104,8 +104,8 @@ export default function AnalystView({
           />
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-2 text-lg font-bold text-[#003366]">Tornado chart</h2>
+        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <h2 className="mb-2 text-lg font-bold text-[#16324F]">Tornado chart</h2>
           <TornadoChart variables={sensitivities} />
         </section>
 

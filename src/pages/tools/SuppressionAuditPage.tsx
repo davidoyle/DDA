@@ -29,7 +29,7 @@ export default function SuppressionAuditPage() {
     return (
       <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-5 min-h-screen">
         <h1 className="headline-md">Claims Suppression Self-Audit</h1>
-        <p className="text-[#4a453d]">Anonymous audit. No PII collected. Complete all 15 questions before results.</p>
+        <p className="text-[#111111]">Anonymous audit. No PII collected. Complete all 15 questions before results.</p>
         <Progress value={(step / questions.length) * 100} />
         <Card><CardHeader><CardTitle>Q{q.id}. {q.prompt}</CardTitle></CardHeader><CardContent className="flex flex-col gap-2">{q.options.map((opt, idx) => <Button key={opt} variant="outline" onClick={() => { const next = [...answers]; next[step] = idx; setAnswers(next); setStep(step + 1); }}>{opt}</Button>)}</CardContent></Card>
       </div>

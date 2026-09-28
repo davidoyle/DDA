@@ -1,7 +1,7 @@
 import { Bar, BarChart, Cell, LabelList, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 import DataQualityRing from './DataQualityRing';
 
-const COLORS = ['#003366', '#0f766e', '#2563eb', '#f59e0b', '#7c3aed', '#dc2626'];
+const COLORS = ['#16324F', '#0f766e', '#2563eb', '#f59e0b', '#7c3aed', '#dc2626'];
 
 export type BreakevenSegment = {
   label: string;
@@ -33,10 +33,10 @@ export default function BreakevenStack({
   const flagged = segments.some((segment) => segment.flagsUsed.length > 0);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold text-[#003366]">Live breakeven cost stack</p>
+          <p className="text-sm font-semibold text-[#16324F]">Live breakeven cost stack</p>
           <p className="mt-1 text-sm text-slate-600">
             The stack uses the first operating-year cash-flow row, so changes to gas price,
             tolls, OPEX, electricity load, CAPEX, and royalty terms flow through immediately.

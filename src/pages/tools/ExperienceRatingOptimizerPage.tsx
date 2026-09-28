@@ -27,7 +27,7 @@ export default function ExperienceRatingOptimizerPage() {
   return (
     <div className="diagnostic-theme px-6 lg:px-[8vw] py-12 space-y-6 min-h-screen">
       <h1 className="headline-md">Experience Rating Optimizer</h1>
-      <p className="text-[#4a453d]">Phase 2 file upload: coming soon. v1 uses manual NEER/retro entry.</p>
+      <p className="text-[#111111]">Phase 2 file upload: coming soon. v1 uses manual NEER/retro entry.</p>
 
       <Card>
         <CardHeader><CardTitle>3-year data entry</CardTitle></CardHeader>

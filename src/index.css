@@ -3,20 +3,54 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Diagnostic tools: mapped onto the DDA design system (.mds/DDA_design_system.md) */
+  --font-sans: "Open Sans", "Segoe UI", Arial, sans-serif;
+  --font-display: Aptos, "Segoe UI Variable Display", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  --bg-base: #FAFAF8;
-  --bg-surface: #F4F3F0;
-  --bg-inset: #ECEAE5;
-  --border: #E2E0DA;
-  --border-strong: #C8C5BC;
-  --text-primary: #1A1916;
-  --text-secondary: #6B6860;
-  --text-tertiary: #9B9890;
-  --text-inverse: #FAFAF8;
-  --accent: #1A1916;
-  --accent-hover: #3D3B36;
+  --bg-base: #FFFFFF;
+  --bg-surface: #F3F4F2;
+  --bg-inset: #E9EBE8;
+  --border: #D9DDDA;
+  --border-strong: #A3AAA6;
+  --text-primary: #111111;
+  --text-secondary: #626966;
+  --text-tertiary: #6F7572;
+  --text-inverse: #FFFFFF;
+  --accent: #16324F;
+  --accent-hover: #27516F;
+  --tool-primary: #16324F;
+  --tool-primary-hover: #27516F;
+
+  /* shadcn/Tailwind component tokens (HSL triplets), kept separate from the public-site names */
+  --ui-background: 0 0% 100%;
+  --ui-foreground: 0 0% 7%;
+  --ui-card: 0 0% 100%;
+  --ui-card-foreground: 0 0% 7%;
+  --ui-popover: 0 0% 100%;
+  --ui-popover-foreground: 0 0% 7%;
+  --ui-primary: 211 56% 20%;
+  --ui-primary-foreground: 0 0% 100%;
+  --ui-secondary: 90 8% 95%;
+  --ui-secondary-foreground: 211 56% 20%;
+  --ui-muted: 90 8% 95%;
+  --ui-muted-foreground: 154 3% 40%;
+  --ui-accent: 90 8% 95%;
+  --ui-accent-foreground: 0 0% 7%;
+  --ui-destructive: 4 71% 50%;
+  --ui-destructive-foreground: 0 0% 100%;
+  --ui-border: 135 6% 86%;
+  --ui-input: 135 6% 86%;
+  --ui-ring: 211 56% 20%;
+  --ui-radius: 8px;
+  --ui-sidebar-background: 0 0% 100%;
+  --ui-sidebar-foreground: 0 0% 7%;
+  --ui-sidebar-primary: 211 56% 20%;
+  --ui-sidebar-primary-foreground: 0 0% 100%;
+  --ui-sidebar-accent: 90 8% 95%;
+  --ui-sidebar-accent-foreground: 0 0% 7%;
+  --ui-sidebar-border: 135 6% 86%;
+  --ui-sidebar-ring: 211 56% 20%;
 
   --status-actual: #2D6A4F;
   --status-actual-bg: #D8F3DC;
@@ -38,22 +72,6 @@
   --space-8: 64px;
   --space-9: 96px;
   --space-10: 128px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-base: #141412;
-    --bg-surface: #1E1D1A;
-    --bg-inset: #272521;
-    --border: #2E2C28;
-    --border-strong: #3D3B36;
-    --text-primary: #F0EEE9;
-    --text-secondary: #9B9890;
-    --text-tertiary: #6B6860;
-    --text-inverse: #141412;
-    --accent: #F0EEE9;
-    --accent-hover: #C8C5BC;
-  }
 }
 
 * { box-sizing: border-box; }
@@ -81,27 +99,31 @@ body {
 .grain-overlay { display: none; }
 
 .headline-lg {
-  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 3rem);
   font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .headline-md {
-  font-size: clamp(2rem, 4vw, 2.25rem);
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 
 .headline-sm {
+  font-family: var(--font-display);
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.3;
 }
 
 .eyebrow {
-  font-size: 0.6875rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -109,9 +131,9 @@ body {
 }
 
 .card {
-  background: var(--bg-surface);
+  background: var(--bg-base);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 8px;
   padding: var(--space-6);
 }
 
@@ -134,34 +156,38 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.2;
-  padding: 10px 20px;
-  border-radius: 3px;
-  letter-spacing: 0.01em;
-  transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+  padding: 12px 24px;
+  border-radius: 9999px;
+  letter-spacing: 0;
+  transition: color 200ms cubic-bezier(.4,0,.2,1), border-color 200ms cubic-bezier(.4,0,.2,1), background 200ms cubic-bezier(.4,0,.2,1);
   text-decoration: none;
 }
 
-.btn-primary {
-  background: var(--text-primary);
-  color: var(--bg-base);
-  border: 1px solid var(--text-primary);
+.btn-primary,
+.site-shell .btn-primary {
+  background: var(--tool-primary);
+  color: #FFFFFF;
+  border: 1px solid var(--tool-primary);
 }
-.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-primary:hover { background: var(--tool-primary-hover); border-color: var(--tool-primary-hover); }
 .btn-primary:active { transform: translateY(1px); }
 
-.btn-secondary {
-  background: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-strong);
+.btn-secondary,
+.site-shell .btn-secondary {
+  background: var(--bg-base);
+  color: var(--tool-primary);
+  border: 1px solid var(--tool-primary);
 }
-.btn-secondary:hover { border-color: var(--text-primary); }
+.btn-secondary:hover { border-color: var(--tool-primary-hover); color: var(--tool-primary-hover); }
 
-.btn-ghost {
+.btn-ghost,
+.site-shell .btn-ghost {
   background: transparent;
-  color: var(--text-secondary);
+  color: var(--tool-primary);
   border: none;
   padding: 10px 0;
   text-decoration: underline;
@@ -692,3 +718,7 @@ textarea { min-height: 160px; resize: vertical; }
 .detail-section>p+p,.analysis-section>p+p,.detail-section>p+ul,.detail-section>ul+p,.utility-shell section>p+p{margin-top:16px}
 /* Decision instrument: plain closing paragraphs span the full width */
 :is(.detail-p03,.detail-p05) #decision-instrument .detail-subsection:first-of-type>p:not(:has(>strong)){display:block;margin-top:20px}
+
+/* Diagnostic tools: headings use the display face; form controls use the body face */
+.diagnostic-theme h1,.diagnostic-theme h2,.diagnostic-theme h3,.headline-lg,.headline-md,.headline-sm{font-family:var(--font-display)}
+input,textarea,select,button{font-family:var(--font-sans)}

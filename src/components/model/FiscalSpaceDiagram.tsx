@@ -34,10 +34,10 @@ export default function FiscalSpaceDiagram({
   const minIrr = Math.min(0, ...chartPoints.map((point) => Number(point.projectIRR))) - 0.02;
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-[#f8fafc] p-5 shadow-sm">
+    <div className="rounded-lg border border-slate-200 bg-[#f8fafc] p-5 shadow-sm">
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-lg font-bold text-[#003366]">Fiscal space diagram</p>
+          <p className="text-lg font-bold text-[#16324F]">Fiscal space diagram</p>
           <p className="mt-1 max-w-3xl text-sm text-slate-600">
             The green region is the decision space where project IRR remains above WACC and
             provincial revenue NPV remains positive. Moving the royalty slider moves the navy point.
@@ -89,7 +89,7 @@ export default function FiscalSpaceDiagram({
             <ReferenceLine y={waccLine} stroke="#dc2626" strokeWidth={2} strokeDasharray="5 4" label={{ value: 'WACC', fill: '#dc2626', position: 'right' }} />
             <ReferenceLine x={0} stroke="#64748b" strokeDasharray="3 3" />
             <Scatter name="Royalty sweep" data={chartPoints} fill="#94a3b8" line={{ stroke: '#cbd5e1', strokeWidth: 1 }} />
-            <Scatter name="Current royalty" data={currentPoint} fill="#003366" stroke="#003366" strokeWidth={3} />
+            <Scatter name="Current royalty" data={currentPoint} fill="#16324F" stroke="#16324F" strokeWidth={3} />
           </ScatterChart>
         </ResponsiveContainer>
       </div>

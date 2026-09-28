@@ -201,7 +201,7 @@ function ResourceModule(){
 function ScenarioModule(){
   const a=BASE_ASSUMPTIONS;
   const pct=(v:number|string)=>`${Math.round(Number(v)*100)}%`;
-  return <EvidenceModule title="Scenario register" source={<>DDA's B.C. Energy Fiscal Decision Model, public assumption register. <Link to="/model">Open the model</Link></>}>
+  return <EvidenceModule title="Scenario register" source="DDA's B.C. Energy Fiscal Decision Model, public assumption register.">
     <Register label="Scenario register" compare columns={['Assumption','Low','Base','High','Basis']} rows={[
       {cells:['B.C. plant inlet price, C$/GJ',a['price.bcPlantInlet.low'].value,a['price.bcPlantInlet.base'].value,a['price.bcPlantInlet.high'].value,a['price.bcPlantInlet.base'].source],status:'actual'},
       {cells:['Weighted average cost of capital','8%',pct(a['macro.wacc'].flagDefault),'12%',a['macro.wacc'].flagDefaultBasis],status:'flag'},
@@ -237,11 +237,6 @@ function AnalysisModule({page}:{page:PublicPage}){
 
 /* --- Static data --- */
 
-const diagnosticTools=[
-  {name:'WorkSafeBC Repricing Risk Diagnostic',href:'/tools/worksafe-repricing',desc:'Models repricing exposure versus sector and system benchmarks using published rate tables.'},
-  {name:'B.C. Energy Fiscal Decision Model',href:'/model',desc:'Tests royalty and fiscal scenarios for B.C. LNG against a sourced assumption register. Executive, analyst, and audit views.'},
-  {name:'BC Decarbonization Model',href:'/tools/bc-decarbonization',desc:'Stress-tests emissions pathways against statutory targets. Sector-level feasibility gaps and dependency sequences.'},
-];
 
 /* --- Cross-link maps (Task 3) --- */
 
@@ -304,18 +299,6 @@ function HomeTemplate({doc}:{doc:Document}){
         </article>)}
       </div>
       {allInsights&&<p className="home-section-link"><Rich text={allInsights.text!}/></p>}
-    </section>
-
-    <section className="home-section home-band">
-      <div className="public-container">
-        <div className="home-heading"><p className="kicker">Open tools</p><h2>Analytical models available now</h2></div>
-        <div className="tools-strip-grid">
-          {diagnosticTools.map(({name,href,desc})=><div className="tool-strip-item" key={href}>
-            <strong>{name}</strong><p>{desc}</p>
-            <Link to={href}>Open tool <ArrowRight/></Link>
-          </div>)}
-        </div>
-      </div>
     </section>
 
     <section className="home-section public-container">

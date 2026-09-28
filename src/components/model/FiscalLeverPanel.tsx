@@ -77,13 +77,13 @@ function Lever({
           <p className="text-sm font-semibold text-slate-800">{label}</p>
           <p className="mt-1 text-xs leading-5 text-slate-500">{annotation}</p>
         </div>
-        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-[#003366]">
+        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-[#16324F]">
           {format(value)}
         </span>
       </div>
       <div className="relative pt-3">
         <span
-          className="absolute -top-1 rounded bg-[#003366] px-1.5 py-0.5 text-[10px] font-semibold text-white"
+          className="absolute -top-1 rounded bg-[#16324F] px-1.5 py-0.5 text-[10px] font-semibold text-white"
           style={{ left: `calc(${pct}% - 18px)` }}
         >
           {format(value)}
@@ -100,7 +100,7 @@ function Lever({
           <Slider.Track className="relative h-2 grow rounded-full bg-slate-200">
             <Slider.Range className="absolute h-full rounded-full bg-teal-500" />
           </Slider.Track>
-          <Slider.Thumb className="block h-5 w-5 rounded-full border-2 border-white bg-[#003366] shadow focus:outline-none focus:ring-2 focus:ring-[#003366] focus:ring-offset-2" />
+          <Slider.Thumb className="block h-5 w-5 rounded-full border-2 border-white bg-[#16324F] shadow focus:outline-none focus:ring-2 focus:ring-[#16324F] focus:ring-offset-2" />
         </Slider.Root>
       </div>
     </div>
@@ -118,8 +118,8 @@ export default function FiscalLeverPanel({
 
   return (
     <aside className="space-y-4">
-      <details open className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-        <summary className="cursor-pointer font-semibold text-[#003366]">Project inputs</summary>
+      <details open className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <summary className="cursor-pointer font-semibold text-[#16324F]">Project inputs</summary>
         <div className="mt-4 space-y-3">
           <NumberInput label="Capacity" value={state.capacityMtpa} suffix="mtpa" onChange={(capacityMtpa) => onChange({ capacityMtpa, scenarioId: 'custom' })} />
           <NumberInput label="In-service year" value={state.inServiceYear} suffix="year" onChange={(inServiceYear) => onChange({ inServiceYear, scenarioId: 'custom' })} />
@@ -129,8 +129,8 @@ export default function FiscalLeverPanel({
         </div>
       </details>
 
-      <details open className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-        <summary className="cursor-pointer font-semibold text-[#003366]">Fiscal levers</summary>
+      <details open className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <summary className="cursor-pointer font-semibold text-[#16324F]">Fiscal levers</summary>
         <div className="mt-4 space-y-3">
           <Lever disabled={scenarioLocked} label="Royalty rate" value={state.royaltyRate} min={0.05} max={0.4} step={0.01} format={(v) => `${(v * 100).toFixed(0)}%`} annotation="Current legislated range: 5% to 40%." onChange={(royaltyRate) => onChange({ royaltyRate, scenarioId: 'custom' })} />
           <Lever disabled={scenarioLocked} label="WACC" value={state.wacc} min={0.06} max={0.16} step={0.005} format={(v) => `${(v * 100).toFixed(1)}%`} annotation="Proxy default used until project finance data is confirmed." onChange={(wacc) => onChange({ wacc, scenarioId: 'custom' })} />
@@ -140,16 +140,16 @@ export default function FiscalLeverPanel({
         </div>
       </details>
 
-      <details open className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-        <summary className="cursor-pointer font-semibold text-[#003366]">Scenario selector</summary>
+      <details open className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <summary className="cursor-pointer font-semibold text-[#16324F]">Scenario selector</summary>
         <RadioGroup.Root value={state.scenarioId} onValueChange={(scenarioId) => onChange({ scenarioId })} className="mt-4 space-y-2">
           <label className="flex items-center gap-2 text-sm font-medium normal-case tracking-normal text-slate-700">
-            <RadioGroup.Item value="custom" className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#003366]" />
+            <RadioGroup.Item value="custom" className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#16324F]" />
             Custom live sliders
           </label>
           {SCENARIOS.map((scenario) => (
             <label key={scenario.id} className="flex items-center gap-2 text-sm font-medium normal-case tracking-normal text-slate-700">
-              <RadioGroup.Item value={scenario.id} className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#003366]" />
+              <RadioGroup.Item value={scenario.id} className="h-4 w-4 rounded-full border border-slate-400 data-[state=checked]:bg-[#16324F]" />
               {scenario.label}
             </label>
           ))}
