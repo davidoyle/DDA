@@ -4,13 +4,13 @@ DDA follows public evidence into the systems behind a target, workforce number, 
 
 ## Featured
 
-### When a housing target outruns delivery
+### When a housing target is larger than delivery
 
 A stated housing need becomes a different problem when it is read beside historical production, land, servicing, procurement economics, financing, and vacancy. This analysis follows the target through the delivery chain.
 
-**Perspective · Planning and place · 7 minute read**
+**Perspective · Planning and place · 8 minute read**
 
-[Read When a housing target outruns delivery](./12-insight-housing-target-delivery.md)
+[Read When a housing target is larger than delivery](./12-insight-housing-target-delivery.md)
 
 ## More investigations
 

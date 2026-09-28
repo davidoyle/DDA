@@ -12,8 +12,8 @@ export function FeatureLock({ title, message, onUpgrade }: FeatureLockProps) {
       <div className="flex items-start gap-3">
         <Lock className="h-5 w-5 text-[#D4A03A] mt-0.5" />
         <div>
-          <p className="font-semibold text-[#F3EFE6]">{title}</p>
-          <p className="text-sm text-[#F3EFE6]/75 mt-1">{message}</p>
+          <p className="font-semibold text-[#F3F4F2]">{title}</p>
+          <p className="text-sm text-[#F3F4F2]/75 mt-1">{message}</p>
           {onUpgrade && (
             <button className="btn-primary mt-3" onClick={onUpgrade}>
               Upgrade to unlock

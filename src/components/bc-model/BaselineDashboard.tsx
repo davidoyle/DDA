@@ -32,19 +32,19 @@ export function BaselineDashboard({ baseline }: { baseline: ScenarioRun }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card className="border-[#d8cdb9] bg-white shadow-sm"><CardHeader><CardTitle>2023 gross</CardTitle></CardHeader><CardContent><p className="headline-md text-[#1f1f1f]">{EMISSIONS_2023_MT} Mt</p><p className="text-sm text-[#5c5548]">Net {EMISSIONS_2023_NET_MT} Mt</p></CardContent></Card>
-        <Card className="border-[#d8cdb9] bg-white shadow-sm"><CardHeader><CardTitle>NIR revision</CardTitle></CardHeader><CardContent><p className="headline-md text-[#1f1f1f]">{EMISSIONS_2023_NIR_MT} Mt</p><p className="text-sm text-[#5c5548]">Methodology note: inventory revision artifact.</p></CardContent></Card>
-        <Card className="border-[#d8cdb9] bg-white shadow-sm"><CardHeader><CardTitle>2030 legal target</CardTitle></CardHeader><CardContent><p className="headline-md text-[#1f1f1f]">{TARGET_2030_MT.toFixed(1)} Mt</p><p className="text-sm text-[#5c5548]">40% below 2007 baseline.</p></CardContent></Card>
-        <Card className="border-[#d8cdb9] bg-white shadow-sm"><CardHeader><CardTitle>Gap to close</CardTitle></CardHeader><CardContent><p className="headline-md text-[#1f1f1f]">{gap > 0 ? `+${gap.toFixed(1)}` : gap.toFixed(1)} Mt</p><Badge variant={gap <= 0 ? 'default' : 'secondary'}>{gap <= 0 ? 'On track in baseline' : 'Baseline shortfall'}</Badge></CardContent></Card>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <Card className="border-[#D9DDDA] bg-white shadow-sm"><CardHeader><CardTitle>2023 gross</CardTitle></CardHeader><CardContent><p className="headline-md text-[#111111]">{EMISSIONS_2023_MT} Mt</p><p className="text-sm text-[#626966]">Net {EMISSIONS_2023_NET_MT} Mt</p></CardContent></Card>
+        <Card className="border-[#D9DDDA] bg-white shadow-sm"><CardHeader><CardTitle>NIR revision</CardTitle></CardHeader><CardContent><p className="headline-md text-[#111111]">{EMISSIONS_2023_NIR_MT} Mt</p><p className="text-sm text-[#626966]">Methodology note: inventory revision artifact.</p></CardContent></Card>
+        <Card className="border-[#D9DDDA] bg-white shadow-sm"><CardHeader><CardTitle>2030 legal target</CardTitle></CardHeader><CardContent><p className="headline-md text-[#111111]">{TARGET_2030_MT.toFixed(1)} Mt</p><p className="text-sm text-[#626966]">40% below 2007 baseline.</p></CardContent></Card>
+        <Card className="border-[#D9DDDA] bg-white shadow-sm"><CardHeader><CardTitle>Gap to close</CardTitle></CardHeader><CardContent><p className="headline-md text-[#111111]">{gap > 0 ? `+${gap.toFixed(1)}` : gap.toFixed(1)} Mt</p><Badge variant={gap <= 0 ? 'default' : 'secondary'}>{gap <= 0 ? 'On track in baseline' : 'Baseline shortfall'}</Badge></CardContent></Card>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <Card className="border-[#d8cdb9] bg-white shadow-sm"><CardHeader><CardTitle>Sectoral breakdown</CardTitle></CardHeader><CardContent><SectorBarChart data={sectorData} /></CardContent></Card>
-        <Card className="border-[#d8cdb9] bg-white shadow-sm"><CardHeader><CardTitle>Technology milestone tracker</CardTitle></CardHeader><CardContent><ZEVDiffusionChart data={baseline.results} /></CardContent></Card>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <Card className="border-[#D9DDDA] bg-white shadow-sm"><CardHeader><CardTitle>Sectoral breakdown</CardTitle></CardHeader><CardContent><SectorBarChart data={sectorData} /></CardContent></Card>
+        <Card className="border-[#D9DDDA] bg-white shadow-sm"><CardHeader><CardTitle>Technology milestone tracker</CardTitle></CardHeader><CardContent><ZEVDiffusionChart data={baseline.results} /></CardContent></Card>
       </div>
 
-      <Card className="border-[#d8cdb9] bg-white shadow-sm">
+      <Card className="border-[#D9DDDA] bg-white shadow-sm">
         <CardHeader><CardTitle>Annual emissions table</CardTitle></CardHeader>
         <CardContent>
           <Table>
@@ -63,10 +63,10 @@ export function BaselineDashboard({ baseline }: { baseline: ScenarioRun }) {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 xl:grid-cols-2">
-        <Card className="border-[#d8cdb9] bg-white shadow-sm">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        <Card className="border-[#D9DDDA] bg-white shadow-sm">
           <CardHeader><CardTitle>Electricity system panel</CardTitle></CardHeader>
-          <CardContent className="space-y-3 text-sm text-[#3f3a34]">
+          <CardContent className="space-y-3 text-sm text-[#111111]">
             <ElectricityDemandChart data={baseline.results} />
             <ul className="list-disc space-y-1 pl-5">
               <li>Demand growth anchor: +{(ELECTRICITY_DEMAND_GROWTH_BY_2030 * 100).toFixed(0)}% by 2030.</li>
@@ -76,9 +76,9 @@ export function BaselineDashboard({ baseline }: { baseline: ScenarioRun }) {
             </ul>
           </CardContent>
         </Card>
-        <Card className="border-[#d8cdb9] bg-white shadow-sm">
+        <Card className="border-[#D9DDDA] bg-white shadow-sm">
           <CardHeader><CardTitle>Household burden panel</CardTitle></CardHeader>
-          <CardContent className="space-y-3 text-sm text-[#3f3a34]">
+          <CardContent className="space-y-3 text-sm text-[#111111]">
             <ul className="list-disc space-y-1 pl-5">
               <li>BC average household spending 2023: ${BC_AVG_HOUSEHOLD_SPENDING_2023.toLocaleString()}.</li>
               <li>National energy/water/fuel proxy: ${NATIONAL_ENERGY_WATER_FUEL_ELEC_PER_HH.toLocaleString()} per household.</li>
@@ -86,7 +86,7 @@ export function BaselineDashboard({ baseline }: { baseline: ScenarioRun }) {
               <li>Carbon rebate ended April 2025.</li>
               <li>Lowest quintile shelter share proxy: 34.8% of spending.</li>
             </ul>
-            <div className="rounded-2xl bg-[#f7f1e6] p-4 text-xs text-[#5c5548]">Model estimate; reconciliation with UNFCCC NIR methodology required. Pulp/paper is tracked as the leading industrial sub-component at {(PULP_PAPER_SHARE_OF_PROVINCIAL * 100).toFixed(1)}% of provincial GHG.</div>
+            <div className="rounded-lg bg-[#F3F4F2] p-4 text-xs text-[#626966]">Model estimate; reconciliation with UNFCCC NIR methodology required. Pulp/paper is tracked as the leading industrial sub-component at {(PULP_PAPER_SHARE_OF_PROVINCIAL * 100).toFixed(1)}% of provincial GHG.</div>
           </CardContent>
         </Card>
       </div>

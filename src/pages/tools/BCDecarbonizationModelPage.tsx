@@ -34,12 +34,12 @@ export default function BCDecarbonizationModelPage() {
       <div className="mx-auto max-w-[1400px] space-y-8">
         <header className="space-y-4">
           <p className="eyebrow">Policy tools</p>
-          <h1 className="headline-md text-[#1f1f1f]">BC Decarbonization Model</h1>
-          <p className="max-w-4xl text-base text-[#4a453d]">Interactive policy simulation for British Columbia&apos;s constrained emissions transition, 2026–2030. Explore policy levers, review the baseline case, and compare stress-tested scenarios against legal targets.</p>
+          <h1 className="headline-md text-[#111111]">BC Decarbonization Model</h1>
+          <p className="max-w-4xl text-base text-[#111111]">Interactive policy simulation for British Columbia&apos;s constrained emissions transition, 2026–2030. Explore policy levers, review the baseline case, and compare stress-tested scenarios against legal targets.</p>
         </header>
 
         <Tabs defaultValue="explore" className="space-y-6">
-          <TabsList className="h-auto flex-wrap bg-[#e7dfd0] p-1">
+          <TabsList className="h-auto flex-wrap bg-[#F3F4F2] p-1">
             <TabsTrigger value="explore">Explore</TabsTrigger>
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="scenarios">Scenarios</TabsTrigger>

@@ -36,7 +36,7 @@ export default function ExecutiveView({
       <section>
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
-            <h2 className="text-xl font-bold text-[#003366]">Scenario strip</h2>
+            <h2 className="text-xl font-bold text-[#16324F]">Scenario strip</h2>
             <p className="text-sm text-slate-600">Selecting a scenario updates the live fiscal-space chart and executive metrics.</p>
           </div>
         </div>
@@ -55,14 +55,14 @@ export default function ExecutiveView({
         </div>
       </section>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-bold text-[#003366]">Data quality statement</h2>
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 className="text-lg font-bold text-[#16324F]">Data quality statement</h2>
         <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-700">
           This analysis uses {actualCount} confirmed primary sources and {proxyCount} proxy estimates.
           Proxy estimates are based on publicly documented methodologies. {estimatedCount} inputs require
           Ministry data to confirm.
         </p>
-        <button type="button" onClick={onAudit} className="mt-4 text-sm font-semibold text-[#003366] underline underline-offset-4">
+        <button type="button" onClick={onAudit} className="mt-4 text-sm font-semibold text-[#16324F] underline underline-offset-4">
           Open Audit mode to resolve flags
         </button>
       </section>

@@ -18,6 +18,8 @@ https://www.ddanalytics.ca/* https://ddanalytics.ca/:splat 301
 /diagnostics/demo/* /tools/:splat 301
 /what-we-do/public-interest-research-evidence-packages /what-we-do/institutional-policy-analysis/ 301
 /what-we-do/public-interest-research-evidence-packages/* /what-we-do/institutional-policy-analysis/ 301
+/what-we-do/official-community-plan-policy-analysis /what-we-do/ 301
+/what-we-do/official-community-plan-policy-analysis/* /what-we-do/ 301
 /insights/what-a-flag-tells-you /insights/when-an-unsupported-number-carries-the-answer/ 301
 /insights/what-a-flag-tells-you/* /insights/when-an-unsupported-number-carries-the-answer/ 301
 /* /index.html 200

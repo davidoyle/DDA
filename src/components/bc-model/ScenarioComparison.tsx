@@ -29,7 +29,7 @@ export function ScenarioComparison({ scenarios, selectedIds, onToggle }: Props) 
   return (
     <div className="space-y-6">
       <ScenarioSelector scenarios={scenarios} selectedIds={selectedIds} onToggle={onToggle} />
-      <Card className="border-[#d8cdb9] bg-white shadow-sm">
+      <Card className="border-[#D9DDDA] bg-white shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between"><CardTitle>Scenario comparison</CardTitle><Button type="button" onClick={handleExport} className="gap-2"><Download className="size-4" />Export JSON</Button></CardHeader>
         <CardContent className="space-y-6">
           <EmissionsLineChart scenarios={selected} />

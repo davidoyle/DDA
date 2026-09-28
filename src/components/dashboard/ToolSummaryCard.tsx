@@ -12,8 +12,8 @@ export default function ToolSummaryCard({ tool, headlineCost, trend }: Props) {
   return (
     <article className="card space-y-3">
       <h3 className="font-heading text-2xl">{label}</h3>
-      <p className="text-[#F3EFE6]/80">Latest headline cost: {headlineCost === null ? 'Not run yet' : `$${headlineCost.toLocaleString('en-CA')}`}</p>
-      <p className="text-sm text-[#F3EFE6]/75">Trend: {trend}</p>
+      <p className="text-[#F3F4F2]/80">Latest headline cost: {headlineCost === null ? 'Not run yet' : `$${headlineCost.toLocaleString('en-CA')}`}</p>
+      <p className="text-sm text-[#F3F4F2]/75">Trend: {trend}</p>
       <Link to={route} className="btn-secondary">Run {tool.toUpperCase()} tool</Link>
     </article>
   )

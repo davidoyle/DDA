@@ -16,11 +16,11 @@ export function ScenarioSelector({ scenarios, selectedIds, onToggle }: ScenarioS
             key={scenario.id}
             type="button"
             onClick={() => onToggle(scenario.id)}
-            className={`rounded-2xl border p-4 text-left transition ${active ? 'border-[#1f3a5f] bg-[#1f3a5f] text-white shadow-lg' : 'border-[#d8cdb9] bg-white text-[#1f1f1f] hover:border-[#1f3a5f]'}`}
+            className={`rounded-lg border p-4 text-left transition ${active ? 'border-[#16324F] bg-[#16324F] text-white shadow-lg' : 'border-[#D9DDDA] bg-white text-[#111111] hover:border-[#16324F]'}`}
           >
-            <p className={`font-mono text-xs uppercase tracking-[0.12em] ${active ? 'text-[#d7e1ef]' : 'text-[#6b6255]'}`}>{scenario.label}</p>
+            <p className={` text-xs uppercase font-semibold tracking-[0.08em] ${active ? 'text-[#d7e1ef]' : 'text-[#626966]'}`}>{scenario.label}</p>
             <p className="mt-2 font-heading text-xl">{scenario.results.at(-1)?.status}</p>
-            <p className={`mt-2 text-sm ${active ? 'text-white/80' : 'text-[#5c5548]'}`}>{scenario.description}</p>
+            <p className={`mt-2 text-sm ${active ? 'text-white/80' : 'text-[#626966]'}`}>{scenario.description}</p>
           </button>
         );
       })}

@@ -21,7 +21,7 @@ interface Props {
   onSaveScenario: (scenario: ScenarioRun) => void;
 }
 
-const sectorCardClass = 'border-[#d8cdb9] bg-white shadow-sm';
+const sectorCardClass = 'border-[#D9DDDA] bg-white shadow-sm';
 
 export function ModelExplorer({ baseline, controls, phiWeights, onChangeControls, onChangePhiWeights, onSaveScenario }: Props) {
   const [scenarioCounter, setScenarioCounter] = useState(1);
@@ -39,7 +39,7 @@ export function ModelExplorer({ baseline, controls, phiWeights, onChangeControls
   };
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[360px_minmax(0,1fr)]">
       <div className="space-y-4">
         <PolicySlider label="Carbon Price" value={controls.carbonPrice} min={65} max={250} step={5} helper="$/tonne" formatValue={(value) => `$${value.toFixed(0)}`} onChange={(value) => updateControl('carbonPrice', value)} />
         <PolicySlider label="ZEV Support Intensity" value={controls.zevSupport} helper="Consumer and charging support intensity." onChange={(value) => updateControl('zevSupport', value)} />
@@ -50,9 +50,9 @@ export function ModelExplorer({ baseline, controls, phiWeights, onChangeControls
         <PolicySlider label="Dual-Fuel Policy" value={controls.dualFuelPolicy} helper="0 = all-electric mandate; 1 = dual-fuel allowed." onChange={(value) => updateControl('dualFuelPolicy', value)} />
         <PolicySlider label="Grid Expansion Support" value={controls.gridExpansionSupport} helper="Paces new clean generation additions." onChange={(value) => updateControl('gridExpansionSupport', value)} />
 
-        <Accordion type="single" collapsible className="rounded-2xl border border-[#d8cdb9] bg-white px-4 shadow-sm">
+        <Accordion type="single" collapsible className="rounded-lg border border-[#D9DDDA] bg-white px-4 shadow-sm">
           <AccordionItem value="advanced" className="border-none">
-            <AccordionTrigger className="text-sm font-semibold text-[#1f1f1f]">Advanced political cost weights</AccordionTrigger>
+            <AccordionTrigger className="text-sm font-semibold text-[#111111]">Advanced political cost weights</AccordionTrigger>
             <AccordionContent className="space-y-4 pb-4">
               <PolicySlider label="φ1 fuel cost" value={phiWeights.phi1} onChange={(value) => updatePhi('phi1', value)} />
               <PolicySlider label="φ2 power bill" value={phiWeights.phi2} onChange={(value) => updatePhi('phi2', value)} />
@@ -64,13 +64,13 @@ export function ModelExplorer({ baseline, controls, phiWeights, onChangeControls
 
         <div className="flex flex-wrap gap-3">
           <Button type="button" className="gap-2" onClick={() => onChangeControls({ ...PRESETS.baseline.controls })}><RotateCcw className="size-4" />Reset to baseline</Button>
-          <Button type="button" variant="outline" className="gap-2 border-[#1f3a5f] text-[#1f3a5f]" onClick={saveScenario}><Save className="size-4" />Save as scenario</Button>
+          <Button type="button" variant="outline" className="gap-2 border-[#16324F] text-[#16324F]" onClick={saveScenario}><Save className="size-4" />Save as scenario</Button>
         </div>
       </div>
 
       <div className="space-y-6">
         {controls.gridExpansionSupport < 0.3 && scenario.results.some((point) => point.year >= 2028) ? (
-          <div className="flex items-start gap-3 rounded-2xl border border-[#d1603d]/30 bg-[#fff4ef] p-4 text-sm text-[#7d3f2d]">
+          <div className="flex items-start gap-3 rounded-lg border border-[#d1603d]/30 bg-[#fff4ef] p-4 text-sm text-[#7d3f2d]">
             <AlertTriangle className="mt-0.5 size-5 shrink-0" />
             <div>
               <p className="font-semibold">Grid constraint warning</p>
@@ -83,16 +83,16 @@ export function ModelExplorer({ baseline, controls, phiWeights, onChangeControls
           <CardHeader className="flex flex-row items-center justify-between"><CardTitle>Total BC emissions</CardTitle><Badge variant={final.status === 'ON TRACK' ? 'default' : final.status === 'AT RISK' ? 'secondary' : 'destructive'}>{final.status}</Badge></CardHeader>
           <CardContent>
             <EmissionsLineChart data={scenario.results} />
-            <p className="mt-3 text-xs text-[#5c5548]">Model estimate; reconciliation with UNFCCC NIR methodology required.</p>
+            <p className="mt-3 text-xs text-[#626966]">Model estimate; reconciliation with UNFCCC NIR methodology required.</p>
           </CardContent>
         </Card>
 
-        <div className="grid gap-6 xl:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           <Card className={sectorCardClass}><CardHeader><CardTitle>ZEV share by year</CardTitle></CardHeader><CardContent><ZEVDiffusionChart data={scenario.results} /></CardContent></Card>
           <Card className={sectorCardClass}><CardHeader><CardTitle>Electricity demand growth</CardTitle></CardHeader><CardContent><ElectricityDemandChart data={scenario.results} /></CardContent></Card>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
           {[
             { title: 'Household burden index', value: final.householdBurden, delta: final.householdBurden - baselineFinal.householdBurden, suffix: '' },
             { title: 'Policy credibility', value: final.policyCred, delta: final.policyCred - baselineFinal.policyCred, suffix: '' },
@@ -103,22 +103,22 @@ export function ModelExplorer({ baseline, controls, phiWeights, onChangeControls
             <Card key={card.title} className={sectorCardClass}>
               <CardHeader><CardTitle className="text-base">{card.title}</CardTitle></CardHeader>
               <CardContent>
-                <p className="font-heading text-3xl text-[#1f1f1f]">{(card.value * 100).toFixed(1)}{card.suffix}</p>
-                <p className={`mt-2 text-sm ${card.delta >= 0 ? 'text-[#1f3a5f]' : 'text-[#7d3f2d]'}`}>{card.delta >= 0 ? '+' : ''}{(card.delta * 100).toFixed(1)} vs baseline</p>
+                <p className="font-heading text-3xl text-[#111111]">{(card.value * 100).toFixed(1)}{card.suffix}</p>
+                <p className={`mt-2 text-sm ${card.delta >= 0 ? 'text-[#16324F]' : 'text-[#7d3f2d]'}`}>{card.delta >= 0 ? '+' : ''}{(card.delta * 100).toFixed(1)} vs baseline</p>
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {scenario.results.map((point) => (
             <Card key={point.year} className={sectorCardClass}>
               <CardHeader><CardTitle>{point.year}</CardTitle></CardHeader>
-              <CardContent className="space-y-2 text-sm text-[#3f3a34]">
+              <CardContent className="space-y-2 text-sm text-[#111111]">
                 <p>Transport: {point.emissions.transport.toFixed(1)} Mt</p>
                 <p>Industry: {point.emissions.industry.toFixed(1)} Mt</p>
                 <p>Buildings: {point.emissions.buildings.toFixed(1)} Mt</p>
-                <p className="rounded-xl bg-[#f7f1e6] p-2 text-xs text-[#5c5548]">Pulp/paper tracked at {point.pulpPaperEmissions.toFixed(1)} Mt as the leading industrial sub-component.</p>
+                <p className="rounded-lg bg-[#F3F4F2] p-2 text-xs text-[#626966]">Pulp/paper tracked at {point.pulpPaperEmissions.toFixed(1)} Mt as the leading industrial sub-component.</p>
               </CardContent>
             </Card>
           ))}

@@ -213,8 +213,8 @@ export default function ModelShell() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 print:bg-white">
       <header className="sticky top-0 z-40 flex min-h-14 flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-2 shadow-sm print:static">
-        <div className="flex items-center gap-2 font-bold text-[#003366]">
-          <span className="flex h-9 w-9 items-center justify-center rounded bg-[#003366] text-white"><Building2 className="h-5 w-5" /></span>
+        <div className="flex items-center gap-2 font-bold text-[#16324F]">
+          <span className="flex h-9 w-9 items-center justify-center rounded bg-[#16324F] text-white"><Building2 className="h-5 w-5" /></span>
           <span>B.C. Energy Fiscal Model</span>
         </div>
 
@@ -237,7 +237,7 @@ export default function ModelShell() {
                 onClick={() => setMode(item)}
                 className={cn(
                   'rounded-full px-4 py-1.5 capitalize transition',
-                  mode === item ? 'bg-[#003366] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900',
+                  mode === item ? 'bg-[#16324F] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900',
                 )}
               >
                 {item}
@@ -293,7 +293,7 @@ export default function ModelShell() {
       <footer className="sticky bottom-0 z-30 flex min-h-10 flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-white px-4 py-2 text-xs text-slate-600 print:hidden">
         <span>Last calculation: {lastCalculated}</span>
         <span>{estimatedCount} of {totalCount} inputs estimated · {actualCount} confirmed primary sources</span>
-        <button type="button" onClick={() => window.print()} className="rounded border border-slate-300 px-3 py-1 font-semibold text-[#003366] hover:bg-slate-50">
+        <button type="button" onClick={() => window.print()} className="rounded border border-slate-300 px-3 py-1 font-semibold text-[#16324F] hover:bg-slate-50">
           Export briefing note
         </button>
       </footer>
