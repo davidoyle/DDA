@@ -66,7 +66,7 @@ Send DDA the schedule, the workforce plan, or the grant scope. We will divide th
 
 **Talk to DDA**
 
-**Source note:** The Eskay Creek analysis is independent work built from public filings, provincial trades training data, and Statistics Canada labour data. The register behind it lists each figure with its source, release date, and status. TODO: add the document titles, dates, and links before publication.
+**Source note:** The Eskay Creek analysis is independent work built from public filings, provincial trades training data, and Statistics Canada labour data. The register behind it lists each figure with its source, release date, and status. Primary source: DDA, Trade-Specific Labour Shortage: Eskay Creek & Parallel BC Projects, effective 24 March 2026. All project-specific figures, source dates, trade allocations, supply estimates, and timing findings in this article come from that report. The report distinguishes disclosed project facts from modelled estimates. Recheck current sources before operational use.
 
 ### Related thinking
 
