@@ -1,6 +1,6 @@
 # Fiscal and scenario modelling
 
-A fiscal model turns assumptions into a public decision. DDA builds models that connect population, housing, land, infrastructure, cost, timing, and revenue. Then we test which assumption carries the result and at what value the decision changes.
+A fiscal model or fiscal impact analysis turns assumptions into a public decision. DDA builds models that connect population, housing, land, infrastructure, cost, timing, and revenue. Then we test which assumption carries the result and at what value the decision changes.
 
 **On this page**
 

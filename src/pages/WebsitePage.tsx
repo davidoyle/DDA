@@ -1,9 +1,10 @@
-import { createContext, Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, createContext, Fragment, lazy, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { fileRoutes, pageByRoute, pageManifest, pages, titleRoutes, type PublicPage } from '@/content/siteContent';
-import { AnalysisModule } from './EvidenceModules';
+const AnalysisModule = lazy(() => import('./EvidenceModules').then((m) => ({ default: m.AnalysisModule })));
+import { trail } from '@/lib/seo.mjs';
 import { inlineText, parsePage, type Inline, type MdBlock } from '@/lib/markdown.mjs';
 
 /*
@@ -139,11 +140,11 @@ function Toc({ block, ids }: { block: Extract<MdBlock, { type: 'toc' }>; ids?: S
 }
 
 function Breadcrumbs({ page }: { page: PublicPage }) {
-  const parent = page.type === 'capability' || page.type === 'area' ? ['/what-we-do/', 'What we do'] : page.type === 'article' ? ['/insights/', 'Insights'] : undefined;
+  const crumbs = trail(page, pageManifest);
   return <nav className="public-breadcrumb" aria-label="Breadcrumb">
-    <Link to="/">Home</Link><span aria-hidden="true">/</span>
-    {parent && <><Link to={parent[0]}>{parent[1]}</Link><span aria-hidden="true">/</span></>}
-    <span aria-current="page">{page.title}</span>
+    {crumbs.map((c, i) => i < crumbs.length - 1
+      ? <Fragment key={c.route}><Link to={c.route}>{c.name}</Link><span aria-hidden="true">/</span></Fragment>
+      : <span key={c.route} aria-current="page">{c.name}</span>)}
   </nav>;
 }
 
@@ -153,7 +154,7 @@ function Hero({ doc, full, image, aside }: { doc: Doc; full?: boolean; image?: s
   const actions = doc.hero.filter(isCta);
   const text = doc.hero.filter((b) => !isCta(b) && b.type !== 'toc');
   return <header className={['page-hero', full && 'page-hero-full', aside && 'page-hero-aside', image && 'page-hero-image'].filter(Boolean).join(' ')}>
-    {image && <img className="hero-bg" src={image} alt="" aria-hidden="true" fetchPriority="high" decoding="async" />}
+    {image && <img className="hero-bg" src={image} alt="" aria-hidden="true" width={1672} height={941} fetchPriority="high" decoding="async" />}
     {aside && <div className="public-container hero-aside">{aside}</div>}
     <div className="public-container">
       <h1><Rich tokens={doc.h1.tokens} /></h1>
@@ -223,7 +224,7 @@ function HomeTemplate({ doc }: { doc: Doc }) {
             {s.heading && <HeadingTag block={s.heading} className="md-section-title" />}
             <div className="home-copy"><Blocks blocks={lead} /></div>
             {subs.length > 0 && <div className="insight-layout">{subs.map((x, j) => <article className={[j === 0 ? 'insight-lead' : 'insight-card', insightImages[x.heading.text] ? 'insight-media' : ''].join(' ').trim()} key={x.heading.id}>
-              {insightImages[x.heading.text] && <img className="insight-media-img" src={insightImages[x.heading.text]} alt="" aria-hidden="true" loading="lazy" decoding="async" />}
+              {insightImages[x.heading.text] && <img className="insight-media-img" src={insightImages[x.heading.text]} alt="" aria-hidden="true" width={1152} height={768} loading="lazy" decoding="async" />}
               <HeadingTag block={x.heading} className="md-sub" /><Blocks blocks={x.blocks} />
             </article>)}</div>}
           </>}
@@ -232,8 +233,9 @@ function HomeTemplate({ doc }: { doc: Doc }) {
   </>;
 }
 
-function HubTemplate({ doc }: { doc: Doc }) {
+function HubTemplate({ doc, page }: { doc: Doc; page: PublicPage }) {
   return <>
+    <Breadcrumbs page={page} />
     <Hero doc={doc} />
     <div className="public-container hub-content"><Sections sections={doc.sections} className="standard-section" subLayout="grid" /></div>
   </>;
@@ -246,13 +248,14 @@ function DetailTemplate({ doc, page }: { doc: Doc; page: PublicPage }) {
     <Hero doc={doc} />
     <div className={`detail-layout public-container${doc.toc ? '' : ' detail-layout-single'}`}>
       {doc.toc && <aside><Blocks blocks={[doc.toc]} ids={ids} /></aside>}
-      <div className="detail-main"><Sections sections={doc.sections} className="detail-section" subLayout="plain" keyed extra={(i) => (i === 1 ? <AnalysisModule route={page.route} /> : null)} /></div>
+      <div className="detail-main"><Sections sections={doc.sections} className="detail-section" subLayout="plain" keyed extra={(i) => (i === 1 ? <Suspense fallback={null}><AnalysisModule route={page.route} /></Suspense> : null)} /></div>
     </div>
   </>;
 }
 
-function InsightsHubTemplate({ doc }: { doc: Doc }) {
+function InsightsHubTemplate({ doc, page }: { doc: Doc; page: PublicPage }) {
   return <>
+    <Breadcrumbs page={page} />
     <Hero doc={doc} />
     <div className="public-container insights-editorial">
       <Sections sections={doc.sections} className="insight-entry-block" subLayout="plain" />
@@ -337,7 +340,7 @@ function ContactForm() {
     if (Object.keys(next).length) { setErrors(next); setTimeout(() => summary.current?.focus()); return; }
     setErrors({}); setState('sending');
     try {
-      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(form)) });
+      const response = await fetch('/api/contact/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(form)) });
       if (!response.ok) throw new Error();
       setState('success');
     } catch { setState('error'); }
@@ -406,9 +409,9 @@ export default function WebsitePage() {
   return <LevelContext.Provider value={level}>{(() => {
     switch (page.type) {
       case 'home': return <HomeTemplate doc={doc} />;
-      case 'hub': return <HubTemplate doc={doc} />;
+      case 'hub': return <HubTemplate doc={doc} page={page} />;
       case 'capability': case 'area': case 'public-interest': return <DetailTemplate doc={doc} page={page} />;
-      case 'insights-hub': return <InsightsHubTemplate doc={doc} />;
+      case 'insights-hub': return <InsightsHubTemplate doc={doc} page={page} />;
       case 'article': return <ArticleTemplate doc={doc} page={page} />;
       case 'about': return <AboutTemplate doc={doc} page={page} />;
       case 'consulting': return <ProseTemplate doc={doc} page={page} />;

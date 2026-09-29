@@ -45,7 +45,7 @@ DDA overlays the constraints and reports the land that remains and the land that
 
 ### 05 What the work can produce
 
-The work can produce an employment-land or housing-land analysis, a parcel table that shows every screen and every loss, a servicing and capacity review, an ownership and assembly analysis, an investment-readiness assessment for named sites, and a ranked list of actions that bundles the zoning, servicing, landowner, and investment steps that must happen together. DDA delivers the steps as one bundle, because separate recommendations leave the connections between them unstated.
+The work can produce an employment lands analysis for a strategy or an update, a housing land analysis, a parcel table that shows every screen and every loss, a servicing and capacity review, an ownership and assembly analysis, an investment-readiness assessment for named sites, and a ranked list of actions that bundles the zoning, servicing, landowner, and investment steps that must happen together. DDA delivers the steps as one bundle, because separate recommendations leave the connections between them unstated.
 
 A deprioritization list is part of the product. It names the sites that must not receive effort and gives the reason.
 
