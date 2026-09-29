@@ -1,4 +1,4 @@
-# Economic development strategy
+# Economic development
 
 ## An opportunity is only the start
 
@@ -12,7 +12,27 @@ When one barrier goes away, a different barrier can appear. An intervention can 
 
 A strategy that can support a decision explains what can move, what prevents movement, and why the constraint exists. It also shows if intervention has a valid reason, how other actors will respond, and what becomes the binding constraint next.
 
-## Start with evidence
+**On this page**
+
+Start with evidence
+Follow the opportunity through the delivery chain
+Find the constraint and its cause
+Test the opportunity before it becomes a priority
+Separate a constraint from a case for public action
+Measure what the intervention adds
+Test the system response
+Understand actors, incentives, and commitments
+Put decisions in sequence
+Examine scale, timing, and adjustment
+Test the economic consequence
+Strategy under uncertainty
+What the work can produce
+Decision instrument
+Bring the question
+
+---
+
+### 01 Start with evidence
 
 Economic development work often starts with a stated opportunity. The source can be an industry forecast, a request from an employer, an investment inquiry, a major-project announcement, a land inventory, a labour-market report, or an existing strategy.
 
@@ -22,7 +42,7 @@ An investment inquiry is evidence of interest. A final investment decision is a 
 
 When source, date, geography, definition, or status can change the decision, DDA records them. When two figures disagree, both stay visible until the analysis resolves the difference. The strategy starts from a record of evidence, and the conclusions follow from that record.
 
-## Follow the opportunity through the delivery chain
+### 02 Follow the opportunity through the delivery chain
 
 An economic opportunity becomes real through a sequence of conditions. DDA calls this sequence the delivery chain.
 
@@ -34,7 +54,7 @@ That point is often somewhere other than where people look. A region can describ
 
 A stated opportunity is useful only when the path to delivery is visible.
 
-## Find the constraint and its cause
+### 03 Find the constraint and its cause
 
 The first diagnostic step is to find where movement stops. Then DDA asks why it stops there.
 
@@ -44,7 +64,7 @@ The same method applies to labour, capital, infrastructure, suppliers, housing, 
 
 A useful diagnosis identifies two things: the condition that controls movement, and the mechanism that causes that condition. Broad categories such as "workforce," "land," or "capital" do not give enough detail for a decision.
 
-## Test the opportunity before it becomes a priority
+### 04 Test the opportunity before it becomes a priority
 
 An opportunity can be real and still be a poor strategic priority. DDA tests the full case.
 
@@ -52,15 +72,15 @@ The test starts with evidence. A broad trend is a reason to investigate. A buyer
 
 Next is fit. What economic activity can occur, and why can this region capture it? The answer depends on firms, workers, land, infrastructure, institutions, market access, supplier relationships, and what the region can build in time.
 
-Then come delivery and scale. Can the region assemble the necessary conditions, and does the opportunity get to a viable operating scale? Training programs, infrastructure, suppliers, facilities, and services often need sufficient demand to pay their fixed costs.
+Then come delivery and scale. Can the region assemble the necessary conditions, and does the opportunity reach a viable operating scale? Training programs, infrastructure, suppliers, facilities, and services often need enough demand to pay their fixed costs.
 
-Then responsiveness. If the constraint changes, how much will behaviour change? Lower site costs have little effect when power is not sufficient. A training subsidy has a limited effect when qualified workers will not move to the region.
+Then responsiveness. If the constraint changes, how much will behaviour change? Lower site costs have little effect when power is short. A training subsidy has a limited effect when qualified workers will not move to the region.
 
 Last is consequence. If the opportunity succeeds, what changes in employment, income, business activity, public revenue, housing demand, infrastructure use, supplier activity, and public costs? How much of the value stays in the region?
 
 The priority comes from the full case. The size of the opportunity is only one part of it.
 
-## Separate a constraint from a case for public action
+### 05 Separate a constraint from a case for public action
 
 A real constraint does not automatically give a reason for intervention. Private action can fall short when the benefits go to people other than the actor who pays the cost, or when many firms need the same shared service. It can also fall short when information or finance is missing, coordination fails, market power distorts the result, or nobody can carry a large risk in an effective way.
 
@@ -70,7 +90,7 @@ So DDA asks why the problem continues without intervention, and why the proposed
 
 When a project starts after it receives support, the support was not necessarily the cause. The analysis separates the observed outcome from the change that the evidence can connect to the intervention.
 
-## Measure what the intervention adds
+### 06 Measure what the intervention adds
 
 Economic development reports often give gross outcomes: jobs, investment, trained workers, and the value of construction. Gross outcomes do not show the additional economic effect. DDA asks what occurs if there is no action, and how much of the observed result is additional.
 
@@ -78,7 +98,7 @@ An intervention can make an investment occur earlier with no change to the final
 
 These effects change how DDA measures the consequence. The relevant result is the change compared with a credible alternative, and the gross activity of the supported project is a different number.
 
-## Test the system response
+### 07 Test the system response
 
 When one condition changes, behaviour can change in other places. New industrial land does not create electrical capacity. A workforce subsidy can increase the demand for workers, and housing costs, commute times, recruitment problems, or wages can absorb part of the effect. Public construction can compete with private projects for workers, materials, electricity, capital, and construction capacity.
 
@@ -86,7 +106,7 @@ DDA asks what else changes and how much firms, workers, and investors respond. I
 
 A fix to one problem does not always make the full system better. The analysis tests the direct effect and the response around it.
 
-## Understand actors, incentives, and commitments
+### 08 Understand actors, incentives, and commitments
 
 Formal authority is only one part of control. An organization can own a decision and still lack funds, information, approval, or confidence that a different actor will do its part.
 
@@ -94,7 +114,7 @@ Several actors can want the same outcome while each waits for another to commit 
 
 The problem is often sequence and credibility. DDA examines what each important actor wants, controls, knows, does not know, and waits for. Site control, permits, contracts, finance, equipment orders, procurement documents, new hires, and capital expenditure are stronger evidence of intent than a general statement of interest.
 
-## Put decisions in sequence
+### 09 Put decisions in sequence
 
 Economic development decisions occur at different times, and the actor that moves first can change the result.
 
@@ -104,7 +124,7 @@ For each major initiative, DDA asks what must occur first, what can occur at the
 
 Land purchases, infrastructure expansion, specialized facilities, and long-term contracts are expensive to undo. Better information has value, and delay has costs. The strategy compares the cost of early action with the cost of late action.
 
-## Examine scale, timing, and adjustment
+### 10 Examine scale, timing, and adjustment
 
 The same constraint can look different over different periods. Electrical capacity, serviced land, specialized labour, transportation infrastructure, and training capacity can be fixed in the short term and able to change over a longer period.
 
@@ -112,7 +132,7 @@ A region can train more workers over time and still miss a construction window. 
 
 Scale matters too. A shared service or training program can become viable when employers combine their demand. One infrastructure project can support several sites. A supplier enters the market only when expected demand is more than a minimum level.
 
-## Test the economic consequence
+### 11 Test the economic consequence
 
 An economic development initiative uses scarce resources. Land, infrastructure capacity, public money, and staff time can go to only one use at a time. Public action can also compete with private activity for labour, materials, finance, utilities, and construction capacity. DDA tests opportunity cost and crowding out, and it separates gross project activity from regional economic benefit.
 
@@ -122,7 +142,7 @@ Distribution is also important. Employers, workers, landowners, residents, taxpa
 
 The final question is this: what changes because of the intervention, for whom, over what period, at what cost, and compared with what alternative?
 
-## Strategy under uncertainty
+### 12 Strategy under uncertainty
 
 Economic development decisions occur with incomplete information. Investors do not fully show their intentions. Governments, utilities, employers, and workers make decisions without full knowledge of future conditions.
 
@@ -130,7 +150,7 @@ Some uncertainty is measurable risk. Other uncertainty is deeper, and nobody kno
 
 DDA separates what we know, what we infer, and what we expect. Then it identifies signals that anyone can observe: permits, finance, procurement, contracts, site preparation, construction, equipment orders, and new hires. These signals change confidence, and some uncertainty will stay. The objective is to define the evidence that will change the decision.
 
-## What the work can produce
+### 13 What the work can produce
 
 The output depends on the question.
 
@@ -142,56 +162,40 @@ Decision work can produce an actor and dependency map and a public-action test. 
 
 The final product can have the name "economic development strategy." The important test is if a different decision-maker can follow why a priority was selected, what it depends on, and what must occur next.
 
-## Decision instrument
+### 14 Decision instrument
 
-### Opportunity-to-decision architecture
+**Opportunity-to-decision architecture**
 
-**01: Evidence:** What is known? What is only a claim, a model result, an assumption, or unknown?
-
-**02: Opportunity:** What economic activity can occur?
-
-**03: Fit:** Why can this region capture it?
-
-**04: Delivery chain:** What conditions connect the opportunity to an actual economic result?
-
-**05: Constraint:** Where does movement stop now?
-
-**06: Cause:** Why does the constraint exist?
-
-**07: Actor:** Who controls the relevant decisions and resources?
-
-**08: Incentive:** What has an effect on the behaviour of those actors?
-
-**09: Public-action test:** What is the reason for intervention, and what will occur without it?
-
-**10: Intervention:** What specific condition will the action change?
-
-**11: Responsiveness:** How much will investment, hiring, output, entry, or other relevant behaviour change?
-
-**12: Response:** How will firms, workers, landowners, utilities, governments, or other actors respond?
-
-**13: Substitution and displacement:** Does the action create new activity, or does it move existing activity between firms, sites, workers, or places?
-
-**14: Second constraint:** If the first condition changes, what becomes binding?
-
-**15: Consequence:** What is the additional regional effect after costs, crowding out, leakage, and effects in other places?
-
-**16: Uncertainty:** What is still unresolved, and how important is it?
-
-**17: Decision trigger:** What evidence will cause the decision-maker to accelerate, change, pause, or stop the action?
+| | Step | Question |
+| --- | --- | --- |
+| 01 | Evidence | What is known, and what is only a claim, a model result, an assumption, or unknown? |
+| 02 | Opportunity | What economic activity can occur? |
+| 03 | Fit | Why can this region capture it? |
+| 04 | Delivery chain | What conditions connect the opportunity to an actual economic result? |
+| 05 | Constraint | Where does movement stop now? |
+| 06 | Cause | Why does the constraint exist? |
+| 07 | Actor | Who controls the relevant decisions and resources? |
+| 08 | Incentive | What affects the behaviour of those actors? |
+| 09 | Public-action test | What is the reason for intervention, and what will occur without it? |
+| 10 | Intervention | What specific condition will the action change? |
+| 11 | Responsiveness | How much will investment, hiring, output, entry, or other behaviour change? |
+| 12 | Response | How will firms, workers, landowners, utilities, governments, or other actors respond? |
+| 13 | Substitution and displacement | Does the action create new activity, or move existing activity between firms, sites, workers, or places? |
+| 14 | Second constraint | If the first condition changes, what becomes binding? |
+| 15 | Consequence | What is the additional regional effect after costs, crowding out, leakage, and effects in other places? |
+| 16 | Uncertainty | What is still unresolved, and how important is it? |
+| 17 | Decision trigger | What evidence will cause the decision-maker to accelerate, change, pause, or stop the action? |
 
 Each priority stays connected to the evidence and conditions that support it.
 
 A strategy can stay active on paper while the conditions under it stay the same. The priority stays in the strategy, the initiative stays in the work plan, and organizations continue to report activity. The condition that blocks investment, construction, new hires, or business growth stays where it was. The purpose of this instrument is to keep decisions connected to evidence when conditions change.
 
-## When to call DDA
+### 15 Bring the question
 
-Call DDA when an economic strategy has many priorities and no clear basis to choose between them. Call when a major project is near and the region does not know how much of it the region can capture, or when an industrial site looks available but servicing, ownership, power, finance, or timing is still unresolved.
-
-Other situations fit too. Employers report labour shortages and nobody knows the cause. Several organizations support the same outcome, and each waits for another to move. Someone has already proposed a public intervention, and nobody has tested the result without it.
-
-Bring DDA the strategy, opportunity, site, project, dataset, investment pipeline, or initiative that stopped. The work examines the evidence, follows the delivery chain, tests the constraint and its cause, examines the actors, and tests the proposed response against the system around it.
+Bring DDA an economic strategy with many priorities and no clear basis to choose between them. Bring a major project that is near, when the region does not know how much of it the region can capture. Bring an industrial site that looks available while servicing, ownership, power, finance, or timing is still unresolved. Bring employers who report labour shortages that nobody can explain, or several organizations that support the same outcome while each waits for another to move.
 
 Sometimes the next decision is an investment. Sometimes it is better information, or a change to the sequence. Sometimes the intervention moves activity and creates too little additional regional benefit for a valid case. Sometimes the evidence does not support action yet.
 
-[Talk to DDA](./16-contact.md)
+For the methods behind this page, see *Economic and market analysis*, *Land, infrastructure, and spatial analysis*, and *Labour and workforce analysis*.
+
+**Talk to DDA**

@@ -6,16 +6,18 @@ Public website and diagnostic applications for **Diagnostics, Dataflow, Analysis
 Vite, React 19, TypeScript, React Router 7, Tailwind 3, Radix UI, Lucide and GSAP. Do not migrate or alter diagnostic calculations as part of public-site work.
 
 ## Content and architecture
-Approved public copy is `.mds/01-home.md` through `.mds/20-accessibility.md`. `src/content/public-pages.json` is the authoritative route/page manifest; `siteContent.ts` provides its typed runtime join to Markdown. `WebsitePage.tsx` assembles nine public page families and shared evidence, breadcrumb, article-context, contact and CTA modules. `Layout.tsx` owns the accessible header, mobile navigation, mega-menu, search and footer. Public design additions are scoped beneath `.site-shell`; tools retain their established UI.
+Approved public copy lives in `content/` (home, hub, capabilities, areas, insights, and single pages). The privacy, legal, terms and accessibility pages stay in `.mds/`. Copy is never edited in code. `src/content/public-pages.json` is the route manifest (file, route, title, description, type). `src/lib/markdown.mjs` parses the copy and converts `.md` links to routes. The React app and the prerender script share it. `WebsitePage.tsx` supplies layout only. `Layout.tsx` owns the header, mega menu, search and footer.
 
 ## Commands
-- `npm run dev` — local development
-- `npm run lint` — ESLint
-- `npm run build` — typecheck, bundle and prerender all public routes
-- `npm run audit:site` — verify manifest, approved copy, links, sitemap and generated HTML
-- `npm run preview` — preview production output
+- `npm run dev`: local development
+- `npm run lint`: ESLint
+- `npm run lint:copy`: copy lint. Fails on em dashes and "rather than". Fails on TODO in production (`VERCEL_ENV=production` or `DDA_STRICT=1`) and warns loudly elsewhere.
+- `npm run build`: copy lint, typecheck, bundle, prerender every public route, audit
+- `npm run audit:site`: verify manifest, links, redirects, metadata, sitemap and generated HTML
+- `npm run sitemap`: refresh `public/sitemap.xml` after adding a page
 
-The build prerenders meaningful route-specific HTML and metadata with `scripts/generate-route-entrypoints.mjs`, using the same manifest as the app. Deployment must preserve SPA fallback for diagnostic routes and serve generated public route files directly.
+## Redirects
+All redirects are in `vercel.json` with `permanent: true`. Vercel serves these as 308. Do not add client-side redirects for old URLs.
 
 ## Contact configuration
 Copy `.env.example` and configure the contact API/server values for the target environment. Do not place secrets or confidential inquiry content in client-side variables.
