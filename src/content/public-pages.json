@@ -231,7 +231,9 @@
     "title": "When a housing target is larger than delivery",
     "navTitle": "When a housing target is larger than delivery",
     "type": "article",
-    "description": "A housing target can be fully defensible and still tell a council very little about whether anyone will build the housing."
+    "description": "A housing target can be fully defensible and still tell a council very little about whether anyone will build the housing.",
+    "finding": "At an even rate, that is about 14.5 units a year. From 2009 to 2019, the Village built 36 units, or 3.6 a year, according to its 2024 land disposition RFP.",
+    "relatedService": "/what-we-do/areas/housing-and-municipal-planning/"
   },
   {
     "id": "P27",
@@ -240,7 +242,9 @@
     "title": "The trade gap hidden inside a workforce number",
     "navTitle": "The trade gap hidden inside a workforce number",
     "type": "article",
-    "description": "A regional labour force of thousands can look like enough people for a mine."
+    "description": "A regional labour force of thousands can look like enough people for a mine.",
+    "finding": "In this analysis the commissioning phase needs about 90 pipefitters. The analysis found about 30 available in the region. The gap is 60 people, or 67 percent of the requirement.",
+    "relatedService": "/what-we-do/capabilities/labour-and-workforce-analysis/"
   },
   {
     "id": "P28",
@@ -249,7 +253,9 @@
     "title": "When an unsupported number carries the answer",
     "navTitle": "When an unsupported number carries the answer",
     "type": "article",
-    "description": "A schedule, a forecast, a policy claim, or an investment case depends on inputs."
+    "description": "A schedule, a forecast, a policy claim, or an investment case depends on inputs.",
+    "finding": "The conclusion, that labour is available, depends on four conditions that the evidence does not establish.",
+    "relatedService": "/what-we-do/capabilities/evidence-reconstruction/"
   },
   {
     "id": "P29",

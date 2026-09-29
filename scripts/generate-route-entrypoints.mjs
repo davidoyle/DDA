@@ -1,10 +1,11 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { buildFileRoutes, inlineText, parsePage } from '../src/lib/markdown.mjs';
+import { buildFileRoutes, buildTitleRoutes, parsePage } from '../src/lib/markdown.mjs';
 
 const root = path.resolve(new URL('..', import.meta.url).pathname), dist = path.join(root, 'dist');
 const manifest = JSON.parse(await readFile(path.join(root, 'src/content/public-pages.json'), 'utf8'));
 const fileRoutes = buildFileRoutes(manifest);
+const titleRoutes = buildTitleRoutes(manifest);
 const escape = (s) => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${manifest.map((p) => `  <url><loc>https://ddanalytics.ca${p.route}</loc></url>`).join('\n')}\n</urlset>\n`;
 
@@ -25,7 +26,7 @@ function render(blocks) {
     else if (b.type === 'paragraph') out.push(`<p>${b.lines.map(inline).join('<br>')}</p>`);
     else if (b.type === 'list') out.push(`<ul>${b.items.map((x) => `<li>${inline(x)}</li>`).join('')}</ul>`);
     else if (b.type === 'quote') out.push(`<blockquote><p>${b.lines.map(inline).join('<br>')}</p></blockquote>`);
-    else if (b.type === 'image') out.push(`<figure><img src="${escape(b.src)}" alt="${escape(b.alt)}"></figure>`);
+    else if (b.type === 'image') out.push(`<figure><img src="${escape(b.src)}" alt="${escape(b.alt)}">${b.caption ? `<figcaption>${inline(b.caption)}</figcaption>` : ''}</figure>`);
     else if (b.type === 'toc') out.push(`<nav aria-label="${escape(b.label)}"><strong>${escape(b.label)}</strong>\n${b.items.map((x) => `<a href="#${x.slug}">${escape(x.text)}</a>`).join("\n")}</nav>`);
     else if (b.type === 'table') out.push(`<table><thead><tr>${b.header.map((h) => `<th scope="col">${inline(h)}</th>`).join('')}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${inline(c)}</th>` : `<td>${inline(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
   }
@@ -36,7 +37,7 @@ const shell = await readFile(path.join(dist, 'index.html'), 'utf8');
 if (shell.includes('static-shell')) throw new Error('dist/index.html is already prerendered. Run `vite build` first.');
 for (const page of manifest) {
   const source = await readFile(path.join(root, page.file), 'utf8');
-  const blocks = parsePage(source, page.file, fileRoutes);
+  const blocks = parsePage(source, page.file, fileRoutes, titleRoutes, page.route);
   const canonical = `https://ddanalytics.ca${page.route}`;
   const title = `${page.title} | DDA`;
   const html = shell

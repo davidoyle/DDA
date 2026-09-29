@@ -3,7 +3,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { banner, isProduction } from './lib/env.mjs';
-import { buildFileRoutes, parsePage } from '../src/lib/markdown.mjs';
+import { buildFileRoutes, buildTitleRoutes, parsePage } from '../src/lib/markdown.mjs';
 
 const root = path.resolve(new URL('..', import.meta.url).pathname);
 const read = (p) => readFile(path.join(root, p), 'utf8');
@@ -13,6 +13,7 @@ const failures = [], fail = (m) => failures.push(m);
 const manifest = JSON.parse(await read('src/content/public-pages.json'));
 const routes = new Set(manifest.map((p) => p.route));
 const fileRoutes = buildFileRoutes(manifest);
+const titleRoutes = buildTitleRoutes(manifest);
 if (routes.size !== manifest.length) fail('manifest contains duplicate routes');
 if (new Set(manifest.map((p) => p.file)).size !== manifest.length) fail('manifest contains duplicate files');
 for (const p of manifest) if (/selected-work|\/work\/?$/.test(p.route)) fail(`${p.route}: Selected Work is not allowed`);
@@ -31,10 +32,15 @@ for (const page of manifest) {
   if ((source.match(/^# /gm) || []).length !== 1) fail(`${page.file}: expected one H1`);
   if (!page.title || !source.includes(`# ${page.title}`) && page.type !== 'utility') fail(`${page.file}: title does not match the H1`);
   let blocks;
-  try { blocks = parsePage(source, page.file, fileRoutes); } catch (e) { fail(e.message); continue; }
+  try { blocks = parsePage(source, page.file, fileRoutes, titleRoutes, page.route); } catch (e) { fail(e.message); continue; }
   const ids = new Set(blocks.filter((b) => b.type === 'heading').map((b) => b.id));
   for (const b of blocks) if (b.type === 'toc') for (const item of b.items) if (!ids.has(item.slug)) fail(`${page.file}: "On this page" entry "${item.text}" matches no heading`);
   if (/\]\([^)]*\.md\)/.test(JSON.stringify(blocks))) fail(`${page.file}: an unconverted .md link remains`);
+  if (page.finding) {
+    const plain = source.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/\*/g, '');
+    if (!plain.includes(page.finding)) fail(`${page.route}: key finding is not a verbatim quote from the article`);
+  }
+  if (page.relatedService && !routes.has(page.relatedService)) fail(`${page.route}: related service ${page.relatedService} is not a page`);
   if (page.type === 'contact' && !blocks.some((b) => b.type === 'heading' && b.text === 'What to send')) fail(`${page.file}: the form is placed under "What to send", which is missing`);
   const ctaLinks = JSON.stringify(blocks).match(/"href":"[^"]*","t":"link"|"t":"link","c":\[\{"t":"text","v":"Talk to DDA"\}\],"href":"[^"]*"/g) || [];
   for (const m of ctaLinks) if (!m.includes('/contact/')) fail(`${page.file}: a "Talk to DDA" link does not go to /contact/`);

@@ -2,7 +2,8 @@ import { createContext, Fragment, useContext, useEffect, useMemo, useRef, useSta
 import type { FormEvent, ReactNode } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { fileRoutes, pageByRoute, pages, type PublicPage } from '@/content/siteContent';
+import { fileRoutes, pageByRoute, pageManifest, pages, titleRoutes, type PublicPage } from '@/content/siteContent';
+import { AnalysisModule } from './EvidenceModules';
 import { inlineText, parsePage, type Inline, type MdBlock } from '@/lib/markdown.mjs';
 
 /*
@@ -20,8 +21,8 @@ const firstToken = (b: MdBlock) => (b.type === 'paragraph' ? b.lines[0][0] : und
 function ctaOf(b: MdBlock): { href: string; primary: boolean; text: Inline[] } | undefined {
   if (b.type !== 'paragraph' || b.lines.length !== 1 || b.lines[0].length !== 1) return undefined;
   const t = b.lines[0][0];
-  if (t.t === 'link') return { href: t.href, primary: false, text: t.c };
-  if (t.t === 'strong' && t.c.length === 1 && t.c[0].t === 'link') return { href: t.c[0].href, primary: true, text: t.c[0].c };
+  if (t.t === 'link' && !t.auto) return { href: t.href, primary: false, text: t.c };
+  if (t.t === 'strong' && t.c.length === 1 && t.c[0].t === 'link' && !t.c[0].auto) return { href: t.c[0].href, primary: true, text: t.c[0].c };
   return undefined;
 }
 const isCta = (b: MdBlock) => !!ctaOf(b);
@@ -88,7 +89,7 @@ function Lines({ lines }: { lines: Inline[][] }) {
   return <>{lines.map((l, i) => <Fragment key={i}>{i > 0 && <br />}<Rich tokens={l} /></Fragment>)}</>;
 }
 
-function Blocks({ blocks, ids }: { blocks: MdBlock[]; ids?: Set<string> }) {
+function Blocks({ blocks, ids, forcePrimary }: { blocks: MdBlock[]; ids?: Set<string>; forcePrimary?: boolean }) {
   // A table is named by the heading or bold caption line that introduces it.
   const labels: string[] = [];
   blocks.reduce((label, b) => {
@@ -102,12 +103,18 @@ function Blocks({ blocks, ids }: { blocks: MdBlock[]; ids?: Set<string> }) {
       case 'heading': return <HeadingTag key={i} block={b} className={`md-h${b.level}`} />;
       case 'paragraph': {
         const cta = ctaOf(b);
-        if (cta) return <p className="cta-line" key={i}><SiteLink className={cta.primary ? 'button-primary' : 'button-secondary'} href={cta.href}><Rich tokens={cta.text} /> <ArrowRight aria-hidden="true" /></SiteLink></p>;
+        if (cta) return <p className="cta-line" key={i}><SiteLink className={cta.primary || forcePrimary ? 'button-primary' : 'button-secondary'} href={cta.href}><Rich tokens={cta.text} /> <ArrowRight aria-hidden="true" /></SiteLink></p>;
         return <p key={i}><Lines lines={b.lines} /></p>;
       }
       case 'list': return <ul key={i}>{b.items.map((x, j) => <li key={j}><Rich tokens={x} /></li>)}</ul>;
       case 'quote': return <blockquote key={i}><p><Lines lines={b.lines} /></p></blockquote>;
-      case 'image': return <figure className="article-figure" key={i}><img src={b.src} alt={b.alt} loading="lazy" decoding="async" width={b.src.includes('delivery-chain') ? 980 : 800} height={b.src.includes('delivery-chain') ? 330 : 250} /></figure>;
+      case 'image': {
+        const wide = b.src.includes('delivery-chain');
+        return <figure className="article-figure" key={i}>
+          <div className="figure-scroll" role="region" aria-label="Figure" tabIndex={0}><img src={b.src} alt={b.alt} loading="lazy" decoding="async" width={wide ? 980 : 800} height={wide ? 330 : 250} /></div>
+          {b.caption && <figcaption><Rich tokens={b.caption} /></figcaption>}
+        </figure>;
+      }
       case 'toc': return <Toc key={i} block={b} ids={ids} />;
       case 'table': return <DataTable key={i} block={b} label={labels[i]} />;
       default: return null;
@@ -152,7 +159,7 @@ function Hero({ doc, full, image, aside }: { doc: Doc; full?: boolean; image?: s
       <h1><Rich tokens={doc.h1.tokens} /></h1>
       {doc.tagline && <HeadingTag block={doc.tagline} className="hero-dek" />}
       {text.length > 0 && <div className="hero-summary"><Blocks blocks={text} /></div>}
-      {actions.length > 0 && <div className="hero-actions"><Blocks blocks={actions} /></div>}
+      {actions.length > 0 && <div className="hero-actions">{actions.map((a, i) => <Blocks key={i} blocks={[a]} forcePrimary={i === 0 && !actions.some((x) => ctaOf(x)?.primary)} />)}</div>}
     </div>
   </header>;
 }
@@ -174,7 +181,7 @@ function splitSubs(blocks: MdBlock[]) {
 function SectionBody({ blocks, subLayout, ids }: { blocks: MdBlock[]; subLayout: 'grid' | 'insight' | 'plain'; ids?: Set<string> }) {
   const { lead, subs } = splitSubs(blocks);
   const cards = lead.filter(isPageCard);
-  const asCards = cards.length >= 3;
+  const asCards = subLayout === 'grid' && cards.length >= 3;
   const before = asCards ? lead.slice(0, lead.findIndex(isPageCard)) : lead;
   const after = asCards ? lead.slice(lead.lastIndexOf(cards[cards.length - 1]) + 1) : [];
   return <>
@@ -189,11 +196,12 @@ function SectionBody({ blocks, subLayout, ids }: { blocks: MdBlock[]; subLayout:
   </>;
 }
 
-function Sections({ sections, className, subLayout, keyed = false }: { sections: Section[]; className: string; subLayout: 'grid' | 'insight' | 'plain'; keyed?: boolean }) {
+function Sections({ sections, className, subLayout, keyed = false, wrap, extra }: { sections: Section[]; className: string; subLayout: 'grid' | 'insight' | 'plain'; keyed?: boolean; wrap?: string; extra?: (index: number) => ReactNode }) {
   const ids = useMemo(() => new Set(sections.flatMap((s) => (s.heading ? [s.heading.id] : []))), [sections]);
   return <>{sections.map((s, i) => <section key={s.heading?.id ?? `tail-${i}`} id={keyed ? s.heading?.id : undefined} className={[className, s.heading ? '' : 'md-tail', s.blocks.some((b) => b.type === 'table') ? 'has-table' : ''].join(' ').trim()}>
     {s.heading && <HeadingTag block={s.heading} className="md-section-title" />}
-    <SectionBody blocks={s.blocks} subLayout={subLayout} ids={ids} />
+    {wrap ? <div className={wrap}><SectionBody blocks={s.blocks} subLayout={subLayout} ids={ids} /></div> : <SectionBody blocks={s.blocks} subLayout={subLayout} ids={ids} />}
+    {extra?.(i)}
   </section>)}</>;
 }
 
@@ -238,7 +246,7 @@ function DetailTemplate({ doc, page }: { doc: Doc; page: PublicPage }) {
     <Hero doc={doc} />
     <div className={`detail-layout public-container${doc.toc ? '' : ' detail-layout-single'}`}>
       {doc.toc && <aside><Blocks blocks={[doc.toc]} ids={ids} /></aside>}
-      <div className="detail-main"><Sections sections={doc.sections} className="detail-section" subLayout="plain" keyed /></div>
+      <div className="detail-main"><Sections sections={doc.sections} className="detail-section" subLayout="plain" keyed extra={(i) => (i === 1 ? <AnalysisModule route={page.route} /> : null)} /></div>
     </div>
   </>;
 }
@@ -257,26 +265,49 @@ function ArticleTemplate({ doc, page }: { doc: Doc; page: PublicPage }) {
   const meta = doc.pre.flatMap((b) => (b.type === 'paragraph' ? b.lines : []));
   const bylineFirst = doc.hero[0];
   const hasByline = bylineFirst?.type === 'paragraph' && inlineText(bylineFirst.lines[0]).startsWith('By ');
+  const service = pageManifest.find((p) => p.route === page.relatedService);
+  const related = pageManifest.filter((p) => p.type === 'article' && p.route !== page.route);
   return <>
     <Breadcrumbs page={page} />
-    <article className="article-shell">
-      <header>
-        <div className="article-meta">{meta.map((l, i) => <span key={i}><Rich tokens={l} /></span>)}</div>
-        <h1><Rich tokens={doc.h1.tokens} /></h1>
-        {doc.tagline && <HeadingTag block={doc.tagline} className="article-dek" />}
-        {hasByline && bylineFirst.type === 'paragraph' && <p className="article-byline"><Lines lines={bylineFirst.lines} /></p>}
-        <Blocks blocks={hasByline ? doc.hero.slice(1) : doc.hero} />
-      </header>
-      <Sections sections={doc.sections} className="article-section" subLayout="plain" />
-    </article>
+    <div className="article-with-rail public-container">
+      <article className="article-shell">
+        <header>
+          <div className="article-meta">{meta.map((l, i) => <span key={i}><Rich tokens={l} /></span>)}</div>
+          <h1><Rich tokens={doc.h1.tokens} /></h1>
+          {doc.tagline && <HeadingTag block={doc.tagline} className="article-dek" />}
+          {hasByline && bylineFirst.type === 'paragraph' && <p className="article-byline"><Lines lines={bylineFirst.lines} /></p>}
+          {page.finding && <div className="key-finding" role="note"><span className="kicker">Key finding</span><p>{page.finding}</p></div>}
+          <Blocks blocks={hasByline ? doc.hero.slice(1) : doc.hero} />
+        </header>
+        <Sections sections={doc.sections} className="article-section" subLayout="plain" />
+      </article>
+      <aside className="article-rail" aria-label="Related to this article">
+        <div className="rail-block">
+          <p className="kicker">Source status</p>
+          <ul className="rail-sources">
+            <li><span className="status-label status-actual">ACTUAL</span> Named primary sources</li>
+            <li><span className="status-label status-proxy">PROXY</span> Derived or estimated values</li>
+            <li><span className="status-label status-flag">FLAG</span> Material unresolved inputs</li>
+          </ul>
+        </div>
+        {service && <div className="rail-block">
+          <p className="kicker">Related service</p>
+          <Link className="rail-service-link" to={service.route}>{service.navTitle} <ArrowRight aria-hidden="true" /></Link>
+        </div>}
+        {related.length > 0 && <div className="rail-block">
+          <p className="kicker">Related</p>
+          <ul className="rail-related">{related.map((p) => <li key={p.route}><Link to={p.route}>{p.title}</Link></li>)}</ul>
+        </div>}
+      </aside>
+    </div>
   </>;
 }
 
 function AboutTemplate({ doc, page }: { doc: Doc; page: PublicPage }) {
   return <>
     <Breadcrumbs page={page} />
-    <Hero doc={doc} aside={<figure className="principal-portrait"><img src="/images/david-doyle.jpg" alt="David Doyle" width={800} height={800} fetchPriority="high" /></figure>} />
-    <div className="about-layout public-container"><Sections sections={doc.sections} className="about-section" subLayout="plain" /></div>
+    <Hero doc={doc} aside={<figure className="principal-portrait"><img src="/images/david-doyle.jpg" alt="David Doyle" width={800} height={800} fetchPriority="high" /><figcaption><strong>David Doyle</strong><span>Principal, DDA</span></figcaption></figure>} />
+    <div className="about-layout public-container"><Sections sections={doc.sections} className="about-section" subLayout="plain" wrap="about-body" /></div>
   </>;
 }
 
@@ -366,7 +397,7 @@ export default function WebsitePage() {
   const { pathname } = useLocation();
   const key = pathname === '/' ? '/' : pathname.endsWith('/') ? pathname : `${pathname}/`;
   const page = pageByRoute[key];
-  const doc = useMemo(() => structure(parsePage(pages[key], page.file, fileRoutes), { closingCta: page.type === 'insights-hub' }), [key, page.file, page.type]);
+  const doc = useMemo(() => structure(parsePage(pages[key], page.file, fileRoutes, titleRoutes, key), { closingCta: page.type === 'insights-hub' }), [key, page.file, page.type]);
   const level = useMemo(() => (n: number) => Math.min(6, doc.levels.indexOf(n) + 1 || n), [doc]);
   useEffect(() => {
     document.documentElement.dataset.publicPage = page.type;
