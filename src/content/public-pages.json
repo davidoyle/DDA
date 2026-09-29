@@ -1,238 +1,305 @@
 [
   {
     "id": "P01",
-    "file": "01-home.md",
+    "file": "content/home.md",
     "route": "/",
     "title": "Get deep into the problem. Find what matters.",
-    "navTitle": "Home",
+    "navTitle": "Get deep into the problem. Find what matters.",
     "type": "home",
-    "description": "DDA investigates complex problems, finds what matters, and builds the analysis needed to act.",
-    "topics": [
-      "decision design",
-      "strategy",
-      "evidence"
-    ]
+    "description": "DDA investigates complex problems, finds what matters, and builds the analysis needed to act."
   },
   {
     "id": "P02",
-    "file": "02-what-we-do.md",
+    "file": "content/what-we-do.md",
     "route": "/what-we-do/",
     "title": "What we do",
     "navTitle": "What we do",
-    "type": "capability-hub",
-    "description": "DDA reconstructs complex systems, finds what is shaping the outcome, and builds the analysis the situation requires.",
-    "topics": [
-      "capabilities",
-      "services"
-    ]
+    "type": "hub",
+    "description": "DDA examines complex problems."
   },
   {
     "id": "P03",
-    "file": "03-fiscal-impact-growth-modelling.md",
-    "route": "/what-we-do/fiscal-impact-growth-modelling/",
-    "title": "Fiscal impact and growth modelling",
-    "navTitle": "Fiscal impact and growth modelling",
-    "type": "capability-detail",
-    "description": "Connect growth, land, infrastructure, costs, revenues, and timing to show which assumptions and thresholds change fiscal decisions.",
-    "topics": [
-      "fiscal",
-      "growth",
-      "scenarios"
-    ]
+    "file": "content/capabilities/evidence-reconstruction.md",
+    "route": "/what-we-do/capabilities/evidence-reconstruction/",
+    "title": "Evidence reconstruction",
+    "navTitle": "Evidence reconstruction",
+    "type": "capability",
+    "description": "Most decisions rest on numbers that nobody has traced to a source."
+  },
+  {
+    "id": "P04",
+    "file": "content/capabilities/economic-and-market-analysis.md",
+    "route": "/what-we-do/capabilities/economic-and-market-analysis/",
+    "title": "Economic and market analysis",
+    "navTitle": "Economic and market analysis",
+    "type": "capability",
+    "description": "An economic analysis has value when it says what changes because of an action."
   },
   {
     "id": "P05",
-    "file": "05-economic-development-strategy.md",
-    "route": "/what-we-do/economic-development-strategy/",
-    "title": "Economic development strategy",
-    "navTitle": "Economic development strategy",
-    "type": "capability-detail",
-    "description": "Test economic opportunities through evidence, delivery conditions, public-action logic, system response, and regional consequence.",
-    "topics": [
-      "economic development",
-      "regional strategy"
-    ]
+    "file": "content/capabilities/fiscal-and-scenario-modelling.md",
+    "route": "/what-we-do/capabilities/fiscal-and-scenario-modelling/",
+    "title": "Fiscal and scenario modelling",
+    "navTitle": "Fiscal and scenario modelling",
+    "type": "capability",
+    "description": "A fiscal model turns assumptions into a public decision."
   },
   {
     "id": "P06",
-    "file": "06-labour-market-analysis.md",
-    "route": "/what-we-do/labour-market-analysis/",
-    "title": "Labour market analysis",
-    "navTitle": "Labour market analysis",
-    "type": "capability-detail",
-    "description": "Find the occupation, qualification, location, mobility or timing constraint behind supply.",
-    "topics": [
-      "labour",
-      "workforce"
-    ]
+    "file": "content/capabilities/labour-and-workforce-analysis.md",
+    "route": "/what-we-do/capabilities/labour-and-workforce-analysis/",
+    "title": "Labour and workforce analysis",
+    "navTitle": "Labour and workforce analysis",
+    "type": "capability",
+    "description": "A region can show a large workforce on paper and still lack the people a project needs on a fixed date."
   },
   {
     "id": "P07",
-    "file": "07-resource-sector-complex-planning-analysis.md",
-    "route": "/what-we-do/resource-sector-complex-planning-analysis/",
-    "title": "Resource-sector and complex planning analysis",
-    "navTitle": "Resource-sector and complex planning",
-    "type": "capability-detail",
-    "description": "Connect labour, infrastructure, logistics, approvals, capital and schedule.",
-    "topics": [
-      "resources",
-      "major projects"
-    ]
+    "file": "content/capabilities/land-infrastructure-and-spatial-analysis.md",
+    "route": "/what-we-do/capabilities/land-infrastructure-and-spatial-analysis/",
+    "title": "Land, infrastructure, and spatial analysis",
+    "navTitle": "Land, infrastructure, and spatial analysis",
+    "type": "capability",
+    "description": "Land that a plan designates for use is different from land that someone can use."
   },
   {
     "id": "P08",
-    "file": "08-long-range-financial-scenario-planning.md",
-    "route": "/what-we-do/long-range-financial-scenario-planning/",
-    "title": "Long-range financial and scenario planning",
-    "navTitle": "Long-range financial and scenario planning",
-    "type": "capability-detail",
-    "description": "Test financial and policy choices against scenarios, sensitivities and triggers.",
-    "topics": [
-      "finance",
-      "scenario planning"
-    ]
+    "file": "content/capabilities/institutional-and-policy-analysis.md",
+    "route": "/what-we-do/capabilities/institutional-and-policy-analysis/",
+    "title": "Institutional and policy analysis",
+    "navTitle": "Institutional and policy analysis",
+    "type": "capability",
+    "description": "Public claims and institutional questions often cross mandates, budgets, decisions, communications, appeals, enforcement, and implementation."
   },
   {
     "id": "P09",
-    "file": "09-public-interest-research-evidence-packages.md",
-    "route": "/what-we-do/institutional-policy-analysis/",
-    "title": "Institutional and policy analysis",
-    "navTitle": "Institutional and policy analysis",
-    "type": "capability-detail",
-    "description": "Reconstruct public claims, institutional actions, policy mechanisms, chronologies, and the evidence connecting them.",
-    "topics": [
-      "evidence",
-      "institutions",
-      "policy"
-    ]
+    "file": "content/areas/housing-and-municipal-planning.md",
+    "route": "/what-we-do/areas/housing-and-municipal-planning/",
+    "title": "Housing and municipal planning",
+    "navTitle": "Housing and municipal planning",
+    "type": "area",
+    "description": "A housing target tells a council how much housing a community needs."
   },
   {
     "id": "P10",
-    "file": "10-who-we-are.md",
+    "file": "content/areas/public-finance-and-capital-planning.md",
+    "route": "/what-we-do/areas/public-finance-and-capital-planning/",
+    "title": "Public finance and capital planning",
+    "navTitle": "Public finance and capital planning",
+    "type": "area",
+    "description": "A budget shows what a government plans to spend."
+  },
+  {
+    "id": "P11",
+    "file": "content/areas/economic-development.md",
+    "route": "/what-we-do/areas/economic-development/",
+    "title": "Economic development",
+    "navTitle": "Economic development",
+    "type": "area",
+    "description": "Regions often identify an economic opportunity before they know if they can deliver it."
+  },
+  {
+    "id": "P12",
+    "file": "content/areas/mining-and-critical-minerals.md",
+    "route": "/what-we-do/areas/mining-and-critical-minerals/",
+    "title": "Mining and critical minerals",
+    "navTitle": "Mining and critical minerals",
+    "type": "area",
+    "description": "A project announcement gives a job number and a start date."
+  },
+  {
+    "id": "P13",
+    "file": "content/areas/energy-and-electricity.md",
+    "route": "/what-we-do/areas/energy-and-electricity/",
+    "title": "Energy and electricity",
+    "navTitle": "Energy and electricity",
+    "type": "area",
+    "description": "Announced generation and delivered power are different quantities."
+  },
+  {
+    "id": "P14",
+    "file": "content/areas/forestry-and-forest-communities.md",
+    "route": "/what-we-do/areas/forestry-and-forest-communities/",
+    "title": "Forestry and forest communities",
+    "navTitle": "Forestry and forest communities",
+    "type": "area",
+    "description": "The allowable annual cut sets a ceiling on harvest."
+  },
+  {
+    "id": "P15",
+    "file": "content/areas/infrastructure-and-transportation.md",
+    "route": "/what-we-do/areas/infrastructure-and-transportation/",
+    "title": "Infrastructure and transportation",
+    "navTitle": "Infrastructure and transportation",
+    "type": "area",
+    "description": "A capital program shows what a government plans to spend."
+  },
+  {
+    "id": "P16",
+    "file": "content/areas/health-workforce-and-access.md",
+    "route": "/what-we-do/areas/health-workforce-and-access/",
+    "title": "Health workforce and access",
+    "navTitle": "Health workforce and access",
+    "type": "area",
+    "description": "A count of physicians in a region gives the number of licences."
+  },
+  {
+    "id": "P17",
+    "file": "content/areas/skills-training-and-post-secondary.md",
+    "route": "/what-we-do/areas/skills-training-and-post-secondary/",
+    "title": "Skills, training, and post-secondary",
+    "navTitle": "Skills, training, and post-secondary",
+    "type": "area",
+    "description": "A funded seat leads to a certified worker only after several more steps."
+  },
+  {
+    "id": "P18",
+    "file": "content/areas/agriculture-and-food.md",
+    "route": "/what-we-do/areas/agriculture-and-food/",
+    "title": "Agriculture and food",
+    "navTitle": "Agriculture and food",
+    "type": "area",
+    "description": "Reserve land, production, processing, and local supply are four different quantities."
+  },
+  {
+    "id": "P19",
+    "file": "content/areas/tourism-and-resort-communities.md",
+    "route": "/what-we-do/areas/tourism-and-resort-communities/",
+    "title": "Tourism and resort communities",
+    "navTitle": "Tourism and resort communities",
+    "type": "area",
+    "description": "Visitor numbers and hotel tax revenue measure demand."
+  },
+  {
+    "id": "P20",
+    "file": "content/areas/public-institutions-and-oversight.md",
+    "route": "/what-we-do/areas/public-institutions-and-oversight/",
+    "title": "Public institutions and oversight",
+    "navTitle": "Public institutions and oversight",
+    "type": "area",
+    "description": "An institution reports what it did."
+  },
+  {
+    "id": "P21",
+    "file": "content/areas/land-water-and-resource-use.md",
+    "route": "/what-we-do/areas/land-water-and-resource-use/",
+    "title": "Land, water, and resource use",
+    "navTitle": "Land, water, and resource use",
+    "type": "area",
+    "description": "Several parties can hold a claim on the same land and the same water."
+  },
+  {
+    "id": "P22",
+    "file": "content/who-we-are.md",
     "route": "/who-we-are/",
     "title": "Who we are",
     "navTitle": "Who we are",
     "type": "about",
-    "description": "A principal-led analytical practice that learns the system required by each complex problem.",
-    "topics": [
-      "practice",
-      "approach"
-    ]
+    "description": "DDA is a diagnostic and analytical practice in Metro Vancouver, British Columbia."
   },
   {
-    "id": "P11",
-    "file": "11-insights.md",
+    "id": "P23",
+    "file": "content/for-consulting-teams.md",
+    "route": "/for-consulting-teams/",
+    "title": "For consulting teams",
+    "navTitle": "For consulting teams",
+    "type": "consulting",
+    "description": "Most projects have one workstream where the evidence is scattered, the numbers do not reconcile, and the client will push back hardest."
+  },
+  {
+    "id": "P24",
+    "file": "content/public-interest.md",
+    "route": "/public-interest/",
+    "title": "Public interest analysis",
+    "navTitle": "Public interest analysis",
+    "type": "public-interest",
+    "description": "Public institutions make decisions that affect many people."
+  },
+  {
+    "id": "P25",
+    "file": "content/insights/index.md",
     "route": "/insights/",
     "title": "Insights",
     "navTitle": "Insights",
     "type": "insights-hub",
-    "description": "Investigations that trace public evidence into the systems behind targets, workforce numbers, and unsupported assumptions.",
-    "topics": [
-      "insights",
-      "analysis"
-    ]
+    "description": "These perspectives trace headline claims through the systems that must support them."
   },
   {
-    "id": "P12",
-    "file": "12-insight-housing-target-delivery.md",
-    "route": "/insights/when-a-housing-target-outruns-delivery/",
+    "id": "P26",
+    "file": "content/insights/housing-target-larger-than-delivery.md",
+    "route": "/insights/housing-target-larger-than-delivery/",
     "title": "When a housing target is larger than delivery",
     "navTitle": "When a housing target is larger than delivery",
     "type": "article",
-    "description": "Why housing targets become delivery questions when constraints are tested together.",
-    "topics": [
-      "Planning and place",
-      "housing"
-    ],
-    "readTime": "8 minute read",
-    "finding": "The target needs about 14.5 units a year. The Village built 3.6 a year from 2009 to 2019, and local builders said in 2020 they could not deliver new homes at $300,000 to $320,000."
+    "description": "A housing target can be fully defensible and still tell a council very little about whether anyone will build the housing.",
+    "finding": "At an even rate, that is about 14.5 units a year. From 2009 to 2019, the Village built 36 units, or 3.6 a year, according to its 2024 land disposition RFP.",
+    "relatedService": "/what-we-do/areas/housing-and-municipal-planning/"
   },
   {
-    "id": "P13",
-    "file": "13-insight-trade-gap-workforce-number.md",
-    "route": "/insights/the-trade-gap-hidden-inside-a-workforce-number/",
+    "id": "P27",
+    "file": "content/insights/trade-gap-hidden-inside-a-workforce-number.md",
+    "route": "/insights/trade-gap-hidden-inside-a-workforce-number/",
     "title": "The trade gap hidden inside a workforce number",
     "navTitle": "The trade gap hidden inside a workforce number",
     "type": "article",
-    "description": "How occupation, qualification, mobility, location and timing determine usable supply.",
-    "topics": [
-      "Labour and major projects",
-      "workforce"
-    ],
-    "readTime": "5 minute read"
+    "description": "A regional labour force of thousands can look like enough people for a mine.",
+    "finding": "In this analysis the commissioning phase needs about 90 pipefitters. The analysis found about 30 available in the region. The gap is 60 people, or 67 percent of the requirement.",
+    "relatedService": "/what-we-do/capabilities/labour-and-workforce-analysis/"
   },
   {
-    "id": "P14",
-    "file": "14-insight-what-a-flag-tells-you.md",
-    "route": "/insights/when-an-unsupported-number-carries-the-answer/",
+    "id": "P28",
+    "file": "content/insights/unsupported-number-carries-the-answer.md",
+    "route": "/insights/unsupported-number-carries-the-answer/",
     "title": "When an unsupported number carries the answer",
     "navTitle": "When an unsupported number carries the answer",
     "type": "article",
-    "description": "How to determine whether a missing or borrowed input changes a schedule, forecast, policy claim, or business case.",
-    "topics": [
-      "Evidence"
-    ],
-    "readTime": "4 minute read",
-    "finding": "A missing input matters only when the conclusion depends on it. ACTUAL, PROXY, and FLAG keep that distinction visible and show which gap has to be resolved before the analysis can hold."
+    "description": "A schedule, a forecast, a policy claim, or an investment case depends on inputs.",
+    "finding": "The conclusion, that labour is available, depends on four conditions that the evidence does not establish.",
+    "relatedService": "/what-we-do/capabilities/evidence-reconstruction/"
   },
   {
-    "id": "P16",
-    "file": "16-contact.md",
+    "id": "P29",
+    "file": "content/contact.md",
     "route": "/contact/",
     "title": "Talk to DDA",
     "navTitle": "Talk to DDA",
     "type": "contact",
-    "description": "Show DDA the project, mandate, RFP, number, strategy, or unresolved problem you are working on.",
-    "topics": [
-      "contact"
-    ]
+    "description": "A few sentences are enough."
   },
   {
-    "id": "P17",
-    "file": "17-privacy.md",
+    "id": "P30",
+    "file": ".mds/17-privacy.md",
     "route": "/privacy/",
     "title": "Privacy",
     "navTitle": "Privacy",
     "type": "utility",
-    "description": "How DDA handles information submitted through this website.",
-    "topics": [
-      "privacy"
-    ]
+    "description": "How DDA handles information submitted through this website."
   },
   {
-    "id": "P18",
-    "file": "18-legal.md",
+    "id": "P31",
+    "file": ".mds/18-legal.md",
     "route": "/legal/",
     "title": "Legal",
     "navTitle": "Legal",
     "type": "utility",
-    "description": "Legal information and boundaries for DDA website content.",
-    "topics": [
-      "legal"
-    ]
+    "description": "Legal information and boundaries for DDA website content."
   },
   {
-    "id": "P19",
-    "file": "19-terms.md",
+    "id": "P32",
+    "file": ".mds/19-terms.md",
     "route": "/terms/",
     "title": "Terms",
     "navTitle": "Terms",
     "type": "utility",
-    "description": "Terms governing use of the DDA website.",
-    "topics": [
-      "terms"
-    ]
+    "description": "Terms governing use of the DDA website."
   },
   {
-    "id": "P20",
-    "file": "20-accessibility.md",
+    "id": "P33",
+    "file": ".mds/20-accessibility.md",
     "route": "/accessibility/",
     "title": "Accessibility",
     "navTitle": "Accessibility",
     "type": "utility",
-    "description": "DDA's accessibility measures, limitations and feedback route.",
-    "topics": [
-      "accessibility"
-    ]
+    "description": "DDA's accessibility measures, limitations and feedback route."
   }
 ]

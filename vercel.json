@@ -1,0 +1,177 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ddanalytics.ca"
+        }
+      ],
+      "destination": "https://ddanalytics.ca/$1",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/fiscal-impact-growth-modelling/:path*",
+      "destination": "/what-we-do/capabilities/fiscal-and-scenario-modelling/",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/long-range-financial-scenario-planning/:path*",
+      "destination": "/what-we-do/capabilities/fiscal-and-scenario-modelling/",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/economic-development-strategy/:path*",
+      "destination": "/what-we-do/areas/economic-development/",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/labour-market-analysis/:path*",
+      "destination": "/what-we-do/capabilities/labour-and-workforce-analysis/",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/resource-sector-complex-planning-analysis/:path*",
+      "destination": "/what-we-do/areas/mining-and-critical-minerals/",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/official-community-plan-policy-analysis/:path*",
+      "destination": "/what-we-do/areas/housing-and-municipal-planning/",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/institutional-policy-analysis/:path*",
+      "destination": "/what-we-do/capabilities/institutional-and-policy-analysis/",
+      "permanent": true
+    },
+    {
+      "source": "/what-we-do/public-interest-research-evidence-packages/:path*",
+      "destination": "/what-we-do/capabilities/institutional-and-policy-analysis/",
+      "permanent": true
+    },
+    {
+      "source": "/insights/when-a-housing-target-outruns-delivery/:path*",
+      "destination": "/insights/housing-target-larger-than-delivery/",
+      "permanent": true
+    },
+    {
+      "source": "/insights/the-trade-gap-hidden-inside-a-workforce-number/:path*",
+      "destination": "/insights/trade-gap-hidden-inside-a-workforce-number/",
+      "permanent": true
+    },
+    {
+      "source": "/insights/when-an-unsupported-number-carries-the-answer/:path*",
+      "destination": "/insights/unsupported-number-carries-the-answer/",
+      "permanent": true
+    },
+    {
+      "source": "/insights/what-a-flag-tells-you/:path*",
+      "destination": "/insights/unsupported-number-carries-the-answer/",
+      "permanent": true
+    },
+    {
+      "source": "/published/:path*",
+      "destination": "/insights/",
+      "permanent": true
+    },
+    {
+      "source": "/method/:path*",
+      "destination": "/who-we-are/",
+      "permanent": true
+    },
+    {
+      "source": "/about/:path*",
+      "destination": "/who-we-are/",
+      "permanent": true
+    },
+    {
+      "source": "/worksafebc-repricing-risk-diagnostic",
+      "destination": "/tools/worksafe-repricing",
+      "permanent": true
+    },
+    {
+      "source": "/bc-pst-impact-diagnostic",
+      "destination": "/tools/bc-pst-impact",
+      "permanent": true
+    },
+    {
+      "source": "/tools/experience-rating-optimizer",
+      "destination": "/tools/experience-rating",
+      "permanent": true
+    },
+    {
+      "source": "/tools/bc-decarbonization-model",
+      "destination": "/tools/bc-decarbonization",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/pst-diagnostic",
+      "destination": "/tools/pst-diagnostic",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/worksafe-repricing",
+      "destination": "/tools/worksafe-repricing",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/province-comparator",
+      "destination": "/tools/province-comparator",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/experience-rating",
+      "destination": "/tools/experience-rating",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/suppression-audit",
+      "destination": "/tools/suppression-audit",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/mental-health-forecaster",
+      "destination": "/tools/mental-health-forecaster",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/surplus-alert",
+      "destination": "/tools/surplus-alert",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/bc-decarbonization-model",
+      "destination": "/tools/bc-decarbonization",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/executive-risk-brief",
+      "destination": "/tools/executive-risk-brief",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/demo/bc-decarbonization-model",
+      "destination": "/tools/bc-decarbonization",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/demo/:path*",
+      "destination": "/tools/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/diagnostics/:path*",
+      "destination": "/tools",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

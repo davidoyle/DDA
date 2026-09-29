@@ -1,10 +1,13 @@
+**Perspective**
+**Planning and place**
+**12 minute read**
+
 # When a housing target is larger than delivery
 
-**Perspective · Planning and place · 8 minute read**
+## Need is a number. Delivery is a chain.
 
-Need is a number. Delivery is a chain.
-
-**By David Doyle, Principal, DDA.** David Doyle is the principal of DDA, a Metro Vancouver practice that builds primary evidence bases for policy development, strategic planning, and public-sector submissions.
+**By David Doyle, Principal, DDA**
+*David Doyle is the principal of DDA, a Metro Vancouver practice that builds primary evidence bases for policy development, strategic planning, and public-sector submissions.*
 
 A housing target can be fully defensible and still tell a council very little about whether anyone will build the housing. Need and delivery are different questions.
 
@@ -18,9 +21,10 @@ A target sits at one end of that chain, and delivery sits at the other. The anal
 
 Housing targets are useful because they compress a complex problem into a number that councils can discuss, compare, budget for, and put into policy. That simplification is necessary. It becomes dangerous when the simplification becomes the plan.
 
-In Fruitvale, a village of about 2,000 people in the West Kootenay, the RDKB Interim Housing Needs Report sets a need of 291 units over twenty years. At an even rate, that is about 14.5 units a year. From 2009 to 2019, the Village built 36 units, or 3.6 a year, according to its 2024 land disposition RFP. An earlier count points the same way: a 2020 background report for the Village recorded 21 new homes from 2014 to 2018, plus 3 mobile homes. The target needs a production rate about four times the historical rate.
+In Fruitvale, a village of about 2,000 people in the West Kootenay, the [RDKB Interim Housing Needs Report](https://rdkb.com/Plan-Build/Planning/Housing-Needs) sets a need of 291 units over twenty years. At an even rate, that is about 14.5 units a year. From 2009 to 2019, the Village built 36 units, or 3.6 a year, according to its 2024 land disposition RFP. An earlier count points the same way: a [2020 background report for the Village](https://fruitvale.ca/wp-content/uploads/2022/10/Former-Middle-School-Project-Preliminary-Background-Report-January-2020.pdf) recorded 21 new homes from 2014 to 2018, plus 3 mobile homes. The target needs a production rate about four times the historical rate. The five-year need in the same report is 107 units, or about 21 a year, which is nearly six times the built rate. Of the 36 units built, 41 percent were mobile homes and 56 percent were single-detached homes, so the built rate describes a narrow range of housing forms.
 
-{{figure:target-vs-built}}
+![Bar chart. Built from 2009 to 2019: 3.6 units a year. Needed for the target of 291 units over 20 years: about 14.5 units a year.](assets/fruitvale-delivery-gap.svg)
+*The target rate against the built rate. Sources: RDKB Interim Housing Needs Report (February 2025); Village of Fruitvale land disposition RFP (2024).*
 
 That comparison does not prove the target is too high. It raises a question the target cannot answer: what changes in the delivery system will let a community that built 3.6 units a year build something closer to 14.5?
 
@@ -30,31 +34,32 @@ One of those mechanisms, or something similar, must exist. Without a change in m
 
 ## Local builders named a broken link
 
-The record has a second piece of evidence. In 2020, CitySpaces Consulting prepared a background report for the Village that recorded what local realtors and builders said about the market. The gap in ownership supply was newer homes at $300,000 to $320,000. Local builders had not been able to deliver new single-detached or duplex homes at that price, and they named infrastructure costs and development charges as the barriers.
+The record has a second piece of evidence. In 2020, CitySpaces Consulting prepared a [background report for the Village](https://fruitvale.ca/wp-content/uploads/2022/10/Former-Middle-School-Project-Preliminary-Background-Report-January-2020.pdf) that recorded what local realtors and builders said about the market. The gap in ownership supply was newer homes at $300,000 to $320,000. Local builders had not been able to deliver new single-detached or duplex homes at that price, and they named infrastructure costs and development charges as the barriers.
 
 This evidence needs careful reading. It is a statement from the people who build in that market, recorded through interviews. It is also six years old, and construction costs have risen since. It does not show that housing is impossible in the community, and it does not set one cost per unit for every tenure, form, site, or delivery model.
 
-What it gives is more specific. Local builders said they could not produce a defined product at a defined price, and they named the cost items that caused the gap.
+What it gives is more specific. Local builders said they cannot produce a defined product at a defined price, and they named the cost items that cause the gap.
 
-That must change the analysis. If a housing strategy assumes builders will deliver new units at a price local builders said they could not meet, the strategy contains a contradiction. Something must change: the proposed form, the cost assumption, the funding structure, the land or servicing contribution, or the procurement model. The alternative is new evidence that shows the 2020 statement no longer applies.
+That must change the analysis. If a housing strategy assumes builders will deliver new units at a price local builders said they cannot meet, the strategy contains a contradiction. Something must change: the proposed form, the cost assumption, the funding structure, the land or servicing contribution, or the procurement model. The alternative is new evidence that shows the 2020 statement no longer applies.
 
 Another repetition of the target does not resolve the contradiction, and neither does another policy statement. The evidence identifies a link in the delivery chain, and the plan must explain it.
 
 ## Read the figures as one system
 
-The same 2020 report shows that the vacancy rate in the Trail, Warfield, and Fruitvale area fell from 12 percent to 3 percent between 2015 and 2017. The report itself notes that 3 percent is often called a balanced rate. The signal is the direction and speed of the change.
+The same 2020 report shows that the [vacancy rate in the Trail, Warfield, and Fruitvale area fell from 12 percent to 3 percent](https://fruitvale.ca/wp-content/uploads/2022/10/Former-Middle-School-Project-Preliminary-Background-Report-January-2020.pdf) between 2015 and 2017. The report itself notes that 3 percent is often called a balanced rate. The signal is the direction and speed of the change.
 
 The first task is to identify what kind of evidence each number is. The vacancy figure is a signal of market tightness for one geography and one period. The 291-unit estimate is a projection of housing need. The 3.6-unit rate is a record of historical production. The builders' statement is an account, from the people who build, of what one product costs to deliver. These four numbers measure different things, and they become useful when you put them in one causal sequence.
 
 The drop in vacancy shows a market that tightened quickly. A needs model estimates how many additional units the community requires. Completions show how the production system actually performed. The builders' statement shows where one delivery mechanism failed at the costs of the time. Read separately, the numbers fill a report. Read together, they start to diagnose a system.
 
-The question changes from "How much housing do we need?" to a more useful one: where does the conversion of need into completed housing break?
+The question changes from "How much housing do we need?" to a more useful one: **where does the conversion of need into completed housing break?**
 
 ## Housing delivery is a chain-link problem
 
 Housing production has one important property: success at one stage cannot fully compensate for failure at another.
 
-{{figure:delivery-chain}}
+![Diagram of nine linked conditions from the target to occupied homes: households form, suitable land, policy permits the form, servicing in place, project economics, finance available, builders able to build, approvals granted, units occupied. Project economics is highlighted with the 2020 builder statement.](assets/delivery-chain.svg)
+*The delivery chain, with the link the 2020 builder statement points to. Source: CitySpaces Consulting for the Village of Fruitvale (January 2020), p. 10.*
 
 A community can have a lot of theoretical land capacity and still produce little housing if nobody can service the land. It can service land and still see little construction if project economics fail. It can improve project economics and still fail if builders, trades, materials, or finance are not available. It can permit more density and still get few units if the market cannot support the permitted form. It can secure funds and still meet long delays when approvals, design, infrastructure, procurement, or construction sequence become the constraint.
 
@@ -80,9 +85,9 @@ For each condition, the plan must also say if it already exists, has funds, is o
 
 Land-capacity analysis has a similar problem. A parcel can physically hold more units. Zoning can permit them, so a plan counts them as capacity. All three statements can be true while the units stay very unlikely to appear.
 
-It helps to separate five kinds of capacity. Theoretical capacity is what can fit under a set of planning assumptions. Permitted capacity is what current policy and zoning allow. Serviceable capacity is what infrastructure can support. Economic capacity is what builders can construct at costs and revenues that the market or funding model can sustain.
+It helps to separate five kinds of capacity. **Theoretical capacity** is what can fit under a set of planning assumptions. **Permitted capacity** is what current policy and zoning allow. **Serviceable capacity** is what infrastructure can support. **Economic capacity** is what builders can construct at costs and revenues that the market or funding model can sustain.
 
-Deliverable capacity is what can realistically move through land assembly, design, finance, approval, procurement, construction, and occupancy in the decision period.
+**Deliverable capacity** is what can realistically move through land assembly, design, finance, approval, procurement, construction, and occupancy in the decision period.
 
 Plans often combine these into one number. That makes the system easier to describe and the decision harder to understand. A council needs to know how many units can theoretically exist, and it also needs to know what separates that number from the units that will probably appear.
 
@@ -90,15 +95,20 @@ Plans often combine these into one number. That makes the system easier to descr
 
 A housing target is much more useful for a decision when the council can follow every major assumption through the production system.
 
-| Link | Question for the decision |
+| Stage | What the decision-maker needs to know |
 | --- | --- |
-| Target | What need, population, or household basis is being used, and when was it measured? |
-| Land | Which capacity is theoretical, realistically serviceable, permitted, and policy-adjusted? |
-| Policy | What OCP, zoning, financing, or program mechanism is expected to produce units? |
-| Servicing | What water, sewer, roads, approvals, or operating condition must hold? |
-| Construction | Can the local delivery market meet the cost, form, and timing assumption? |
-| Delivery | What do production and approvals show has happened? |
-| Implication | Which condition binds first, and which choice remains with council? |
+| Need | What population, household, affordability, or demographic basis produces the target? How current is it? |
+| Demand | Who will occupy the units, with what tenure, and at what price? |
+| Land | How much capacity is theoretical, permitted, serviceable, economically viable, and realistically available? |
+| Policy | Which municipal rule or program will change delivery? |
+| Servicing | Which water, sewer, road, utility, or site works are necessary? What do they cost, and when will they be complete? |
+| Economics | What must be true about land, construction cost, rents, sale prices, subsidy, and operating cost for a project to start? |
+| Finance | Who supplies capital, on what conditions, and what does not yet have funds? |
+| Delivery market | Are builders, trades, consultants, materials, and procurement capacity available? |
+| Approvals | Which decisions, permits, studies, and outside-agency approvals are on the critical path? |
+| Production | What has actually received approval, started, finished, and found occupants? |
+| Constraint | Which link limits additional output now, and how close is the next one? |
+| Decision | Which council action actually reaches that constraint? |
 
 The table earns its place because it changes the quality of the decision. A council can see if a plausible production mechanism supports the target. Staff can separate missing evidence from policy disagreement. A builder can identify the assumption that does not match the market, and a funder can see which condition depends on capital. Infrastructure staff can check if servicing plans already include the proposed growth. Where responsibility sits outside the municipality, the table shows that too.
 
@@ -128,19 +138,24 @@ Need is a number. Delivery is a chain. A plan becomes credible when the number g
 
 ## Trace your own chain
 
-If your council has a housing target larger than its delivery record, send us the target and the last ten years of completions. We will trace the chain and show which link controls production.
+If your council has a housing target larger than its delivery record, send us the target and the last ten years of completions. We will trace the chain and show which link controls production. [Talk to DDA](#)
 
-[Talk to DDA](./16-contact.md)
+---
 
-## Sources
+**Sources**
 
-- Regional District of Kootenay Boundary, Interim Housing Needs Report, February 2025. Source of the 20-year need of 291 units for Fruitvale.
-- Village of Fruitvale, land disposition RFP for 1800 Columbia Gardens Road, closed January 10, 2024. Source of the 2009 to 2019 construction record (36 units).
-- CitySpaces Consulting, Former Middle School Master Planning Project: Preliminary Background Report, prepared for the Village of Fruitvale, January 2020. Source of the vacancy figures (p. 9), the 2014 to 2018 new-home count (p. 9), and the builder statement on the $300,000 to $320,000 price point (p. 10).
-- Province of British Columbia, Housing Needs Reports. Background on the interim report requirement and the HNR Method.
+Regional District of Kootenay Boundary, [Interim Housing Needs Report](https://rdkb.com/Plan-Build/Planning/Housing-Needs), February 2025. Source of the 20-year need of 291 units for Fruitvale.
 
-## Related thinking
+Village of Fruitvale, land disposition RFP for 1800 Columbia Gardens Road, closed January 10, 2024. Source of the 2009 to 2019 construction record (36 units).
 
-[The trade gap hidden inside a workforce number](./13-insight-trade-gap-workforce-number.md) The same problem occurs when a project workforce forecast becomes an assumption about labour supply, with no test against the chain that supplies workers.
+CitySpaces Consulting, [Former Middle School Master Planning Project: Preliminary Background Report](https://fruitvale.ca/wp-content/uploads/2022/10/Former-Middle-School-Project-Preliminary-Background-Report-January-2020.pdf), prepared for the Village of Fruitvale, January 2020. Source of the vacancy figures (p. 9), the 2014 to 2018 new-home count (p. 9), and the builder statement on the $300,000 to $320,000 price point (p. 10).
 
-[When an unsupported number carries the answer](./14-insight-what-a-flag-tells-you.md) A method to separate sourced evidence, assumptions, derived figures, and missing inputs before they become part of a decision.
+Province of British Columbia, [Housing Needs Reports](https://www2.gov.bc.ca/gov/content/housing-tenancy/local-governments-and-housing/policy-and-planning-tools-for-housing/housing-needs-reports). Background on the interim report requirement and the HNR Method.
+
+### Related thinking
+
+**The trade gap hidden inside a workforce number**
+The same problem occurs when a project workforce forecast becomes an assumption about labour supply, with no test against the chain that supplies workers.
+
+**When an unsupported number carries the answer**
+A method to separate sourced evidence, assumptions, derived figures, and missing inputs before they become part of a decision.
