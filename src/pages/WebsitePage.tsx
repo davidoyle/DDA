@@ -340,7 +340,7 @@ function ContactForm() {
     if (Object.keys(next).length) { setErrors(next); setTimeout(() => summary.current?.focus()); return; }
     setErrors({}); setState('sending');
     try {
-      const response = await fetch('/api/contact/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(form)) });
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(form)) });
       if (!response.ok) throw new Error();
       setState('success');
     } catch { setState('error'); }

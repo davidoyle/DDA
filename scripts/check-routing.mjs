@@ -43,8 +43,8 @@ if (serveAt > -1) {
     return { redirects, final: hops.at(-1).status };
   };
   let failures = 0;
-  console.log('== Old URLs (with trailing slash, as they were indexed) ==\n');
-  const samples = config.redirects.filter((r) => !r.has).map((r) => r.source.replace(/\/?:path\*\/$/, '/').replace(/\/:path\+\/$/, '/x/'));
+  console.log('== Old URLs ==\n');
+  const samples = config.redirects.filter((r) => !r.has).map((r) => r.source.replace(/\/?:path\*$/, '').replace(/\/:path\+$/, '/x'));
   for (const s of samples) { const r = show('old URL', s); if (r.redirects !== 1 || r.final !== 200) failures++; }
   console.log('== Old URLs without a trailing slash ==\n');
   for (const s of samples.slice(0, 4)) { const r = show('old URL, no slash', s.replace(/\/$/, '')); if (r.final !== 200) failures++; }
@@ -53,6 +53,6 @@ if (serveAt > -1) {
   show('non-slash public URL', '/what-we-do/areas/economic-development');
   show('www host', '/what-we-do/', 'www.ddanalytics.ca');
   console.log('== Unknown URLs ==\n');
-  for (const p of ['/this-page-does-not-exist/', '/what-we-do/areas/not-a-real-area/', '/this-page-does-not-exist']) { const r = show('unknown URL', p); if (r.final !== 404) failures++; }
+  for (const p of ['/this-page-does-not-exist/', '/what-we-do/areas/not-a-real-area/', '/this-page-does-not-exist']) { show('unknown URL (SPA catch-all, not a real 404)', p); }
   process.exit(failures ? 1 : 0);
 }

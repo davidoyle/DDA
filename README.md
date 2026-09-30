@@ -21,8 +21,7 @@ All redirects are in `vercel.json` with `permanent: true`. Vercel serves these a
 
 ## SEO and routing
 - Titles, descriptions, `metaTitle` and related-service links live in `src/content/public-pages.json`. The audit fails the build on duplicates, on titles over 60 characters and descriptions over 160.
-- `vercel.json` sets `trailingSlash: true`. With it, Vercel redirects `/x` to `/x/` before any custom redirect, so redirect sources are written in their slash form (`/old/:path*/`). A request for an old URL without a slash takes two hops.
-- Only `/tools/*` and `/model/*` fall back to the SPA. Every other unknown URL returns 404 with `404.html`.
+- `vercel.json` has the redirects and one catch-all SPA rewrite to `/index.html`. It does not set `trailingSlash`. Prerendered pages are served from `dist/<route>/index.html`. Unknown URLs return 200 with the in-app not-found page.
 - `node scripts/check-routing.mjs` prints curl -I style results for every redirect and the 404 test. `node scripts/check-routing.mjs --serve 4175` serves `dist/` with the same routing table Vercel builds from `vercel.json`.
 - Sitemap `lastmod` is the last git commit date of each source file. Vercel clones shallowly, so run `npm run lastmod` from a full clone after committing copy changes. The build only trusts a cached date whose file hash still matches.
 - JSON-LD is generated per page in `src/lib/seo.mjs` and written into the static HTML by the prerender step.
