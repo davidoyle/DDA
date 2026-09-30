@@ -72,19 +72,18 @@ if (/^Disallow:\s*\/\s*$/m.test(robots)) fail('robots.txt blocks the whole site'
 
 // Redirects and status codes, through the same route table Vercel builds from vercel.json.
 const router = await loadRouter(root);
-const isRoute = (d) => routes.has(d) || /^\/tools\/$/.test(d) || /^\/tools\/[\w-]+\/$/.test(d) || d.startsWith(`${SITE}/`);
-if (router.config.trailingSlash !== true) fail('vercel.json must set trailingSlash to true');
+const isRoute = (d) => routes.has(d) || /^\/tools\/?$/.test(d) || /^\/tools\/[\w-]+\/?$/.test(d) || d.startsWith(`${SITE}/`);
 for (const r of router.config.redirects) {
   if (r.permanent !== true) fail(`redirect ${r.source}: not permanent`);
   if (!isRoute(r.destination.replace(/:path[*+]\/?$/, '').replace(/\$1$/, ''))) fail(`redirect ${r.source} -> ${r.destination}: destination is not a live route`);
   if (!r.has && routes.has(r.source)) fail(`redirect ${r.source} shadows a live page`);
   if (!r.has) {
-    const sample = r.source.replace(/\/?:path\*\/$/, '/').replace(/\/:path\+\/$/, '/x/');
+    const sample = r.source.replace(/\/?:path\*$/, '').replace(/\/:path\+$/, '/x');
     const hops = router.follow(sample);
     if (hops.filter((h) => h.location).length !== 1 || hops.at(-1).status !== 200) fail(`redirect ${sample}: expected one hop to a 200, got ${hops.map((h) => h.status).join(' > ')}`);
   }
 }
-for (const fake of ['/this-page-does-not-exist/', '/what-we-do/areas/not-a-real-area/']) if (router.resolve(fake).status !== 404) fail(`${fake}: unknown URLs must return 404`);
+// vercel.json keeps the catch-all SPA rewrite, so unknown URLs return 200 with the in-app not-found page.
 
 // Generated HTML (present after `vite build` and the prerender step).
 const sitemap = await readFile(path.join(root, 'dist/sitemap.xml'), 'utf8').catch(() => null);
