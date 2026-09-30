@@ -1,6 +1,6 @@
 # Who we are
 
-DDA is a diagnostic and analytical practice in Metro Vancouver, British Columbia. David Doyle leads each assignment from the first question to the final product. He frames the question, builds the evidence base, and owns the finding. Specialists join for the parts of a scope that need a professional qualification or local knowledge.
+DDA, short for Diagnostics, Dataflow, Analysis, is a diagnostic and analytical practice in Metro Vancouver, British Columbia. David Doyle leads each assignment from the first question to the final product. He frames the question, builds the evidence base, and owns the finding. Specialists join for the parts of a scope that need a professional qualification or local knowledge.
 
 DDA works on problems where the evidence is fragmented, the important relationships cross professional boundaries, or a decision must carry more certainty than the record can support. The work finds what is occurring, explains what produces the outcome, states what is still uncertain, and shows what that means for the decision.
 

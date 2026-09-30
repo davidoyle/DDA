@@ -146,6 +146,8 @@ function autolink(tokens, titleRoutes, self) {
   const titles = Object.keys(titleRoutes).sort((a, b) => b.length - a.length);
   const link = (title, c) => ({ t: 'link', href: titleRoutes[title], auto: true, c });
   const known = (title) => title in titleRoutes && titleRoutes[title] !== self;
+  const norm = (x) => x.toLowerCase().replace(/[.,]+$/, '');
+  const byNorm = new Map(Object.entries(titleRoutes).map(([title, route]) => [norm(title), { title, route }]));
   const out = [];
   for (const t of tokens) {
     if (t.t === 'link') { out.push(t); continue; }
@@ -153,6 +155,8 @@ function autolink(tokens, titleRoutes, self) {
       if (!t.c.every((x) => x.t === 'text')) { out.push({ ...t, c: autolink(t.c, titleRoutes, self) }); continue; }
       const text = inlineText(t.c);
       if (known(text)) { out.push({ t: t.t, c: [link(text, t.c)] }); continue; }
+      const hit = t.t === 'em' ? byNorm.get(norm(text)) : undefined;
+      if (hit && hit.route !== self) { out.push({ t: 'em', c: [{ t: 'link', href: hit.route, auto: true, c: t.c }] }); continue; }
       if (t.t === 'strong' && text.endsWith('.') && known(text.slice(0, -1))) {
         out.push({ t: 'strong', c: [link(text.slice(0, -1), [{ t: 'text', v: text.slice(0, -1) }]), { t: 'text', v: '.' }] });
         continue;

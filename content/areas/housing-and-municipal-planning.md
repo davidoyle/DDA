@@ -21,7 +21,7 @@ In British Columbia, the official community plan sets the land-use designation. 
 
 ### 02 The evidence problem
 
-The needs report gives a number for five years and for twenty years. That number is a projection of need. The delivery record comes from building permits, starts, and completions, and each one measures a different point in the chain. A permit is a decision to allow. A completion is a finished unit. Many communities record permits and no completions, so permits become the proxy for output.
+The housing needs report gives a number for five years and for twenty years. That number is a projection of need. The delivery record comes from building permits, starts, and completions, and each one measures a different point in the chain. A permit is a decision to allow. A completion is a finished unit. Many communities record permits and no completions, so permits become the proxy for output.
 
 Vacancy data has a coverage gap. The national rental survey covers larger centres, and small communities often have no current figure. A vacancy rate from a local plan can be several years old. DDA labels these figures PROXY and states their date and source.
 

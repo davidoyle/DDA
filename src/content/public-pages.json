@@ -6,7 +6,8 @@
     "title": "Get deep into the problem. Find what matters.",
     "navTitle": "Get deep into the problem. Find what matters.",
     "type": "home",
-    "description": "DDA investigates complex problems, finds what matters, and builds the analysis needed to act."
+    "description": "DDA investigates hard public, industrial, and institutional problems in British Columbia and across Canada. We find the constraint that shapes the outcome.",
+    "metaTitle": "DDA | Economic, workforce, and fiscal analysis in BC"
   },
   {
     "id": "P02",
@@ -15,7 +16,8 @@
     "title": "What we do",
     "navTitle": "What we do",
     "type": "hub",
-    "description": "DDA examines complex problems."
+    "description": "DDA finds what controls an outcome and what must change for it to change. Six kinds of analysis and thirteen areas of work in BC and across Canada.",
+    "metaTitle": "What we do | Six kinds of analysis"
   },
   {
     "id": "P03",
@@ -24,7 +26,8 @@
     "title": "Evidence reconstruction",
     "navTitle": "Evidence reconstruction",
     "type": "capability",
-    "description": "Most decisions rest on numbers that nobody has traced to a source."
+    "description": "DDA traces every figure to its primary source, records its status, and shows where sources disagree. The result is an evidence base a hostile reader can check.",
+    "metaTitle": "Evidence reconstruction and source tracing | DDA"
   },
   {
     "id": "P04",
@@ -33,7 +36,8 @@
     "title": "Economic and market analysis",
     "navTitle": "Economic and market analysis",
     "type": "capability",
-    "description": "An economic analysis has value when it says what changes because of an action."
+    "description": "Economic impact and market analysis for BC public and industrial decisions. DDA measures what an action adds, what it moves, and what leaves the region.",
+    "metaTitle": "Economic impact and market analysis in BC | DDA"
   },
   {
     "id": "P05",
@@ -42,7 +46,8 @@
     "title": "Fiscal and scenario modelling",
     "navTitle": "Fiscal and scenario modelling",
     "type": "capability",
-    "description": "A fiscal model turns assumptions into a public decision."
+    "description": "Fiscal impact analysis and scenario modelling for BC municipalities and public bodies. DDA tests which assumption carries the result.",
+    "metaTitle": "Fiscal impact analysis and modelling in BC | DDA"
   },
   {
     "id": "P06",
@@ -51,7 +56,8 @@
     "title": "Labour and workforce analysis",
     "navTitle": "Labour and workforce analysis",
     "type": "capability",
-    "description": "A region can show a large workforce on paper and still lack the people a project needs on a fixed date."
+    "description": "Labour market analysis for BC projects and communities, including labour market research plans. DDA finds the usable supply below the workforce total.",
+    "metaTitle": "Labour market analysis in BC | DDA"
   },
   {
     "id": "P07",
@@ -60,7 +66,8 @@
     "title": "Land, infrastructure, and spatial analysis",
     "navTitle": "Land, infrastructure, and spatial analysis",
     "type": "capability",
-    "description": "Land that a plan designates for use is different from land that someone can use."
+    "description": "Employment lands and land capacity analysis in BC. DDA screens parcels against servicing, ownership, and constraints to find land that can build.",
+    "metaTitle": "Employment lands and land capacity analysis | DDA"
   },
   {
     "id": "P08",
@@ -69,7 +76,8 @@
     "title": "Institutional and policy analysis",
     "navTitle": "Institutional and policy analysis",
     "type": "capability",
-    "description": "Public claims and institutional questions often cross mandates, budgets, decisions, communications, appeals, enforcement, and implementation."
+    "description": "Institutional and policy analysis in BC. DDA follows public claims to primary sources and explains why an institution produced its result.",
+    "metaTitle": "Institutional and policy analysis in BC | DDA"
   },
   {
     "id": "P09",
@@ -78,7 +86,8 @@
     "title": "Housing and municipal planning",
     "navTitle": "Housing and municipal planning",
     "type": "area",
-    "description": "A housing target tells a council how much housing a community needs."
+    "description": "Housing needs, OCP, and zoning analysis in BC. DDA tests targets against land, servicing, project cost, and the historical rate of construction.",
+    "metaTitle": "Housing needs and OCP analysis in BC | DDA"
   },
   {
     "id": "P10",
@@ -87,7 +96,8 @@
     "title": "Public finance and capital planning",
     "navTitle": "Public finance and capital planning",
     "type": "area",
-    "description": "A budget shows what a government plans to spend."
+    "description": "Municipal financial and capital planning analysis in BC. DDA tests renewal gaps, tax base concentration, debt capacity, and growth cost.",
+    "metaTitle": "Municipal financial and capital planning in BC | DDA"
   },
   {
     "id": "P11",
@@ -96,7 +106,8 @@
     "title": "Economic development",
     "navTitle": "Economic development",
     "type": "area",
-    "description": "Regions often identify an economic opportunity before they know if they can deliver it."
+    "description": "Economic development strategy analysis in BC. DDA tests which opportunities have evidence, fit the region, and can move past the binding constraint.",
+    "metaTitle": "Economic development strategy analysis in BC | DDA"
   },
   {
     "id": "P12",
@@ -105,7 +116,8 @@
     "title": "Mining and critical minerals",
     "navTitle": "Mining and critical minerals",
     "type": "area",
-    "description": "A project announcement gives a job number and a start date."
+    "description": "Mining and critical minerals analysis in BC: project schedules, trade-level workforce, power, permits, and regional benefit.",
+    "metaTitle": "Mining workforce and project analysis in BC | DDA"
   },
   {
     "id": "P13",
@@ -114,7 +126,8 @@
     "title": "Energy and electricity",
     "navTitle": "Energy and electricity",
     "type": "area",
-    "description": "Announced generation and delivered power are different quantities."
+    "description": "Electricity demand, capacity, and interconnection analysis for industrial and regional projects in BC and across Canada.",
+    "metaTitle": "Electricity demand and interconnection analysis | DDA"
   },
   {
     "id": "P14",
@@ -123,7 +136,8 @@
     "title": "Forestry and forest communities",
     "navTitle": "Forestry and forest communities",
     "type": "area",
-    "description": "The allowable annual cut sets a ceiling on harvest."
+    "description": "Forestry fibre supply and forest community analysis. DDA compares the allowable cut with the fibre a mill can get at a price it can pay.",
+    "metaTitle": "Forestry fibre supply and community analysis | DDA"
   },
   {
     "id": "P15",
@@ -132,7 +146,8 @@
     "title": "Infrastructure and transportation",
     "navTitle": "Infrastructure and transportation",
     "type": "area",
-    "description": "A capital program shows what a government plans to spend."
+    "description": "Infrastructure and transportation analysis in BC: demand, capacity, cost, and the sequence of capital projects.",
+    "metaTitle": "Infrastructure and transportation analysis in BC | DDA"
   },
   {
     "id": "P16",
@@ -141,7 +156,8 @@
     "title": "Health workforce and access",
     "navTitle": "Health workforce and access",
     "type": "area",
-    "description": "A count of physicians in a region gives the number of licences."
+    "description": "Health workforce and access analysis in BC: recruitment, retention, facility capacity, and distance to services.",
+    "metaTitle": "Health workforce and access analysis in BC | DDA"
   },
   {
     "id": "P17",
@@ -150,7 +166,8 @@
     "title": "Skills, training, and post-secondary",
     "navTitle": "Skills, training, and post-secondary",
     "type": "area",
-    "description": "A funded seat leads to a certified worker only after several more steps."
+    "description": "Skills, training, and post-secondary analysis in BC. DDA compares training output and program lead time with occupational demand.",
+    "metaTitle": "Skills and training pipeline analysis in BC | DDA"
   },
   {
     "id": "P18",
@@ -159,7 +176,8 @@
     "title": "Agriculture and food",
     "navTitle": "Agriculture and food",
     "type": "area",
-    "description": "Reserve land, production, processing, and local supply are four different quantities."
+    "description": "Agriculture and food system analysis in BC: land, processing capacity, labour, water, and farm economics.",
+    "metaTitle": "Agriculture and food system analysis in BC | DDA"
   },
   {
     "id": "P19",
@@ -168,7 +186,8 @@
     "title": "Tourism and resort communities",
     "navTitle": "Tourism and resort communities",
     "type": "area",
-    "description": "Visitor numbers and hotel tax revenue measure demand."
+    "description": "Tourism and resort community analysis in BC: seasonal demand, workforce housing, peak infrastructure load, and municipal revenue.",
+    "metaTitle": "Tourism and resort community analysis in BC | DDA"
   },
   {
     "id": "P20",
@@ -177,7 +196,8 @@
     "title": "Public institutions and oversight",
     "navTitle": "Public institutions and oversight",
     "type": "area",
-    "description": "An institution reports what it did."
+    "description": "Analysis of public institutions and oversight in BC. DDA compares what an institution reports with what its records show it produces.",
+    "metaTitle": "Public institutions and oversight analysis | DDA"
   },
   {
     "id": "P21",
@@ -186,7 +206,8 @@
     "title": "Land, water, and resource use",
     "navTitle": "Land, water, and resource use",
     "type": "area",
-    "description": "Several parties can hold a claim on the same land and the same water."
+    "description": "Land, water, and resource use analysis in BC: competing uses, tenure, water licence priority, and cumulative pressure.",
+    "metaTitle": "Land, water, and resource use analysis in BC | DDA"
   },
   {
     "id": "P22",
@@ -195,7 +216,8 @@
     "title": "Who we are",
     "navTitle": "Who we are",
     "type": "about",
-    "description": "DDA is a diagnostic and analytical practice in Metro Vancouver, British Columbia."
+    "description": "DDA, short for Diagnostics, Dataflow, Analysis, is a diagnostic and analytical practice in Metro Vancouver. David Doyle leads each assignment.",
+    "metaTitle": "Who we are | DDA, Metro Vancouver"
   },
   {
     "id": "P23",
@@ -204,7 +226,8 @@
     "title": "For consulting teams",
     "navTitle": "For consulting teams",
     "type": "consulting",
-    "description": "Most projects have one workstream where the evidence is scattered, the numbers do not reconcile, and the client will push back hardest."
+    "description": "DDA joins a live assignment and owns one analytical workstream: evidence, economic, labour, land, or fiscal analysis that your team can defend to the client.",
+    "metaTitle": "Subconsultant analysis for consulting teams | DDA"
   },
   {
     "id": "P24",
@@ -213,7 +236,8 @@
     "title": "Public interest analysis",
     "navTitle": "Public interest analysis",
     "type": "public-interest",
-    "description": "Public institutions make decisions that affect many people."
+    "description": "DDA analyzes public institutions and public records in the public interest. Public sources only, every figure traced, corrections published.",
+    "metaTitle": "Public interest analysis in BC | DDA"
   },
   {
     "id": "P25",
@@ -222,7 +246,8 @@
     "title": "Insights",
     "navTitle": "Insights",
     "type": "insights-hub",
-    "description": "These perspectives trace headline claims through the systems that must support them."
+    "description": "Perspectives from DDA that trace headline claims, such as housing targets and workforce totals, through the systems that must support them.",
+    "metaTitle": "Insights | DDA"
   },
   {
     "id": "P26",
@@ -231,9 +256,10 @@
     "title": "When a housing target is larger than delivery",
     "navTitle": "When a housing target is larger than delivery",
     "type": "article",
-    "description": "A housing target can be fully defensible and still tell a council very little about whether anyone will build the housing.",
+    "description": "A housing target can be fully defensible and still tell a council little about delivery. A small-community case traces need through the delivery chain.",
     "finding": "At an even rate, that is about 14.5 units a year. From 2009 to 2019, the Village built 36 units, or 3.6 a year, according to its 2024 land disposition RFP.",
-    "relatedService": "/what-we-do/areas/housing-and-municipal-planning/"
+    "relatedService": "/what-we-do/areas/housing-and-municipal-planning/",
+    "metaTitle": "Housing targets and delivery rates | DDA"
   },
   {
     "id": "P27",
@@ -242,9 +268,10 @@
     "title": "The trade gap hidden inside a workforce number",
     "navTitle": "The trade gap hidden inside a workforce number",
     "type": "article",
-    "description": "A regional labour force of thousands can look like enough people for a mine.",
+    "description": "A project can have enough workers on paper and still miss its date. An Eskay Creek analysis finds the gap in one trade, one phase, one window.",
     "finding": "In this analysis the commissioning phase needs about 90 pipefitters. The analysis found about 30 available in the region. The gap is 60 people, or 67 percent of the requirement.",
-    "relatedService": "/what-we-do/capabilities/labour-and-workforce-analysis/"
+    "relatedService": "/what-we-do/capabilities/labour-and-workforce-analysis/",
+    "metaTitle": "The trade gap in a workforce number: Eskay Creek | DDA"
   },
   {
     "id": "P28",
@@ -253,9 +280,10 @@
     "title": "When an unsupported number carries the answer",
     "navTitle": "When an unsupported number carries the answer",
     "type": "article",
-    "description": "A schedule, a forecast, a policy claim, or an investment case depends on inputs.",
+    "description": "Some inputs carry a whole decision. DDA finds them, checks their source, and shows what changes if they move.",
     "finding": "The conclusion, that labour is available, depends on four conditions that the evidence does not establish.",
-    "relatedService": "/what-we-do/capabilities/evidence-reconstruction/"
+    "relatedService": "/what-we-do/capabilities/evidence-reconstruction/",
+    "metaTitle": "When an unsupported number carries the answer | DDA"
   },
   {
     "id": "P29",
@@ -264,7 +292,8 @@
     "title": "Talk to DDA",
     "navTitle": "Talk to DDA",
     "type": "contact",
-    "description": "A few sentences are enough."
+    "description": "Send DDA the report, RFP, project, dataset, or open question. A few sentences are enough to start the conversation.",
+    "metaTitle": "Contact DDA | Show us what you are working on"
   },
   {
     "id": "P30",
@@ -273,7 +302,8 @@
     "title": "Privacy",
     "navTitle": "Privacy",
     "type": "utility",
-    "description": "How DDA handles information submitted through this website."
+    "description": "How DDA handles information submitted through this website.",
+    "metaTitle": "Privacy | DDA"
   },
   {
     "id": "P31",
@@ -282,7 +312,8 @@
     "title": "Legal",
     "navTitle": "Legal",
     "type": "utility",
-    "description": "Legal information and boundaries for DDA website content."
+    "description": "Legal information and boundaries for DDA website content.",
+    "metaTitle": "Legal | DDA"
   },
   {
     "id": "P32",
@@ -291,7 +322,8 @@
     "title": "Terms",
     "navTitle": "Terms",
     "type": "utility",
-    "description": "Terms governing use of the DDA website."
+    "description": "Terms governing use of the DDA website.",
+    "metaTitle": "Terms | DDA"
   },
   {
     "id": "P33",
@@ -300,6 +332,7 @@
     "title": "Accessibility",
     "navTitle": "Accessibility",
     "type": "utility",
-    "description": "DDA's accessibility measures, limitations and feedback route."
+    "description": "DDA's accessibility measures, limitations and feedback route.",
+    "metaTitle": "Accessibility | DDA"
   }
 ]

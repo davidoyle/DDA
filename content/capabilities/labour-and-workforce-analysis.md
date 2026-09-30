@@ -1,6 +1,6 @@
 # Labour and workforce analysis
 
-A region can show a large workforce on paper and still lack the people a project needs on a fixed date. DDA looks below the total to find which workers have finished training, hold the right qualification, can work on the project, are free, and can reach the site.
+A region can show a large workforce on paper and still lack the people a project needs on a fixed date. DDA's labour market analysis looks below the total to find which workers have finished training, hold the right qualification, can work on the project, are free, and can reach the site.
 
 **On this page**
 
@@ -10,6 +10,7 @@ Demand by trade and phase
 Access, wages, and competing demand
 Training lead time
 Public action and workforce
+Labour market research plans
 What the work can produce
 Bring the workforce question
 
@@ -66,13 +67,17 @@ A training subsidy adds workers only when the constraint is training. When the c
 
 *Supply falls at each test. The constraint to act on is the step with the largest loss that the project can change.*
 
-### 07 What the work can produce
+### 07 Labour market research plans
+
+Rural and remote communities in British Columbia often need a labour market research plan to guide workforce planning and to qualify for provincial funding through programs such as the Rural and Remote Employment Initiatives Fund. DDA builds the evidence base for these plans: the workforce baseline, demand by sector and occupation, the training and mobility picture, and the register that shows the status of every figure. The plan then rests on evidence that a funder or a council can check.
+
+### 08 What the work can produce
 
 The work can produce a workforce baseline, a table of demand by trade and phase, a supply funnel, a training-pipeline assessment, a review of mobility and housing, supply and demand scenarios, an evidence register, an employer brief, and a monitor that tracks the indicators that show early if the gap closes or widens.
 
 Read *The trade gap hidden inside a workforce number* for the Eskay Creek analysis. For concurrent projects and schedule exposure, see *Mining and critical minerals*. For training output and program timing, see *Skills, training, and post-secondary*.
 
-### 08 Bring the workforce question
+### 09 Bring the workforce question
 
 Send the workforce figure, the project schedule, the grant scope, the employer concern, or the dataset in use. DDA will find the first step where supply narrows and identify the missing evidence that can change the response.
 

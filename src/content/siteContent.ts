@@ -2,7 +2,7 @@ import { buildFileRoutes, buildTitleRoutes } from '../lib/markdown.mjs';
 import manifestData from './public-pages.json';
 
 export type PageType = 'home' | 'hub' | 'capability' | 'area' | 'about' | 'consulting' | 'insights-hub' | 'article' | 'contact' | 'public-interest' | 'utility';
-export interface PublicPage { id: string; file: string; route: string; title: string; navTitle: string; type: PageType; description: string; finding?: string; relatedService?: string }
+export interface PublicPage { id: string; file: string; route: string; title: string; navTitle: string; type: PageType; description: string; metaTitle: string; finding?: string; relatedService?: string }
 
 export const pageManifest = manifestData as PublicPage[];
 
