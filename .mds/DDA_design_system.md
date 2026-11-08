@@ -28,49 +28,49 @@ colors:
 
 typography:
   display-lg:
-    fontFamily: Aptos
+    fontFamily: Specimen Rebuild
     fontSize: 48px
     fontWeight: 300
     lineHeight: "1.2"
 
   display-md:
-    fontFamily: Aptos
+    fontFamily: Specimen Rebuild
     fontSize: 36px
     fontWeight: 300
     lineHeight: "1.2"
 
   headline-lg:
-    fontFamily: Aptos
+    fontFamily: Specimen Rebuild
     fontSize: 30px
     fontWeight: 400
     lineHeight: "1.3"
 
   headline-md:
-    fontFamily: Aptos
+    fontFamily: Specimen Rebuild
     fontSize: 24px
     fontWeight: 600
     lineHeight: "1.3"
 
   body-lg:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 18px
     fontWeight: 400
     lineHeight: "1.5"
 
   body-md:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 14px
     fontWeight: 400
     lineHeight: "1.5"
 
   label-md:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 14px
     fontWeight: 600
     lineHeight: "1"
 
   label-sm:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 12px
     fontWeight: 600
     lineHeight: "1"
@@ -222,23 +222,25 @@ The color strategy uses a dark institutional blue, clean neutrals, and a control
 
 ## Typography
 
-The typography system uses Aptos for display and headline levels to deliver an authoritative editorial tone, while relying on Open Sans for body copy and labels to optimize readability across digital screens.
+The typography system uses Specimen Rebuild, DDA's own typeface, at every level: display, headlines, body copy, labels, navigation, buttons and forms. Open Sans sets numbers that need tabular figures (data tables and figures) and the body and controls of the diagnostic tools.
 
-* Display Large `{typography.display-lg}`: Aptos font family, used for high-impact hero titles and major section headers.
+Specimen Rebuild has two weights (Regular, Bold), no kerning and proportional digits only. Light and medium requests (300 to 549) draw Regular; 550 and up draw Bold. The `@font-face` rules in `src/index.css` limit each weight to glyphs that render correctly, and Open Sans draws the rest: `/` and `\` in both weights; `# $ % & * @ ^`, the Latin-1 symbols, `€` and `™` in Bold. Source files are in `/fonts`.
 
-* Display Medium `{typography.display-md}`: Aptos font family, used for secondary hero titles and prominent landing page headers.
+* Display Large `{typography.display-lg}`: Specimen Rebuild font family, used for high-impact hero titles and major section headers.
 
-* Headline Large `{typography.headline-lg}`: Aptos font family, used for standard section headings and article titles.
+* Display Medium `{typography.display-md}`: Specimen Rebuild font family, used for secondary hero titles and prominent landing page headers.
 
-* Headline Medium `{typography.headline-md}`: Aptos font family, used for subsections and card titles within content grids.
+* Headline Large `{typography.headline-lg}`: Specimen Rebuild font family, used for standard section headings and article titles.
 
-* Body Large `{typography.body-lg}`: Open Sans font family, used for introductory paragraphs and featured callouts.
+* Headline Medium `{typography.headline-md}`: Specimen Rebuild font family, used for subsections and card titles within content grids.
 
-* Body Medium `{typography.body-md}`: Open Sans font family, the standard body copy size used for articles, descriptions, and general text.
+* Body Large `{typography.body-lg}`: Specimen Rebuild font family, used for introductory paragraphs and featured callouts.
 
-* Label Medium `{typography.label-md}`: Open Sans font family, used for interactive labels, button text, and navigation links.
+* Body Medium `{typography.body-md}`: Specimen Rebuild font family, the standard body copy size used for articles, descriptions, and general text.
 
-* Label Small `{typography.label-sm}`: Open Sans font family, used for small metadata, tags, and caption labels.
+* Label Medium `{typography.label-md}`: Specimen Rebuild font family, used for interactive labels, button text, and navigation links.
+
+* Label Small `{typography.label-sm}`: Specimen Rebuild font family, used for small metadata, tags, and caption labels.
 
 ## Layout
 

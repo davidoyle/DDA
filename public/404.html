@@ -6,13 +6,16 @@
     <title>Page not found | DDA</title>
     <meta name="robots" content="noindex, follow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" as="font" type="font/woff2" href="/fonts/open-sans-latin-400-normal.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/specimen-rebuild-400-normal.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/specimen-rebuild-700-normal.woff2" crossorigin />
     <style>
       @font-face{font-family:'Open Sans';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/open-sans-latin-400-normal.woff2') format('woff2')}
       @font-face{font-family:'Open Sans';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/open-sans-latin-700-normal.woff2') format('woff2')}
-      body{margin:0;min-height:100vh;display:grid;place-items:center;background:#102B22;color:#fff;font-family:'Open Sans','Segoe UI',Arial,sans-serif}
+      @font-face{font-family:'Specimen Rebuild';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/specimen-rebuild-400-normal.woff2') format('woff2');unicode-range:U+0020-002E,U+0030-005B,U+005D-005F,U+0061-007A,U+007C,U+007E,U+00A2-00A3,U+00A5,U+00A7,U+00A9,U+00AE,U+00B0,U+00B6,U+2013-2014,U+2018-2019,U+201C-201D,U+20AC,U+2122}
+      @font-face{font-family:'Specimen Rebuild';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/specimen-rebuild-700-normal.woff2') format('woff2');unicode-range:U+0020-0022,U+0027-0029,U+002B-002E,U+0030-003F,U+0041-005B,U+005D,U+005F,U+0061-007A,U+007C,U+007E,U+2013-2014,U+2018-2019,U+201C-201D}
+      body{margin:0;min-height:100vh;display:grid;place-items:center;background:#102B22;color:#fff;font-family:'Specimen Rebuild','Open Sans','Segoe UI',Arial,sans-serif}
       .wrap{max-width:720px;padding:48px 24px;text-align:center}
-      h1{font-size:clamp(32px,5vw,48px);line-height:1.1;font-weight:700;margin:16px 0}
+      h1{font-size:clamp(32px,5vw,48px);line-height:1.1;font-weight:400;margin:16px 0}
       p{font-size:18px;line-height:1.6;color:rgba(255,255,255,.86);margin:12px 0}
       a{display:inline-block;margin:6px;padding:12px 20px;border-radius:999px;color:#102B22;background:#fff;text-decoration:none;font-weight:700;font-size:15px}
       a.secondary{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
