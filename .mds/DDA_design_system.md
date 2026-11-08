@@ -52,25 +52,25 @@ typography:
     lineHeight: "1.3"
 
   body-lg:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 18px
     fontWeight: 400
     lineHeight: "1.5"
 
   body-md:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 14px
     fontWeight: 400
     lineHeight: "1.5"
 
   label-md:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 14px
     fontWeight: 600
     lineHeight: "1"
 
   label-sm:
-    fontFamily: Open Sans
+    fontFamily: Specimen Rebuild
     fontSize: 12px
     fontWeight: 600
     lineHeight: "1"
@@ -222,9 +222,9 @@ The color strategy uses a dark institutional blue, clean neutrals, and a control
 
 ## Typography
 
-The typography system uses Specimen Rebuild, DDA's own typeface, for display and headline levels. Open Sans carries body copy, labels, navigation, buttons, forms and all numbers in tables and figures.
+The typography system uses Specimen Rebuild, DDA's own typeface, at every level: display, headlines, body copy, labels, navigation, buttons and forms. Open Sans sets numbers that need tabular figures (data tables and figures) and the body and controls of the diagnostic tools.
 
-Specimen Rebuild is a display face. Do not set body copy, labels or numeric tables in it. It has two weights (Regular, Bold), no kerning and proportional digits only. Light and medium requests (300 to 549) draw Regular; 550 and up draw Bold. The `@font-face` rules in `src/index.css` limit each weight to glyphs that render correctly, and Open Sans draws the rest: `/` and `\` in both weights; `# $ % & * @ ^`, the Latin-1 symbols, `€` and `™` in Bold. Source files are in `/fonts`.
+Specimen Rebuild has two weights (Regular, Bold), no kerning and proportional digits only. Light and medium requests (300 to 549) draw Regular; 550 and up draw Bold. The `@font-face` rules in `src/index.css` limit each weight to glyphs that render correctly, and Open Sans draws the rest: `/` and `\` in both weights; `# $ % & * @ ^`, the Latin-1 symbols, `€` and `™` in Bold. Source files are in `/fonts`.
 
 * Display Large `{typography.display-lg}`: Specimen Rebuild font family, used for high-impact hero titles and major section headers.
 
@@ -234,13 +234,13 @@ Specimen Rebuild is a display face. Do not set body copy, labels or numeric tabl
 
 * Headline Medium `{typography.headline-md}`: Specimen Rebuild font family, used for subsections and card titles within content grids.
 
-* Body Large `{typography.body-lg}`: Open Sans font family, used for introductory paragraphs and featured callouts.
+* Body Large `{typography.body-lg}`: Specimen Rebuild font family, used for introductory paragraphs and featured callouts.
 
-* Body Medium `{typography.body-md}`: Open Sans font family, the standard body copy size used for articles, descriptions, and general text.
+* Body Medium `{typography.body-md}`: Specimen Rebuild font family, the standard body copy size used for articles, descriptions, and general text.
 
-* Label Medium `{typography.label-md}`: Open Sans font family, used for interactive labels, button text, and navigation links.
+* Label Medium `{typography.label-md}`: Specimen Rebuild font family, used for interactive labels, button text, and navigation links.
 
-* Label Small `{typography.label-sm}`: Open Sans font family, used for small metadata, tags, and caption labels.
+* Label Small `{typography.label-sm}`: Specimen Rebuild font family, used for small metadata, tags, and caption labels.
 
 ## Layout
 

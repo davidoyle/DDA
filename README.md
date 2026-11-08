@@ -27,7 +27,7 @@ All redirects are in `vercel.json` with `permanent: true`. Vercel serves these a
 - JSON-LD is generated per page in `src/lib/seo.mjs` and written into the static HTML by the prerender step.
 
 ## Fonts
-- Display and headings: Specimen Rebuild (DDA's own face). Body, labels, navigation, forms and numbers: Open Sans. Data labels: JetBrains Mono. The rules are in `.mds/DDA_design_system.md`.
+- Specimen Rebuild (DDA's own face) sets headings, body, labels, navigation and forms. Open Sans sets tabular numbers and the diagnostic tool interfaces. JetBrains Mono sets data labels. The rules are in `.mds/DDA_design_system.md`.
 - Source TTFs for Specimen Rebuild are in `fonts/`. The site serves WOFF2 copies from `public/fonts/`. After a change to a source file, rebuild the WOFF2 with fontTools (`pip install fonttools brotli`):
   `python3 -c "from fontTools.ttLib import TTFont as F; f=F('fonts/SpecimenRebuild-Regular.ttf'); f.flavor='woff2'; f.save('public/fonts/specimen-rebuild-400-normal.woff2')"` and the same for Bold to `specimen-rebuild-700-normal.woff2`.
 - The `unicode-range` on each Specimen Rebuild `@font-face` in `src/index.css` leaves out glyphs that draw wrong. When a glyph is fixed in the source, add its code point back to that range.
