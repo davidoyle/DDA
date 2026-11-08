@@ -26,5 +26,11 @@ All redirects are in `vercel.json` with `permanent: true`. Vercel serves these a
 - Sitemap `lastmod` is the last git commit date of each source file. Vercel clones shallowly, so run `npm run lastmod` from a full clone after committing copy changes. The build only trusts a cached date whose file hash still matches.
 - JSON-LD is generated per page in `src/lib/seo.mjs` and written into the static HTML by the prerender step.
 
+## Fonts
+- Display and headings: Specimen Rebuild (DDA's own face). Body, labels, navigation, forms and numbers: Open Sans. Data labels: JetBrains Mono. The rules are in `.mds/DDA_design_system.md`.
+- Source TTFs for Specimen Rebuild are in `fonts/`. The site serves WOFF2 copies from `public/fonts/`. After a change to a source file, rebuild the WOFF2 with fontTools (`pip install fonttools brotli`):
+  `python3 -c "from fontTools.ttLib import TTFont as F; f=F('fonts/SpecimenRebuild-Regular.ttf'); f.flavor='woff2'; f.save('public/fonts/specimen-rebuild-400-normal.woff2')"` and the same for Bold to `specimen-rebuild-700-normal.woff2`.
+- The `unicode-range` on each Specimen Rebuild `@font-face` in `src/index.css` leaves out glyphs that draw wrong. When a glyph is fixed in the source, add its code point back to that range.
+
 ## Contact configuration
 Copy `.env.example` and configure the contact API/server values for the target environment. Do not place secrets or confidential inquiry content in client-side variables.
